@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply border-b border-gray-300 rounded-md px-3 w-full py-1 mb-1 focus:outline-none focus:ring-1 focus:ring-orange-300;
+  }
+  .primaryBtn {
+    @apply mt-3 bg-f37020 text-white font-semibold py-2 px-4 rounded-full hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500;
+  }
+}
+
+@layer components {
+  .tab {
+    @apply justify-center items-center font-semibold hover:text-gray-600 text-gray-800 w-36 p-2;
+  }
+
+  .tab.active {
+    @apply font-semibold border-b-2 border-orange-500 text-orange-500;
+  }
+
+  .panel {
+    @apply hidden;
+  }
+  .panel.active {
+    @apply block;
+  }
+}
