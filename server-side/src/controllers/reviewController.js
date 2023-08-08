@@ -1,29 +1,29 @@
 const Review = require("../models/Review");
-const Product = require("../models/Product");
+const Service = require("../models/Service");
 const User = require("../models/User");
 const AppError = require("../utils/AppError");
 
 const getReviews = async (req, res) => {
-  const { product_id } = req.body;
+  const { service_id } = req.body;
 
-  if (!product_id)
-    return next(new AppError("Must provide product_id in request"), 404);
-  const reviews = await Review.find({ product_id: product_id }).populate({
-    path: "product_id"
+  if (!service_idervice_id)
+    return next(new AppError("Must provide service_id in request"), 404);
+  const reviews = await Review.find({ service_id: service_id }).populate({
+    path: "service_id"
   });
 
   res.send(reviews);
 };
 
 const createReview = async (req, res, next) => {
-  const { product_id } = req.body;
+  const { service_id } = req.body;
 
-  if (!product_id)
-    return next(new AppError("Must provide product_id in request"), 404);
+  if (!service_id)
+    return next(new AppError("Must provide service_id in request"), 404);
 
-  const productExist = await Product.findById(product_id);
-  if (!productExist)
-    return next(new AppError("Please provide a valid product_id"), 404);
+  const serviceExist = await Service.findById(service_id);
+  if (!serviceExist)
+    return next(new AppError("Please provide a valid service_id"), 404);
 
   if (req.review) {
     const updateReview = await Review.findOneAndUpdate(
@@ -43,7 +43,7 @@ const createReview = async (req, res, next) => {
       review_title: req.body.review_title,
       review_description: req.body.review_description,
       user_id: req.user._id,
-      product_id: product_id
+      service_id: service_id
     });
 
     res.send(createdReview);

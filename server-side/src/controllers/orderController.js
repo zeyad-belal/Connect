@@ -27,7 +27,7 @@ const getOrderById = async (req, res, next) => {
 
   const order = await Order.findById(req.params.id)
     .populate("user_id")
-    .populate("order.product_id");
+    .populate("order.service_id");
 
   res.send(order);
 };
@@ -39,7 +39,7 @@ const getOrderByUserId = async (req, res, next) => {
 
   const order = await Order.find({user_id : req.params.id})
     .populate("user_id")
-    .populate("order.product_id");
+    .populate("order.service_id");
 
   res.send({order});
 }

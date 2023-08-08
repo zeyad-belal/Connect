@@ -6,7 +6,7 @@ const orderSchema = new Schema({
   user_id: { type: Schema.Types.ObjectId, ref: "User" },
   order: [
     {
-      product_id: { type: Schema.Types.ObjectId, ref: "Product" },
+      service_id: { type: Schema.Types.ObjectId, ref: "Service" },
       quantity: Number
     }
   ],

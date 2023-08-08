@@ -19,9 +19,9 @@ const reviewSchema = new Schema({
     ref: "User",
     required: true
   },
-  product_id: {
+  service_id: {
     type: Schema.Types.ObjectId,
-    ref: "Product",
+    ref: "Service",
     required: true
   },
   created_at: {

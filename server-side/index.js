@@ -11,8 +11,7 @@ const cors = require("cors");
 // import routes
 const usersRoutes = require("./src/routes/userRoutes");
 const categoryRouter = require("./src/routes/categoryRoutes");
-const brandRouter = require("./src/routes/brandRoutes");
-const productRoutes = require("./src/routes/productRoutes");
+const serviceRoutes = require("./src/routes/serviceRoutes");
 const orderRoutes = require("./src/routes/orderRoutes");
 const reviewRoutes = require("./src/routes/reviewRoutes");
 
@@ -26,8 +25,7 @@ app.use(cors());
 
 app.use("/users", usersRoutes);
 app.use("/categories", categoryRouter);
-app.use("/brands", brandRouter);
-app.use("/products", productRoutes);
+app.use("/services", serviceRoutes);
 app.use("/orders", orderRoutes);
 app.use("/reviews", reviewRoutes);
 

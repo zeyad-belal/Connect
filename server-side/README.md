@@ -19,22 +19,14 @@
 - **PATCH** `/categories/:id`
 - **DELETE** `/categories/:id`
 
-## Brand
 
-- **POST** `/brands`
-- **GET** `/brands`
-- **GET** `/brands?category_name=Laptops`
-- **GET** `/brands/:id`
-- **PATCH** `/brands/:id`
-- **DELETE** `/brands/:id`
+## Service
 
-## Product
-
-- **POST** `/products`
-- **GET** `/products`
-- **GET** `/products/:id`
-- **PUT** `/products/:id`
-- **DELETE** `/products/:id`
+- **POST** `/services`
+- **GET** `/services`
+- **GET** `/services/:id`
+- **PUT** `/services/:id`
+- **DELETE** `/services/:id`
 
 ## Review
 

@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 mongoose.set("toJSON", { virtuals: true });
 mongoose.set("toObject", { virtuals: true });
 
-const productSchema = new Schema({
+const serviceSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -20,14 +20,6 @@ const productSchema = new Schema({
   images: {
     type: Array
   },
-  stock_count: {
-    type: Number,
-    required: true
-  },
-  brand_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Brand"
-  },
   category_id: {
     type: Schema.Types.ObjectId,
     ref: "Category"
@@ -36,18 +28,13 @@ const productSchema = new Schema({
     type: Boolean,
     default: false
   },
-  new_price: {
-    type: Number,
-    default: 0
-  },
   created_at: {
     type: Date,
     default: Date.now()
   }
 });
 
-productSchema
-  .virtual("new_arrival")
+serviceSchema.virtual("new_arrival")
   .get(function () {
     const oneDay = 1000 * 3600 * 24;
     const curDate = new Date();
@@ -61,13 +48,13 @@ productSchema
     return this.set(v);
   });
 
-productSchema.virtual("reviews", {
+  serviceSchema.virtual("reviews", {
   ref: "Review",
   localField: "_id",
-  foreignField: "product_id"
+  foreignField: "service_id"
 });
 
-productSchema.virtual("avg_rating").get(function () {
+serviceSchema.virtual("avg_rating").get(function () {
   let avgRating = 0;
   if (!this.reviews) return avgRating;
   const totalRatings = this.reviews.reduce((acc, cur) => acc + cur.rating, 0);
@@ -76,6 +63,6 @@ productSchema.virtual("avg_rating").get(function () {
   return avgRating;
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Service = mongoose.model("Service", serviceSchema);
 
-module.exports = Product;
+module.exports = Service;

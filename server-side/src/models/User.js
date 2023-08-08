@@ -36,9 +36,9 @@ const userSchema = new Schema({
     type: String
   },
   cart_items: [{
-    product: {
+    service: {
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Service'
     },
     quantity: {
       type: Number,
