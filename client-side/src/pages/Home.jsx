@@ -14,7 +14,7 @@ import HeroSection from "../components/HeroSection";
 // the global state
 // import { useGlobalContext } from "../context/ServicesContext";
 
-export default function Home() {
+export default function Home(props) {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
 
   /* ///////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div onClick={props.closeSearchBar}>
       <HeroSection />
     <div className="px-12">
       <OtherServices />
@@ -74,6 +74,6 @@ export default function Home() {
       <Categories />
       <BestSellerSlider />
     </div>
-    </>
+    </div>
   );
 }

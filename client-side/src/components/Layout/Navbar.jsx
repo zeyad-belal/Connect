@@ -19,7 +19,6 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
-  const [searchBarIsVisible, setSearchBarIsVisible] = useState(false);
 
 
 
@@ -39,15 +38,18 @@ const Navbar = (props) => {
     window.location.reload();
   }
 
-  function toggleSearchBar(){
-    setSearchBarIsVisible(prevState => !prevState)
+function closeTheSearchBar(e){
+  if(!e.target.classList.contains("search")){
+    props.closeSearchBar()
   }
+}
 
   return (
     <>
       <nav
         id="MainNav"
         className="relative bg-primary text-white  my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
+        onClick={(e)=>closeTheSearchBar(e)}
       >
         {/* Logo */}
         <Link to={"/"}>
@@ -66,27 +68,29 @@ const Navbar = (props) => {
         {/* Navigation */}
         <ul className="flex ">
           {/* Searchbar  */}
-          <li className="flex items-center py-2 px-6 text-white relative hover:bg-gray-500 cursor-pointer" onClick={toggleSearchBar}>
+          <li className={props.searchBarIsVisible ?
+            "search flex items-center py-2 px-6 text-white bg-gray-500 relative hover:bg-gray-500 cursor-pointer" :
+            "search flex items-center py-2 px-6 text-white relative hover:bg-gray-500 cursor-pointer"} onClick={props.toggleSearchBar}>
             <BsSearch />
-            {searchBarIsVisible && <Searchbar {...props} />}
           </li>
+            {props.searchBarIsVisible && <Searchbar {...props} />}
           {/* notifcations  */}
-          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  hover:text-gray-200  cursor-pointer">
+          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500   cursor-pointer">
             <BsFillBellFill />
           </li>
           {/* cart  */}
-          <li className="flex items-center py-2 px-6  hover:bg-gray-500 ">
             <Link
-              className="text-white flex items-center hover:text-gray-400 relative"
+              className="text-white flex items-center relative hover:bg-gray-500 "
               to="/cart" >
-              <FaShoppingCart />
-              {cartCTX.totalItemsNum > 0 && (
-                <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
-                  {cartCTX.totalItemsNum}
-                </span>
-              )}
+                <li className="flex items-center py-2 px-6  ">
+                <FaShoppingCart />
+                {cartCTX.totalItemsNum > 0 && (
+                  <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
+                    {cartCTX.totalItemsNum}
+                  </span>
+                )}
+                </li>
             </Link>
-          </li>
           {/* user  */}
           <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  text-sm:10 ">
             {userStatus ? (
