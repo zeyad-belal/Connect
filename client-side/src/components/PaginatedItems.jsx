@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import ProductsItem from "./Product/ProductsItem";
+import ServicesItem from "./Service/ServicesItem";
 
-
-function PaginatedItems({ filteredProducts }) {
+function PaginatedItems({ filteredServices }) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -12,12 +11,12 @@ function PaginatedItems({ filteredProducts }) {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, filteredProducts]);
+    setCurrentItems(filteredServices.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredServices.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, filteredServices]);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % filteredProducts.length;
+    const newOffset = (event.selected * itemsPerPage) % filteredServices.length;
     setItemOffset(newOffset);
   };
 
@@ -25,7 +24,7 @@ function PaginatedItems({ filteredProducts }) {
     <>
       <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {currentItems.map((item, index) => (
-          <ProductsItem key={index} item={item} />
+          <ServicesItem key={index} item={item} />
         ))}
       </div>
       <ReactPaginate

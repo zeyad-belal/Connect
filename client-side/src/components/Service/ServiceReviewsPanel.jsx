@@ -1,42 +1,44 @@
+/* eslint-disable react/prop-types */
 import {
   EmptyRatingStarIcon,
   FilledRatingStarIcon,
   SmallFilledRatingStarIcon
 } from "../Icons";
+import Review from "./Review";
 
-const ProductReviewsPanel = ({ product, checkActive }) => {
-  const reviewsWithOneStarRatings = product.reviews.filter(
+const ServiceReviewsPanel = ({ service, checkActive }) => {
+  const reviewsWithOneStarRatings = service.reviews.filter(
     (review) => review.rating == 1
   );
 
-  const reviewsWithTwoStarRatings = product.reviews.filter(
+  const reviewsWithTwoStarRatings = service.reviews.filter(
     (review) => review.rating == 2
   );
-  const reviewsWithThreeStarRatings = product.reviews.filter(
+  const reviewsWithThreeStarRatings = service.reviews.filter(
     (review) => review.rating == 3
   );
-  const reviewsWithFourStarRatings = product.reviews.filter(
+  const reviewsWithFourStarRatings = service.reviews.filter(
     (review) => review.rating == 4
   );
-  const reviewsWithFiveStarRatings = product.reviews.filter(
+  const reviewsWithFiveStarRatings = service.reviews.filter(
     (review) => review.rating == 5
   );
 
   // Normal Percentages
   const oneStarRatingsPercentage =
-    (reviewsWithOneStarRatings.length / product.reviews.length) * 100 || 0;
+    (reviewsWithOneStarRatings.length / service.reviews.length) * 100 || 0;
 
   const twoStarRatingsPercentage =
-    (reviewsWithTwoStarRatings.length / product.reviews.length) * 100 || 0;
+    (reviewsWithTwoStarRatings.length / service.reviews.length) * 100 || 0;
 
   const threeStarRatingsPercentage =
-    (reviewsWithThreeStarRatings.length / product.reviews.length) * 100 || 0;
+    (reviewsWithThreeStarRatings.length / service.reviews.length) * 100 || 0;
 
   const fourStarRatingsPercentage =
-    (reviewsWithFourStarRatings.length / product.reviews.length) * 100 || 0;
+    (reviewsWithFourStarRatings.length / service.reviews.length) * 100 || 0;
 
   const fiveStarRatingsPercentage =
-    (reviewsWithFiveStarRatings.length / product.reviews.length) * 100 || 0;
+    (reviewsWithFiveStarRatings.length / service.reviews.length) * 100 || 0;
 
   return (
     <>
@@ -45,17 +47,17 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
         <div className="flex flex-col items-center md:flex-row justify-around py-5">
           <div className="flex justify-center items-center flex-col my-5">
             <div className="text-lg font-bold">Overall Rating</div>
-            {!product.avg_rating && (
+            {!service.avg_rating && (
               <div className="text-lg font-bold text-gray-400">0.0</div>
             )}
-            {product.avg_rating && (
+            {service.avg_rating && (
               <div className="text-lg font-bold text-yellow-500">
-                {product.avg_rating}
+                {service.avg_rating}
               </div>
             )}
             <div>
               <div className="flex">
-                {!product.avg_rating && (
+                {!service.avg_rating && (
                   <>
                     <EmptyRatingStarIcon />
                     <EmptyRatingStarIcon />
@@ -64,7 +66,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
                     <EmptyRatingStarIcon />
                   </>
                 )}
-                {product.avg_rating < 2 && product.avg_rating >= 1 && (
+                {service.avg_rating < 2 && service.avg_rating >= 1 && (
                   <>
                     <FilledRatingStarIcon />
                     <EmptyRatingStarIcon />
@@ -73,7 +75,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
                     <EmptyRatingStarIcon />
                   </>
                 )}
-                {product.avg_rating < 3 && product.avg_rating >= 2 && (
+                {service.avg_rating < 3 && service.avg_rating >= 2 && (
                   <>
                     <FilledRatingStarIcon />
                     <FilledRatingStarIcon />
@@ -82,7 +84,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
                     <EmptyRatingStarIcon />
                   </>
                 )}
-                {product.avg_rating < 4 && product.avg_rating >= 3 && (
+                {service.avg_rating < 4 && service.avg_rating >= 3 && (
                   <>
                     <FilledRatingStarIcon />
                     <FilledRatingStarIcon />
@@ -91,7 +93,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
                     <EmptyRatingStarIcon />
                   </>
                 )}
-                {product.avg_rating < 5 && product.avg_rating >= 4 && (
+                {service.avg_rating < 5 && service.avg_rating >= 4 && (
                   <>
                     <FilledRatingStarIcon />
                     <FilledRatingStarIcon />
@@ -100,7 +102,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
                     <EmptyRatingStarIcon />
                   </>
                 )}
-                {product.avg_rating == 5 && (
+                {service.avg_rating == 5 && (
                   <>
                     <FilledRatingStarIcon />
                     <FilledRatingStarIcon />
@@ -113,7 +115,7 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
             </div>
             <div>
               <div className=" text-gray-400 ">
-                Based on {product.reviews.length} ratings
+                Based on {service.reviews.length} ratings
               </div>
             </div>
           </div>
@@ -206,14 +208,14 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
             <div className="text-lg font-bold">Customer Reviews</div>
           </div>
           <div className="p-4">
-            {!product.reviews.length && (
+            {!service.reviews.length && (
               <>
                 <div className="text-center italic py-5">
                   There are no customer reviews.
                 </div>
               </>
             )}
-            {product.reviews.map((review) => (
+            {service.reviews.map((review) => (
               <Review key={review.id} review={review} />
             ))}
           </div>
@@ -223,4 +225,4 @@ const ProductReviewsPanel = ({ product, checkActive }) => {
   );
 };
 
-export default ProductReviewsPanel;
+export default ServiceReviewsPanel;

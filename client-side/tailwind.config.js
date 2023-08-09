@@ -11,6 +11,8 @@ export default {
       },
       colors: {
         f37020: '#f37020',
+        primary: '#444444',
+        secondary :'#fcb62e'
       }
     },
   },

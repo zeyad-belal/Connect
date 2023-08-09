@@ -25,7 +25,7 @@ const Cart = () => {
   };
 
   async function removeItemHandler(id) {
-    const response =  await axios.get(`${import.meta.env.VITE_API_URL}/products/${id}`)
+    const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${id}`)
     
     myCart.removeItem(id);
     updatedStock("remove", 1, response.data)
@@ -33,7 +33,7 @@ const Cart = () => {
 
   async function addItemHandler(item) {
     try{
-      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/products/${item.id}`)
+      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${item.id}`)
 
       if(response.data.stock_count > 0){
           myCart.addItem({
@@ -93,7 +93,7 @@ const Cart = () => {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const orders = await response.data.order.map((item) =>
-        item.order.map((orderItem) => orderItem.product_id)
+        item.order.map((orderItem) => orderItem.service_id)
       );
       setPurchasedItems(orders);
       const quantities = await response.data.order.map((item) =>

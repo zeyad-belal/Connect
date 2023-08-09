@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import Review from "./Review";
-import ProductInfoPanel from "./ProductInfoPanel";
-import ProductReviewsPanel from "./ProductReviewsPanel";
+import { useState } from "react";
+import ServiceInfoPanel from "./ServiceInfoPanel";
+import ServiceReviewsPanel from "./ServiceReviewsPanel";
 
-const ProductPanels = ({ product }) => {
+const ServicePanels = ({ service }) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const handleClick = (index) => setActiveIndex(index);
   const checkActive = (index, className) =>
@@ -16,22 +15,22 @@ const ProductPanels = ({ product }) => {
             className={`tab ${checkActive(1, "active")}`}
             onClick={() => handleClick(1)}
           >
-            Product Info
+            Service Info
           </button>
           <button
             className={`tab ${checkActive(2, "active")}`}
             onClick={() => handleClick(2)}
           >
-            Reviews ({product.reviews.length})
+            Reviews ({service.reviews.length})
           </button>
         </div>
         <div className="panels">
-          <ProductInfoPanel product={product} checkActive={checkActive} />
-          <ProductReviewsPanel product={product} checkActive={checkActive} />
+          <ServiceInfoPanel service={service} checkActive={checkActive} />
+          <ServiceReviewsPanel service={service} checkActive={checkActive} />
         </div>
       </section>
     </>
   );
 };
 
-export default ProductPanels;
+export default ServicePanels;

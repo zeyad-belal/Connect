@@ -5,7 +5,6 @@ import Categories from "../components/Categories/Categories";
 import OtherServices from "../components/OtherServices";
 import NewArrivalsSlider from "../components/Sliders/NewArrivalsSlider";
 import Circles from "../components/Circles";
-import DealsSlider from "../components/Sliders/DealsSlider";
 import axios from "axios";
 import AdsSlider from "../components/Sliders/AdsSlider";
 import { useCookies } from "react-cookie";
@@ -13,27 +12,27 @@ import BestSellerSlider from "../components/Sliders/BestSellerSlider";
 import { toast } from "react-toastify";
 
 // the global state
-// import { useGlobalContext } from "../context/ProductsContext";
+// import { useGlobalContext } from "../context/ServicesContext";
 
 export default function Home() {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
 
   /* ///////////////////////////////////////////////////////
-      the fetched products from the global state & loading
+      the fetched services from the global state & loading
       variable that indicates whether the data has been 
       fetched already or still being fetched:
 
       this variable will be used as follow:
       {loading && <LoadingComponent />}
-      {!loading && <ProductsComponent>}
+      {!loading && <ServicesComponent>}
       OR
       if (loading) return <LoadingComponent />
-      return <ProductsComponent />
+      return <ServicesComponent />
      ///////////////////////////////////////////////////////
    */
 
   //  THAT IS HOW TO ACCESS ANYTHING FROM THE GLOBAL STATE
-  // const { loading, products } = useGlobalContext();
+  // const { loading, services } = useGlobalContext();
 
   useEffect(() => {
     async function getUserData() {
@@ -72,7 +71,6 @@ export default function Home() {
       <Circles />
       <NewArrivalsSlider />
       <Categories />
-      <DealsSlider />
       <BestSellerSlider />
     </div>
   );

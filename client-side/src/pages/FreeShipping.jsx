@@ -44,7 +44,7 @@ function FreeShipping() {
                 Large Home Appliances shipping fees are 165 EGP .
               </li>
               <li className="border-t border-gray-300 py-2">
-                Large Home Appliances shipping fees depend on the product weight
+                Large Home Appliances shipping fees depend on the  weight
                 & delivery destination, you will receive a phone call to confirm
                 final shipping fees before your order is shipped.
               </li>
@@ -74,7 +74,7 @@ function FreeShipping() {
               </p>
               <p> are processed within 5 business days.</p>
               <li className="mt-3 border-t border-gray-300 py-2">
-                Large Home Appliances shipping fees depend on the product weight
+                Large Home Appliances shipping fees depend on the  weight
                 & delivery destination, you will receive a phone call to confirm
                 final shipping fees before your order is shipped.
               </li>

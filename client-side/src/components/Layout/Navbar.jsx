@@ -10,6 +10,7 @@ import UserContext from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
+import { BsFillBellFill, BsSearch } from "react-icons/bs";
 
 const Navbar = (props) => {
   const navigate = useNavigate();
@@ -18,23 +19,9 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [searchBarIsVisible, setSearchBarIsVisible] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsDropdownVisible(true);
-  };
 
-  const handleMouseLeave = () => {
-    setIsDropdownVisible(false);
-  };
-
-  const handleDropdownMouseEnter = () => {
-    setIsDropdownVisible(true);
-  };
-
-  const handleDropdownMouseLeave = () => {
-    setIsDropdownVisible(false);
-  };
 
   useEffect(() => {
     if (cookies.User) {
@@ -46,24 +33,28 @@ const Navbar = (props) => {
     window.localStorage.removeItem("logged");
     removeCookie("UserToken");
     removeCookie("User");
-    window.localStorage.removeItem('User')
-    window.localStorage.removeItem('UserToken')
+    window.localStorage.removeItem("User");
+    window.localStorage.removeItem("UserToken");
     navigate("/");
     window.location.reload();
+  }
+
+  function toggleSearchBar(){
+    setSearchBarIsVisible(prevState => !prevState)
   }
 
   return (
     <>
       <nav
         id="MainNav"
-        className="bg-black text-white py-4 my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
+        className="bg-primary text-white py-4 my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
       >
         {/* Logo */}
         <Link to={"/"}>
           <div className="flex items-baseline mr-5 w-44 sm:w-56">
             <img
               className="mt-2 sm:mt-1"
-              src="/assets/logo/main-orange-and-white.png"
+              src="/assets/logo/main-yellow-and-white.png"
               alt="Electronix"
             />
           </div>
@@ -71,10 +62,32 @@ const Navbar = (props) => {
         {/* sign in  */}
         {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
         {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
-        {/* Searchbar */}
-        <Searchbar {...props} />
+
         {/* Navigation */}
         <ul className="flex items-center justify-end">
+          {/* Searchbar  */}
+          <li className="text-white relative hover:text-gray-200 sm:mx-3 mx-1 cursor-pointer" onClick={toggleSearchBar}>
+            <BsSearch />
+            {searchBarIsVisible && <Searchbar {...props} />}
+          </li>
+          {/* notifcations  */}
+          <li className="text-white hover:text-gray-200 sm:mx-3 mx-1 cursor-pointer">
+            <BsFillBellFill />
+          </li>
+          {/* cart  */}
+          <li className="sm:mx-3 mx-1">
+            <Link
+              className="text-white flex items-center hover:text-gray-400 relative"
+              to="/cart" >
+              <FaShoppingCart />
+              {cartCTX.totalItemsNum > 0 && (
+                <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
+                  {cartCTX.totalItemsNum}
+                </span>
+              )}
+            </Link>
+          </li>
+          {/* user  */}
           <li className="text-white hover:text-gray-200 text-sm:10 sm:pr-6 ml-1">
             {userStatus ? (
               <div className="relative  border-black">
@@ -109,20 +122,6 @@ const Navbar = (props) => {
                 Sign in
               </button>
             )}
-          </li>
-          <li className="sm:mx-3 mx-1">
-            <Link
-              className="text-white flex items-center hover:text-gray-400 relative"
-              to="/cart"
-            >
-              <span className="mr-2 text-md hidden sm:inline-block"> Cart </span>{" "}
-              <FaShoppingCart className="" />
-              {cartCTX.totalItemsNum > 0 && (
-                <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
-                  {cartCTX.totalItemsNum}
-                </span>
-              )}
-            </Link>
           </li>
         </ul>
       </nav>

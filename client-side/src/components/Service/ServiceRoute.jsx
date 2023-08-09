@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 import { HomeIcon, RightArrowIcon } from "../Icons";
 
-const ProductRoute = ({ product }) => {
-  // console.log(product);
+const ServiceRoute = ({ service }) => {
+  // console.log(service);
   return (
     <>
       <div className="flex flex-wrap text-sm font-bold text-gray-800 lg:justify-center lg:items-center p-5">
@@ -13,16 +13,16 @@ const ProductRoute = ({ product }) => {
 
         <RightArrowIcon />
 
-        <Link to={`/products?category=${product.category_id.category_name}`}>
-          <span className="pb-[2px]">{product.category_id.category_name}</span>
+        <Link to={`/services?category=${service.category_id.category_name}`}>
+          <span className="pb-[2px]">{service.category_id.category_name}</span>
         </Link>
 
         <RightArrowIcon />
 
-        <span className="pb-[2px] break-words">{product.name}</span>
+        <span className="pb-[2px] break-words">{service.name}</span>
       </div>
     </>
   );
 };
 
-export default ProductRoute;
+export default ServiceRoute;

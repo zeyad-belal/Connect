@@ -17,25 +17,25 @@ import axios from "axios";
 
 
 
-const ProductsItem = ({ item }) => {
+const ServicesItem = ({ item }) => {
   const myCart = useContext(CartContext);
   const userCTX = useContext(UserContext)
   const {updatedStock} = useCartContext()
 
   
-  async function addItemToCart(product) {
+  async function addItemToCart(service) {
     try{
-      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/products/${product.id}`)
+      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${service.id}`)
 
       if(response.data.stock_count > 0){
         if (window.localStorage.getItem("logged")) {
           myCart.addItem({
-            key: product._id,
-          id: product._id,
-          name: product.name,
-          image: product.images[0].url,
+            key: service._id,
+          id: service._id,
+          name: service.name,
+          image: service.images[0].url,
           amount: 1,
-          price: product.new_price ?? product.price
+          price: service.price
         })
         updatedStock("add", 1, response.data)
 
@@ -83,7 +83,7 @@ const ProductsItem = ({ item }) => {
     <>
       <div className="p-3 m-2 border border-slate rounded-lg hover:shadow-lg transition-shadow duration-300">
         <div className="flex flex-col justify-between text-center h-full">
-          <Link to={`/products/${item.id}`}>
+          <Link to={`/services/${item.id}`}>
             <div className={`relative -z-30`}>
               <img
                 src={item.images[0].url}
@@ -95,7 +95,6 @@ const ProductsItem = ({ item }) => {
 
                 {item.new_arrival && <NewArrivalBadge />}
 
-                {item.new_price !== 0 && <SaleBadge />}
               </div>
             </div>
 
@@ -108,27 +107,20 @@ const ProductsItem = ({ item }) => {
           <div className="flex flex-col justify-center items-center">
             <RatingBadge avg_rating={item.avg_rating} />
 
-            {!item.new_price && (
-              <>
+
                 <div className="flex gap-1 justify-center items-center">
                   <span className="my-2 text-gray-700 text-center text-lg">
                     EGP{item.price}
                   </span>
                 </div>
-              </>
-            )}
-            {item.new_price !== 0 && (
-              <>
+
+
                 <div className="flex gap-1 justify-center items-center">
                   <span className="my-2 line-through text-gray-400 text-center text-sm">
                     EGP{item.price}
                   </span>
-                  <span className="my-2 text-gray-700 text-center text-lg">
-                    EGP{item.new_price}
-                  </span>
                 </div>
-              </>
-            )}
+
           </div>
           <button
             onClick={() => addItemToCart(item)}
@@ -143,4 +135,4 @@ const ProductsItem = ({ item }) => {
   );
 };
 
-export default ProductsItem;
+export default ServicesItem;

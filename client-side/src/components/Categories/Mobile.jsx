@@ -7,7 +7,7 @@ const Mobile = () => {
     <>
       <div className="flex w-3/4   flex-row flex-wrap  justify-between  ">
         <div className="p-4 m-auto md:w-1/3  ">
-          <Link className="flex justify-between items-center" to={"./products?brand=Apple&category=Mobiles&orderBy=bestSeller"}>
+          <Link className="flex justify-between items-center" to={"./services?brand=Apple&category=Mobiles&orderBy=bestSeller"}>
             
             <span className=" m-auto uppercase hover:text-orange-500 text-sm tracking-wider">
               Apple
@@ -16,7 +16,7 @@ const Mobile = () => {
           </Link>
         </div>
         <div className="p-4 m-auto md:w-1/3   ">
-          <Link className="flex justify-between items-center" to={"./products?brand=Samsung&category=Mobiles&orderBy=bestSeller"}>
+          <Link className="flex justify-between items-center" to={"./services?brand=Samsung&category=Mobiles&orderBy=bestSeller"}>
             
             <span className="m-auto uppercase hover:text-orange-500 text-sm tracking-wider">
               SAMSUNG
@@ -24,7 +24,7 @@ const Mobile = () => {
           </Link>
         </div>
         <div className="p-4 m-auto md:w-1/3 ">
-          <Link className="flex justify-between items-center" to={"./products?brand=OPPO&category=Mobiles&orderBy=bestSeller"}>
+          <Link className="flex justify-between items-center" to={"./services?brand=OPPO&category=Mobiles&orderBy=bestSeller"}>
             
             <span className="m-auto uppercase hover:text-orange-500 text-sm tracking-wider">
               OPPO
@@ -33,7 +33,7 @@ const Mobile = () => {
           </Link>
         </div>
         <div className="p-4  md:w-1/3 ">
-          <Link className="flex justify-between items-center" to={"./products?brand=Huawei&category=Mobiles&orderBy=bestSeller"}>
+          <Link className="flex justify-between items-center" to={"./services?brand=Huawei&category=Mobiles&orderBy=bestSeller"}>
             
             <span className="m-auto uppercase hover:text-orange-500 text-sm  tracking-wider">
               HUAWEI

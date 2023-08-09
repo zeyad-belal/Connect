@@ -10,11 +10,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
-import Products from "./pages/Products.jsx";
-import ProductPage from "./pages/Product.jsx";
+import Services from "./pages/Services.jsx";
+import ServicePage from "./pages/Service.jsx";
 import About from "./pages/About.jsx";
-import Subnav from "./components/Layout/Subnav.jsx";
-import { useGlobalContext } from "./context/ProductsContext.jsx";
+import { useGlobalContext } from "./context/ServicesContext.jsx";
 import CartContext from "./context/CartContext.jsx";
 import { useCookies } from 'react-cookie';
 import { useCartContext } from "./context/CartProvider.jsx";
@@ -23,13 +22,13 @@ import { useCartContext } from "./context/CartProvider.jsx";
 function App() {
   const [searchText, setSearchText] = useState("");
   const [cookies, setCookie] = useCookies(['UserToken','User']);
-  const { fetchProducts } = useGlobalContext();
+  const { fetchServices } = useGlobalContext();
   const myCart = useContext(CartContext)
   const {fetchCartItems,sendCartItems} = useCartContext()
   const initialRenderRef = useRef(true);
-  // FETCHING PRODUCTS 
+  // FETCHING SERVICES 
   useEffect(() => {
-      fetchProducts();
+      fetchServices();
       window.localStorage.setItem('User',JSON.stringify(cookies.User))
       window.localStorage.setItem('UserToken',cookies.UserToken)
   }, [] );
@@ -61,17 +60,16 @@ function App() {
 
   return (
     <>
-      <Navbar searchText={searchText} setSearchText={setSearchText} />
       <div className="sticky block top-0 z-40">
-        <Subnav />
+      <Navbar searchText={searchText} setSearchText={setSearchText} />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Techservices" element={<TechServices />} />
         <Route path="/Freeshipping" element={<FreeShipping />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/services/:id" element={<ServicePage />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<NotFound />} />

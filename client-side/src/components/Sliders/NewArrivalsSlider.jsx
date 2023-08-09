@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 import Slider from "../../UI/Slider";
-import { useGlobalContext } from "../../context/ProductsContext";
+import { useGlobalContext } from "../../context/ServicesContext";
 
 function NewArrivalsSlider() {
-  const { products } = useGlobalContext();
+  const { services } = useGlobalContext();
 
-  const filteredProducts = products.filter((product) => product.new_arrival);
-  
+  const filteredServices = services.filter((service) => service.new_arrival);
+
   return (
     <div className="my-12 mx-5 sm:mx-12">
       <h1 className="font-bold text-3xl">New Arrivals</h1>
-      <Slider products={filteredProducts} />
+      <Slider services={filteredServices} />
     </div>
   );
 }

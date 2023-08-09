@@ -52,7 +52,7 @@ const Checkout = (props) => {
       if (data.paymentMethod == "Cash") {
         const reqData = {
           order: CartCTX.items.map((item) => ({
-            product_id: item.id,
+            service_id: item.id,
             quantity: item.amount
           }))
         };
@@ -277,26 +277,26 @@ const Checkout = (props) => {
           style={{ maxHeight: "calc(100vh - 100px)" }}
         >
           {CartCTX.items &&
-            CartCTX.items.map((product) => (
+            CartCTX.items.map((service) => (
               <div
-                key={product.id}
+                key={service.id}
                 className="max-w-[250px] my-2 rounded-lg overflow-hidden shadow-md bg-white"
               >
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={service.image}
+                  alt={service.name}
                   className="w-full h-44 object-cover"
                 />
                 <div className="px-4 py-2">
                   <h2 className="text-lg font-semibold text-gray-800">
-                    {product.name.slice(0,50)}...
+                    {service.name.slice(0,50)}...
                   </h2>
                   <div className="text-gray-700 text-sm">
-                    {product.amount} pieces
+                    {service.amount} pieces
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-gray-600 font-medium">
-                      {product.price}LE
+                      {service.price}LE
                     </div>
                     <div className="text-indigo-600 flex items-center">
                       <svg
@@ -306,7 +306,7 @@ const Checkout = (props) => {
                       >
                         <path d="M12 5l2 5h5l-4 4 2.103 5L12 16l-5.103 3L9 14l-4-4h5l2-5z" />
                       </svg>
-                      <div className="text-sm">{product.rate}</div>
+                      <div className="text-sm">{service.rate}</div>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
-const ProductInfoPanel = ({ product, checkActive }) => {
-  const detailsArr = Object.entries(product.details);
+const ServiceInfoPanel = ({ service, checkActive }) => {
+  const detailsArr = Object.entries(service.details);
   return (
     <>
       <div className={`panel ${checkActive(1, "active")}`}>
@@ -63,4 +63,4 @@ const ProductInfoPanel = ({ product, checkActive }) => {
   );
 };
 
-export default ProductInfoPanel;
+export default ServiceInfoPanel;

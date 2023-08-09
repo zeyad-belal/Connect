@@ -36,7 +36,7 @@ const categoriesData = [
   {
     title: "Accessories",
     imageUrl:
-      "https://img.freepik.com/premium-photo/collection-apple-products-including-apple-products_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
+      "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
     size: "large",
     id: 6,
     linkUrl: "categories/accessories"

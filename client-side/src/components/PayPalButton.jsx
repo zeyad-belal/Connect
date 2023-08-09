@@ -76,7 +76,7 @@ const ButtonWrapper = ({form , currency, showSpinner }) => {
           // window.localStorage.setItem("purchasedItems", JSON.stringify(CartCTX.items));
           const reqData = {
             order: CartCTX.items.map((item) => ({
-              product_id : item.id,
+              service_id : item.id,
               quantity : item.amount
             }))
           };

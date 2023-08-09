@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,12 +9,12 @@ import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/zoom";
 
-import "./ProductImageCarousel.css";
+import "./ServiceImageCarousel.css";
 
 // import required modules
 import { FreeMode, Navigation, Pagination, Thumbs, Zoom } from "swiper";
 
-const ProductImageCarousel = ({ productImages }) => {
+const ServiceImageCarousel = ({ serviceImages }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
     <>
@@ -29,7 +29,7 @@ const ProductImageCarousel = ({ productImages }) => {
           modules={[FreeMode, Navigation, Thumbs]}
           className="first-swiper"
         >
-          {productImages.map((image) => {
+          {serviceImages.map((image) => {
             return (
               <SwiperSlide key={image.fileId}>
                 <div className="box-border border-2 border-gray-300 rounded-md cursor-pointer h-auto overflow-hidden w-full flex justify-center items-center transition-all duration-200 ease-in-out">
@@ -60,7 +60,7 @@ const ProductImageCarousel = ({ productImages }) => {
           modules={[FreeMode, Navigation, Pagination, Zoom, Thumbs]}
           className="second-swiper"
         >
-          {productImages.map((image) => {
+          {serviceImages.map((image) => {
             return (
               <SwiperSlide key={image.fileId}>
                 <div className="swiper-zoom-container h-auto">
@@ -75,4 +75,4 @@ const ProductImageCarousel = ({ productImages }) => {
   );
 };
 
-export default ProductImageCarousel;
+export default ServiceImageCarousel;

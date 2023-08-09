@@ -138,7 +138,7 @@ function CartProvider(props) {
     const sendRequest = async () => {
       const reqData = {
         cart_items:  cart.items.map((item) => ({
-          product: item.id,
+          service: item.id,
           quantity: item.amount
         }))
       };
@@ -168,7 +168,7 @@ async function fetchCartItems() {
       
       const cartData = await response.data.user.cart_items;
       const quantities = cartData.map((item) => item.quantity);
-      const cartItems = cartData.map((item) => item.product);
+      const cartItems = cartData.map((item) => item.service);
       const myItems = cartItems.map((item, index) => ({
         id: item.id,
         name: item.name,
@@ -195,11 +195,11 @@ async function fetchCartItems() {
 }
 
 
-async function updatedStock(action, amount ,product){
+async function updatedStock(action, amount ,service){
   if (action == "add"){
     try{
-      axios.put(`${import.meta.env.VITE_API_URL}/products/${product.id}`,{
-        stock_count : product.stock_count - (amount?? 1)
+      axios.put(`${import.meta.env.VITE_API_URL}/services/${service.id}`,{
+        stock_count : service.stock_count - (amount?? 1)
       })
     }catch(error){
       console.log(error)
@@ -207,8 +207,8 @@ async function updatedStock(action, amount ,product){
     
   }else if(action == "remove"){
     try{
-      axios.put(`${import.meta.env.VITE_API_URL}/products/${product.id}`,{
-        stock_count : product.stock_count + (amount?? 1)
+      axios.put(`${import.meta.env.VITE_API_URL}/services/${service.id}`,{
+        stock_count : service.stock_count + (amount?? 1)
       })
     }catch(error){
       console.log(error)

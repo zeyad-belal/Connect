@@ -6,36 +6,36 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import PaginatedItems from "../components/PaginatedItems";
 
-const Products = () => {
-  const [allProducts, setAllProducts] = useState(null);
-  const [filteredProducts, setfilteredProducts] = useState(null);
+const Services = () => {
+  const [allServices, setAllServices] = useState(null);
+  const [filteredServices, setfilteredServices] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    // get all products
-    const getAllProducts = async () => {
+    // get all Services
+    const getAllServices = async () => {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products`
+        `${import.meta.env.VITE_API_URL}/services`
       );
-      // set all products
-      setAllProducts(data);
+      // set all services
+      setAllServices(data);
     };
 
-    getAllProducts();
+    getAllServices();
   }, []);
 
   useEffect(() => {
-    if (allProducts) {
-      // filter products
+    if (allServices) {
+      // filter Services
       let filtered = null;
 
       if (searchParams.get("orderBy")) {
         if (searchParams.get("orderBy") === "bestSeller") {
-          filtered = allProducts.sort((a, b) => b.best_seller - a.best_seller);
+          filtered = allServices.sort((a, b) => b.best_seller - a.best_seller);
         } else if (searchParams.get("orderBy") === "newArrival") {
-          filtered = allProducts.sort((a, b) => b.new_arrival - a.new_arrival);
+          filtered = allServices.sort((a, b) => b.new_arrival - a.new_arrival);
         } else if (searchParams.get("orderBy") === "hasOffer") {
-          filtered = allProducts.sort((a, b) => b.new_price - a.new_price);
+          filtered = allServices.sort((a, b) => b.new_price - a.new_price);
         }
       }
       // console.log("before", filtered);
@@ -44,78 +44,78 @@ const Products = () => {
         searchParams.get("brand") === "All" &&
         searchParams.get("category") !== "All"
       ) {
-        filtered = (filtered ? filtered : allProducts).filter((product) => {
-          if (isInPriceRange(product) && hasMatchCategory(product)) {
-            return product;
+        filtered = (filtered ? filtered : allServices).filter((service) => {
+          if (isInPriceRange(service) && hasMatchCategory(service)) {
+            return service;
           }
         });
       } else if (
         searchParams.get("category") === "All" &&
         searchParams.get("brand") !== "All"
       ) {
-        filtered = (filtered ? filtered : allProducts).filter((product) => {
-          if (hasMatchBrand(product) && isInPriceRange(product)) {
-            return product;
+        filtered = (filtered ? filtered : allServices).filter((service) => {
+          if (hasMatchBrand(service) && isInPriceRange(service)) {
+            return service;
           }
         });
       } else if (
         searchParams.get("category") === "All" &&
         searchParams.get("brand") === "All"
       ) {
-        filtered = (filtered ? filtered : allProducts).filter((product) => {
-          if (isInPriceRange(product)) {
-            return product;
+        filtered = (filtered ? filtered : allServices).filter((service) => {
+          if (isInPriceRange(service)) {
+            return service;
           }
         });
       } else {
-        filtered = (filtered ? filtered : allProducts).filter((product) => {
+        filtered = (filtered ? filtered : allServices).filter((service) => {
           if (
-            hasMatchBrand(product) &&
-            isInPriceRange(product) &&
-            hasMatchCategory(product)
+            hasMatchBrand(service) &&
+            isInPriceRange(service) &&
+            hasMatchCategory(service)
           ) {
-            return product;
+            return service;
           }
         });
       }
       // console.log(filtered);
-      setfilteredProducts(filtered);
+      setfilteredServices(filtered);
     }
-  }, [allProducts, searchParams]);
+  }, [allServices, searchParams]);
 
-  const hasMatchCategory = (product) => {
+  const hasMatchCategory = (service) => {
     let matchCategory = true;
     if (searchParams.get("category")) {
       matchCategory =
         searchParams.get("category") &&
-        product.category_id.category_name === searchParams.get("category");
+        service.category_id.category_name === searchParams.get("category");
     }
     return matchCategory;
   };
 
-  const hasMatchBrand = (product) => {
+  const hasMatchBrand = (service) => {
     let matchBrand = true;
     if (searchParams.get("brand")) {
       matchBrand =
         searchParams.get("brand") &&
-        product.brand_id.brand_name === searchParams.get("brand");
+        service.brand_id.brand_name === searchParams.get("brand");
     }
 
     return matchBrand;
   };
 
-  const isInPriceRange = (product) => {
+  const isInPriceRange = (service) => {
     const minPrice = searchParams.get("min");
     const maxPrice = searchParams.get("max");
     let inPriceRange = true;
 
     if (minPrice && !maxPrice) {
-      inPriceRange = product.price >= minPrice ? true : false;
+      inPriceRange = service.price >= minPrice ? true : false;
     } else if (!minPrice && maxPrice) {
-      inPriceRange = product.price <= maxPrice ? true : false;
+      inPriceRange = service.price <= maxPrice ? true : false;
     } else if (minPrice && maxPrice) {
       inPriceRange =
-        product.price >= minPrice && product.price <= maxPrice ? true : false;
+        service.price >= minPrice && service.price <= maxPrice ? true : false;
     }
     return inPriceRange;
   };
@@ -125,10 +125,10 @@ const Products = () => {
       <div className="w-full flex relative">
         <Filter />
 
-        {/* Render your products using the filtered products */}
+        {/* Render your services using the filtered services */}
         <div>
-          {filteredProducts && filteredProducts?.length !== 0 && (
-            <PaginatedItems filteredProducts={filteredProducts} />
+          {filteredServices && filteredServices?.length !== 0 && (
+            <PaginatedItems filteredServices={filteredServices} />
           )}
         </div>
       </div>
@@ -136,4 +136,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Services;

@@ -8,35 +8,35 @@ import reducer from "./reducer";
 // define the initial state
 const initialState = {
   loading: true,
-  products: []
+  services: []
 };
 
 // create the context
-export const ProductContext = createContext();
+export const ServiceContext = createContext();
 
 // create the context provider
-export const ProductProvider = ({ children }) => {
+export const ServiceProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // fetch products from the database
-  const fetchProducts = async () => {
+  // fetch services from the database
+  const fetchServices = async () => {
     dispatch({ type: "LOADING" });
     await axios
-      .get(`${import.meta.env.VITE_API_URL}/products`)
+      .get(`${import.meta.env.VITE_API_URL}/services`)
       .then((res) => {
-        dispatch({ type: "SET_PRODUCTS", payload: res.data });
+        dispatch({ type: "SET_SERVICES", payload: res.data });
       })
       .catch((err) => console.log(err.message));
-    dispatch({ type: "DISPLAY_PRODUCTS" });
+    dispatch({ type: "DISPLAY_SERVICES" });
   };
 
   return (
-    <ProductContext.Provider value={{ ...state, fetchProducts }}>
+    <ServiceContext.Provider value={{ ...state, fetchServices }}>
       {children}
-    </ProductContext.Provider>
+    </ServiceContext.Provider>
   );
 };
 
 export const useGlobalContext = () => {
-  return useContext(ProductContext);
+  return useContext(ServiceContext);
 };

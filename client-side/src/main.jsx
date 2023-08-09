@@ -5,10 +5,10 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import CartProvider from "./context/CartProvider";
 import UserProvider from "./context/UserProvider";
-import { ProductProvider } from "./context/ProductsContext";
+import { ServiceProvider } from "./context/ServicesContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ProductProvider>
+  <ServiceProvider>
     <BrowserRouter>
       <UserProvider>
         <CartProvider>
@@ -17,5 +17,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </CartProvider>
       </UserProvider>
     </BrowserRouter>
-  </ProductProvider>
+  </ServiceProvider>
 );

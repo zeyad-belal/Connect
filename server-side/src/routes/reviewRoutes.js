@@ -18,7 +18,7 @@ const {
   deleteReview
 } = require("../controllers/reviewController");
 
-// create review for a product (req must include user._id & product._id)
+// create review for a service (req must include user._id & service._id)
 router.post(
   "/",
   verifyUserToken,
@@ -27,10 +27,10 @@ router.post(
   createReview
 );
 
-// get reviews for a product (req must include product._id)
+// get reviews for a service (req must include service._id)
 router.get("/", verifyUserToken, getReviews);
 
-// update a review in a product (must provide review fields in req & review id in params)
+// update a review in a service (must provide review fields in req & review id in params)
 router.put(
   "/:id",
   verifyUserToken,
@@ -39,7 +39,7 @@ router.put(
   updateReview
 );
 
-// delete a review from a product (must provide review id in params)
+// delete a review from a service (must provide review id in params)
 router.delete("/:id", canDeleteReview, deleteReview);
 
 module.exports = router;

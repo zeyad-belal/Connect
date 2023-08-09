@@ -5,37 +5,36 @@ import { useParams } from "react-router-dom";
 import { useContext } from "react";
 
 import CartContext from "../context/CartContext";
-import UserContext from "../context/UserContext"
-import ProductImageCarousel from "../components/Product/ProductImageCarousel";
-import ProductDetails from "../components/Product/ProductDetails";
-import ProductPanels from "../components/Product/ProductPanels";
-import ProductRoute from "../components/Product/ProductRoute";
+import UserContext from "../context/UserContext";
+import ServiceImageCarousel from "../components/Service/ServiceImageCarousel";
+import ServiceDetails from "../components/Service/ServiceDetails";
+import ServicePanels from "../components/Service/ServicePanels";
+import ServiceRoute from "../components/Service/ServiceRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCartContext } from "../context/CartProvider";
 
-const ProductPage = () => {
-  const [product, setProduct] = useState(null);
+const ServicePage = () => {
+  const [service, setService] = useState(null);
   const [count, setCount] = useState(1);
   const myCart = useContext(CartContext);
   const { id } = useParams();
-  const userCTX = useContext(UserContext)
-  const {updatedStock} = useCartContext()
-  
-  const handleAddItemToCart = (product) => {
-    if(product.stock_count >= count){
+  const userCTX = useContext(UserContext);
+  const { updatedStock } = useCartContext();
 
+  const handleAddItemToCart = (service) => {
+    if (service.stock_count >= count) {
       if (window.localStorage.getItem("logged")) {
         myCart.addItem({
-          key: product._id,
-          id: product._id,
-          name: product.name,
-          image: product.images[0].url,
+          key: service._id,
+          id: service._id,
+          name: service.name,
+          image: service.images[0].url,
           amount: count,
-          price: product.new_price ?? product.price,
-        })
-        updatedStock("add", count, product)
-        toast.success("Item added to cart !",{
+          price: service.new_price ?? service.price,
+        });
+        updatedStock("add", count, service);
+        toast.success("Item added to cart !", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -43,10 +42,23 @@ const ProductPage = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light"
-        })
+          theme: "light",
+        });
       } else {
-      toast.info("Sign in first !", {
+        toast.info("Sign in first !", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        userCTX.toggleModal();
+      }
+    } else {
+      toast.info(`Only ${service.stock_count} left in stock!`, {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -54,24 +66,10 @@ const ProductPage = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
       });
-      userCTX.toggleModal()
     }
-  }else{
-    toast.info(`Only ${product.stock_count} left in stock!`, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light"
-    });
-  }
-
-}
+  };
 
   // handleCounterDecrement
   const handleCounterDecrement = () => {
@@ -87,16 +85,16 @@ const ProductPage = () => {
   // HERE INSTEAD OF FETCHING THE DATA, MAKE USE OF THE ONE IN THE GLOBAL CONTEXT
   // AND DON'T FORGET ABOUT THE LOADING FUNCTIONALITY! (-_-)
   useEffect(() => {
-    async function getProduct() {
+    async function getService() {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products/${id}`
+        `${import.meta.env.VITE_API_URL}/services/${id}`
       );
-      setProduct(data);
+      setService(data);
     }
-    
-    try{
-      getProduct();
-    }catch(error){
+
+    try {
+      getService();
+    } catch (error) {
       // console.log(error)
       toast.info("something went wrong !", {
         position: "top-right",
@@ -106,25 +104,25 @@ const ProductPage = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
       });
     }
   }, [myCart]);
 
-    // console.log(product)
+  // console.log(service)
   return (
     <>
       <div>
         <div className="flex flex-col gap-5 bg-gray-100 p-5">
-          {product && (
+          {service && (
             <>
               <div className="bg-white flex px-5">
-                <ProductRoute product={product} />
+                <ServiceRoute service={service} />
               </div>
               <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
-                <ProductImageCarousel productImages={product.images} />
-                <ProductDetails
-                  product={product}
+                <ServiceImageCarousel ServiceImages={service.images} />
+                <ServiceDetails
+                  service={service}
                   count={count}
                   handleCounterDecrement={handleCounterDecrement}
                   handleCounterIncrement={handleCounterIncrement}
@@ -132,7 +130,7 @@ const ProductPage = () => {
                 />
               </div>
               <div className="bg-white  px-5">
-                <ProductPanels product={product} />
+                <ServicePanels service={service} />
               </div>
             </>
           )}
@@ -142,4 +140,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default ServicePage;

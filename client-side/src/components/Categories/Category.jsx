@@ -11,7 +11,7 @@ const Category = (props) => {
   return (
     <>
       <Link
-        to={`/products?category=${title}`}
+        to={`/services?category=${title}`}
         className={`${size} category-item flex grow shrink basis-auto items-center justify-center rounded-lg mt-0 mr-2 ml-2 mb-4 overflow-hidden hover:cursor-pointer`}
       >
         <div
