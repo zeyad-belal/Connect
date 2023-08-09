@@ -67,13 +67,9 @@ export default function Home(props) {
   return (
     <div onClick={props.closeSearchBar}>
       <HeroSection />
-    <div className="px-12">
-      <OtherServices />
-      <Circles />
       <NewArrivalsSlider />
       <Categories />
       <BestSellerSlider />
-    </div>
     </div>
   );
 }

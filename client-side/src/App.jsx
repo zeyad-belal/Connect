@@ -4,8 +4,6 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import FreeShipping from "./pages/FreeShipping.jsx";
-import TechServices from "./pages/TechServices.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
@@ -27,6 +25,9 @@ function App() {
   const myCart = useContext(CartContext)
   const {fetchCartItems,sendCartItems} = useCartContext()
   const initialRenderRef = useRef(true);
+
+
+
   // FETCHING SERVICES 
   useEffect(() => {
       fetchServices();
@@ -63,7 +64,6 @@ function App() {
     setSearchBarIsVisible(prevState => !prevState)
   }
   function closeSearchBar(){
-    
     setSearchBarIsVisible(false)
   }
 
@@ -74,8 +74,6 @@ function App() {
       </div>
       <Routes>
         <Route path="/" element={<Home  closeSearchBar={closeSearchBar} />} />
-        <Route path="/Techservices" element={<TechServices />} />
-        <Route path="/Freeshipping" element={<FreeShipping />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<ServicePage />} />
