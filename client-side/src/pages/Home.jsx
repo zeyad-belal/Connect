@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import Categories from "../components/Categories/Categories";
-import OtherServices from "../components/OtherServices";
 import NewArrivalsSlider from "../components/Sliders/NewArrivalsSlider";
-import Circles from "../components/Circles";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import BestSellerSlider from "../components/Sliders/BestSellerSlider";
@@ -14,7 +13,7 @@ import HeroSection from "../components/HeroSection";
 // the global state
 // import { useGlobalContext } from "../context/ServicesContext";
 
-export default function Home() {
+export default function Home(props) {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
 
   /* ///////////////////////////////////////////////////////
@@ -65,15 +64,11 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div onClick={props.closeSearchBar}>
       <HeroSection />
-    <div className="px-12">
-      <OtherServices />
-      <Circles />
       <NewArrivalsSlider />
       <Categories />
       <BestSellerSlider />
     </div>
-    </>
   );
 }

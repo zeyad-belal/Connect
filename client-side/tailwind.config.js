@@ -9,7 +9,8 @@ export default {
       backgroundColor: {
         'f37020': '#f37020',
         primary: '#444444',
-        secondary :'#fcb62e'
+        secondary :'#fcb62e',
+        secHover :'#ecaa28'
       },
       colors: {
         f37020: '#f37020',

@@ -4,8 +4,6 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import FreeShipping from "./pages/FreeShipping.jsx";
-import TechServices from "./pages/TechServices.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
@@ -21,11 +19,15 @@ import { useCartContext } from "./context/CartProvider.jsx";
 
 function App() {
   const [searchText, setSearchText] = useState("");
+  const [searchBarIsVisible, setSearchBarIsVisible] = useState(false);
   const [cookies, setCookie] = useCookies(['UserToken','User']);
   const { fetchServices } = useGlobalContext();
   const myCart = useContext(CartContext)
   const {fetchCartItems,sendCartItems} = useCartContext()
   const initialRenderRef = useRef(true);
+
+
+
   // FETCHING SERVICES 
   useEffect(() => {
       fetchServices();
@@ -58,15 +60,20 @@ function App() {
   }, []);
   
 
+  function toggleSearchBar(){
+    setSearchBarIsVisible(prevState => !prevState)
+  }
+  function closeSearchBar(){
+    setSearchBarIsVisible(false)
+  }
+
   return (
-    <>
+    <div>
       <div className="sticky block top-0 z-40">
-      <Navbar searchText={searchText} setSearchText={setSearchText} />
+      <Navbar searchText={searchText} setSearchText={setSearchText} searchBarIsVisible={searchBarIsVisible} toggleSearchBar={toggleSearchBar} closeSearchBar={closeSearchBar} />
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Techservices" element={<TechServices />} />
-        <Route path="/Freeshipping" element={<FreeShipping />} />
+        <Route path="/" element={<Home  closeSearchBar={closeSearchBar} />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<ServicePage />} />
@@ -74,8 +81,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      <Footer />
-    </>
+      <Footer closeSearchBar={closeSearchBar} />
+    </div>
   );
 }
 

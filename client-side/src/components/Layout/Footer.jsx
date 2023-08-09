@@ -12,7 +12,8 @@ import {
 } from "react-icons/fa";
 import { useRef, useState } from "react";
 
-const Footer = () => {
+const Footer = (props) => {
+
   const [emailSent, setEmailSent] = useState(false);
   const form = useRef();
   emailjs.init("ieyQAv01RBSvsmGou");
@@ -46,9 +47,13 @@ const Footer = () => {
   const sendBtnClasses = emailSent
     ? "bg-green-500 p-2 text-white text-md rounded-e-md px-5"
     : "bg-f37020 p-2 text-white text-md rounded-e-md px-5";
+
+
+
+
   return (
     <>
-      <footer className="bg-[#191919]">
+      <footer className="bg-primary" onClick={props.closeSearchBar}>
         <header className=" flex flex-col justify-center py-5 mx-2 gap-5 ">
           <h1 className="text-center text-white font-extrabold ">
             BE THE FIRST TO KNOW

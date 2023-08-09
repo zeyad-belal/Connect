@@ -23,16 +23,19 @@ const Searchbar = (props) => {
   };
 
   return (
-    <div className="absolute z-50 top-[80px] right-[100%]  w-[100%]">
-      <div className="flex items-center justify-center gap-2 ">
+    <div className="absolute z-50 top-[72px] left-0 w-full">
+      <div className="flex items-center justify-center ">
         <input
           onChange={changeHandler}
           ref={searchBar}
           type="text"
-          className="px-5 py-1  w-full text-orange-500 bg-white border rounded-lg focus:border-orange-400 focus:ring-orange-400 focus:outline-none focus:ring focus:ring-opacity-40"
+          autoFocus
+          className="realtive px-5 py-5 w-full text-secondary bg-white border rounded-lg shadow-gray-300  outline-none shadow-md"
           placeholder="Search..."
         />
+        <div className="before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[290px]"></div>
       </div>
+      
       {/* Filtered services Panel */}
       {props.searchText.length > 0 && (
         <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
