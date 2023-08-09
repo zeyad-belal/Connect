@@ -23,8 +23,8 @@ const Searchbar = (props) => {
   };
 
   return (
-    <div className="absolute z-50 top-[50px] right-0">
-      <div className="flex items-center justify-center gap-2  lg:w-[800px] md:w-[400px]">
+    <div className="absolute z-50 top-[80px] right-[100%]  w-[100%]">
+      <div className="flex items-center justify-center gap-2 ">
         <input
           onChange={changeHandler}
           ref={searchBar}

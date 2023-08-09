@@ -6,10 +6,10 @@ import OtherServices from "../components/OtherServices";
 import NewArrivalsSlider from "../components/Sliders/NewArrivalsSlider";
 import Circles from "../components/Circles";
 import axios from "axios";
-import AdsSlider from "../components/Sliders/AdsSlider";
 import { useCookies } from "react-cookie";
 import BestSellerSlider from "../components/Sliders/BestSellerSlider";
 import { toast } from "react-toastify";
+import HeroSection from "../components/HeroSection";
 
 // the global state
 // import { useGlobalContext } from "../context/ServicesContext";
@@ -65,13 +65,15 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+      <HeroSection />
     <div className="px-12">
-      <AdsSlider />
       <OtherServices />
       <Circles />
       <NewArrivalsSlider />
       <Categories />
       <BestSellerSlider />
     </div>
+    </>
   );
 }

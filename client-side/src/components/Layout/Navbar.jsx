@@ -47,11 +47,11 @@ const Navbar = (props) => {
     <>
       <nav
         id="MainNav"
-        className="bg-primary text-white py-4 my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
+        className="relative bg-primary text-white  my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
       >
         {/* Logo */}
         <Link to={"/"}>
-          <div className="flex items-baseline mr-5 w-44 sm:w-56">
+          <div className="flex items-baseline py-3 mr-5 w-44 sm:w-56">
             <img
               className="mt-2 sm:mt-1"
               src="/assets/logo/main-yellow-and-white.png"
@@ -64,18 +64,18 @@ const Navbar = (props) => {
         {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
 
         {/* Navigation */}
-        <ul className="flex items-center justify-end">
+        <ul className="flex ">
           {/* Searchbar  */}
-          <li className="text-white relative hover:text-gray-200 sm:mx-3 mx-1 cursor-pointer" onClick={toggleSearchBar}>
+          <li className="flex items-center py-2 px-6 text-white relative hover:bg-gray-500 cursor-pointer" onClick={toggleSearchBar}>
             <BsSearch />
             {searchBarIsVisible && <Searchbar {...props} />}
           </li>
           {/* notifcations  */}
-          <li className="text-white hover:text-gray-200 sm:mx-3 mx-1 cursor-pointer">
+          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  hover:text-gray-200  cursor-pointer">
             <BsFillBellFill />
           </li>
           {/* cart  */}
-          <li className="sm:mx-3 mx-1">
+          <li className="flex items-center py-2 px-6  hover:bg-gray-500 ">
             <Link
               className="text-white flex items-center hover:text-gray-400 relative"
               to="/cart" >
@@ -88,7 +88,7 @@ const Navbar = (props) => {
             </Link>
           </li>
           {/* user  */}
-          <li className="text-white hover:text-gray-200 text-sm:10 sm:pr-6 ml-1">
+          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  text-sm:10 ">
             {userStatus ? (
               <div className="relative  border-black">
                 <img
