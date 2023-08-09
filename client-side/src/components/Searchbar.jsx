@@ -23,7 +23,7 @@ const Searchbar = (props) => {
   };
 
   return (
-    <div className="absolute z-50 top-[80px] left-0 w-full">
+    <div className="absolute z-50 top-[72px] left-0 w-full">
       <div className="flex items-center justify-center ">
         <input
           onChange={changeHandler}
@@ -33,7 +33,7 @@ const Searchbar = (props) => {
           className="realtive px-5 py-5 w-full text-secondary bg-white border rounded-lg shadow-gray-300  outline-none shadow-md"
           placeholder="Search..."
         />
-        <div className="before:w-0  before:h-0 before:rounded-b-[1px] before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-4px] before:right-[280px]"></div>
+        <div className="before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[290px]"></div>
       </div>
       
       {/* Filtered services Panel */}

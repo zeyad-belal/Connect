@@ -48,7 +48,7 @@ function closeTheSearchBar(e){
     <>
       <nav
         id="MainNav"
-        className="relative bg-primary text-white  my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
+        className="relative bg-primary text-white  my-30 h-15 w-full z-50 sm:px-7 px-4 flex justify-between "
         onClick={(e)=>closeTheSearchBar(e)}
       >
         <ul className="flex ">
@@ -77,19 +77,19 @@ function closeTheSearchBar(e){
           <li className={props.searchBarIsVisible ?
             "search flex items-center py-2 px-6 text-white bg-gray-500 relative hover:bg-gray-500 cursor-pointer" :
             "search flex items-center py-2 px-6 text-white relative hover:bg-gray-500 cursor-pointer"} onClick={props.toggleSearchBar}>
-            <BsSearch />
+            <BsSearch size={22} />
           </li>
             {props.searchBarIsVisible && <Searchbar {...props} />}
           {/* notifcations  */}
           <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">
-            <BsFillBellFill />
+            <BsFillBellFill size={22} />
           </li>
           {/* cart  */}
             <Link
               className="text-white flex items-center relative hover:bg-gray-500 "
               to="/cart" >
                 <li className="flex items-center py-2 px-6  ">
-                <FaShoppingCart />
+                <FaShoppingCart size={22} />
                 {cartCTX.totalItemsNum > 0 && (
                   <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
                     {cartCTX.totalItemsNum}

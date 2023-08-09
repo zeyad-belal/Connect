@@ -3,7 +3,7 @@ import backgroundImage from "../../public/main.jpg";
 function HeroSection() {
   return (
     <div
-      className=" bg-cover bg-center min-h-screen min-w-full  top-1 flex flex-col justify-center items-center mb-12 "
+      className=" bg-cover bg-center min-h-screen min-w-full  mt-[-30px] flex flex-col justify-center items-center mb-12 "
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
@@ -12,10 +12,10 @@ function HeroSection() {
       <p className="text-semibold text-primary text-[20px] mb-12">With ease and safety, complete your tasks for prices starting from $5</p>
       <div className="relative ">
         <input name="text" type="text" required 
-          className="w-[700px] py-7 pl-18 mb-0  rounded-s-md pl-2 pr-12 focus:outline-none focus:ring-2 focus:ring-secondary"
+          className="w-[700px] py-6  pl-18 mb-0  rounded-s-md pl-2 pr-12 focus:outline-none focus:ring-2 focus:ring-secondary"
           placeholder="Try : logo desgin or web .."
           />
-        <button className="absolute right-2 text-white text-lg hover:bg-yellow-400 bg-secondary px-6 py-5  top-1/2 transform -translate-y-1/2 h-53"> search</button>
+        <button className="absolute right-2 text-white text-lg hover:bg-secHover bg-secondary px-4 py-4  top-1/2 transform -translate-y-1/2 h-53"> search</button>
           </div>
     </div>
   );
