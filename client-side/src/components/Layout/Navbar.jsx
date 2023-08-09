@@ -51,16 +51,22 @@ function closeTheSearchBar(e){
         className="relative bg-primary text-white  my-30 h-20 w-full z-50 sm:px-7 px-4 flex justify-between "
         onClick={(e)=>closeTheSearchBar(e)}
       >
+        <ul className="flex ">
         {/* Logo */}
         <Link to={"/"}>
-          <div className="flex items-baseline py-3 mr-5 w-44 sm:w-56">
+          <li className="flex items-baseline py-3 mr-5 w-44 sm:w-56">
             <img
               className="mt-2 sm:mt-1"
               src="/assets/logo/main-yellow-and-white.png"
               alt="Electronix"
-            />
-          </div>
+              />
+          </li>
         </Link>
+        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Add service </li>
+        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Categories</li>
+        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Orders</li>
+        </ul>
+
         {/* sign in  */}
         {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
         {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
@@ -75,7 +81,7 @@ function closeTheSearchBar(e){
           </li>
             {props.searchBarIsVisible && <Searchbar {...props} />}
           {/* notifcations  */}
-          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500   cursor-pointer">
+          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">
             <BsFillBellFill />
           </li>
           {/* cart  */}
