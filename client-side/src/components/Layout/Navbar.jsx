@@ -11,6 +11,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
 import { BsFillBellFill, BsSearch } from "react-icons/bs";
+import { FiMenu } from "react-icons/fi";
 
 const Navbar = (props) => {
   const navigate = useNavigate();
@@ -52,6 +53,9 @@ function closeTheSearchBar(e){
         onClick={(e)=>closeTheSearchBar(e)}
       >
         <ul className="flex ">
+        <li className=" mr-3 cursor-pointer text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500">
+        <FiMenu size={30} />
+        </li>
         {/* Logo */}
         <Link to={"/"}>
           <li className="flex items-baseline py-3 mr-5 w-44 sm:w-56">
