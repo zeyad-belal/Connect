@@ -22,8 +22,15 @@ const Searchbar = (props) => {
     searchBar.current.value = "";
   };
 
+  let searchBarClasses = props.searchBarIsVisible ? 
+  "absolute z-40 top-[59px] left-0 w-full opacity-100 translate-y-0 transition-opacity ease-out " 
+  :
+  "absolute z-40 top-[59px] left-0 w-full opacity-0 -translate-y-[-10px]   ease-out duration-300"
+
+
+
   return (
-    <div className="absolute z-50 top-[72px] left-0 w-full">
+    <div className={searchBarClasses}>
       <div className="flex items-center justify-center ">
         <input
           onChange={changeHandler}

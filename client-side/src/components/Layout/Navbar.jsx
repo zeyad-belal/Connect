@@ -10,7 +10,12 @@ import UserContext from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
-import { BsFillBellFill, BsSearch } from "react-icons/bs";
+import { BsFillBellFill, BsFillCollectionFill, BsSearch } from "react-icons/bs";
+import { FiMenu } from "react-icons/fi";
+import SubNav from "./SubNav";
+import { MdAdd } from "react-icons/md";
+import { BiSolidTruck } from "react-icons/bi";
+import { Backdrop } from "../../UI/Modal";
 
 const Navbar = (props) => {
   const navigate = useNavigate();
@@ -19,6 +24,7 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
+  const [subIsVisible, setSubIsVisible] = useState(false);
 
 
 
@@ -44,52 +50,60 @@ function closeTheSearchBar(e){
   }
 }
 
+function toggleSubNav(){
+  setSubIsVisible(prevValue => !prevValue)
+}
+
   return (
     <>
       <nav
         id="MainNav"
-        className="relative bg-primary text-white  my-30 h-15 w-full z-50 sm:px-7 px-4 flex justify-between "
+        className=" relative  top-0  bg-primary text-white  my-30 h-15 w-full z-50 sm:px-7 px-4 flex justify-between "
         onClick={(e)=>closeTheSearchBar(e)}
       >
         <ul className="flex ">
+        <li className=" mr-3 cursor-pointer text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500" onClick={toggleSubNav}>
+        <FiMenu size={30} />
+        </li>
         {/* Logo */}
         <Link to={"/"}>
-          <li className="flex items-baseline py-3 mr-5 w-44 sm:w-56">
+          <li className="flex items-baseline py-2 mr-4 w-44 sm:w-56">
             <img
-              className="mt-2 sm:mt-1"
+              className="max-w-[220px]"
               src="/assets/logo/main-yellow-and-white.png"
-              alt="Electronix"
+              alt="Connect"
               />
           </li>
         </Link>
-        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Add service </li>
-        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Categories</li>
-        <li className="text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">Orders</li>
+        <li className="text-md flex items-center py-2 px-4 text-white hover:bg-gray-500  cursor-pointer gap-2"> <MdAdd /> Add service </li>
+        <li className="text-md flex items-center py-2 px-4 text-white hover:bg-gray-500  cursor-pointer gap-2"><BsFillCollectionFill /> Categories</li>
+        <li className="text-md flex items-center py-2 px-4 text-white hover:bg-gray-500  cursor-pointer gap-2"><BiSolidTruck size={22} /> Orders</li>
         </ul>
 
         {/* sign in  */}
         {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
         {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
 
+
         {/* Navigation */}
         <ul className="flex ">
           {/* Searchbar  */}
           <li className={props.searchBarIsVisible ?
-            "search flex items-center py-2 px-6 text-white bg-gray-500 relative hover:bg-gray-500 cursor-pointer" :
-            "search flex items-center py-2 px-6 text-white relative hover:bg-gray-500 cursor-pointer"} onClick={props.toggleSearchBar}>
-            <BsSearch size={22} />
+            "search flex items-center py-2 px-6 text-white bg-gray-500  hover:bg-gray-500 cursor-pointer" :
+            "search flex items-center py-2 px-6 text-white  hover:bg-gray-500 cursor-pointer"} onClick={props.toggleSearchBar}>
+            <BsSearch size={20} />
           </li>
-            {props.searchBarIsVisible && <Searchbar {...props} />}
+            <Searchbar {...props} searchBarIsVisible={props.searchBarIsVisible} />
           {/* notifcations  */}
           <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">
-            <BsFillBellFill size={22} />
+            <BsFillBellFill size={20} />
           </li>
           {/* cart  */}
             <Link
               className="text-white flex items-center relative hover:bg-gray-500 "
               to="/cart" >
                 <li className="flex items-center py-2 px-6  ">
-                <FaShoppingCart size={22} />
+                <FaShoppingCart size={20} />
                 {cartCTX.totalItemsNum > 0 && (
                   <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
                     {cartCTX.totalItemsNum}
@@ -135,6 +149,9 @@ function closeTheSearchBar(e){
           </li>
         </ul>
       </nav>
+{/* -------------------------------------------------------------------------------------------------------------- */}
+        {subIsVisible? <Backdrop  toggleModal={toggleSubNav} /> : ''}
+        <SubNav {...props} subIsVisible={subIsVisible} toggleSubNav={toggleSubNav} />
     </>
   );
 };
