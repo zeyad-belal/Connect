@@ -25,7 +25,7 @@ const Searchbar = (props) => {
   let searchBarClasses = props.searchBarIsVisible ? 
   "absolute z-40 top-[59px] left-0 w-full opacity-100 translate-y-0 transition-opacity ease-out " 
   :
-  "absolute z-40 top-[59px] left-0 w-full opacity-0 -translate-y-[-10px]   ease-out duration-300"
+  "absolute z-40 top-[59px] left-0 w-0 opacity-0 -translate-y-[-100px] -translate-x-[300px]   ease-out duration-300"
 
 
 
