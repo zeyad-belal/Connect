@@ -1,14 +1,16 @@
 /* eslint-disable react/prop-types */
-import ReactDom from "react-dom";
 
-function Backdrop(props) {
+import { Transition } from "react-transition-group";
+
+export function Backdrop(props) {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-screen z-20 bg-black bg-opacity-75"
+      className="fixed top-0 left-0 w-full h-screen z-20 bg-black bg-opacity-40"
       onClick={props.toggleModal}
     ></div>
   );
 }
+
 
 function ModalOverlay(props) {
   return (
@@ -18,21 +20,29 @@ function ModalOverlay(props) {
   );
 }
 
-const modalDestintion = document.getElementById("overlayers");
 
 function Modal(props) {
   return (
     <>
-      {ReactDom.createPortal(
-        <Backdrop toggleModal={props.toggleModal} />,
-        modalDestintion
-      )}
-      {ReactDom.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
-        modalDestintion
-      )}
+    <Transition in={props.subIsVisible} 
+        timeout={400}
+        mountOnEnter
+        unmountOnExit >
+          {state => (
+            <div
+              style={{
+                transition: 'opacity 0.4s ease-in-out',
+                opacity: state === 'entering' || state === 'entered' ? '1' : '0'
+              }}
+            >
+                <Backdrop toggleModal={props.toggleModal} />
+                <ModalOverlay>{props.children}</ModalOverlay>
+            </div>
+          )}
+    </Transition>
     </>
   );
 }
+
 
 export default Modal;

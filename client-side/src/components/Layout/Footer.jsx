@@ -97,7 +97,7 @@ const Footer = (props) => {
           <img
             className="flex items-center w-36 my-6 mx-auto"
             src="/assets/logo/main-gray.png"
-            alt="Electronix"
+            alt="Connect"
           />
         </header>
         <section className="grid grid-cols-4 pb-5 border-b gap-7 border-[#3d3d38]  px-12 mx-12">
@@ -221,7 +221,7 @@ const Footer = (props) => {
           </div>
           <div className="col-span-1 md:col-span-1 ml-12 ">
             <p className="text-white">
-              ©Copyright 2023 by ITI ELECTRONIX TEAM. All Rights Reserved.
+              ©Copyright 2023 by Zeyad Belal. All Rights Reserved.
             </p>
           </div>
         </section>
