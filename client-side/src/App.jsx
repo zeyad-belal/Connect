@@ -15,6 +15,9 @@ import { useGlobalContext } from "./context/ServicesContext.jsx";
 import CartContext from "./context/CartContext.jsx";
 import { useCookies } from 'react-cookie';
 import { useCartContext } from "./context/CartProvider.jsx";
+import Login from "./components/Login.jsx";
+import Signup from "./components/Signup.jsx";
+import UserContext from "./context/UserContext.jsx";
 
 
 function App() {
@@ -25,7 +28,7 @@ function App() {
   const myCart = useContext(CartContext)
   const {fetchCartItems,sendCartItems} = useCartContext()
   const initialRenderRef = useRef(true);
-
+  const userCTX = useContext(UserContext);
 
 
   // FETCHING SERVICES 
@@ -69,6 +72,9 @@ function App() {
 
   return (
     <div>
+              {/* sign in  */}
+              {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
+        {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
       <div className="sticky block top-0 z-40">
       <Navbar searchText={searchText} setSearchText={setSearchText} searchBarIsVisible={searchBarIsVisible} toggleSearchBar={toggleSearchBar} closeSearchBar={closeSearchBar} />
       </div>

@@ -2,8 +2,6 @@
 /* eslint-disable no-unused-vars */
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Login from "../Login";
-import Signup from "../Signup";
 import Searchbar from "../Searchbar.jsx";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
@@ -25,7 +23,23 @@ const Navbar = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
   const [subIsVisible, setSubIsVisible] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDropdownVisible(false);
+  };
+
+  const handleDropdownMouseEnter = () => {
+    setIsDropdownVisible(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    setIsDropdownVisible(false);
+  };
 
 
   useEffect(() => {
@@ -79,11 +93,7 @@ function toggleSubNav(){
         <li className="text-md flex items-center py-2 px-4 text-white hover:bg-gray-500  cursor-pointer gap-2"><BsFillCollectionFill /> Categories</li>
         <li className="text-md flex items-center py-2 px-4 text-white hover:bg-gray-500  cursor-pointer gap-2"><BiSolidTruck size={22} /> Orders</li>
         </ul>
-
-        {/* sign in  */}
-        {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
-        {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
-
+        
 
         {/* Navigation */}
         <ul className="flex ">
