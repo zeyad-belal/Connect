@@ -37,10 +37,6 @@ function Signup(){
     setCookie('UserToken', response.data.token);
     window.localStorage.setItem("logged", true)
 
-      setCookie("User", JSON.stringify(response.data.newUser));
-      setCookie("UserToken", response.data.token);
-      window.localStorage.setItem("logged", true);
-
   } catch (error) {
     console.error(error);
     error.response ? toast.error(error.response.data.message, {
