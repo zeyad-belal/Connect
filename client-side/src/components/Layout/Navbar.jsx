@@ -103,7 +103,7 @@ function toggleSubNav(){
             "search flex items-center py-2 px-6 text-white  hover:bg-gray-500 cursor-pointer"} onClick={props.toggleSearchBar}>
             <BsSearch size={20} />
           </li>
-            <Searchbar {...props} searchBarIsVisible={props.searchBarIsVisible} />
+
           {/* notifcations  */}
           <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer">
             <BsFillBellFill size={20} />
@@ -159,6 +159,7 @@ function toggleSubNav(){
           </li>
         </ul>
       </nav>
+      <Searchbar {...props} searchBarIsVisible={props.searchBarIsVisible} />
 {/* -------------------------------------------------------------------------------------------------------------- */}
         {subIsVisible? <Backdrop  toggleModal={toggleSubNav} /> : ''}
         <SubNav {...props} subIsVisible={subIsVisible} toggleSubNav={toggleSubNav} />
