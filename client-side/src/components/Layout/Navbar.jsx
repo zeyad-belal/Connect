@@ -32,7 +32,6 @@ const menuReducer = (state, action) => {
   switch (action.type) {
     case ActionTypes.TOGGLE_USER_MENU:
       return {
-        ...state,
         isUserMenuVisible: !state.isUserMenuVisible,
         isNotiMenuVisible: false,
         searchBarIsVisible: false,
@@ -40,7 +39,6 @@ const menuReducer = (state, action) => {
       };
     case ActionTypes.TOGGLE_NOTI_MENU:
       return {
-        ...state,
         isNotiMenuVisible: !state.isNotiMenuVisible,
         isUserMenuVisible: false,
         searchBarIsVisible: false,
@@ -48,14 +46,13 @@ const menuReducer = (state, action) => {
       };
     case ActionTypes.TOGGLE_SUB_NAV:
       return {
-        ...state,
         subIsVisible: !state.subIsVisible,
         isUserMenuVisible: false,
         isNotiMenuVisible: false,
+        searchBarIsVisible: false,
       };
     case ActionTypes.TOGGLE_SEARCH_BAR:
       return {
-        ...state,
         searchBarIsVisible: !state.searchBarIsVisible,
         isUserMenuVisible: false,
         isNotiMenuVisible: false,
