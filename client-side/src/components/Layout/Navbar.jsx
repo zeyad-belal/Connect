@@ -16,59 +16,7 @@ import { BiSolidTruck } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Backdrop } from "../../UI/Modal";
-
-
-
-const ActionTypes = {
-  TOGGLE_USER_MENU: "TOGGLE_USER_MENU",
-  TOGGLE_NOTI_MENU: "TOGGLE_NOTI_MENU",
-  TOGGLE_SUB_NAV: "TOGGLE_SUB_NAV",
-  TOGGLE_SEARCH_BAR: "TOGGLE_SEARCH_BAR",
-  CLOSE_ALL_MENUS: "CLOSE_ALL_MENUS",
-};
-
-
-const menuReducer = (state, action) => {
-  switch (action.type) {
-    case ActionTypes.TOGGLE_USER_MENU:
-      return {
-        isUserMenuVisible: !state.isUserMenuVisible,
-        isNotiMenuVisible: false,
-        searchBarIsVisible: false,
-        subIsVisible: false,
-      };
-    case ActionTypes.TOGGLE_NOTI_MENU:
-      return {
-        isNotiMenuVisible: !state.isNotiMenuVisible,
-        isUserMenuVisible: false,
-        searchBarIsVisible: false,
-        subIsVisible: false,
-      };
-    case ActionTypes.TOGGLE_SUB_NAV:
-      return {
-        subIsVisible: !state.subIsVisible,
-        isUserMenuVisible: false,
-        isNotiMenuVisible: false,
-        searchBarIsVisible: false,
-      };
-    case ActionTypes.TOGGLE_SEARCH_BAR:
-      return {
-        searchBarIsVisible: !state.searchBarIsVisible,
-        isUserMenuVisible: false,
-        isNotiMenuVisible: false,
-        subIsVisible: false,
-      };
-    case ActionTypes.CLOSE_ALL_MENUS:
-      return {
-        subIsVisible: false,
-        isUserMenuVisible: false,
-        isNotiMenuVisible: false,
-        searchBarIsVisible: false,
-      };
-    default:
-      return state;
-  }
-};
+import menuReducer, {ActionTypes} from "./menuReducer.js"
 
 
 
@@ -145,20 +93,20 @@ const Navbar = (props) => {
 
             {menuState.isNotiMenuVisible && (
               <>
-              <div className="relative z-30">
-                      <ul className="flex flex-col gap-3 absolute right-[-21px]   bottom-[-117px] min-w-[150px] bg-white  shadow-md border border-gray-300">
-                        <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div>
-                          
-                          <li className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer" 
-                          > <RxAvatar size={22} /> {CurrUser.first_name} {CurrUser.last_name}</li>
-                          <li
-                            onClick={signoutHandler}
-                            className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer" >
-                            <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
-                          </li>
-                        </ul>
-              </div>
-              {/* <div className=" fixed top-0 left-0 w-full h-screen z-20 bg-opacity-40"></div> */}
+                <div className="relative z-30">
+                        <ul className="flex flex-col gap-3 absolute right-[-21px]   bottom-[-117px] min-w-[150px] bg-white  shadow-md border border-gray-300">
+                          <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div>
+                            <Link to={'/userInfo'}>
+                            <li className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer"
+                            > <RxAvatar size={22} /> {CurrUser.first_name} {CurrUser.last_name}</li>
+                            </Link>
+                            <li
+                              onClick={signoutHandler}
+                              className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer" >
+                              <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
+                            </li>
+                          </ul>
+                </div>
               </>
                 )}
           </li>
@@ -184,7 +132,7 @@ const Navbar = (props) => {
                   src={CurrUser.avatar}
                   alt="User Avatar"
                 />
-
+                {/* --------menu------ */}
                 {menuState.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
@@ -192,7 +140,9 @@ const Navbar = (props) => {
                         <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div>
                           
                           <li className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer" 
+                          onClick={()=>navigate('/userInfo')}
                           > <RxAvatar size={22} /> {CurrUser.first_name} {CurrUser.last_name}</li>
+
                           <li
                             onClick={signoutHandler}
                             className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-primary hover:bg-gray-300 cursor-pointer" >
@@ -200,7 +150,6 @@ const Navbar = (props) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <div className=" fixed top-0 left-0 w-full h-screen z-20 bg-opacity-40"></div> */}
                   </>
                 )}
               </div>

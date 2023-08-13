@@ -18,6 +18,7 @@ import { useCartContext } from "./context/CartProvider.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import UserContext from "./context/UserContext.jsx";
+import UserInfo from "./pages/UserInfo.jsx";
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/services/:id" element={<ServicePage />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/about" element={<About />} />

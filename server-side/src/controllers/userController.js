@@ -162,6 +162,7 @@ const updateUser = async (req, res) => {
     cart_items,
     role,
     address,
+    avatar
   } = req.body;
 
   const user = await User.findByIdAndUpdate(
@@ -174,6 +175,7 @@ const updateUser = async (req, res) => {
       cart_items,
       role,
       address,
+      avatar
     },
     { new: true }
   );
