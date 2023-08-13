@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import emailjs from "emailjs-com";
 import "react-toastify/dist/ReactToastify.css";
 
-const Checkout = (props) => {
+const Checkout = () => {
   const {
     register,
     handleSubmit,
@@ -75,24 +75,7 @@ const Checkout = (props) => {
           { cart_items: [] },
           { headers: { Authorization: `${cookies.UserToken}` } }
         );
-        // console.log(form.current).then(
-        //   (result) => {
-        //     console.log(result.text);
-        //   },
-        //   (error) => {
-        //     console.log(error.text);
-        //     toast.info("something went wrong !", {
-        //       position: "top-right",
-        //       autoClose: 1500,
-        //       hideProgressBar: false,
-        //       closeOnClick: true,
-        //       pauseOnHover: true,
-        //       draggable: true,
-        //       progress: undefined,
-        //       theme: "light"
-        //     });
-        //   }
-        // );
+        
       }
     } catch (error) {
       toast.error(error, {
