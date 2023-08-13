@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { useRef, useState } from "react";
 
-const Footer = (props) => {
+const Footer = () => {
 
   const [emailSent, setEmailSent] = useState(false);
   const form = useRef();
@@ -53,7 +53,7 @@ const Footer = (props) => {
 
   return (
     <>
-      <footer className="bg-primary" onClick={props.closeSearchBar}>
+      <footer className="bg-primary">
         <header className=" flex flex-col justify-center py-5 mx-2 gap-5 ">
           <h1 className="text-center text-white font-extrabold ">
             BE THE FIRST TO KNOW

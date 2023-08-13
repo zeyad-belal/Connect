@@ -64,7 +64,7 @@ export default function Home(props) {
   }, []);
 
   return (
-    <div onClick={props.closeSearchBar}>
+    <div>
       <HeroSection />
       <NewArrivalsSlider />
       <Categories />

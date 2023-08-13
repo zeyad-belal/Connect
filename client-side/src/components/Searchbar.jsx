@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { useGlobalContext } from "../context/ServicesContext";
 import { useNavigate } from "react-router-dom";
+import { Transition } from "react-transition-group";
 
 const Searchbar = (props) => {
   const { services } = useGlobalContext();
@@ -30,42 +31,53 @@ const Searchbar = (props) => {
 
 
   return (
-    <div className={searchBarClasses}>
-      <div className="flex items-center justify-center ">
-        <input
-          onChange={changeHandler}
-          ref={searchBar}
-          type="text"
-          autoFocus
-          className="realtive px-5 py-5 w-full text-secondary bg-white border rounded-lg shadow-gray-300  outline-none shadow-md"
-          placeholder="Search..."
-        />
-        <div className="before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[290px]"></div>
-      </div>
-      
-      {/* Filtered services Panel */}
-      {props.searchText.length > 0 && (
-        <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-          {filteredServices.length > 0 ? (
-            filteredServices.map((service) => (
-              <div key={service.id} className="px-4 py-2 hover:bg-gray-100">
-                <div
-                  onClick={() => navToService(service.id)}
-                  className="text-black text-[10px] sm:text-xs cursor-pointer"
-                >
-                  {service.name.slice(0, 90)}
-                  {service.name.length > 90 ? "..." : ""}
+    <Transition in={props.searchBarIsVisible} 
+    timeout={300}
+    mountOnEnter
+    unmountOnExit >
+      {state => (
+        <div className='absolute z-20 top-[59px] left-0 w-full'
+          style={{
+            transition: 'all 0.3s ease-in-out',
+            transform: state === 'entering' || state === 'entered' ? 'translateY(0)' : 'translateY(-100%)'
+          }}
+        >
+          <div className="flex items-center justify-center ">
+            <input
+              onChange={changeHandler}
+              ref={searchBar}
+              type="text"
+              autoFocus
+              className="realtive px-5 py-5 w-full text-secondary bg-white border rounded-lg shadow-gray-300  outline-none shadow-md"
+              placeholder="Search..."
+            />
+          </div>
+          
+          {/* Filtered services Panel */}
+          {props.searchText.length > 0 && (
+            <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+              {filteredServices.length > 0 ? (
+                filteredServices.map((service) => (
+                  <div key={service.id} className="px-4 py-2 hover:bg-gray-100">
+                    <div
+                      onClick={() => navToService(service.id)}
+                      className="text-black text-[10px] sm:text-xs cursor-pointer"
+                    >
+                      {service.name.slice(0, 90)}
+                      {service.name.length > 90 ? "..." : ""}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-black text-md py-2">No matches</div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-black text-md py-2">No matches</div>
+              )}
             </div>
           )}
         </div>
       )}
-    </div>
+    </Transition>
   );
 };
 

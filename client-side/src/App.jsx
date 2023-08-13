@@ -22,7 +22,6 @@ import UserContext from "./context/UserContext.jsx";
 
 function App() {
   const [searchText, setSearchText] = useState("");
-  const [searchBarIsVisible, setSearchBarIsVisible] = useState(false);
   const [cookies, setCookie] = useCookies(['UserToken','User']);
   const { fetchServices } = useGlobalContext();
   const myCart = useContext(CartContext)
@@ -63,23 +62,21 @@ function App() {
   }, []);
   
 
-  function toggleSearchBar(){
-    setSearchBarIsVisible(prevState => !prevState)
-  }
-  function closeSearchBar(){
-    setSearchBarIsVisible(false)
-  }
 
   return (
     <div>
-              {/* sign in  */}
-              {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
-        {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
-      <div className="sticky block top-0 z-40">
-      <Navbar searchText={searchText} setSearchText={setSearchText} searchBarIsVisible={searchBarIsVisible} toggleSearchBar={toggleSearchBar} closeSearchBar={closeSearchBar} />
+      {/* sign in Modals */}
+      {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
+      {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
+
+      <div className="sticky block top-0 z-50">
+      <Navbar 
+        searchText={searchText}
+        setSearchText={setSearchText}
+        />
       </div>
       <Routes>
-        <Route path="/" element={<Home  closeSearchBar={closeSearchBar} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<ServicePage />} />
@@ -87,7 +84,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      <Footer closeSearchBar={closeSearchBar} />
+      <Footer />
     </div>
   );
 }
