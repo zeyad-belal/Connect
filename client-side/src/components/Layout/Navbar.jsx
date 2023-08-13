@@ -3,7 +3,7 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Searchbar from "../Searchbar.jsx";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,64 @@ import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Backdrop } from "../../UI/Modal";
 
+
+
+const ActionTypes = {
+  TOGGLE_USER_MENU: "TOGGLE_USER_MENU",
+  TOGGLE_NOTI_MENU: "TOGGLE_NOTI_MENU",
+  TOGGLE_SUB_NAV: "TOGGLE_SUB_NAV",
+  TOGGLE_SEARCH_BAR: "TOGGLE_SEARCH_BAR",
+  CLOSE_ALL_MENUS: "CLOSE_ALL_MENUS",
+};
+
+
+const menuReducer = (state, action) => {
+  switch (action.type) {
+    case ActionTypes.TOGGLE_USER_MENU:
+      return {
+        ...state,
+        isUserMenuVisible: !state.isUserMenuVisible,
+        isNotiMenuVisible: false,
+        searchBarIsVisible: false,
+        subIsVisible: false,
+      };
+    case ActionTypes.TOGGLE_NOTI_MENU:
+      return {
+        ...state,
+        isNotiMenuVisible: !state.isNotiMenuVisible,
+        isUserMenuVisible: false,
+        searchBarIsVisible: false,
+        subIsVisible: false,
+      };
+    case ActionTypes.TOGGLE_SUB_NAV:
+      return {
+        ...state,
+        subIsVisible: !state.subIsVisible,
+        isUserMenuVisible: false,
+        isNotiMenuVisible: false,
+      };
+    case ActionTypes.TOGGLE_SEARCH_BAR:
+      return {
+        ...state,
+        searchBarIsVisible: !state.searchBarIsVisible,
+        isUserMenuVisible: false,
+        isNotiMenuVisible: false,
+        subIsVisible: false,
+      };
+    case ActionTypes.CLOSE_ALL_MENUS:
+      return {
+        subIsVisible: false,
+        isUserMenuVisible: false,
+        isNotiMenuVisible: false,
+        searchBarIsVisible: false,
+      };
+    default:
+      return state;
+  }
+};
+
+
+
 const Navbar = (props) => {
   const navigate = useNavigate();
   const userCTX = useContext(UserContext);
@@ -24,53 +82,16 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
-  const [subIsVisible, setSubIsVisible] = useState(false);
-  const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
-  const [isNotiMenuVisible, setIsNotiMenuVisible] = useState(false);
-  const [searchBarIsVisible, setSearchBarIsVisible] = useState(false);
 
+  const [menuState, dispatch] = useReducer(menuReducer, {
+    subIsVisible: false,
+    isUserMenuVisible: false,
+    isNotiMenuVisible: false,
+    searchBarIsVisible: false,
+  });
 
-  const toggleUserMenu = () => {
-    setIsNotiMenuVisible(false)
-    setSearchBarIsVisible(false)
-    setSubIsVisible(false);
-    setIsUserMenuVisible(prevValue => !prevValue);
-  };
-  const toggleNotiMenu = () => {
-    setIsUserMenuVisible(false)
-    setSearchBarIsVisible(false)
-    setSubIsVisible(false);
-    setIsNotiMenuVisible(prevValue => !prevValue);
-  };
-  
-  function toggleSubNav(){
-    setIsUserMenuVisible(false);
-    setIsNotiMenuVisible(false);
-    setSubIsVisible(prevValue => !prevValue)
-  }
-  
-  function toggleSearchBar(){
-    setIsUserMenuVisible(false);
-    setIsNotiMenuVisible(false);
-    setSubIsVisible(false);
-    setSearchBarIsVisible(prevState => !prevState)
-  }
 
   
-  function closeAllMenus(){
-    setIsNotiMenuVisible(false);
-    setIsUserMenuVisible(false);
-    setSearchBarIsVisible(false);
-    setSubIsVisible(false);
-  }
-
-
-  useEffect(() => {
-    if (cookies.User) {
-      setCurrUser(cookies.User);
-    }
-  }, [cookies.User]);
-
   function signoutHandler() {
     window.localStorage.removeItem("logged");
     removeCookie("UserToken");
@@ -80,6 +101,12 @@ const Navbar = (props) => {
     navigate("/");
     window.location.reload();
   }
+  
+  useEffect(() => {
+    if (cookies.User) {
+      setCurrUser(cookies.User);
+    }
+  }, [cookies.User]);
 
 
   return (
@@ -88,12 +115,12 @@ const Navbar = (props) => {
         id="MainNav"
         className=" relative  top-0  bg-primary text-white  my-30 h-15 w-full z-50 sm:px-7 px-4 flex justify-between " >
         <ul className="flex ">
-        <li className=" mr-3 cursor-pointer text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500" onClick={toggleSubNav}>
+        <li className=" mr-3 cursor-pointer text-lg flex items-center py-2 px-6 text-white hover:bg-gray-500" onClick={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })}>
         <FiMenu size={30} />
         </li>
         {/* Logo */}
         <Link to={"/"}>
-          <li className="flex items-baseline py-2 mr-4 w-44 sm:w-56" onClick={closeAllMenus}>
+          <li className="flex items-baseline py-2 mr-4 w-44 sm:w-56" onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}>
             <img
               className="max-w-[220px]"
               src="/assets/logo/main-yellow-and-white.png"
@@ -109,17 +136,17 @@ const Navbar = (props) => {
       {/* ----------------------------------------------------------------------------- */}
         <ul className="flex ">
           {/* Searchbar  */}
-          <li className={searchBarIsVisible ?
+          <li className={menuState.searchBarIsVisible ?
             "search flex items-center py-2 px-6 text-white bg-gray-500  hover:bg-gray-500 cursor-pointer" :
-            "search flex items-center py-2 px-6 text-white  hover:bg-gray-500 cursor-pointer"} onClick={toggleSearchBar}>
+            "search flex items-center py-2 px-6 text-white  hover:bg-gray-500 cursor-pointer"} onClick={() => dispatch({ type: ActionTypes.TOGGLE_SEARCH_BAR })}>
             <BsSearch size={20} />
           </li>
 
           {/* notifcations  */}
-          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer" onClick={toggleNotiMenu}>
+          <li className="flex items-center py-2 px-6 text-white hover:bg-gray-500  cursor-pointer" onClick={() => dispatch({ type: ActionTypes.TOGGLE_NOTI_MENU })}>
             <BsFillBellFill size={20} />
 
-            {isNotiMenuVisible && (
+            {menuState.isNotiMenuVisible && (
               <>
               <div className="relative z-30">
                       <ul className="flex flex-col gap-3 absolute right-[-21px]   bottom-[-117px] min-w-[150px] bg-white  shadow-md border border-gray-300">
@@ -142,8 +169,8 @@ const Navbar = (props) => {
             <Link
               className="text-white flex items-center relative hover:bg-gray-500 "
               to="/cart" >
-                <li className="flex items-center py-2 px-6  ">
-                <FaShoppingCart size={20} onClick={closeAllMenus} />
+                <li className="flex items-center py-2 px-6  " onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })} >
+                <FaShoppingCart size={20}  />
                 {cartCTX.totalItemsNum > 0 && (
                   <span className="ml-1 bg-f37020 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
                     {cartCTX.totalItemsNum}
@@ -154,14 +181,14 @@ const Navbar = (props) => {
           {/* user  */}
           <li className="flex items-center py-2 px-6 text-white  text-sm:10 " >
             {userStatus ? (
-              <div className="relative  border-black" onClick={toggleUserMenu}>
+              <div className="relative  border-black" onClick={() => dispatch({ type: ActionTypes.TOGGLE_USER_MENU })}>
                 <img
                   className="max-w-[40px] rounded-full cursor-pointer border-inner border-black"
                   src={CurrUser.avatar}
                   alt="User Avatar"
                 />
 
-                {isUserMenuVisible && (
+                {menuState.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
                       <ul className="flex flex-col gap-3  absolute right-[-10px]   bottom-[-97px] min-w-[150px] bg-white  shadow-md border border-gray-300">
@@ -190,11 +217,13 @@ const Navbar = (props) => {
           </li>
         </ul>
       </nav>
-      <Searchbar {...props} searchBarIsVisible={searchBarIsVisible} />
-      {isNotiMenuVisible || isUserMenuVisible || searchBarIsVisible ? <div className=" fixed top-0 left-0 w-full h-screen z-20 bg-opacity-40" onClick={closeAllMenus}></div>: ''}
+
+      <Searchbar {...props} searchBarIsVisible={menuState.searchBarIsVisible} />
+      {/* close overlay  */}
+      {menuState.isNotiMenuVisible || menuState.isUserMenuVisible || menuState.searchBarIsVisible ? <div className=" fixed top-0 left-0 w-full h-screen z-20 bg-opacity-40" onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}></div>: ''}
 {/* -------------------------------------------------------------------------------------------------------------- */}
-        {subIsVisible? <Backdrop  toggleModal={toggleSubNav} /> : ''}
-        <SubNav {...props} subIsVisible={subIsVisible} toggleSubNav={toggleSubNav} />
+        {menuState.subIsVisible? <Backdrop  toggleModal={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })} /> : ''}
+        <SubNav {...props} subIsVisible={menuState.subIsVisible} toggleSubNav={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })} />
     </>
   );
 };
