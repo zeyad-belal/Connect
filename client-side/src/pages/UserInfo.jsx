@@ -3,11 +3,12 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { AiFillCamera } from  "react-icons/ai";
 
 function UserInfo(){
   const form = useRef();
+  const avatarInput = useRef();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [cookies, setCookies] = useCookies(["User"]);
   const [isImageMenuVisible, setIsImageMenuVisible] = useState(false);
@@ -16,24 +17,64 @@ function UserInfo(){
   function toggleImageMenu(){
     setIsImageMenuVisible(prevValue => !prevValue)
   }
+  
+  function uploudNewPhoto(){
+    setIsImageMenuVisible(false)
+    avatarInput.current.click();
+  }
+
+  async function deleteUserPhoto(){
+    try{
+        const response = await axios.patch(
+          `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
+          { avatar  :'' },
+          { headers: { Authorization: `${cookies.UserToken}` } }
+          );
+        setIsImageMenuVisible(false)
+
+      }catch(error){
+        toast.error(error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
+  }
 
   
   const onSubmit = async (data) => {
     try {
+      const formData = new FormData();
+
+      // if (avatarInput.current.files && avatarInput.current.files.length > 0) {
+        // formData.append("image", avatarInput.current.files[0]);
+      // }else{
+        formData.append("image", data.image);
+      // }
+
+      // Append other form data to the FormData object
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("phone", data.phone);
+      formData.append("email", data.email);
+      formData.append("address", data.address);
+
       // updating user info
       const response = await axios.patch(
         `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
-        {
-          first_name :data.firstName,
-          last_name :data.lastName,
-          phone: data.phone,
-          email: data.email,
-          address: data.address,
-        },
+        formData,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
+    
       
+      console.log(data.image)
     } catch (error) {
+      console.log(error)
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
@@ -46,6 +87,7 @@ function UserInfo(){
       });
     }
   };
+
 
   return (
     <div className="flex justify-center items-center bg-gray-100">
@@ -66,8 +108,17 @@ function UserInfo(){
             <ul className="bg-white absolute top-[80px] left-[-60px] border rounded-md min-w-[150px]">
             <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div>
 
-              <li className="hover:bg-gray-100 relative z-10 cursor-pointer border-b-2 p-1">new photo</li>
-              <li className="hover:bg-gray-100 cursor-pointer p-1">delete</li>
+              <li className="hover:bg-gray-100 relative z-10 cursor-pointer border-b-2 p-1" onClick={uploudNewPhoto}>
+                <input
+                  {...register("image")}
+                  ref={avatarInput}
+                  type="file"
+                  id="images"
+                  hidden
+                />
+                new photo
+                </li>
+              <li className="hover:bg-gray-100 cursor-pointer p-1" onClick={deleteUserPhoto}>delete</li>
             </ul>
             :''}
           </div>
@@ -162,6 +213,7 @@ function UserInfo(){
               save
             </button>
       </form>
+      <ToastContainer />
     </div>
   )
 }
