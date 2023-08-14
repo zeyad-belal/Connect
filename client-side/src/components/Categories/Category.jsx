@@ -1,28 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-// Styles
 import { Link } from "react-router-dom";
-import "./Category.scss";
 
 const Category = (props) => {
-  const { title, imageUrl, linkUrl, size } = props.category;
+  const { title, imageUrl} = props.category;
 
   return (
     <>
       <Link
         to={`/services?category=${title}`}
-        className={`${size} category-item flex grow shrink basis-auto items-center justify-center rounded-lg mt-0 mr-2 ml-2 mb-4 overflow-hidden hover:cursor-pointer`}
+        className={`category-item flex grow h-[200px] rounded-lg  overflow-hidden hover:cursor-pointer`}
       >
         <div
           className="background-image w-full h-full bg-center bg-cover "
           style={{
             backgroundImage: `url(${imageUrl})`
-          }}
-        />
-        <div className="content">
-          <h1 className="title">{title.toUpperCase()}</h1>
-          <span className="subtitle">SHOP NOW</span>
+          }} >
+            <div className="bg-center bg-cover bg-black bg-opacity-30 w-full h-full text-white flex justify-center items-center" >
+              <h1 className="text-xl">{title.toUpperCase()}</h1>
+            </div>
         </div>
       </Link>
     </>

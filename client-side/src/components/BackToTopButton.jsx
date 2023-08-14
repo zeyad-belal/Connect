@@ -29,7 +29,7 @@ const BackToTopButton = () => {
     <>
       {btnVisibility && (
         <button
-          className="bg-gray-200 z-999999 text-white px-3 py-2 rounded-full hover:bg-f37020 fixed bottom-4 right-4"
+          className="bg-secondary z-999999 text-white px-3 py-2 rounded-full hover:bg-secHover fixed bottom-4 right-4"
           onClick={handleBackToTop}
         >
           <img

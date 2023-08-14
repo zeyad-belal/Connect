@@ -3,10 +3,8 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import Categories from "../components/Categories/Categories";
-import NewArrivalsSlider from "../components/Sliders/NewArrivalsSlider";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import BestSellerSlider from "../components/Sliders/BestSellerSlider";
 import { toast } from "react-toastify";
 import HeroSection from "../components/HeroSection";
 
@@ -66,9 +64,7 @@ export default function Home(props) {
   return (
     <div>
       <HeroSection />
-      <NewArrivalsSlider />
       <Categories />
-      <BestSellerSlider />
     </div>
   );
 }

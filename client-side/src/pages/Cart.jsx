@@ -141,7 +141,7 @@ const Cart = () => {
               </span>
               <button
                 onClick={checkoutHandler}
-                className="bg-f37020 px-2 max-w-[200px] rounded block"
+                className="bg-secondary px-2 max-w-[200px] rounded block"
               >
                 Checkout
               </button>
@@ -173,7 +173,7 @@ const Cart = () => {
                               {item.name}
                             </h3>
                             <div className="flex gap-2 flex-col">
-                              <div className="text-f37020 text-[13px]">
+                              <div className="text-secondary text-[13px]">
                                 {quantities[ind][index]} pieces Purchased
                               </div>
                               <div className="me-1 text-bold">

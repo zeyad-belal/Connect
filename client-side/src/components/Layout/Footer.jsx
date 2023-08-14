@@ -46,7 +46,7 @@ const Footer = () => {
   }
   const sendBtnClasses = emailSent
     ? "bg-green-500 p-2 text-white text-md rounded-e-md px-5"
-    : "bg-f37020 p-2 text-white text-md rounded-e-md px-5";
+    : "bg-secondary p-2 text-white text-md rounded-e-md px-5";
 
 
 
