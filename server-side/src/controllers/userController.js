@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
+const imageKit = require("../utils/imageKit");
 
 // registration
 const signUp = async (req, res, next) => {
@@ -159,11 +160,25 @@ const updateUser = async (req, res) => {
     last_name,
     email,
     phone_number,
-    cart_items,
-    role,
     address,
-    avatar
+    avatar,
+    role,
+    cart_items
   } = req.body;
+console.log('ssssssssssssssssssssssssssssssssssss' , req.files)
+  
+
+  let imagesInfo;
+  if (req.file) {
+      const image = req.file;
+      const res = await imageKit.upload({
+        file: image.buffer.toString("base64"),
+        fileName: image.originalname,
+        folder: "users",
+      });
+      imagesInfo = res.url;
+  }
+
 
   const user = await User.findByIdAndUpdate(
     id,
@@ -172,10 +187,10 @@ const updateUser = async (req, res) => {
       last_name,
       email,
       phone_number,
-      cart_items,
-      role,
       address,
-      avatar
+      avatar : imagesInfo,
+      role,
+      cart_items
     },
     { new: true }
   );

@@ -102,6 +102,7 @@ const updateService = async (req, res, next) => {
         fileName: image.originalname,
         folder: "services",
       });
+      // THIS SHOULD BE RES.URL
       imagesInfo.push(res);
     }
   }
