@@ -68,7 +68,7 @@ function Login() {
           Don't have an account?{" "}
           <a
             onClick={userCTX.toggleModalContent}
-            className="text-f37020 cursor-pointer"
+            className="text-secondary cursor-pointer"
           >
             Sign Up
           </a>

@@ -102,7 +102,7 @@ const Checkout = () => {
       <div className="mx-auto rounded-lg my-2 bg-orange-100 p-3 w-fit">
         The Total of Your Order is:{" "}
         <span className="text-bold">{CartCTX.totalAmount}</span> LE{" "}
-        <span className="text-f37020 font-bold">OR</span>{" "}
+        <span className="text-secondary font-bold">OR</span>{" "}
         <span className="text-bold">
           {Math.round(CartCTX.totalAmount / 30)}
         </span>{" "}
@@ -221,7 +221,7 @@ const Checkout = () => {
 
             <button
               type="submit"
-              className="w-full py-2 px-4 my-10 bg-f37020 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring focus:border-orange-300 transition-colors"
+              className="w-full py-2 px-4 my-10 bg-secondary text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring focus:border-orange-300 transition-colors"
             >
               Proceed To Payment
             </button>
@@ -240,7 +240,7 @@ const Checkout = () => {
                   We have received your order and our team is preparing it as
                   soon as possible.
                 </p>
-                  <p className="mx-auto max-w-fit p-2 rounded-lg text-f37020 font-semibold mt-6 border-2 border-f37020"> Kindly check your email !</p>
+                  <p className="mx-auto max-w-fit p-2 rounded-lg text-secondary font-semibold mt-6 border-2 border-secondary"> Kindly check your email !</p>
                 <p></p>
                 <button onClick={closeHandler}>
                   <img

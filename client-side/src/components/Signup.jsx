@@ -61,7 +61,7 @@ function Signup(){
         <h1 className="mx-auto w-fit  text-sm mb-4">
           Already have an account?
           <a
-            className="text-f37020 cursor-pointer"
+            className="text-secondary cursor-pointer"
             onClick={userCTX.toggleModalContent}
           >
             {" "}

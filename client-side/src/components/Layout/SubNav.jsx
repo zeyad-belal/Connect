@@ -33,7 +33,6 @@ function SubNav(props) {
                   onChange={changeHandler}
                   ref={searchBar}
                   type="text"
-                  autoFocus
                   className="realtive mx-3 px-5 py-3 w-full text-text1 bg-primary border-2 border-transparent focus:border-text1 rounded-lg shadow-primary  outline-none "
                   placeholder="Search..."
                 />

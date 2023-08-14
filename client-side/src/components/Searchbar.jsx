@@ -30,7 +30,7 @@ const Searchbar = (props) => {
     mountOnEnter
     unmountOnExit >
       {state => (
-        <div className='absolute z-20 top-[69px] left-0 w-full'
+        <div className='absolute z-20 top-[63px] left-0 w-full'
           style={{
             transition: 'all 0.3s ease-in-out',
             transform: state === 'entering' || state === 'entered' ? 'translateY(0)' : 'translateY(-100%)'
@@ -49,7 +49,7 @@ const Searchbar = (props) => {
           
           {/* Filtered services Panel */}
           {props.searchText.length > 0 && (
-            <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white border border-text1 rounded-lg shadow-lg">
+            <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white rounded-lg shadow-lg">
               {filteredServices.length > 0 ? (
                 filteredServices.map((service) => (
                   <div key={service.id} className="px-4 py-2 hover:bg-gray-100">

@@ -65,7 +65,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className="bg-primary">
       {/* sign in Modals */}
       {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
       {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
