@@ -14,7 +14,7 @@ function SubNav(props) {
     props.setSearchText(e.target.value);
   };
 
-
+  
   return (
     <>
       <Transition in={props.subIsVisible} 
@@ -27,24 +27,24 @@ function SubNav(props) {
                 transition: 'all 0.3s ease-in-out',
                 transform: state === 'entering' || state === 'entered' ? 'translateX(0)' : 'translateX(-100%)'
               }}
-              className='py-3 px-5 bg-gray-200 w-[270px] h-screen  absolute text-primary z-[51]'>
+              className='py-3  bg-white w-[270px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary'>
               <li className="relative  mb-5 flex">
               <input
                   onChange={changeHandler}
                   ref={searchBar}
                   type="text"
                   autoFocus
-                  className="realtive px-5 py-3 w-full text-secondary bg-white border rounded-lg shadow-gray-300  outline-none shadow-md"
+                  className="realtive mx-3 px-5 py-3 w-full text-text1 bg-primary border-2 border-transparent focus:border-text1 rounded-lg shadow-primary  outline-none "
                   placeholder="Search..."
                 />
-                <BsSearch size={22} className="absolute right-3 top-3 hover:text-green-600 cursor-pointer" />
+                <BsSearch size={22} className="absolute right-5 top-3  cursor-pointer" />
               </li>
-              <li className="hover:text-green-600 cursor-pointer text-lg my-5 flex justify-start items-center gap-2"><MdAdd /> Add Service</li>
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><MdAdd /> Add Service</li>
               <Link to={'/cart'} onClick={props.toggleSubNav} >
-              <li className="hover:text-green-600 cursor-pointer text-lg my-5 flex justify-start items-center gap-2"><FaShoppingCart  /> Cart</li>
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><FaShoppingCart  /> Cart</li>
               </Link>
-              <li className="hover:text-green-600 cursor-pointer text-lg my-5 flex justify-start items-center gap-2"> <BiSolidTruck size={22} /> Incoming Orders</li>
-              <li className="hover:text-green-600 cursor-pointer text-lg my-5 flex justify-start items-center gap-2"><BsFillCollectionFill /> Categories</li>
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"> <BiSolidTruck size={22} /> Incoming Orders</li>
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><BsFillCollectionFill /> Categories</li>
             </ul>
           )}
       </Transition>

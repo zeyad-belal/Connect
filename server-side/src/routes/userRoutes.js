@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const upload = require("../utils/multer");
 const verfiyAdminToken = require("../middlewares/verfiyAdminToken");
 const verfiySuperAdminToken = require("../middlewares/verifySuperAdmin");
 
@@ -44,7 +44,8 @@ router.get("/", verfiyAdminToken, getAllUsers);
 router.get("/:id", verfiyUserToken, getUserById);
 
 // update user
-router.patch("/:id", verfiyUserToken, updateUser);
+router.put("/:id", verfiyUserToken,upload.single("avatar"), updateUser);
+router.patch("/:id", verfiyUserToken,upload.single("avatar"), updateUser);
 
 // delete user
 router.delete("/:id", verfiySuperAdminToken, deleteUser);

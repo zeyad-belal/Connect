@@ -7,15 +7,17 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        'f37020': '#f37020',
-        primary: '#444444',
-        secondary :'#fcb62e',
+        'fad133': '#fad133',
+        primary: '#f2ede7',
+        text1: '#0b2330',
+        secondary :'#fad133',
         secHover :'#ecaa28'
       },
       colors: {
         f37020: '#f37020',
-        primary: '#444444',
-        secondary :'#fcb62e'
+        text1: '#0b2330',
+        primary: '#f2ede7',
+        secondary :'#fad133'
       }
     },
   },
