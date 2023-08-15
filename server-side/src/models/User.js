@@ -30,7 +30,10 @@ const userSchema = new Schema({
   avatar:{
     type: String,
     default:'https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph'
-
+  },
+  avatarID:{
+    type: String,
+    default: ""
   },
   phone_number:{
     type: String

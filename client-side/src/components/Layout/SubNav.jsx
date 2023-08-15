@@ -6,6 +6,7 @@ import { MdAdd } from "react-icons/md";
 import { useRef } from "react";
 import { Transition } from 'react-transition-group';
 import { Link } from "react-router-dom";
+import { PiShoppingBagFill } from "react-icons/pi";
 
 function SubNav(props) {
   const searchBar = useRef();
@@ -44,6 +45,7 @@ function SubNav(props) {
               </Link>
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"> <BiSolidTruck size={22} /> Incoming Orders</li>
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><BsFillCollectionFill /> Categories</li>
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><PiShoppingBagFill size={22} /> Purchases</li>
             </ul>
           )}
       </Transition>

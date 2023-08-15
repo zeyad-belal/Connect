@@ -18,6 +18,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { Backdrop } from "../../UI/Modal";
 import menuReducer, {ActionTypes} from "./menuReducer.js"
 import { AiFillHome } from "react-icons/ai";
+import { PiShoppingBagFill } from "react-icons/pi";
 
 
 
@@ -84,6 +85,9 @@ const Navbar = (props) => {
           </li>
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
             <BiSolidTruck size={22} /> Orders
+          </li>
+          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+            <PiShoppingBagFill size={22} /> Purchases
           </li>
         </ul>
         

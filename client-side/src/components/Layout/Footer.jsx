@@ -53,13 +53,13 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-primary">
+      <footer className="bg-white">
         <header className=" flex flex-col justify-center py-5 mx-2 gap-5 ">
-          <h1 className="text-center text-white font-extrabold ">
+          <h1 className="text-center text-text1 font-extrabold ">
             BE THE FIRST TO KNOW
           </h1>
 
-          <h3 className="text-white font-bold text-center ">
+          <h3 className="text-text1 font-bold text-center ">
             Subscribe and know all the new offers and news now
           </h3>
 
@@ -78,7 +78,7 @@ const Footer = () => {
             <button className={sendBtnClasses}> send</button>
           </form>
           {emailSent && (
-            <div className="flex items-center fixed bottom-0 left-0 mb-4 mr-4 bg-green-500 text-white rounded-lg p-2">
+            <div className="flex items-center fixed bottom-0 left-0 mb-4 mr-4 bg-green-500 text-text1 rounded-lg p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -106,34 +106,34 @@ const Footer = () => {
               CONNECT WITH US
             </h2>
             <Link to={"/about"}>
-              <p className="text-white  hover:text-orange-500  text-sm">
+              <p className="text-text1  hover:text-orange-500  text-sm">
                 About company
               </p>
             </Link>
 
-            <p className="text-white  text-sm">call us: 442266</p>
+            <p className="text-text1  text-sm">call us: 442266</p>
           </div>
           <div className="col-span-4 md:col-span-1">
             <h2 className="text-orange-500 font-serif font-semibold">
               ARITHMETIC
             </h2>
 
-            <p className="text-white text-sm mb-1">my personal account</p>
+            <p className="text-text1 text-sm mb-1">my personal account</p>
 
-            <p className="text-white  text-sm mb-1">Order history</p>
+            <p className="text-text1  text-sm mb-1">Order history</p>
 
-            <p className="text-white  text-sm mb-1">Track your order</p>
+            <p className="text-text1  text-sm mb-1">Track your order</p>
           </div>
           <div className="col-span-4 md:col-span-1 ">
             <h2 className="text-orange-500 font-serif font-semibold">
               MOST SEARCHED
             </h2>
 
-            <p className="text-white text-sm mb-1 ">Mobiles</p>
+            <p className="text-text1 text-sm mb-1 ">Mobiles</p>
 
-            <p className="text-white text-sm mb-1 ">laptop</p>
+            <p className="text-text1 text-sm mb-1 ">laptop</p>
 
-            <p className="text-white text-sm mb-1 ">TV accessories</p>
+            <p className="text-text1 text-sm mb-1 ">TV accessories</p>
           </div>
 
           <div className="col-span-4 md:col-span-1">
@@ -141,7 +141,7 @@ const Footer = () => {
               Working days of all our branches , Daily / 10:00 am - 10:00 pm{" "}
             </p>
 
-            <p className="text-white font-bold ">Download the our app </p>
+            <p className="text-text1 font-bold ">Download the our app </p>
 
             <div className="grid  grid-cols-2 mx-auto gap-y-3">
               <div className=" max-w-[240px] ">
@@ -191,7 +191,7 @@ const Footer = () => {
           <div className="col-span-4 md:col-span-1">
             <p className=" text-[#A8A8A8]">Super Fast Shipping</p>
             <br />
-            <p className=" text-white">
+            <p className=" text-text1">
               Return and exchange service ”T & C applied”
             </p>
           </div>
@@ -220,7 +220,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-1 md:col-span-1 ml-12 ">
-            <p className="text-white">
+            <p className="text-text1">
               ©Copyright 2023 by Zeyad Belal. All Rights Reserved.
             </p>
           </div>

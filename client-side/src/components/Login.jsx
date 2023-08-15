@@ -75,13 +75,13 @@ function Login() {
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg "
+          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg "
         >
           {/* -------------------------------email------------------------------------------------ */}
-          <div className="w-full mb-4">
+          <div className="w-full mb-2">
             <label
               htmlFor="email"
-              className="block text-gray-700 font-semibold mb-2 mt-3"
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
             >
               Email
             </label>
@@ -94,26 +94,26 @@ function Login() {
                 }
               })}
               aria-invalid={errors.email ? "true" : "false"}
-              className="input"
+              className="input mb-0"
             />
           </div>
           {errors.email?.type === "required" && (
-            <p className="text-red-500" role="alert">
+            <p className="text-red-500 mb-3 text-sm" role="alert">
               email is required
             </p>
           )}
           {errors.email?.type === "pattern" && (
-            <p className="text-red-500" role="alert">
+            <p className="text-red-500 mb-3 text-sm " role="alert">
               email must be valid{" "}
             </p>
           )}
           {/* ----------------------------------password-------------------------------------------- */}
-          <div className="w-full mb-4">
+          <div className="w-full mb-2">
             <label
               htmlFor="password"
-              className="block text-gray-700 font-semibold mb-2 mt-3"
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
             >
-              password
+              Password
             </label>
             <input
               {...register("password", {
@@ -123,25 +123,25 @@ function Login() {
               })}
               type="password"
               aria-invalid={errors.password ? "true" : "false"}
-              className="input"
+              className="input mb-0"
             />
           </div>
           {errors.password?.type === "required" && (
-            <p className="text-red-500" role="alert">
+            <p className="text-red-500 mb-3 text-sm" role="alert">
               password is required
             </p>
           )}
           {errors.password?.type === "minLength" && (
-            <p className="text-red-500" role="alert">
+            <p className="text-red-500 mb-3 text-sm" role="alert">
               password must be at least 6 chars{" "}
             </p>
           )}
           {errors.password?.type === "maxLength" && (
-            <p className="text-red-500" role="alert">
+            <p className="text-red-500 text-sm" role="alert">
               password must be less than 20 chars
             </p>
           )}
-            <input type="submit" value={"Login"} className="primaryBtn" />
+            <input type="submit" value={"Login"} className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
           </form>
         </Modal>
         <ToastContainer />

@@ -42,22 +42,22 @@ const categoriesData = [
   {
     title: "Accessories",
     imageUrl:
-      "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
+    id: 7,
     linkUrl: "categories/accessories"
   },
   {
     title: "Accessories",
     imageUrl:
       "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    id: 8,
     linkUrl: "categories/accessories"
   },
   {
     title: "Accessories",
     imageUrl:
       "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    id: 9,
     linkUrl: "categories/accessories"
   },
 ];
@@ -67,16 +67,16 @@ const Categories = () => {
 
   return (
 <>
-  <section className="px-10 h-[100vh] bg-white text-center flex flex-col justify-center overflow-hidden">
+  <section className="px-10 py-12 min-h-[100vh] bg-white text-center flex flex-col justify-center ">
     <h1 className="text-semibold text-4xl text-text1 my-12">
       Professional Services to Grow Your Business
     </h1>
-    <div className="gap-5 flex flex-col justify-around sm:flex-row flex-wrap">
+    <div className="gap-4 flex flex-col justify-around sm:flex-row flex-wrap">
       {categories.map((category) => {
         return (
           <div
             key={category.id}
-            className="w-100  sm:w-1/3 md:w-1/5"
+            className="w-100 sm:w-1/3 md:w-1/5 grow"
           >
             <Category category={category} />
           </div>
