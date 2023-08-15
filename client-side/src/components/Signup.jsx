@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Signup(){
   const {register , handleSubmit , formState: { errors }} = useForm()
   const userCTX = useContext(UserContext)
-  const [countryCode, setCountryCode] = useState("+1");
+  const [countryCode, setCountryCode] = useState("+20");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
 
   async function onSubmit(data) {
@@ -20,8 +20,9 @@ function Signup(){
 
     try {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/signup`,
-      {first_name,last_name, email, password,phone_number 
+      {first_name,last_name, email, password,phone_number: countryCode+phone_number 
     });
+
     toast.success(`your account has been created successfully ${first_name}!`, {
       position: "top-right",
       autoClose: 2000,
@@ -36,7 +37,7 @@ function Signup(){
     setCookie('User', JSON.stringify(response.data.newUser));
     setCookie('UserToken', response.data.token);
     window.localStorage.setItem("logged", true)
-
+    userCTX.toggleModal()
   } catch (error) {
     console.error(error);
     error.response ? toast.error(error.response.data.message, {
@@ -49,9 +50,17 @@ function Signup(){
       progress: undefined,
       theme: "light",
       }) : ''
-  }
+    }
   }
 
+
+  function handlePhoneNumber(e){
+    if(e.target.value[0] == 0){
+      e.target.value = e.target.value.slice(1)
+    }
+  }
+
+  
   return (
     <>
       <Modal toggleModal={userCTX.toggleModal} >
@@ -72,13 +81,13 @@ function Signup(){
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className=" flex flex-col items-center min-w-[380px]  mx-auto py-2 px-5 bg-white rounded-lg "
+            className=" flex flex-col items-center min-w-[380px]  mx-auto py-2 px-7 bg-white rounded-lg "
           >
             {/* -------------------------------email------------------------------------------------ */}
-            <div className="w-full mb-2">
+            <div className="w-full mb-0">
               <label
                 htmlFor="email"
-                className="block text-gray-700 font-semibold mb-2 mt-3"
+                className="block text-gray-700 font-semibold mb-1 mt-3  text-sm"
               >
                 Email
               </label>
@@ -91,26 +100,26 @@ function Signup(){
                   }
                 })}
                 aria-invalid={errors.email ? "true" : "false"}
-                className="input"
+                className="input mb-0"
               />
             </div>
             {errors.email?.type === "required" && (
-              <p className="text-red-500" role="alert">
+              <p className="text-red-500 text-sm  self-start" role="alert">
                 email is required
               </p>
             )}
             {errors.email?.type === "pattern" && (
-              <p className="text-red-500" role="alert">
+              <p className="text-red-500 text-sm  self-start" role="alert">
                 email must be valid{" "}
               </p>
             )}
             {/* ----------------------------------password-------------------------------------------- */}
-            <div className="w-full mb-3">
+            <div className="w-full mb-0">
               <label
                 htmlFor="password"
-                className="block text-gray-700 font-semibold mb-2 mt-3"
+                className="block text-gray-700 font-semibold mb-1 mt-2  text-sm"
               >
-                password
+                Password
               </label>
               <input
                 type="password"
@@ -120,21 +129,21 @@ function Signup(){
                   maxLength: 20
                 })}
                 aria-invalid={errors.password ? "true" : "false"}
-                className="input"
+                className="input mb-0"
               />
             </div>
             {errors.password?.type === "required" && (
-              <p className="text-red-500" role="alert">
+              <p className="text-red-500 text-sm self-start" role="alert">
                 password is required
               </p>
             )}
             {errors.password?.type === "minLength" && (
-              <p className="text-red-500" role="alert">
+              <p className="text-red-500 text-sm self-start" role="alert">
                 password must be at least 6 chars{" "}
               </p>
             )}
             {errors.password?.type === "maxLength" && (
-              <p className="text-red-500" role="alert">
+              <p className="text-red-500 text-sm self-start" role="alert">
                 password must be less than 20 chars
               </p>
             )}
@@ -143,58 +152,60 @@ function Signup(){
               <div className="flex flex-col">
                 <label
                   htmlFor="first_name"
-                  className="block text-gray-700 font-semibold mb-2 mt-3"
+                  className="block text-gray-700 font-semibold mb-2 mt-3 text-sm"
                 >
-                  firstName
+                  First Name
                 </label>
                 
                 <input
                   {...register("first_name", { required: true, maxLength: 20 })}
                   aria-invalid={errors.first_name ? "true" : "false"}
-                  className="input "
+                  className="input mb-0"
                 />
               {errors.first_name?.type === "required" && (
-                <p className="text-red-500" role="alert">
-                  firstName is required
+                <p className="text-red-500 text-sm" role="alert">
+                  first name is required
                 </p>
               )}
               {errors.first_name?.type === "maxLength" && (
-                <p className="text-red-500" role="alert">
-                  firstName must be less than 20 chars
+                <p className="text-red-500 text-sm" role="alert">
+                  first name must be less than 20 chars
                 </p>
               )}
             </div>
             {/* -----------------------------------lastName------------------------------------------- */}
+          <div className="">
             <div className="flex flex-col">
-            
               <label
                 htmlFor="last_name"
-                className="block text-gray-700 font-semibold mb-2 mt-3"
+                className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
               >
-                lastName
+                Last Name
               </label>
               <input
                 {...register("last_name", { required: true, maxLength: 20 })}
                 aria-invalid={errors.last_name ? "true" : "false"}
-                className="input"
+                className="input mb-0"
               />
             </div>
             {errors.last_name?.type === "required" && (
-              <p className="text-red-500" role="alert">
-                lastName is required
+              <p className="text-red-500 text-sm" role="alert">
+                last name is required
               </p>
             )}
             {errors.last_name?.type === "maxLength" && (
-              <p className="text-red-500" role="alert">
-                lastName must be less than 20 chars
+              <p className="text-red-500 text-sm" role="alert">
+                last name must be less than 20 chars
               </p>
             )}
           </div>
+        </div>
+          
             {/* ----------------------------------phone number--------------------------------------- */}
             <div className="w-full mb-8">
               <label
                 htmlFor="phone_number"
-                className="block text-gray-700 font-semibold mb-2 mt-3"
+                className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
               >
                 Phone Number
               </label>
@@ -208,11 +219,12 @@ function Signup(){
                   <option value="+212">+212</option>
                 </select>
                 <input
+                onInput={(e)=> handlePhoneNumber(e)}
                   type="text"
                   {...register("phone_number", {
                     required: true,
                     pattern: {
-                      value: /^\d{11}$/,
+                      value: /^\d{10}$/,
                       message: "Invalid Phone Number"
                     }
                   })}
@@ -220,16 +232,21 @@ function Signup(){
                   className="input"
                 />
               </div>
-              {errors.phone_number && (
-                <p className="text-red-500" role="alert">
-                  {errors.phone_number.message}
+              {errors.phone_number?.type === "pattern" && (
+                <p className="text-red-500 text-sm" role="alert">
+                  invalid phone number
+                </p>
+              )}
+              {errors.phone_number?.type === "required" && (
+                <p className="text-red-500 text-sm" role="alert">
+                  phone number is required
                 </p>
               )}
             </div>
             <input
               type="submit"
               value={"CREATE AN ACCOUNT"}
-              className="primaryBtn rounded-lg"
+              className="primaryBtn py-3 px-2 rounded-lg"
             />
           </form>
         </div>

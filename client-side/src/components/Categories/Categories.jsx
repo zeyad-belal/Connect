@@ -43,21 +43,21 @@ const categoriesData = [
     title: "Accessories",
     imageUrl:
     "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    id: 7,
     linkUrl: "categories/accessories"
   },
   {
     title: "Accessories",
     imageUrl:
       "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    id: 8,
     linkUrl: "categories/accessories"
   },
   {
     title: "Accessories",
     imageUrl:
       "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 6,
+    id: 9,
     linkUrl: "categories/accessories"
   },
 ];

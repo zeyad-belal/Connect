@@ -153,46 +153,47 @@ const dashboardUpdateUser = async (req, res, next) => {
 };
 
 // update user info
-const updateUser = async (req, res) => {
+const updateUser = async (req, res,next) => {
   const { id } = req.user;
-  const {
-    first_name,
-    last_name,
-    email,
-    phone_number,
-    address,
-    avatar,
-    role,
-    cart_items
-  } = req.body;
-  
+  const { first_name, last_name, email, phone_number, address, role, cart_items } = req.body;
+  let {avatar,avatarID } = req.body;
 
-  let imagesInfo;
+  // handle new image uploud 
   if (req.file) {
-      const image = req.file;
-      const res = await imageKit.upload({
-        file: image.buffer.toString("base64"),
-        fileName: image.originalname,
-        folder: "users",
-      });
-      imagesInfo = res.url;
+    if(avatarID){
+      try{
+        await imageKit.bulkDeleteFiles([avatarID]);
+      }catch(error){
+        return next(new AppError("There was an error in deleting user image from ImageKit.",404));
+      }
+    }
+    const image = req.file;
+    const res = await imageKit.upload({
+      file: image.buffer.toString("base64"),
+      fileName: image.originalname,
+      folder: "users",
+    });
+    avatarID = res.fileId;
+    avatar = res.url;
   }
 
+  // handle deleltion of avatar 
+  if(!avatar && !req.file && avatarID){
+    avatar = 'https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph';
+    try{
+      await imageKit.bulkDeleteFiles([avatarID]);
+    }catch(error){
+      return next(new AppError("There was an error in deleting user image from ImageKit.",404));
+    }
+  }
 
   const user = await User.findByIdAndUpdate(
     id,
-    {
-      first_name,
-      last_name,
-      email,
-      phone_number,
-      address,
-      avatar : imagesInfo,
-      role,
-      cart_items
-    },
+    { first_name, last_name, email, phone_number, address, avatar ,avatarID, role, cart_items },
     { new: true }
   );
+
+
   res.send({ user });
 };
 

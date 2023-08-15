@@ -1,10 +1,9 @@
-import backgroundImage from '../../public/main.png'
 function HeroSection() {
   return (
     <div
       className=" bg-cover bg-center min-h-screen min-w-full  mt-[-30px] flex flex-col justify-center items-center  "
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(/public/main.png)`,
         
       }}
     >
