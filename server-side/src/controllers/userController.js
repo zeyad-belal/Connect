@@ -165,7 +165,6 @@ const updateUser = async (req, res) => {
     role,
     cart_items
   } = req.body;
-console.log('ssssssssssssssssssssssssssssssssssss' , req.files)
   
 
   let imagesInfo;

@@ -141,7 +141,7 @@ function Login() {
               password must be less than 20 chars
             </p>
           )}
-            <input type="submit" value={"Login"} className="primaryBtn" />
+            <input type="submit" value={"Login"} className="primaryBtn rounded-lg" />
           </form>
         </Modal>
         <ToastContainer />

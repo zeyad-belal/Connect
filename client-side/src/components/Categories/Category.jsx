@@ -10,7 +10,7 @@ const Category = (props) => {
     <>
       <Link
         to={`/services?category=${title}`}
-        className={`category-item flex grow h-[200px] rounded-lg  overflow-hidden hover:cursor-pointer`}
+        className={`category-item flex grow h-[200px]   overflow-hidden hover:cursor-pointer`}
       >
         <div
           className="background-image w-full h-full bg-center bg-cover "

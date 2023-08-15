@@ -2,14 +2,14 @@ import backgroundImage from '../../public/main.png'
 function HeroSection() {
   return (
     <div
-      className=" bg-cover bg-center min-h-screen min-w-full  mt-[-30px] flex flex-col justify-center items-center mb-12 "
+      className=" bg-cover bg-center min-h-screen min-w-full  mt-[-30px] flex flex-col justify-center items-center  "
       style={{
         backgroundImage: `url(${backgroundImage})`,
         
       }}
     >
       
-      <div className="z-20 flex flex-col items-center text-center ">
+      <div className="z-10 flex flex-col items-center text-center ">
         <div className="mx-6">
             <h1 className="text-bold text-text1 text-[30px] lg:text-[50px] md:text-[40px] mb-5">Where Talent Meets Opportunity </h1>
             <p className="text-semibold text-text1 text-[15px] lg:text-[20px] md:text-[17px]  mb-12">Join a Community of Talented Freelancers and Connect with Clients Worldwide.</p>
