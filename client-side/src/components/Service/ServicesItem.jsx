@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import CartContext from "../../store/store";
 import {
   BestSellerBadge,
   NewArrivalBadge,
@@ -9,15 +7,17 @@ import {
   SaleBadge,
 } from "../Badges";
 import { CartIcon } from "../Icons";
-import UserContext from "../../store/UserContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatedStock } from "../../store/cartSlice";
 import axios from "axios";
+import { useDispatch} from "react-redux"
+import { signModalActions } from "./../../store/signModalSlice"
+import { cartActions } from "../../store/cartSlice"
 
 const ServicesItem = ({ item }) => {
-  const myCart = useContext(CartContext);
-  const userCTX = useContext(UserContext);
+  const dispatch = useDispatch()
+
 
   async function addItemToCart(service) {
     try {
@@ -27,14 +27,14 @@ const ServicesItem = ({ item }) => {
 
       if (response.data.stock_count > 0) {
         if (window.localStorage.getItem("logged")) {
-          myCart.addItem({
+          dispatch(cartActions.add({
             key: service._id,
             id: service._id,
             name: service.name,
             image: service.images[0].url,
             amount: 1,
             price: service.price,
-          });
+          }))
           updatedStock("add", 1, response.data);
 
           toast.success("Item added to cart !", {
@@ -58,7 +58,7 @@ const ServicesItem = ({ item }) => {
             progress: undefined,
             theme: "light",
           });
-          userCTX.toggleModal();
+          dispatch(signModalActions.toggleModal());
         }
       } else {
         toast.info("Item out of stock !", {

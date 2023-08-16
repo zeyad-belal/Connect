@@ -3,8 +3,7 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Searchbar from "../Searchbar.jsx";
-import { useContext, useEffect, useReducer, useState } from "react";
-import UserContext from "../../store/UserContext.jsx";
+import { useEffect, useReducer, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { BsFillBellFill, BsFillCollectionFill, BsSearch } from "react-icons/bs";
@@ -18,12 +17,14 @@ import { Backdrop } from "../../UI/Modal";
 import menuReducer, { ActionTypes } from "./menuReducer.js";
 import { AiFillHome } from "react-icons/ai";
 import { PiShoppingBagFill } from "react-icons/pi";
-import {useSelector} from "react-redux"
+import { useDispatch , useSelector } from "react-redux"
+import { signModalActions } from "../../store/signModalSlice.jsx";
 
 const Navbar = (props) => {
   const totalItemsNum = useSelector((state)=> state.cart.totalItemsNum);
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
-  const userCTX = useContext(UserContext);
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
@@ -209,8 +210,7 @@ const Navbar = (props) => {
             ) : (
               <button
                 className="hover:text-text1 whitespace-nowrap text-[15px] ml-1"
-                onClick={() => userCTX.toggleModal()}
-              >
+                onClick={() => dispatch(signModalActions.toggleModal())} >
                 Sign in
               </button>
             )}

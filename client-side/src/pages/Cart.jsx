@@ -1,18 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
-import cartContext from "../store/store";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../store/UserContext";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { updatedStock } from "../store/cartSlice";
+import {useSelector, useDispatch} from "react-redux"
+import { signModalActions } from "./../store/signModalSlice"
+import { cartActions } from "./../store/cartSlice"
 
 const Cart = () => {
-  const userCTX = useContext(UserContext);
-  const myCart = useContext(cartContext);
+  const dispatch = useDispatch()
+  const totalItemsNum = useSelector((state)=> state.cart.totalItemsNum);
+  const items = useSelector((state)=> state.cart.items);
+  const totalAmount = useSelector((state)=> state.cart.totalAmount);
+
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const [showPurchasedItems, setShowPurchasedItems] = useState(false);
@@ -27,8 +31,8 @@ const Cart = () => {
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/services/${id}`
     );
-
-    myCart.removeItem(id);
+    
+    dispatch(cartActions.remove(id));
     updatedStock("remove", 1, response.data);
   }
 
@@ -39,13 +43,13 @@ const Cart = () => {
       );
 
       if (response.data.stock_count > 0) {
-        myCart.addItem({
+        dispatch(cartActions.add({
           id: item.id,
           name: item.name,
           image: item.image ? item.image : item.images[0].url,
           price: item.price,
           amount: 1,
-        });
+        }));
         updatedStock("add", 1, response.data);
       } else {
         toast.info("Item out of stock !", {
@@ -75,13 +79,13 @@ const Cart = () => {
   }
 
   function checkoutHandler() {
-    const cartIsNotEmpty = myCart.totalItemsNum ? true : false;
+    const cartIsNotEmpty = totalItemsNum ? true : false;
     const userStatus = window.localStorage.getItem("logged");
 
     if (userStatus && cartIsNotEmpty) {
       navigate("/checkout");
     } else if (!userStatus) {
-      userCTX.toggleModal();
+      dispatch(signModalActions.toggleModal());
       toast(`Please Sign First!`);
     } else if (!cartIsNotEmpty) {
       toast(`The Cart Is Empty ${cookies.User["first_name"]}!`);
@@ -119,8 +123,8 @@ const Cart = () => {
               <span className="absolute right-5">Price</span>
             </div>
             {/* cart items */}
-            {myCart.items.length !== 0 ? (
-              myCart.items.map((item) => (
+            {items.length !== 0 ? (
+              items.map((item) => (
                 <CartItem
                   item={item}
                   key={item.id}
@@ -138,8 +142,8 @@ const Cart = () => {
             <div className="py-6 bg-gray-50 flex flex-col px-5">
               <h6 className="font-semibold text-xl">Subtotal</h6>
               <span>
-                {myCart.totalItemsNum} items:
-                <span className="font-bold"> {myCart.totalAmount} LE</span>
+                {totalItemsNum} items:
+                <span className="font-bold"> {totalAmount} LE</span>
               </span>
               <button
                 onClick={checkoutHandler}

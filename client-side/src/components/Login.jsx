@@ -6,18 +6,17 @@ import Modal from "../UI/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
-import UserContext from "../store/UserContext";
-import { useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch} from "react-redux"
+import { signModalActions } from "./../store/signModalSlice"
+
 
 function Login() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const userCTX = useContext(UserContext);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const dispatch = useDispatch()
+
+
 
   async function onSubmit(data) {
     const { email, password } = data;
@@ -41,7 +40,7 @@ function Login() {
         progress: undefined,
         theme: "light",
       });
-      userCTX.toggleModal();
+      dispatch(signModalActions.toggleModal())
     } catch (error) {
       // console.error(error);
       error.response
@@ -61,13 +60,13 @@ function Login() {
 
   return (
     <>
-      <Modal toggleModal={userCTX.toggleModal}>
+      <Modal toggleModal={()=> dispatch(signModalActions.toggleModal())}>
         <h1 className="mx-auto w-fit text-2xl font-bold mb-4">Welcome back!</h1>
         <h1 className="mx-auto w-fit  text-sm mb-4">Sign in to your account</h1>
         <p className="mx-auto w-fit  text-sm mb-4">
           Don't have an account?{" "}
           <a
-            onClick={userCTX.toggleModalContent}
+            onClick={()=> dispatch(signModalActions.toggleModalContent())}
             className="text-secondary cursor-pointer"
           >
             Sign Up

@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-
-import { useContext } from "react";
 import { Transition } from "react-transition-group";
-import UserContext from "../store/UserContext";
+import {useSelector} from "react-redux"
 
 export function Backdrop(props) {
   return (
@@ -22,11 +20,12 @@ function ModalOverlay(props) {
 }
 
 function Modal(props) {
-  const userCTX = useContext(UserContext);
+  const modalIsShown = useSelector((state)=> state.signModal.modalIsShown);
+
   return (
     <>
       <Transition
-        in={userCTX.modalIsShown}
+        in={modalIsShown}
         timeout={1000}
         mountOnEnter
         unmountOnExit

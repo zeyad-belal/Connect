@@ -16,7 +16,6 @@ import { useCookies } from "react-cookie";
 import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
-import UserContext from "./store/UserContext.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
 import {useSelector, useDispatch} from "react-redux"
 
@@ -27,8 +26,8 @@ function App() {
   const [searchText, setSearchText] = useState("");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const { fetchServices } = useGlobalContext();
-  const userCTX = useContext(UserContext);
-
+  
+  const signModal = useSelector((state)=> state.signModal);
   const cart = useSelector((state)=> state.cart);
   const dispatch = useDispatch()
 
@@ -62,8 +61,8 @@ function App() {
   return (
     <div className="bg-primary">
       {/* sign in Modals */}
-      {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
-      {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
+      {signModal.modalIsShown && signModal.loginModalStatus && <Login />}
+      {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
         <Navbar searchText={searchText} setSearchText={setSearchText} />

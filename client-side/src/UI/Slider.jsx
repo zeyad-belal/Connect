@@ -1,11 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // Import Swiper React components
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import CartContext from "../context/CartContext";
-import UserContext from "../context/UserContext";
 import { Grid, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,18 +22,20 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import {updatedStock} from "../store/cartSlice";
+import {cartActions, updatedStock} from "../store/cartSlice";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { signModalActions } from "../store/signModalSlice";
 // import { useGlobalContext } from "../context/ServicesContext";
 
-// import required modules
+
 
 const Slider = ({ services }) => {
   // you will need this variable to return a loading indicator  while fetching the services
   // const { loading } = useGlobalContext();
 
-  const myCart = useContext(CartContext);
-  const userCTX = useContext(UserContext);
+  const dispatch = useDispatch()
+
   const [slidesPerView, setSlidesPerView] = useState(5);
 
 
@@ -46,14 +45,14 @@ const Slider = ({ services }) => {
 
       if(response.data.stock_count > 0){
         if (window.localStorage.getItem("logged")) {
-          myCart.addItem({
+          dispatch(cartActions.add({
             key: service._id,
             id: service._id,
             name: service.name,
             image: service.images[0].url,
             amount: 1,
             price: service.new_price ? service.new_price : service.price
-          })
+          }))
           updatedStock("add", 1 , response.data)
           toast.success("Item added to cart !",{
             position: "top-right",
@@ -76,7 +75,7 @@ const Slider = ({ services }) => {
             progress: undefined,
             theme: "light"
           });
-          userCTX.toggleModal();
+          dispatch(signModalActions.toggleModal());
         }
       }else{
         toast.info("Item out of stock !", {
