@@ -25,7 +25,7 @@ const Searchbar = (props) => {
 
   return (
     <Transition
-      in={props.searchBarIsVisible}
+      in={props.isSearchBarVisible}
       timeout={300}
       mountOnEnter
       unmountOnExit

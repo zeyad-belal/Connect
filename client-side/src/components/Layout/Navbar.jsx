@@ -14,14 +14,16 @@ import { BiSolidTruck } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Backdrop } from "../../UI/Modal";
-import menuReducer, { ActionTypes } from "./menuReducer.js";
 import { AiFillHome } from "react-icons/ai";
 import { PiShoppingBagFill } from "react-icons/pi";
 import { useDispatch , useSelector } from "react-redux"
 import { signModalActions } from "../../store/signModalSlice.jsx";
+import { menuActions } from "../../store/menuSlice.jsx";
+
 
 const Navbar = (props) => {
   const totalItemsNum = useSelector((state)=> state.cart.totalItemsNum);
+  const menu = useSelector((state)=> state.menu);
   const dispatch = useDispatch()
 
   const navigate = useNavigate();
@@ -29,12 +31,7 @@ const Navbar = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
 
-  const [menuState, Mdispatch] = useReducer(menuReducer, {
-    subIsVisible: false,
-    isUserMenuVisible: false,
-    isNotiMenuVisible: false,
-    searchBarIsVisible: false,
-  });
+
 
   function signoutHandler() {
     window.localStorage.removeItem("logged");
@@ -52,6 +49,8 @@ const Navbar = (props) => {
     }
   }, [cookies.User]);
 
+
+  
   return (
     <>
       <nav
@@ -62,11 +61,11 @@ const Navbar = (props) => {
           {/* subnav icon  */}
           <li
             className={
-              menuState.subIsVisible
+              menu.isSubVisible
                 ? "mr-3 cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-2 text-text1 bg-primary"
                 : "mr-3 cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-2 text-text1 hover:bg-primary"
             }
-            onClick={() => Mdispatch({ type: ActionTypes.TOGGLE_SUB_NAV })}
+            onClick={() => dispatch(menuActions.toggleSubNav())}
           >
             <FiMenu size={30} />
           </li>
@@ -75,7 +74,7 @@ const Navbar = (props) => {
             to={"/"}
             className="md:flex hidden items-baseline py-2 mx-1 h-auto sm:w-56"
           >
-            <li onClick={() => Mdispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}>
+            <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
                 className="max-w-[200px]"
                 src="/assets/logo/main-yellow-and-white.png"
@@ -104,37 +103,36 @@ const Navbar = (props) => {
             to={"/"}
             className="md:hidden flex items-center rounded-full px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
           >
-            <li onClick={() => Mdispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}>
+            <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <AiFillHome size={20} />
             </li>
           </Link>
           {/* Searchbar  */}
           <li
             className={
-              menuState.searchBarIsVisible
+              menu.isSearchBarVisible
                 ? "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer"
                 : "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1  hover:bg-primary cursor-pointer"
             }
-            onClick={() => Mdispatch({ type: ActionTypes.TOGGLE_SEARCH_BAR })}
+            onClick={() => dispatch(menuActions.toggleSearchBar())}
           >
             <BsSearch size={20} />
           </li>
           {/* notifcations  */}
           <li
             className={
-              menuState.isNotiMenuVisible
+              menu.isNotiMenuVisible
                 ? "flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer"
                 : "flex items-center rounded-full  px-3 my-3 mx-2 text-text1 hover:bg-primary cursor-pointer"
             }
-            onClick={() => Mdispatch({ type: ActionTypes.TOGGLE_NOTI_MENU })}
+            onClick={() => dispatch(menuActions.toggleNotiMenu())}
           >
             <BsFillBellFill size={20} />
             {/* -------noti menu------- */}
-            {menuState.isNotiMenuVisible && (
+            {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30  ">
                   <ul className="flex flex-col  absolute bg-white rounded-br-lg rounded-bl-lg right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
-                    {/* <div className="absolute  before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div> */}
                     <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
@@ -156,7 +154,7 @@ const Navbar = (props) => {
           >
             <li
               className="flex items-center "
-              onClick={() => Mdispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}
+              onClick={() => dispatch(menuActions.closeAllMenus())}
             >
               <FaShoppingCart size={20} />
               {totalItemsNum > 0 && (
@@ -171,7 +169,7 @@ const Navbar = (props) => {
             {userStatus ? (
               <div
                 className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"
-                onClick={() => Mdispatch({ type: ActionTypes.TOGGLE_USER_MENU })}
+                onClick={() => dispatch(menuActions.toggleUserMenu())}
               >
                 <div className="w-[45px] h-[45px] rounded-full overflow-hidden">
                   <img
@@ -181,12 +179,10 @@ const Navbar = (props) => {
                   />
                 </div>
                 {/* --------menu------ */}
-                {menuState.isUserMenuVisible && (
+                {menu.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
                       <ul className="flex flex-col gap-3  absolute right-[-10px]   bottom-[-95px] min-w-[150px] bg-white  shadow-md ">
-                        {/* <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div> */}
-
                         <li
                           className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
                           onClick={() => navigate("/userInfo")}
@@ -218,30 +214,29 @@ const Navbar = (props) => {
         </ul>
       </nav>
 
-      <Searchbar {...props} searchBarIsVisible={menuState.searchBarIsVisible} />
+      <Searchbar {...props} isSearchBarVisible={menu.isSearchBarVisible} />
       {/* close overlay  */}
-      {menuState.isNotiMenuVisible ||
-      menuState.isUserMenuVisible ||
-      menuState.searchBarIsVisible ? (
+      {menu.isNotiMenuVisible ||
+      menu.isUserMenuVisible ||
+      menu.isSearchBarVisible ? (
         <div
           className=" fixed top-0 left-0 w-full h-screen z-10 bg-opacity-40"
-          onClick={() => Mdispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}
+          onClick={() => dispatch(menuActions.closeAllMenus())}
         ></div>
       ) : (
         ""
       )}
       {/* -------------------------------------------------------------------------------------------------------------- */}
-      {menuState.subIsVisible ? (
+      {menu.isSubVisible ? (
         <Backdrop
-          toggleModal={() => Mdispatch({ type: ActionTypes.TOGGLE_SUB_NAV })}
+          toggleModal={() => dispatch(menuActions.toggleSubNav())}
         />
       ) : (
         ""
       )}
       <SubNav
         {...props}
-        subIsVisible={menuState.subIsVisible}
-        toggleSubNav={() => Mdispatch({ type: ActionTypes.TOGGLE_SUB_NAV })}
+        isSubVisible={menu.isSubVisible}
       />
     </>
   );

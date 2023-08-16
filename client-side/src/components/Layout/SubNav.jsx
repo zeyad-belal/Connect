@@ -7,8 +7,14 @@ import { useRef } from "react";
 import { Transition } from 'react-transition-group';
 import { Link } from "react-router-dom";
 import { PiShoppingBagFill } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { menuActions } from "../../store/menuSlice";
+
+
 
 function SubNav(props) {
+  const dispatch = useDispatch()
+  const menu = useSelector((state)=> state.menu)
   const searchBar = useRef();
 
   const changeHandler = (e) => {
@@ -18,7 +24,7 @@ function SubNav(props) {
   
   return (
     <>
-      <Transition in={props.subIsVisible} 
+      <Transition in={menu.isSubVisible} 
         timeout={300}
         mountOnEnter
         unmountOnExit >
@@ -40,7 +46,7 @@ function SubNav(props) {
                 <BsSearch size={22} className="absolute right-5 top-3  cursor-pointer" />
               </li>
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><MdAdd /> Add Service</li>
-              <Link to={'/cart'} onClick={props.toggleSubNav} >
+              <Link to={'/cart'} onClick={()=>dispatch(menuActions.closeAllMenus())} >
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"><FaShoppingCart  /> Cart</li>
               </Link>
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"> <BiSolidTruck size={22} /> Incoming Orders</li>
