@@ -3,9 +3,8 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import PayPal from "../components/PayPalButton.jsx";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
-import UserContext from "../store/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -14,26 +13,26 @@ import emailjs from "emailjs-com";
 import "react-toastify/dist/ReactToastify.css";
 import {useSelector, useDispatch} from "react-redux"
 import {cartActions} from "../store/cartSlice.jsx"
+import { signModalActions } from "../store/signModalSlice.jsx";
 
 
 const Checkout = () => {
-  const {register,handleSubmit,formState: { errors }} = useForm();
-  const navigate = useNavigate();
-
   const items = useSelector((state)=> state.cart.items);
   const totalAmount = useSelector((state)=> state.cart.totalAmount);
   const dispatch = useDispatch()
 
-  const userCTX = useContext(UserContext);
+  const {register,handleSubmit,formState: { errors }} = useForm();
+  const navigate = useNavigate();
   const [cookies, setCookies] = useCookies(["User"]);
   const [paypalclass, setPaypalclass] = useState("hidden");
   const [cashclass, setCashclass] = useState("hidden");
   const form = useRef();
+
   emailjs.init("ieyQAv01RBSvsmGou");
 
   useEffect(() => {
     if (!window.localStorage.getItem("logged")) {
-      userCTX.toggleModal();
+      dispatch(signModalActions.toggleModal())
       navigate("/Cart");
     }
   }, []);

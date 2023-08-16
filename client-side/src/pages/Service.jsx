@@ -2,36 +2,39 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-
-import CartContext from "../store/store";
-import UserContext from "../store/UserContext";
 import ServiceImageCarousel from "../components/Service/ServiceImageCarousel";
 import ServiceDetails from "../components/Service/ServiceDetails";
 import ServicePanels from "../components/Service/ServicePanels";
 import ServiceRoute from "../components/Service/ServiceRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updatedStock }  from "../store/cartSlice";
+import { cartActions, updatedStock }  from "../store/cartSlice";
+import {useSelector, useDispatch} from "react-redux"
+import { signModalActions } from "./../store/signModalSlice"
+
 
 const ServicePage = () => {
+  const dispatch = useDispatch()
+  const cart = useSelector((state)=> state.cart);
+
   const [service, setService] = useState(null);
   const [count, setCount] = useState(1);
-  const myCart = useContext(CartContext);
   const { id } = useParams();
-  const userCTX = useContext(UserContext);
+
+
+
 
   const handleAddItemToCart = (service) => {
     if (service.stock_count >= count) {
       if (window.localStorage.getItem("logged")) {
-        myCart.addItem({
+        dispatch(cartActions.add({
           key: service._id,
           id: service._id,
           name: service.name,
           image: service.images[0].url,
           amount: count,
           price: service.new_price ?? service.price,
-        });
+        }))
         updatedStock("add", count, service);
         toast.success("Item added to cart !", {
           position: "top-right",
@@ -54,7 +57,7 @@ const ServicePage = () => {
           progress: undefined,
           theme: "light",
         });
-        userCTX.toggleModal();
+        dispatch(signModalActions.toggleModal());
       }
     } else {
       toast.info(`Only ${service.stock_count} left in stock!`, {
@@ -106,7 +109,7 @@ const ServicePage = () => {
         theme: "light",
       });
     }
-  }, [myCart]);
+  }, [cart]);
 
   // console.log(service)
   return (

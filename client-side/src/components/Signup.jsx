@@ -4,20 +4,20 @@ import Modal from "../UI/Modal";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import UserContext from "../store/UserContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import "react-toastify/dist/ReactToastify.css";
+import {useDispatch} from "react-redux"
+import { signModalActions } from "./../store/signModalSlice"
+
 
 function Signup() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const userCTX = useContext(UserContext);
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [countryCode, setCountryCode] = useState("+20");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
+  const dispatch = useDispatch()
+
+
 
   async function onSubmit(data) {
     let { first_name, last_name, email, password, phone_number } = data;
@@ -51,7 +51,8 @@ function Signup() {
       setCookie("User", JSON.stringify(response.data.newUser));
       setCookie("UserToken", response.data.token);
       window.localStorage.setItem("logged", true);
-      userCTX.toggleModal();
+      dispatch(signModalActions.toggleModal());
+
     } catch (error) {
       console.error(error);
       error.response
@@ -77,7 +78,7 @@ function Signup() {
 
   return (
     <>
-      <Modal toggleModal={userCTX.toggleModal}>
+      <Modal toggleModal={()=>dispatch(signModalActions.toggleModal())}>
         <div className="max-h-[500px] ">
           <h1 className="mx-auto w-fit text-2xl font-bold mb-3">
             Create an account
@@ -86,7 +87,7 @@ function Signup() {
             Already have an account?
             <a
               className="text-secondary cursor-pointer"
-              onClick={userCTX.toggleModalContent}
+              onClick={()=>dispatch(signModalActions.toggleModalContent())}
             >
               {" "}
               Login
