@@ -11,57 +11,52 @@ import NotFound from "./pages/NotFound.jsx";
 import Services from "./pages/Services.jsx";
 import ServicePage from "./pages/Service.jsx";
 import About from "./pages/About.jsx";
-import { useGlobalContext } from "./context/ServicesContext.jsx";
-import CartContext from "./context/CartContext.jsx";
-import { useCookies } from 'react-cookie';
-import { useCartContext } from "./context/CartProvider.jsx";
+import { useGlobalContext } from "./store/ServicesContext.jsx";
+import { useCookies } from "react-cookie";
+import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
-import UserContext from "./context/UserContext.jsx";
+import UserContext from "./store/UserContext.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
+import {useSelector, useDispatch} from "react-redux"
+import {cartActions} from "../../store/cartSlice"
 
+let firstRender =true;
 
 function App() {
   const [searchText, setSearchText] = useState("");
-  const [cookies, setCookie] = useCookies(['UserToken','User']);
+  const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const { fetchServices } = useGlobalContext();
-  const myCart = useContext(CartContext)
-  const {fetchCartItems,sendCartItems} = useCartContext()
-  const initialRenderRef = useRef(true);
   const userCTX = useContext(UserContext);
 
+  const cart = useSelector((state)=> state.cart);
+  const dispatch = useDispatch()
 
-  // FETCHING SERVICES 
+  // FETCHING SERVICES
   useEffect(() => {
-      fetchServices();
-      window.localStorage.setItem('User',JSON.stringify(cookies.User))
-      window.localStorage.setItem('UserToken',cookies.UserToken)
-  }, [] );
+    fetchServices();
+    window.localStorage.setItem("User", JSON.stringify(cookies.User));
+    window.localStorage.setItem("UserToken", cookies.UserToken);
+  }, []);
 
-  // UPDATING cart items in backend on change
+  // FETCHING CART ITEMS
   useEffect(() => {
-    async function sendData(){
-      sendCartItems(myCart, cookies.User.id, cookies.UserToken);
-    }
-    // console.log("intial :" , initialRenderRef.current)
-    if (initialRenderRef.current) {
-      initialRenderRef.current = false;
-      return;
-    }
-      if(window.localStorage.getItem('logged')){
-        sendData()
-      }
-    
-  }, [myCart]);
-  
-
-  // getting cart items FROM backend AFTER refresh
-  useEffect(() => {
-    if(window.localStorage.getItem('logged')){  
-      fetchCartItems()
+    if (window.localStorage.getItem("logged")) {
+      dispatch(fetchCartItems(cookies.User.id , cookies.UserToken));
     }
   }, []);
-  
+
+  // UPDATING CART ITEMS IN THE BACKEND ON CHANGE
+  useEffect(() => {
+    if (firstRender) {
+      firstRender= false;
+      return;
+    }
+    if (window.localStorage.getItem("logged") && cart.changed) {
+      sendCartItems(cart, cookies.User.id, cookies.UserToken);
+    }
+  }, [cart]);
+
 
 
   return (
@@ -71,10 +66,7 @@ function App() {
       {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-      <Navbar 
-        searchText={searchText}
-        setSearchText={setSearchText}
-        />
+        <Navbar searchText={searchText} setSearchText={setSearchText} />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -92,4 +84,3 @@ function App() {
 }
 
 export default App;
-

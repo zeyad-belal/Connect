@@ -6,7 +6,7 @@ import Modal from "../UI/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
-import UserContext from "../context/UserContext";
+import UserContext from "../store/UserContext";
 import { useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,7 +15,7 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
   const userCTX = useContext(UserContext);
 
@@ -39,7 +39,7 @@ function Login() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
       });
       userCTX.toggleModal();
     } catch (error) {
@@ -53,7 +53,7 @@ function Login() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light"
+            theme: "light",
           })
         : "";
     }
@@ -90,8 +90,8 @@ function Login() {
                 required: true,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address"
-                }
+                  message: "Invalid email address",
+                },
               })}
               aria-invalid={errors.email ? "true" : "false"}
               className="input mb-0"
@@ -119,7 +119,7 @@ function Login() {
               {...register("password", {
                 required: true,
                 minLength: 6,
-                maxLength: 20
+                maxLength: 20,
               })}
               type="password"
               aria-invalid={errors.password ? "true" : "false"}
@@ -141,15 +141,16 @@ function Login() {
               password must be less than 20 chars
             </p>
           )}
-            <input type="submit" value={"Login"} className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
-          </form>
-        </Modal>
-        <ToastContainer />
-      </>
-    );
-  }
-
-
-
+          <input
+            type="submit"
+            value={"Login"}
+            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center"
+          />
+        </form>
+      </Modal>
+      <ToastContainer />
+    </>
+  );
+}
 
 export default Login;

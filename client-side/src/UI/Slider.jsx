@@ -25,7 +25,7 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useCartContext } from "../context/CartProvider";
+import {updatedStock} from "../store/cartSlice";
 import axios from "axios";
 // import { useGlobalContext } from "../context/ServicesContext";
 
@@ -38,7 +38,6 @@ const Slider = ({ services }) => {
   const myCart = useContext(CartContext);
   const userCTX = useContext(UserContext);
   const [slidesPerView, setSlidesPerView] = useState(5);
-  const {updatedStock} = useCartContext()
 
 
   async function addItemToCart(service) {
