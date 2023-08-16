@@ -6,11 +6,11 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import {useSelector, useDispatch} from "react-redux"
-import {cartActions} from "../../store/cartSlice"
 import emailjs from "emailjs-com";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import {useSelector, useDispatch} from "react-redux"
+import {cartActions} from "../store/cartSlice.jsx"
 
 const ButtonWrapper = ({ form, currency, showSpinner }) => {
   const items = useSelector((state)=> state.cart.items);

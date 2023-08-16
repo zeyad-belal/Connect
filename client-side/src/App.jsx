@@ -19,7 +19,7 @@ import Signup from "./components/Signup.jsx";
 import UserContext from "./store/UserContext.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
 import {useSelector, useDispatch} from "react-redux"
-import {cartActions} from "../../store/cartSlice"
+
 
 let firstRender =true;
 
