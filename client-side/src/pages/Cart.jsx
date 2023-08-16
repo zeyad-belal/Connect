@@ -2,13 +2,13 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
-import cartContext from "../context/CartContext";
+import cartContext from "../store/store";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../context/UserContext";
+import UserContext from "../store/UserContext";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { useCartContext } from "../context/CartProvider";
+import { updatedStock } from "../store/cartSlice";
 
 const Cart = () => {
   const userCTX = useContext(UserContext);
@@ -18,33 +18,36 @@ const Cart = () => {
   const [showPurchasedItems, setShowPurchasedItems] = useState(false);
   const [PurchasedItems, setPurchasedItems] = useState([]);
   const [quantities, setQuantities] = useState([]);
-  const {updatedStock} = useCartContext()
 
   const togglePurchasedItems = () => {
     setShowPurchasedItems(!showPurchasedItems);
   };
 
   async function removeItemHandler(id) {
-    const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${id}`)
-    
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/services/${id}`
+    );
+
     myCart.removeItem(id);
-    updatedStock("remove", 1, response.data)
+    updatedStock("remove", 1, response.data);
   }
 
   async function addItemHandler(item) {
-    try{
-      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${item.id}`)
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/services/${item.id}`
+      );
 
-      if(response.data.stock_count > 0){
-          myCart.addItem({
+      if (response.data.stock_count > 0) {
+        myCart.addItem({
           id: item.id,
           name: item.name,
           image: item.image ? item.image : item.images[0].url,
           price: item.price,
-          amount: 1
+          amount: 1,
         });
-        updatedStock("add", 1, response.data)
-      }else{
+        updatedStock("add", 1, response.data);
+      } else {
         toast.info("Item out of stock !", {
           position: "top-right",
           autoClose: 1500,
@@ -53,12 +56,11 @@ const Cart = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light"
+          theme: "light",
         });
       }
-    
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       toast.info("Something went wrong !", {
         position: "top-right",
         autoClose: 1500,
@@ -67,7 +69,7 @@ const Cart = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
       });
     }
   }
@@ -101,7 +103,7 @@ const Cart = () => {
       );
       setQuantities(quantities);
     }
-    if(window.localStorage.getItem('logged')){
+    if (window.localStorage.getItem("logged")) {
       getOrderHistory();
     }
   }, []);
@@ -118,15 +120,15 @@ const Cart = () => {
             </div>
             {/* cart items */}
             {myCart.items.length !== 0 ? (
-                myCart.items.map((item) => (
-                  <CartItem
-                    item={item}
-                    key={item.id}
-                    onAdd={() => addItemHandler(item)}
-                    onRemove={() => removeItemHandler(item.id)}
-                  />
-                ))
-              ):(
+              myCart.items.map((item) => (
+                <CartItem
+                  item={item}
+                  key={item.id}
+                  onAdd={() => addItemHandler(item)}
+                  onRemove={() => removeItemHandler(item.id)}
+                />
+              ))
+            ) : (
               <p className="mx-auto max-w-fit py-1 px-2 font-semibold text-xl my-3 rounded-full">
                 Cart is empty!
               </p>
@@ -178,7 +180,8 @@ const Cart = () => {
                               </div>
                               <div className="me-1 text-bold">
                                 {" "}
-                                {quantities[ind][index] * item.new_price} LE{" "}
+                                {quantities[ind][index] *
+                                  item.new_price} LE{" "}
                               </div>
                               <button
                                 className="bg-black text-white hover:bg-orange-600 text-[13px] px-2 py-1 rounded-lg"

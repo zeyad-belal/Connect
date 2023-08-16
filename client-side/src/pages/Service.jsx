@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 
-import CartContext from "../context/CartContext";
-import UserContext from "../context/UserContext";
+import CartContext from "../store/store";
+import UserContext from "../store/UserContext";
 import ServiceImageCarousel from "../components/Service/ServiceImageCarousel";
 import ServiceDetails from "../components/Service/ServiceDetails";
 import ServicePanels from "../components/Service/ServicePanels";
 import ServiceRoute from "../components/Service/ServiceRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useCartContext } from "../context/CartProvider";
+import { updatedStock }  from "../store/cartSlice";
 
 const ServicePage = () => {
   const [service, setService] = useState(null);
@@ -20,7 +20,6 @@ const ServicePage = () => {
   const myCart = useContext(CartContext);
   const { id } = useParams();
   const userCTX = useContext(UserContext);
-  const { updatedStock } = useCartContext();
 
   const handleAddItemToCart = (service) => {
     if (service.stock_count >= count) {

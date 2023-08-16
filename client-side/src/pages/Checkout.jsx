@@ -5,24 +5,26 @@ import { useForm } from "react-hook-form";
 import PayPal from "../components/PayPalButton.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
-import UserContext from "../context/UserContext.jsx";
-import CartContext from "../context/CartContext.jsx";
+import UserContext from "../store/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import emailjs from "emailjs-com";
 import "react-toastify/dist/ReactToastify.css";
+import {useSelector, useDispatch} from "react-redux"
+import {cartActions} from "../store/cartSlice.jsx"
+
 
 const Checkout = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
+  const {register,handleSubmit,formState: { errors }} = useForm();
   const navigate = useNavigate();
+
+  const items = useSelector((state)=> state.cart.items);
+  const totalAmount = useSelector((state)=> state.cart.totalAmount);
+  const dispatch = useDispatch()
+
   const userCTX = useContext(UserContext);
-  const CartCTX = useContext(CartContext);
   const [cookies, setCookies] = useCookies(["User"]);
   const [paypalclass, setPaypalclass] = useState("hidden");
   const [cashclass, setCashclass] = useState("hidden");
@@ -51,10 +53,10 @@ const Checkout = () => {
       // create order in the backend
       if (data.paymentMethod == "Cash") {
         const reqData = {
-          order: CartCTX.items.map((item) => ({
+          order: items.map((item) => ({
             service_id: item.id,
-            quantity: item.amount
-          }))
+            quantity: item.amount,
+          })),
         };
         const response2 = await axios.post(
           `${import.meta.env.VITE_API_URL}/orders`,
@@ -68,14 +70,13 @@ const Checkout = () => {
           "ieyQAv01RBSvsmGou"
         );
 
-        CartCTX.clearCart();
+        dispatch(cartActions.clear());
 
         const response = await axios.patch(
           `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
           { cart_items: [] },
           { headers: { Authorization: `${cookies.UserToken}` } }
         );
-        
       }
     } catch (error) {
       toast.error(error, {
@@ -86,7 +87,7 @@ const Checkout = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
       });
     }
   };
@@ -101,10 +102,10 @@ const Checkout = () => {
     <div className="mx-12">
       <div className="mx-auto rounded-lg my-2 bg-orange-100 p-3 w-fit">
         The Total of Your Order is:{" "}
-        <span className="text-bold">{CartCTX.totalAmount}</span> LE{" "}
+        <span className="text-bold">{totalAmount}</span> LE{" "}
         <span className="text-secondary font-bold">OR</span>{" "}
         <span className="text-bold">
-          {Math.round(CartCTX.totalAmount / 30)}
+          {Math.round(totalAmount / 30)}
         </span>{" "}
         $
       </div>
@@ -156,7 +157,7 @@ const Checkout = () => {
                 id="email"
                 {...register("email", {
                   required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 })}
                 defaultValue={`${cookies.User?.email}`}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
@@ -167,20 +168,17 @@ const Checkout = () => {
                 </span>
               )}
             </div>
+
             {/* items sent to email */}
             <input
               className="hidden"
               {...register("items")}
-              defaultValue={`${
-                CartCTX ? CartCTX.items.map((item) => item.name).join("--- ") : ""
-              }`}
-            />
+              defaultValue={`${items?items.map((item) => item.name).join("--- "): "" }`} />
             {/* total totalAmount sent to email */}
             <input
               className="hidden"
               {...register("totalAmount")}
-              defaultValue={`${CartCTX ? CartCTX.totalAmount : ""}`}
-            />
+              defaultValue={`${totalAmount ? totalAmount : ""}`} />
 
             <div className="mb-4">
               <label htmlFor="address" className="block mb-2">
@@ -232,15 +230,18 @@ const Checkout = () => {
               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2  -translate-y-1/2  bg-slate-100 p-8 rounded-lg shadow-md z-30 animate-slide-down">
                 <div className="flex justify-center m-auto items-center gap-2">
                   <BsFillCheckCircleFill size={30} color="green" />
-                <h3 className="text-center font-serif text-2xl text-green-700  my-2">
-                  Order Successfully Placed
-                </h3>
+                  <h3 className="text-center font-serif text-2xl text-green-700  my-2">
+                    Order Successfully Placed
+                  </h3>
                 </div>
                 <p className="text-center text-gray-600">
                   We have received your order and our team is preparing it as
                   soon as possible.
                 </p>
-                  <p className="mx-auto max-w-fit p-2 rounded-lg text-secondary font-semibold mt-6 border-2 border-secondary"> Kindly check your email !</p>
+                <p className="mx-auto max-w-fit p-2 rounded-lg text-secondary font-semibold mt-6 border-2 border-secondary">
+                  {" "}
+                  Kindly check your email !
+                </p>
                 <p></p>
                 <button onClick={closeHandler}>
                   <img
@@ -259,8 +260,8 @@ const Checkout = () => {
           className="flex flex-wrap justify-center gap-4 overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 100px)" }}
         >
-          {CartCTX.items &&
-            CartCTX.items.map((service) => (
+          {items &&
+            items.map((service) => (
               <div
                 key={service.id}
                 className="max-w-[250px] my-2 rounded-lg overflow-hidden shadow-md bg-white"
@@ -272,7 +273,7 @@ const Checkout = () => {
                 />
                 <div className="px-4 py-2">
                   <h2 className="text-lg font-semibold text-gray-800">
-                    {service.name.slice(0,50)}...
+                    {service.name.slice(0, 50)}...
                   </h2>
                   <div className="text-gray-700 text-sm">
                     {service.amount} pieces
@@ -295,7 +296,7 @@ const Checkout = () => {
                 </div>
               </div>
             ))}
-          {!CartCTX.items && <div className="text-gray-500">Cart Is Empty</div>}
+          {!items && <div className="text-gray-500">Cart Is Empty</div>}
         </div>
       </div>
       <ToastContainer />

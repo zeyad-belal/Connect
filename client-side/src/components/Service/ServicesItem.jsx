@@ -1,54 +1,52 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import CartContext from "../../context/CartContext";
+import CartContext from "../../store/store";
 import {
   BestSellerBadge,
   NewArrivalBadge,
   RatingBadge,
-  SaleBadge
+  SaleBadge,
 } from "../Badges";
 import { CartIcon } from "../Icons";
-import UserContext from "../../context/UserContext";
+import UserContext from "../../store/UserContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useCartContext } from "../../context/CartProvider";
+import { updatedStock } from "../../store/cartSlice";
 import axios from "axios";
-
-
 
 const ServicesItem = ({ item }) => {
   const myCart = useContext(CartContext);
-  const userCTX = useContext(UserContext)
-  const {updatedStock} = useCartContext()
+  const userCTX = useContext(UserContext);
 
-  
   async function addItemToCart(service) {
-    try{
-      const response =  await axios.get(`${import.meta.env.VITE_API_URL}/services/${service.id}`)
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/services/${service.id}`
+      );
 
-      if(response.data.stock_count > 0){
+      if (response.data.stock_count > 0) {
         if (window.localStorage.getItem("logged")) {
           myCart.addItem({
             key: service._id,
-          id: service._id,
-          name: service.name,
-          image: service.images[0].url,
-          amount: 1,
-          price: service.price
-        })
-        updatedStock("add", 1, response.data)
+            id: service._id,
+            name: service.name,
+            image: service.images[0].url,
+            amount: 1,
+            price: service.price,
+          });
+          updatedStock("add", 1, response.data);
 
-        toast.success("Item added to cart !",{
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light"
-        })
+          toast.success("Item added to cart !", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         } else {
           toast.info("Sign in first !", {
             position: "top-right",
@@ -58,11 +56,11 @@ const ServicesItem = ({ item }) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light"
+            theme: "light",
           });
-          userCTX.toggleModal()
+          userCTX.toggleModal();
         }
-      }else{
+      } else {
         toast.info("Item out of stock !", {
           position: "top-right",
           autoClose: 1500,
@@ -71,11 +69,11 @@ const ServicesItem = ({ item }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light"
+          theme: "light",
         });
       }
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -94,7 +92,6 @@ const ServicesItem = ({ item }) => {
                 {item.bestseller && <BestSellerBadge />}
 
                 {item.new_arrival && <NewArrivalBadge />}
-
               </div>
             </div>
 
@@ -107,20 +104,17 @@ const ServicesItem = ({ item }) => {
           <div className="flex flex-col justify-center items-center">
             <RatingBadge avg_rating={item.avg_rating} />
 
+            <div className="flex gap-1 justify-center items-center">
+              <span className="my-2 text-gray-700 text-center text-lg">
+                EGP{item.price}
+              </span>
+            </div>
 
-                <div className="flex gap-1 justify-center items-center">
-                  <span className="my-2 text-gray-700 text-center text-lg">
-                    EGP{item.price}
-                  </span>
-                </div>
-
-
-                <div className="flex gap-1 justify-center items-center">
-                  <span className="my-2 line-through text-gray-400 text-center text-sm">
-                    EGP{item.price}
-                  </span>
-                </div>
-
+            <div className="flex gap-1 justify-center items-center">
+              <span className="my-2 line-through text-gray-400 text-center text-sm">
+                EGP{item.price}
+              </span>
+            </div>
           </div>
           <button
             onClick={() => addItemToCart(item)}

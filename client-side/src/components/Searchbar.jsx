@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
-import { useGlobalContext } from "../context/ServicesContext";
+import { useGlobalContext } from "../store/ServicesContext";
 import { useNavigate } from "react-router-dom";
 import { Transition } from "react-transition-group";
 
@@ -23,17 +23,22 @@ const Searchbar = (props) => {
     searchBar.current.value = "";
   };
 
-
   return (
-    <Transition in={props.searchBarIsVisible} 
-    timeout={300}
-    mountOnEnter
-    unmountOnExit >
-      {state => (
-        <div className='absolute z-20 top-[63px] left-0 w-full'
+    <Transition
+      in={props.searchBarIsVisible}
+      timeout={300}
+      mountOnEnter
+      unmountOnExit
+    >
+      {(state) => (
+        <div
+          className="absolute z-20 top-[63px] left-0 w-full"
           style={{
-            transition: 'all 0.3s ease-in-out',
-            transform: state === 'entering' || state === 'entered' ? 'translateY(0)' : 'translateY(-100%)'
+            transition: "all 0.3s ease-in-out",
+            transform:
+              state === "entering" || state === "entered"
+                ? "translateY(0)"
+                : "translateY(-100%)",
           }}
         >
           <div className="flex items-center justify-center ">
@@ -46,7 +51,7 @@ const Searchbar = (props) => {
               placeholder="Search..."
             />
           </div>
-          
+
           {/* Filtered services Panel */}
           {props.searchText.length > 0 && (
             <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white rounded-lg shadow-lg">
