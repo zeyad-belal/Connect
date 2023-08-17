@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
-import { useGlobalContext } from "../store/ServicesContext";
 import { useNavigate } from "react-router-dom";
 import { Transition } from "react-transition-group";
+import {useSelector} from "react-redux"
 
 const Searchbar = (props) => {
-  const { services } = useGlobalContext();
+  const services = useSelector((state)=> state.services.services);
   const navigate = useNavigate();
   const searchBar = useRef();
 

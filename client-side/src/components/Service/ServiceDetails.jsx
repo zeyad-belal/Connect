@@ -2,13 +2,8 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Counter from "../Counter";
-import { CartIcon, FilledRatingStarIcon } from "../Icons";
-import {
-  BestSellerBadge,
-  NewArrivalBadge,
-  RatingBadge,
-  SaleBadge
-} from "../Badges";
+import { CartIcon } from "../Icons";
+import { RatingBadge } from "../Badges";
 
 const ServiceDetails = ({
   count,
@@ -22,17 +17,6 @@ const ServiceDetails = ({
       <div className="md:max-w-[50%] min-w-0">
         <div className="border-b pb-4">
           {/* Tags */}
-          <div className="flex flex-wrap">
-            {service.bestseller && <BestSellerBadge />}
-
-            {service.new_arrival && <NewArrivalBadge />}
-
-          </div>
-          <a href="#brand">
-            <div className="uppercase text-lg text-gray-400">
-              {service.brand}
-            </div>
-          </a>
           <h1 className="text-2xl mb-4 text-gray-800">{service.name}</h1>
           {service.avg_rating && (
             <div className="flex items-center">

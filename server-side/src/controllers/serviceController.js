@@ -36,7 +36,6 @@ const createService = async (req, res, next) => {
     details: req.body.details ? JSON.parse(req.body.details) : undefined,
     images: imagesInfo,
     category_id: category._id,
-    stock_count: req.body.stock_count,
     new_price: req.body.new_price ? req.body.new_price : 0,
   });
 
@@ -117,7 +116,6 @@ const updateService = async (req, res, next) => {
         : service.details,
       images: imagesInfo,
       category_id: category_id,
-      stock_count: req.body.stock_count ?? service.stock_count,
       new_price: req.body.new_price ?? service.new_price,
     },
     { new: true }

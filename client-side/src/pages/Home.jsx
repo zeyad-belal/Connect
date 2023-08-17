@@ -7,39 +7,22 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import HeroSection from "../components/HeroSection";
+import MainSection from "../components/MainSection";
+import { useSelector } from "react-redux";
 
-// the global state
-// import { useGlobalContext } from "../context/ServicesContext";
+
 
 export default function Home(props) {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
-
-  /* ///////////////////////////////////////////////////////
-      the fetched services from the global state & loading
-      variable that indicates whether the data has been 
-      fetched already or still being fetched:
-
-      this variable will be used as follow:
-      {loading && <LoadingComponent />}
-      {!loading && <ServicesComponent>}
-      OR
-      if (loading) return <LoadingComponent />
-      return <ServicesComponent />
-     ///////////////////////////////////////////////////////
-   */
-
-  //  THAT IS HOW TO ACCESS ANYTHING FROM THE GLOBAL STATE
-  // const { loading, services } = useGlobalContext();
+  const services = useSelector((state)=> state.services.services);
 
   useEffect(() => {
     async function getUserData() {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
-          {
-            headers: { Authorization: cookies.UserToken }
-          }
-        );
+          {headers: { Authorization: cookies.UserToken }});
+          
         setCookies("User", response.data.user);
       } catch (error) {
         // console.error(error);
@@ -65,6 +48,9 @@ export default function Home(props) {
     <div>
       <HeroSection />
       <Categories />
+      {/* {services.loading && <loadingMain />}
+      {!services.loading && <MainSection />} */}
+      <MainSection />
     </div>
   );
 }

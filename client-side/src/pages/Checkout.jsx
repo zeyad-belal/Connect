@@ -17,8 +17,7 @@ import { signModalActions } from "../store/signModalSlice.jsx";
 
 
 const Checkout = () => {
-  const items = useSelector((state)=> state.cart.items);
-  const totalAmount = useSelector((state)=> state.cart.totalAmount);
+  const cart = useSelector((state)=> state.cart);
   const dispatch = useDispatch()
 
   const {register,handleSubmit,formState: { errors }} = useForm();
@@ -52,7 +51,7 @@ const Checkout = () => {
       // create order in the backend
       if (data.paymentMethod == "Cash") {
         const reqData = {
-          order: items.map((item) => ({
+          order: cart.items.map((item) => ({
             service_id: item.id,
             quantity: item.amount,
           })),
@@ -101,10 +100,10 @@ const Checkout = () => {
     <div className="mx-12">
       <div className="mx-auto rounded-lg my-2 bg-orange-100 p-3 w-fit">
         The Total of Your Order is:{" "}
-        <span className="text-bold">{totalAmount}</span> LE{" "}
+        <span className="text-bold">{cart.totalAmount}</span> LE{" "}
         <span className="text-secondary font-bold">OR</span>{" "}
         <span className="text-bold">
-          {Math.round(totalAmount / 30)}
+          {Math.round(cart.totalAmount / 30)}
         </span>{" "}
         $
       </div>
@@ -172,12 +171,12 @@ const Checkout = () => {
             <input
               className="hidden"
               {...register("items")}
-              defaultValue={`${items?items.map((item) => item.name).join("--- "): "" }`} />
+              defaultValue={`${cart.items?cart.items.map((item) => item.name).join("--- "): "" }`} />
             {/* total totalAmount sent to email */}
             <input
               className="hidden"
               {...register("totalAmount")}
-              defaultValue={`${totalAmount ? totalAmount : ""}`} />
+              defaultValue={`${cart.totalAmount ? cart.totalAmount : ""}`} />
 
             <div className="mb-4">
               <label htmlFor="address" className="block mb-2">
@@ -259,8 +258,8 @@ const Checkout = () => {
           className="flex flex-wrap justify-center gap-4 overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 100px)" }}
         >
-          {items &&
-            items.map((service) => (
+          {cart.items &&
+            cart.items.map((service) => (
               <div
                 key={service.id}
                 className="max-w-[250px] my-2 rounded-lg overflow-hidden shadow-md bg-white"
@@ -295,7 +294,7 @@ const Checkout = () => {
                 </div>
               </div>
             ))}
-          {!items && <div className="text-gray-500">Cart Is Empty</div>}
+          {!cart.items && <div className="text-gray-500">Cart Is Empty</div>}
         </div>
       </div>
       <ToastContainer />

@@ -1,69 +1,100 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Category from "./Category";
+import axios from "axios";
 
 const categoriesData = [
   {
-    title: "TVs",
-    imageUrl:
-      "https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 1,
-    linkUrl: "categories/televisions"
   },
   {
-    title: "Mobiles",
-    imageUrl:
-      "https://img.freepik.com/free-psd/dark-mobile-device-mockup_149660-801.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 2,
-    linkUrl: "categories/mobiles"
   },
   {
-    title: "Laptops",
-    imageUrl:
-      "https://img.freepik.com/free-photo/still-life-books-versus-technology_23-2150062920.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 3,
-    linkUrl: "categories/laptops"
   },
   {
-    title: "Gaming",
-    imageUrl:
-      "https://img.freepik.com/premium-photo/professional-e-sports-gamer-rejoices-victory-non-existent-person-generative-ai-digital-il_777271-2605.jpg?size=626&ext=jpg&ga=GA1.2.1326869177.1680443547&semt=sph",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
+    id: 4,
+  },
+  {
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 5,
-    linkUrl: "categories/gaming"
   },
   {
-    title: "Accessories",
-    imageUrl:
-      "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 6,
-    linkUrl: "categories/accessories"
   },
   {
-    title: "Accessories",
-    imageUrl:
-    "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 7,
-    linkUrl: "categories/accessories"
   },
   {
-    title: "Accessories",
-    imageUrl:
-      "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
+    category_name: "Design",
+    image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    description : 'any desgin you need',
+    created_at : 'nov 2012',
+    updated_at : 'jan 2022',
     id: 8,
-    linkUrl: "categories/accessories"
-  },
-  {
-    title: "Accessories",
-    imageUrl:
-      "https://img.freepik.com/premium-photo/collection-apple-services-including-apple-services_896360-1985.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=ais",
-    id: 9,
-    linkUrl: "categories/accessories"
-  },
+  }
 ];
 
 const Categories = () => {
   const [categories, setCategories] = useState(categoriesData);
+
+
+  // useEffect(()=>{
+  //   const data = axios.get(`${import.meta.env.VITE_API_URL}/categories`)
+  //   setCategories(data)
+  // },[])
 
   return (
 <>

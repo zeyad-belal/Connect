@@ -6,19 +6,12 @@ import { ToastContainer } from "react-toastify";
 import {Provider} from  "react-redux";
 import store from "./store/store";
 
-import { ServiceProvider } from "./store/ServicesContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-
-    <ServiceProvider>
-
       <Provider store={store}>
           <ToastContainer />
           <App />
       </Provider>
-
-    </ServiceProvider>
-
   </BrowserRouter>
 );

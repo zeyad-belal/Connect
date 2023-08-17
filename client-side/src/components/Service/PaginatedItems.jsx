@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import ServicesItem from "./Service/ServicesItem";
+import ServicesItem from "./ServicesItem";
 
 function PaginatedItems({ filteredServices }) {
   const [currentItems, setCurrentItems] = useState([]);

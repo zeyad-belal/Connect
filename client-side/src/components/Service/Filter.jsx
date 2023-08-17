@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-// const brands = ["All", "Brand A", "Brand B", "Brand C"]; // Replace with your brand options
 
 const Filter = () => {
   // Filter Functionalities ///////////////////////////////////
@@ -11,11 +10,8 @@ const Filter = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOpenOrderBy, setIsOpenOrderBy] = useState(false);
   const [isOpenCategory, setIsOpenCategory] = useState(false);
-  const [isOpenBrand, setIsOpenBrand] = useState(false);
   const [isOpenPrice, setIsOpenPrice] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState(
-    searchParams.get("brand") ? searchParams.get("brand") : "All"
-  );
+
   const [selectedOrderBy, setSelectedOrderBy] = useState(
     searchParams.get("orderBy") ? searchParams.get("orderBy") : "bestSeller"
   );
@@ -28,30 +24,9 @@ const Filter = () => {
   });
 
   // Data /////////////////////////////////////////////////////
-  const [brands, setBrands] = useState(null);
   const [categories, setCategories] = useState(null);
 
-  useEffect(() => {
-    async function getAllBrands() {
-      if (selectedCategory === "All") {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/brands`
-        );
-        // console.log("brands", data);
-        setBrands(data);
-      } else {
-        const { data } = await axios.get(
-          `${
-            import.meta.env.VITE_API_URL
-          }/brands?category_name=${selectedCategory}`
-        );
-        // console.log("here brand 2");
 
-        setBrands(data);
-      }
-    }
-    getAllBrands();
-  }, [selectedCategory]);
 
   useEffect(() => {
     async function getAllCategories() {
@@ -77,9 +52,6 @@ const Filter = () => {
     setIsOpenCategory(!isOpenCategory);
   };
 
-  const toggleBrandSection = () => {
-    setIsOpenBrand(!isOpenBrand);
-  };
 
   const togglePriceSection = () => {
     setIsOpenPrice(!isOpenPrice);
@@ -95,10 +67,6 @@ const Filter = () => {
     setPriceRange({ ...priceRange, [type]: value });
   };
 
-  const handleBrandChange = (brand) => {
-    setSelectedBrand(brand);
-  };
-
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
@@ -110,9 +78,6 @@ const Filter = () => {
   const applyFilters = () => {
     const data = {};
 
-    if (selectedBrand) {
-      data.brand = selectedBrand;
-    }
     if (selectedCategory) {
       data.category = selectedCategory;
     }
@@ -168,24 +133,6 @@ const Filter = () => {
               <div className="space-x-2">
                 <input
                   type="radio"
-                  checked={selectedOrderBy === "bestSeller"}
-                  onChange={() => handleOrderByChange("bestSeller")}
-                  name="best-seller"
-                />
-                <label htmlFor="best-seller">Best Seller</label>
-              </div>
-              <div className="space-x-2">
-                <input
-                  type="radio"
-                  checked={selectedOrderBy === "newArrival"}
-                  onChange={() => handleOrderByChange("newArrival")}
-                  name="new-arrival"
-                />
-                <label htmlFor="new-arrival">New Arrival</label>
-              </div>
-              <div className="space-x-2">
-                <input
-                  type="radio"
                   checked={selectedOrderBy === "hasOffer"}
                   onChange={() => handleOrderByChange("hasOffer")}
                   name="has-offer"
@@ -227,40 +174,6 @@ const Filter = () => {
                     <label htmlFor={category.category_name}>
                       {category.category_name}
                     </label>
-                  </div>
-                ))}
-            </div>
-          )}
-          {/* ------------------------------------- Brands ------------------------------- */}
-          <button
-            className="flex items-center justify-between w-full px-4 py-2 mt-4 text-lg font-medium text-left bg-gray-200 focus:outline-none focus:bg-gray-300 rounded-md"
-            onClick={toggleBrandSection}
-          >
-            Brands
-            <ArrowIcon isOpen={isOpenBrand} />
-          </button>
-          {isOpenBrand && (
-            <div className="mt-4">
-              <div className="space-x-2">
-                <input
-                  type="radio"
-                  checked={selectedBrand === "All"}
-                  onChange={() => handleBrandChange("All")}
-                  name="all-brands"
-                />
-                <label htmlFor="all-brands">All</label>
-              </div>
-              {/* {console.log(brands)} */}
-              {[...brands].length &&
-                [...brands]?.map((brand) => (
-                  <div key={brand._id} className="space-x-2">
-                    <input
-                      type="radio"
-                      checked={selectedBrand === brand.brand_name}
-                      onChange={() => handleBrandChange(brand.brand_name)}
-                      name={brand.brand_name}
-                    />
-                    <label htmlFor={brand.brand_name}>{brand.brand_name}</label>
                   </div>
                 ))}
             </div>

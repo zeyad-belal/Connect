@@ -13,8 +13,7 @@ import {useSelector, useDispatch} from "react-redux"
 import {cartActions} from "../store/cartSlice.jsx"
 
 const ButtonWrapper = ({ form, currency, showSpinner }) => {
-  const items = useSelector((state)=> state.cart.items);
-  const totalAmount = useSelector((state)=> state.cart.totalAmount);
+  const cart = useSelector((state)=> state.cart);
   const dispatch = useDispatch()
 
   const [{ options, isPending }, Pdispatch] = usePayPalScriptReducer();
@@ -31,7 +30,7 @@ const ButtonWrapper = ({ form, currency, showSpinner }) => {
         currency: currency,
       },
     });
-    setAmount(Math.round(totalAmount / 30));
+    setAmount(Math.round(cart.totalAmount / 30));
   }, [currency, showSpinner]);
 
   async function sendEmail(data) {
@@ -77,7 +76,7 @@ const ButtonWrapper = ({ form, currency, showSpinner }) => {
           await actions.order.capture();
           sendEmail(data);
           const reqData = {
-            order: items.map((item) => ({
+            order: cart.items.map((item) => ({
               service_id: item.id,
               quantity: item.amount,
             })),
@@ -88,7 +87,7 @@ const ButtonWrapper = ({ form, currency, showSpinner }) => {
             { headers: { Authorization: `${cookies.UserToken}` } }
           );
           dispatch(cartActions.clear());
-          window.localStorage.setItem("totalAmount", "").then(
+          window.localStorage.setItem("cart.totalAmount", "").then(
             (result_2) => {
               console.log(result_2.text);
             },

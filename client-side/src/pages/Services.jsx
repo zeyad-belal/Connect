@@ -1,76 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import Filter from "../components/Filter";
-import axios from "axios";
+import Filter from "../components/Service/Filter";
 import { useSearchParams } from "react-router-dom";
-import PaginatedItems from "../components/PaginatedItems";
+import PaginatedItems from "../components/Service/PaginatedItems";
+import { useSelector } from "react-redux";
 
 const Services = () => {
-  const [allServices, setAllServices] = useState(null);
+  const allServices = useSelector((state) => state.services.services);
   const [filteredServices, setfilteredServices] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    // get all Services
-    const getAllServices = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services`
-      );
-      // set all services
-      setAllServices(data);
-    };
-
-    getAllServices();
-  }, []);
 
   useEffect(() => {
     if (allServices) {
       // filter Services
       let filtered = null;
 
-      if (searchParams.get("orderBy")) {
-        if (searchParams.get("orderBy") === "bestSeller") {
-          filtered = allServices.sort((a, b) => b.best_seller - a.best_seller);
-        } else if (searchParams.get("orderBy") === "newArrival") {
-          filtered = allServices.sort((a, b) => b.new_arrival - a.new_arrival);
-        } else if (searchParams.get("orderBy") === "hasOffer") {
+      if (searchParams.get("orderBy") && searchParams.get("orderBy") === "hasOffer") {
           filtered = allServices.sort((a, b) => b.new_price - a.new_price);
-        }
       }
       // console.log("before", filtered);
 
-      if (
-        searchParams.get("brand") === "All" &&
-        searchParams.get("category") !== "All"
-      ) {
+      if (searchParams.get("category") !== "All") {
         filtered = (filtered ? filtered : allServices).filter((service) => {
           if (isInPriceRange(service) && hasMatchCategory(service)) {
             return service;
           }
         });
-      } else if (
-        searchParams.get("category") === "All" &&
-        searchParams.get("brand") !== "All"
-      ) {
-        filtered = (filtered ? filtered : allServices).filter((service) => {
-          if (hasMatchBrand(service) && isInPriceRange(service)) {
-            return service;
-          }
-        });
-      } else if (
-        searchParams.get("category") === "All" &&
-        searchParams.get("brand") === "All"
-      ) {
+      } else if (searchParams.get("category") === "All") {
         filtered = (filtered ? filtered : allServices).filter((service) => {
           if (isInPriceRange(service)) {
             return service;
           }
         });
-      } else {
+      }else {
         filtered = (filtered ? filtered : allServices).filter((service) => {
           if (
-            hasMatchBrand(service) &&
             isInPriceRange(service) &&
             hasMatchCategory(service)
           ) {
@@ -93,16 +58,7 @@ const Services = () => {
     return matchCategory;
   };
 
-  const hasMatchBrand = (service) => {
-    let matchBrand = true;
-    if (searchParams.get("brand")) {
-      matchBrand =
-        searchParams.get("brand") &&
-        service.brand_id.brand_name === searchParams.get("brand");
-    }
 
-    return matchBrand;
-  };
 
   const isInPriceRange = (service) => {
     const minPrice = searchParams.get("min");

@@ -6,16 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { updatedStock } from "../store/cartSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import { cartActions } from "./../store/cartSlice"
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const totalItemsNum = useSelector((state)=> state.cart.totalItemsNum);
-  const items = useSelector((state)=> state.cart.items);
-  const totalAmount = useSelector((state)=> state.cart.totalAmount);
+  const cart = useSelector((state)=> state.cart);
 
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
@@ -33,7 +30,6 @@ const Cart = () => {
     );
     
     dispatch(cartActions.remove(id));
-    updatedStock("remove", 1, response.data);
   }
 
   async function addItemHandler(item) {
@@ -42,7 +38,6 @@ const Cart = () => {
         `${import.meta.env.VITE_API_URL}/services/${item.id}`
       );
 
-      if (response.data.stock_count > 0) {
         dispatch(cartActions.add({
           id: item.id,
           name: item.name,
@@ -50,19 +45,8 @@ const Cart = () => {
           price: item.price,
           amount: 1,
         }));
-        updatedStock("add", 1, response.data);
-      } else {
-        toast.info("Item out of stock !", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
+        
+
     } catch (error) {
       console.log(error);
       toast.info("Something went wrong !", {
@@ -79,7 +63,7 @@ const Cart = () => {
   }
 
   function checkoutHandler() {
-    const cartIsNotEmpty = totalItemsNum ? true : false;
+    const cartIsNotEmpty = cart.totalItemsNum ? true : false;
     const userStatus = window.localStorage.getItem("logged");
 
     if (userStatus && cartIsNotEmpty) {
@@ -122,9 +106,9 @@ const Cart = () => {
               <h1 className="font-semibold text-2xl">Shopping Cart</h1>
               <span className="absolute right-5">Price</span>
             </div>
-            {/* cart items */}
-            {items.length !== 0 ? (
-              items.map((item) => (
+            {/* cartcart.items */}
+            {cart.items.length !== 0 ? (
+             cart.items.map((item) => (
                 <CartItem
                   item={item}
                   key={item.id}
@@ -142,8 +126,8 @@ const Cart = () => {
             <div className="py-6 bg-gray-50 flex flex-col px-5">
               <h6 className="font-semibold text-xl">Subtotal</h6>
               <span>
-                {totalItemsNum} items:
-                <span className="font-bold"> {totalAmount} LE</span>
+                {cart.totalItemsNum}cart.items:
+                <span className="font-bold"> {cart.totalAmount} LE</span>
               </span>
               <button
                 onClick={checkoutHandler}
@@ -163,7 +147,7 @@ const Cart = () => {
               <div className="purchased-container max-w-[340px] border border-spacing-x-4 mr-3 p-1">
                 <div className="purchased-items">
                   {PurchasedItems.map((items, ind) =>
-                    items.map((item, index) => (
+                   cart.items.map((item, index) => (
                       <div
                         className="flex justify-between my-1 border-b-[2px] py-1"
                         key={item.id}
@@ -202,7 +186,7 @@ const Cart = () => {
                 </div>
                 {!PurchasedItems.length > 0 && showPurchasedItems && (
                   <p className="text-start pb-3 ml-6 text-gray-500 mt-4">
-                    No purchased items found.
+                    No purchasedcart.items found.
                   </p>
                 )}
               </div>
