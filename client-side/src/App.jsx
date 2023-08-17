@@ -4,7 +4,7 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
@@ -26,6 +26,7 @@ function App() {
   const [searchText, setSearchText] = useState("");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const { fetchServices } = useGlobalContext();
+
   
   const signModal = useSelector((state)=> state.signModal);
   const cart = useSelector((state)=> state.cart);

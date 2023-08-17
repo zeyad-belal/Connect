@@ -22,7 +22,7 @@ import { menuActions } from "../../store/menuSlice.jsx";
 
 
 const Navbar = (props) => {
-  const totalItemsNum = useSelector((state)=> state.cart.totalItemsNum);
+  const cart = useSelector((state)=> state.cart);
   const menu = useSelector((state)=> state.menu);
   const dispatch = useDispatch()
 
@@ -50,7 +50,7 @@ const Navbar = (props) => {
   }, [cookies.User]);
 
 
-  
+
   return (
     <>
       <nav
@@ -157,9 +157,9 @@ const Navbar = (props) => {
               onClick={() => dispatch(menuActions.closeAllMenus())}
             >
               <FaShoppingCart size={20} />
-              {totalItemsNum > 0 && (
+              {cart.totalAmount > 0 && (
                 <span className="ml-1 bg-text1 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
-                  {totalItemsNum}
+                  {cart.totalAmount}
                 </span>
               )}
             </li>
