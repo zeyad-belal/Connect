@@ -63,12 +63,11 @@ const ServicesItem = ({ item }) => {
             </div>
           
             <div className=" mt-1 flex flex-col justify-start">
-                <h3 className="text-text1 my-1 hover:text-secHover font-semibold self-start">
+                <h3 className="text-text1 my-2 hover:text-secHover font-semibold self-start">
                   {item.name.length > 40
                     ? `${item.name.slice(0, 41)}...`
                     : item.name}
                 </h3>
-              <p className="font-light text-gray-500 mb-2 self-start ">{item.category_id.category_name}</p>
               <div className="flex flex-col ">
                 <RatingBadge avg_rating={item.avg_rating} />
                 <div className="flex  my-1 text-gray-700 text-md">

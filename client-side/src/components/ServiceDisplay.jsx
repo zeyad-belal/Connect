@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import ServicesItem from "./Service/ServicesItem";
 
-function ServicesDisplay(props) {
+function CategoryDisplay(props) {
   const filteredServices = [
     {
       id: 1,
@@ -76,4 +76,4 @@ function ServicesDisplay(props) {
   );
 }
 
-export default ServicesDisplay;
+export default CategoryDisplay;

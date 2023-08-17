@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import ServicesDisplay from "./ServiceDisplay"
+import CategoryDisplay from "./ServiceDisplay"
 
 function MainSection() {
   
@@ -46,9 +46,9 @@ function MainSection() {
     // },[])
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary px-3">
     {categories.map((category)=>
-      <ServicesDisplay key={category.id} category={category} />
+      <CategoryDisplay key={category.id} category={category} />
     )
   }
     </div>
