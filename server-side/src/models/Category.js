@@ -9,6 +9,7 @@ const categorySchema = new Schema({
   updated_at: { type: Date }
 });
 
+
 // create the model
 const Category = mongoose.model("Category", categorySchema);
 
