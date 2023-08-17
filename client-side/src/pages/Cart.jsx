@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { updatedStock } from "../store/cartSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import { cartActions } from "./../store/cartSlice"
@@ -31,7 +30,6 @@ const Cart = () => {
     );
     
     dispatch(cartActions.remove(id));
-    updatedStock("remove", 1, response.data);
   }
 
   async function addItemHandler(item) {
@@ -40,7 +38,6 @@ const Cart = () => {
         `${import.meta.env.VITE_API_URL}/services/${item.id}`
       );
 
-      if (response.data.stock_count > 0) {
         dispatch(cartActions.add({
           id: item.id,
           name: item.name,
@@ -48,19 +45,8 @@ const Cart = () => {
           price: item.price,
           amount: 1,
         }));
-        updatedStock("add", 1, response.data);
-      } else {
-        toast.info("Item out of stock !", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
+        
+
     } catch (error) {
       console.log(error);
       toast.info("Something went wrong !", {

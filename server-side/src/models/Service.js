@@ -24,10 +24,6 @@ const serviceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category"
   },
-  best_seller: {
-    type: Boolean,
-    default: false
-  },
   created_at: {
     type: Date,
     default: Date.now()

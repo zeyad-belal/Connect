@@ -4,19 +4,19 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
 import Services from "./pages/Services.jsx";
 import ServicePage from "./pages/Service.jsx";
 import About from "./pages/About.jsx";
-import { useGlobalContext } from "./store/ServicesContext.jsx";
 import { useCookies } from "react-cookie";
-import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
+import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
+import { fetchServices }  from "./store/servicesSlice.jsx";
 import {useSelector, useDispatch} from "react-redux"
 
 
@@ -25,7 +25,6 @@ let firstRender =true;
 function App() {
   const [searchText, setSearchText] = useState("");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
-  const { fetchServices } = useGlobalContext();
 
   
   const signModal = useSelector((state)=> state.signModal);
@@ -34,7 +33,7 @@ function App() {
 
   // FETCHING SERVICES
   useEffect(() => {
-    fetchServices();
+    dispatch(fetchServices());
     window.localStorage.setItem("User", JSON.stringify(cookies.User));
     window.localStorage.setItem("UserToken", cookies.UserToken);
   }, []);
@@ -60,7 +59,7 @@ function App() {
 
 
   return (
-    <div className="bg-primary">
+    <>
       {/* sign in Modals */}
       {signModal.modalIsShown && signModal.loginModalStatus && <Login />}
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
@@ -79,7 +78,7 @@ function App() {
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
-    </div>
+    </>
   );
 }
 

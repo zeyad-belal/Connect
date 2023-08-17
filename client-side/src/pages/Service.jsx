@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ServiceImageCarousel from "../components/Service/ServiceImageCarousel";
@@ -8,24 +7,21 @@ import ServicePanels from "../components/Service/ServicePanels";
 import ServiceRoute from "../components/Service/ServiceRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { cartActions, updatedStock }  from "../store/cartSlice";
+import { cartActions }  from "../store/cartSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 
 
 const ServicePage = () => {
   const dispatch = useDispatch()
-  const cart = useSelector((state)=> state.cart);
-
+  const services = useSelector((state)=> state.services.services);
   const [service, setService] = useState(null);
+
   const [count, setCount] = useState(1);
   const { id } = useParams();
 
 
-
-
   const handleAddItemToCart = (service) => {
-    if (service.stock_count >= count) {
       if (window.localStorage.getItem("logged")) {
         dispatch(cartActions.add({
           key: service._id,
@@ -35,7 +31,6 @@ const ServicePage = () => {
           amount: count,
           price: service.new_price ?? service.price,
         }))
-        updatedStock("add", count, service);
         toast.success("Item added to cart !", {
           position: "top-right",
           autoClose: 1000,
@@ -59,18 +54,6 @@ const ServicePage = () => {
         });
         dispatch(signModalActions.toggleModal());
       }
-    } else {
-      toast.info(`Only ${service.stock_count} left in stock!`, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
   };
 
   // handleCounterDecrement
@@ -84,34 +67,13 @@ const ServicePage = () => {
     setCount((prevState) => prevState + 1);
   };
 
-  // HERE INSTEAD OF FETCHING THE DATA, MAKE USE OF THE ONE IN THE GLOBAL CONTEXT
-  // AND DON'T FORGET ABOUT THE LOADING FUNCTIONALITY! (-_-)
+
   useEffect(() => {
-    async function getService() {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services/${id}`
-      );
-      setService(data);
-    }
+    const currService = services.map((service)=> service.id == id)
+    setService(currService);
+  }, []);
 
-    try {
-      getService();
-    } catch (error) {
-      // console.log(error)
-      toast.info("something went wrong !", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }, [cart]);
-
-  // console.log(service)
+  
   return (
     <>
       <div>
@@ -128,8 +90,7 @@ const ServicePage = () => {
                   count={count}
                   handleCounterDecrement={handleCounterDecrement}
                   handleCounterIncrement={handleCounterIncrement}
-                  handleAddItemToCart={handleAddItemToCart}
-                />
+                  handleAddItemToCart={handleAddItemToCart} />
               </div>
               <div className="bg-white  px-5">
                 <ServicePanels service={service} />

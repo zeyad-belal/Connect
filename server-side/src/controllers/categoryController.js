@@ -18,7 +18,7 @@ const getCategoryById = async (req, res, next) => {
 };
 
 const createCategory = async (req, res, next) => {
-  const { category_name, description } = req.body;
+  const { category_name } = req.body;
 
   // handle image upload
   if (req.file) {
@@ -31,7 +31,6 @@ const createCategory = async (req, res, next) => {
 
     const createdCategory = await Category.create({
       category_name,
-      description,
       image: imageResponse
     });
 
@@ -41,7 +40,7 @@ const createCategory = async (req, res, next) => {
     });
   }
 
-  const createdCategory = await Category.create({ category_name, description });
+  const createdCategory = await Category.create({ category_name });
   res.send({ message: "Category created successfully!", createdCategory });
 };
 
@@ -72,7 +71,6 @@ const updateCategory = async (req, res, next) => {
     ? req.body.category_name
     : category.category_name;
   update.image = imageResponse ? imageResponse : category.image;
-  update.description = req.body.description ? req.body.description : null;
   update.updated_at = Date.now();
 
   const updatedCategory = await Category.findByIdAndUpdate(id, update, {

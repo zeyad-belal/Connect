@@ -131,25 +131,7 @@ export  function fetchCartItems(userID , userToken) {
 
 //------------------------------------------
 
-export function updatedStock(action, amount, service) {
-    if (action == "add") {
-      try {
-        axios.put(`${import.meta.env.VITE_API_URL}/services/${service.id}`, {
-          stock_count: service.stock_count - (amount ?? 1),
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    } else if (action == "remove") {
-      try {
-        axios.put(`${import.meta.env.VITE_API_URL}/services/${service.id}`, {
-          stock_count: service.stock_count + (amount ?? 1),
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-}
+
 
 
 

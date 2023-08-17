@@ -72,7 +72,7 @@ const Navbar = (props) => {
           {/* Logo */}
           <Link
             to={"/"}
-            className="md:flex hidden items-baseline py-2 mx-1 h-auto sm:w-56"
+            className="md:flex hidden items-baseline py-2 h-auto sm:w-56"
           >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
@@ -82,7 +82,7 @@ const Navbar = (props) => {
               />
             </li>
           </Link>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2">
             <MdAdd /> Add service
           </li>
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
