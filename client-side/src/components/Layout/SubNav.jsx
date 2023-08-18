@@ -34,7 +34,7 @@ function SubNav(props) {
                 transition: 'all 0.3s ease-in-out',
                 transform: state === 'entering' || state === 'entered' ? 'translateX(0)' : 'translateX(-100%)'
               }}
-              className='py-3  bg-white w-[270px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary'>
+              className='py-3  bg-white w-[240px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary'>
               <li className="relative  mb-5 flex">
               <input
                   onChange={changeHandler}

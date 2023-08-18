@@ -133,11 +133,11 @@ const Filter = () => {
               <div className="space-x-2">
                 <input
                   type="radio"
-                  checked={selectedOrderBy === "hasOffer"}
-                  onChange={() => handleOrderByChange("hasOffer")}
-                  name="has-offer"
+                  checked={selectedOrderBy === "rating"}
+                  onChange={() => handleOrderByChange("rating")}
+                  name="rating"
                 />
-                <label htmlFor="has-offer">Has Offer</label>
+                <label htmlFor="rating">Rating</label>
               </div>
             </div>
           )}
