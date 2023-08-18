@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import Filter from "../components/Service/Filter";
+import Filter from "../components/Filter";
 import { useSearchParams } from "react-router-dom";
 import PaginatedItems from "../components/Service/PaginatedItems";
 import { useSelector } from "react-redux";
@@ -16,8 +16,11 @@ const Services = () => {
       // filter Services
       let filtered = null;
 
-      if (searchParams.get("orderBy") && searchParams.get("orderBy") === "hasOffer") {
-          filtered = allServices.sort((a, b) => b.new_price - a.new_price);
+      if (
+        searchParams.get("orderBy") &&
+        searchParams.get("orderBy") === "hasOffer"
+      ) {
+        filtered = allServices.sort((a, b) => b.new_price - a.new_price);
       }
       // console.log("before", filtered);
 
@@ -33,12 +36,9 @@ const Services = () => {
             return service;
           }
         });
-      }else {
+      } else {
         filtered = (filtered ? filtered : allServices).filter((service) => {
-          if (
-            isInPriceRange(service) &&
-            hasMatchCategory(service)
-          ) {
+          if (isInPriceRange(service) && hasMatchCategory(service)) {
             return service;
           }
         });
@@ -57,8 +57,6 @@ const Services = () => {
     }
     return matchCategory;
   };
-
-
 
   const isInPriceRange = (service) => {
     const minPrice = searchParams.get("min");

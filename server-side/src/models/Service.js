@@ -30,19 +30,6 @@ const serviceSchema = new Schema({
   }
 });
 
-serviceSchema.virtual("new_arrival")
-  .get(function () {
-    const oneDay = 1000 * 3600 * 24;
-    const curDate = new Date();
-    const differenceInTime = curDate - this.created_at;
-
-    const differenceInDays = differenceInTime / oneDay;
-    if (differenceInDays <= 30) return true;
-    else return false;
-  })
-  .set(function (v) {
-    return this.set(v);
-  });
 
   serviceSchema.virtual("reviews", {
   ref: "Review",
