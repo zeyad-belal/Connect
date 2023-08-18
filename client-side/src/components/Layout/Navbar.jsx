@@ -55,7 +55,7 @@ const Navbar = (props) => {
     <>
       <nav
         id="MainNav"
-        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 flex justify-between "
+        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 py-1 flex justify-between "
       >
         <ul className="flex ">
           {/* subnav icon  */}
