@@ -71,10 +71,10 @@ const Navbar = (props) => {
           {/* Logo */}
           <Link
             to={"/"}
-            className="md:flex hidden items-baseline py-2 h-auto sm:w-56" >
+            className="md:flex hidden items-center py-2 h-auto sm:w-56" >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
-                className="max-w-[200px]"
+                className="max-w-[160px] mb-[-7px]"
                 src="/assets/logo/main-yellow-and-white.png"
                 alt="Connect"
               />
