@@ -18,6 +18,8 @@ import UserInfo from "./pages/UserInfo.jsx";
 import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
 import { fetchServices }  from "./store/servicesSlice.jsx";
 import {useSelector, useDispatch} from "react-redux"
+import Orders from "./pages/Orders.jsx";
+import Purchases from "./pages/Purchases.jsx";
 
 
 let firstRender =true;
@@ -74,6 +76,8 @@ function App() {
         <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/services/:id" element={<ServicePage />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

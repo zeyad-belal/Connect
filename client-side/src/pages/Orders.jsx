@@ -1,15 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "../components/Filter";
 import { useSearchParams } from "react-router-dom";
-import PaginatedItems from "../components/Service/PaginatedItems";
 import { useSelector } from "react-redux";
+import PaginatedItems from "../components/Service/PaginatedItems";
 
-const Services = () => {
+function Orders() {
   const allServices = useSelector((state) => state.services.services);
   const [filteredServices, setfilteredServices] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+
 
   useEffect(() => {
     if (allServices) {
@@ -45,16 +45,6 @@ const Services = () => {
     }
   }, [allServices, searchParams]);
 
-  const hasMatchCategory = (service) => {
-    let matchCategory = true;
-    if (searchParams.get("category")) {
-      matchCategory =
-        searchParams.get("category") &&
-        service.category_id.category_name === searchParams.get("category");
-    }
-    return matchCategory;
-  };
-
   const isInPriceRange = (service) => {
     const minPrice = searchParams.get("min");
     const maxPrice = searchParams.get("max");
@@ -71,6 +61,16 @@ const Services = () => {
     return inPriceRange;
   };
 
+  const hasMatchCategory = (service) => {
+    let matchCategory = true;
+    if (searchParams.get("category")) {
+      matchCategory =
+        searchParams.get("category") &&
+        service.category_id.category_name === searchParams.get("category");
+    }
+    return matchCategory;
+  };
+
   return (
     <>
       <div className="w-full flex relative">
@@ -85,6 +85,6 @@ const Services = () => {
       </div>
     </>
   );
-};
+}
 
-export default Services;
+export default Orders;

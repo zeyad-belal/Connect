@@ -5,7 +5,7 @@ function CategoryDisplay(props) {
   const filteredServices = [
     {
       id: 1,
-      name : 'coding',
+      name : 'coding cryto graphy etherum play',
       category_id:{category_name : "programming"},
       images: [
         {
@@ -17,7 +17,7 @@ function CategoryDisplay(props) {
     },
     {
       id: 2,
-      name : 'mern app',
+      name : 'mern app full stack e-commerce now',
             category_id:{category_name : "programming"},
       images: [
         {
@@ -29,7 +29,7 @@ function CategoryDisplay(props) {
     },
     {
       id: 3,
-      name : 'logo',
+      name : 'logo design for your bussines order logo brand identity',
             category_id:{category_name : "programming"},
       images: [
         {
@@ -41,7 +41,7 @@ function CategoryDisplay(props) {
     },
     {
       id: 4,
-      name : 'coding',
+      name : 'python back end datbase relations structure design and support frintened',
             category_id:{category_name : "programming"},
       images: [
         {

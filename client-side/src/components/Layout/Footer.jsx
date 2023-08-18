@@ -53,7 +53,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-white">
+      <footer className="bg-primary">
         <header className=" flex flex-col justify-center py-5 mx-2 gap-5 ">
           <h1 className="text-center text-text1 font-extrabold ">
             BE THE FIRST TO KNOW

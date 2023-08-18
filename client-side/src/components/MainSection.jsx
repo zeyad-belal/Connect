@@ -46,7 +46,7 @@ function MainSection() {
     // },[])
 
   return (
-    <div className="bg-primary px-3">
+    <div className="bg-white px-3">
     {categories.map((category)=>
       <CategoryDisplay key={category.id} category={category} />
     )

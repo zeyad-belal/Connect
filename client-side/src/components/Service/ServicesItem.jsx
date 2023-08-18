@@ -51,7 +51,7 @@ const ServicesItem = ({ item }) => {
 
   return (
     <>
-      <div className="py-1 m-2 border-b-2 border-transparent  hover:border-b-[1px] hover:border-secondary transition-shadow duration-300">
+      <div className="py-1 m-2  transition-shadow duration-300">
         <div className="flex flex-col justify-between h-full">
           <Link to={`/services/${item.id}`}>
             <div className={`relative`}>
@@ -63,10 +63,8 @@ const ServicesItem = ({ item }) => {
             </div>
           
             <div className=" mt-1 flex flex-col justify-start">
-                <h3 className="text-text1 my-2 hover:text-secHover font-semibold self-start">
-                  {item.name.length > 40
-                    ? `${item.name.slice(0, 41)}...`
-                    : item.name}
+                <h3 className="text-text1 my-2 text-left hover:text-secHover font-semibold self-start">
+                  {item.name}
                 </h3>
               <div className="flex flex-col ">
                 <RatingBadge avg_rating={item.avg_rating} />
