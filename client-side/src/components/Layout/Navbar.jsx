@@ -65,15 +65,13 @@ const Navbar = (props) => {
                 ? "mr-3 cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-2 text-text1 bg-primary"
                 : "mr-3 cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-2 text-text1 hover:bg-primary"
             }
-            onClick={() => dispatch(menuActions.toggleSubNav())}
-          >
+            onClick={() => dispatch(menuActions.toggleSubNav())} >
             <FiMenu size={30} />
           </li>
           {/* Logo */}
           <Link
             to={"/"}
-            className="md:flex hidden items-baseline py-2 h-auto sm:w-56"
-          >
+            className="md:flex hidden items-baseline py-2 h-auto sm:w-56" >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
                 className="max-w-[200px]"
