@@ -13,7 +13,15 @@ const serviceSchema = new Schema({
     type: Number,
     required: true
   },
-  details: {
+  description:{
+    type : String,
+    required : true
+  },
+  time:{
+    type : String,
+    required : true
+  },
+  extras: {
     type: Object,
     default: {}
   },

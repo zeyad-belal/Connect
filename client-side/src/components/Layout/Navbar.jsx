@@ -55,15 +55,15 @@ const Navbar = (props) => {
     <>
       <nav
         id="MainNav"
-        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 flex justify-between "
+        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 py-1 flex justify-between "
       >
         <ul className="flex ">
           {/* subnav icon  */}
           <li
             className={
               menu.isSubVisible
-                ? "mr-3 cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-2 text-text1 bg-primary"
-                : "mr-3 cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-2 text-text1 hover:bg-primary"
+                ? " cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-1  text-text1 bg-primary"
+                : " cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-1  text-text1 hover:bg-primary"
             }
             onClick={() => dispatch(menuActions.toggleSubNav())} >
             <FiMenu size={30} />
@@ -74,22 +74,25 @@ const Navbar = (props) => {
             className="md:flex hidden items-center py-2 h-auto sm:w-56" >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
-                className="max-w-[160px] mb-[-7px]"
+                className="max-w-[160px] mb-[-8px] ml-4"
                 src="/assets/logo/main-yellow-and-white.png"
                 alt="Connect"
               />
             </li>
           </Link>
-          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2">
+          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navigate('/addService')} >
             <MdAdd /> Add service
           </li>
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
             <BsFillCollectionFill /> Categories
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navigate('/orders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navigate('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
           </li>
         </ul>
@@ -99,10 +102,10 @@ const Navbar = (props) => {
           {/* home  */}
           <Link
             to={"/"}
-            className="md:hidden flex items-center rounded-full px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+            className="md:hidden flex items-center rounded-full px-1 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
           >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
-              <AiFillHome size={20} />
+              <AiFillHome size={22} />
             </li>
           </Link>
           {/* Searchbar  */}
@@ -203,7 +206,7 @@ const Navbar = (props) => {
               </div>
             ) : (
               <button
-                className="hover:text-text1 whitespace-nowrap text-[15px] ml-1"
+                className="text-text1 transition-all whitespace-nowrap text-[15px] rounded-md font-semibold border-2 hover:text-white hover:bg-text1 border-text1 px-3 py-2"
                 onClick={() => dispatch(signModalActions.toggleModal())} >
                 Sign in
               </button>

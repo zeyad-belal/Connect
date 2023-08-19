@@ -47,7 +47,7 @@ const Searchbar = (props) => {
               ref={searchBar}
               type="text"
               autoFocus
-              className="realtive px-5 py-5 w-full text-text1 bg-white border-2 border-primary rounded-lg shadow-primary   outline-none shadow-md "
+              className="realtive px-5 py-5 w-full text-text1 bg-white border-2 border-primary rounded-lg  outline-none  "
               placeholder="Search..."
             />
           </div>

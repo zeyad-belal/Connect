@@ -20,6 +20,7 @@ import { fetchServices }  from "./store/servicesSlice.jsx";
 import {useSelector, useDispatch} from "react-redux"
 import Orders from "./pages/Orders.jsx";
 import Purchases from "./pages/Purchases.jsx";
+import AddService from "./pages/AddService.jsx";
 
 
 let firstRender =true;
@@ -43,7 +44,8 @@ function App() {
   // FETCHING CART ITEMS
   useEffect(() => {
     if (window.localStorage.getItem("logged")) {
-      dispatch(fetchCartItems(cookies.User.id , cookies.UserToken));
+      cookies.User?
+      dispatch(fetchCartItems(cookies.User.id , cookies.UserToken)) : ''
     }
   }, []);
 
@@ -71,10 +73,11 @@ function App() {
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/services/:id" element={<ServicePage />} />
+        <Route path="/addService" element={<AddService />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/purchases" element={<Purchases />} />

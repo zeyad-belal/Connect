@@ -33,10 +33,11 @@ const createService = async (req, res, next) => {
   const createdService = await Service.create({
     name: req.body.name,
     price: req.body.price,
-    details: req.body.details ? JSON.parse(req.body.details) : undefined,
+    description: req.body.description,
+    time: req.body.time,
+    extras: req.body.extras ? JSON.parse(req.body.extras) : undefined,
     images: imagesInfo,
-    category_id: category._id,
-    new_price: req.body.new_price ? req.body.new_price : 0,
+    category_id: category._id
   });
 
   const toBeSentDocument = await Service.findById(createdService._id)
@@ -101,7 +102,7 @@ const updateService = async (req, res, next) => {
         fileName: image.originalname,
         folder: "services",
       });
-      // THIS SHOULD BE RES.URL
+      // THIS SHOULD BE RES.URL or NOO !
       imagesInfo.push(res);
     }
   }
@@ -111,12 +112,13 @@ const updateService = async (req, res, next) => {
     {
       name: req.body.name ?? service.name,
       price: req.body.price ?? service.price,
-      details: req.body.details
-        ? JSON.parse(req.body.details)
-        : service.details,
+      description: req.body.description ?? service.description,
+      time: req.body.time ?? service.time,
+      extras: req.body.extras
+        ? JSON.parse(req.body.extras)
+        : service.extras,
       images: imagesInfo,
-      category_id: category_id,
-      new_price: req.body.new_price ?? service.new_price,
+      category_id: category_id
     },
     { new: true }
   );
