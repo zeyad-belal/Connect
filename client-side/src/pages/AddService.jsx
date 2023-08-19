@@ -89,17 +89,64 @@ const categoriesData = [
   }
 ];
 
+const theKeywords =[
+  'logo',
+  'design',
+  'code',
+  'wordpress',
+  'web',
+  'frontend',
+  'backend',
+  'php',
+  'java script',
+  'web development',
+  'full stack',
+  'java',
+  'ai',
+  'automate',
+  'mern',
+  'mean',
+  'mevn',
+  'react',
+  'angular',
+  'vue',
+  'node',
+  'express',
+  'ads',
+  'translate',
+  'assistant',
+  'web design',
+  'python',
+  'designer',
+  '.net',
+  'c#',
+  'c++',
+  'desktop',
+  'mobile',
+  'webflow',
+  'figma',
+  'PWA',
+  'other',
+]
 
 function AddService() {
-  const [loadingStatue, setLoadingStatue] = useState(false);
   const [cookies, setCookies] = useCookies(["User"]);
+  const [loadingStatue, setLoadingStatue] = useState(false);
+  const form = useRef();
   const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
   const [avatarValue, setAvatarValue] = useState('');
   const [categories, setCategories] = useState(categoriesData);
+  const [chosenKeyWords, setChosenKeyWords] = useState([]);
   const avatarInput = useRef(null);
-  const form = useRef();
+  
 
 
+  function addKeyword(e){
+    setChosenKeyWords(prevWords => {
+      return[ ...prevWords ,e.target.innerText]
+    })
+    // e.target.classList.add('hidden')
+  }
 
   const onSubmit = async (data) => {
     setLoadingStatue(true)
@@ -225,7 +272,7 @@ function AddService() {
                 <option value="">Please select</option>
                 {categories.map((category) => {
                   return (
-                    <option key={category._id} value={category.category_name}>
+                    <option key={category.id} value={category.category_name}>
                       {category.category_name}
                     </option>
                   );
@@ -299,6 +346,29 @@ function AddService() {
                   )}
               </div>
             </div>
+            {/* --------------keywords------------- */}
+            <div className="mb-4 flex flex-col">
+                <label htmlFor="keywords" className="mb-2">keywords</label>
+                <select
+                  {...register("keywords", { required: true })}
+                  className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
+                    <option value="">Please select</option>
+                    {theKeywords.map((word)=>{
+                      return <option key={word} value={word}>{word}</option>
+                    })}
+                  </select>
+                {errors.name && (
+                  <span className="text-red-500">This field is required</span>
+                )}
+                {/* <div className=""> */}
+                {/* {theKeywords.map((word)=>{
+                  return <span
+                    className="p-1 rounded-md m-1 text-sm cursor-pointer bg-gray-100 inline-block" key={word}
+                    onClick={(e)=> addKeyword(e)}
+                    >{word}</span>
+                })}
+                </div> */}
+              </div>
             {/* --------------------------- */}
             <button
               type="submit"
