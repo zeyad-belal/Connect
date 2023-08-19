@@ -157,6 +157,7 @@ function AddService() {
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
       formData.append("price", data.price);
+      formData.append("keywords", data.keywords.join());
 
       // updating user info
       const response = await axios.post(
@@ -349,25 +350,13 @@ function AddService() {
             {/* --------------keywords------------- */}
             <div className="mb-4 flex flex-col">
                 <label htmlFor="keywords" className="mb-2">keywords</label>
-                <select
+                <input
+                  placeholder="ex: logo design web 3d .."
                   {...register("keywords", { required: true })}
-                  className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
-                    <option value="">Please select</option>
-                    {theKeywords.map((word)=>{
-                      return <option key={word} value={word}>{word}</option>
-                    })}
-                  </select>
+                  className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
                 {errors.name && (
                   <span className="text-red-500">This field is required</span>
                 )}
-                {/* <div className=""> */}
-                {/* {theKeywords.map((word)=>{
-                  return <span
-                    className="p-1 rounded-md m-1 text-sm cursor-pointer bg-gray-100 inline-block" key={word}
-                    onClick={(e)=> addKeyword(e)}
-                    >{word}</span>
-                })}
-                </div> */}
               </div>
             {/* --------------------------- */}
             <button

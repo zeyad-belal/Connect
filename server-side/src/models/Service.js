@@ -17,6 +17,9 @@ const serviceSchema = new Schema({
     type : String,
     required : true
   },
+  keywords:{
+    type : Array
+  },
   time:{
     type : String,
     required : true
