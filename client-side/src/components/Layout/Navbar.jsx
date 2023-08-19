@@ -80,7 +80,8 @@ const Navbar = (props) => {
               />
             </li>
           </Link>
-          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2">
+          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navigate('/addService')} >
             <MdAdd /> Add service
           </li>
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
