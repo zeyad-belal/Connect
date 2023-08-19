@@ -89,45 +89,53 @@ const categoriesData = [
   }
 ];
 
-const theKeywords =[
-  'logo',
-  'design',
-  'code',
-  'wordpress',
-  'web',
-  'frontend',
-  'backend',
-  'php',
-  'java script',
-  'web development',
-  'full stack',
-  'java',
-  'ai',
-  'automate',
-  'mern',
-  'mean',
-  'mevn',
-  'react',
-  'angular',
-  'vue',
-  'node',
-  'express',
-  'ads',
-  'translate',
-  'assistant',
-  'web design',
-  'python',
-  'designer',
-  '.net',
-  'c#',
-  'c++',
-  'desktop',
-  'mobile',
-  'webflow',
-  'figma',
-  'PWA',
-  'other',
-]
+const RepeatedBlock = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { error },
+    reset,
+  } = useForm();
+  return (
+    <div className="key-value-pair w-full flex gap-3">
+      <div className="name-container">
+        <label
+          htmlFor="detail-name"
+          className="block text-xs font-medium text-gray-700"
+        >
+          Name
+        </label>
+
+        <input
+          {...register("key")}
+          type="text"
+          id="detail-name"
+          placeholder="key name"
+          className="mt-1 rounded-md w-full md:w-[12rem] border-gray-200 shadow-sm sm:text-sm"
+        />
+      </div>
+      <div className="value-container">
+        <label
+          htmlFor="detail-value"
+          className="block text-xs font-medium text-gray-700"
+        >
+          Value
+        </label>
+
+        <input
+          {...register("value")}
+          type="text"
+          id="detail-value"
+          placeholder="value"
+          className="mt-1 rounded-md w-full md:w-[12rem] border-gray-200 shadow-sm sm:text-sm"
+        />
+      </div>
+    </div>
+  );
+};
+
+
+
 
 function AddService() {
   const [cookies, setCookies] = useCookies(["User"]);
@@ -136,37 +144,63 @@ function AddService() {
   const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
   const [avatarValue, setAvatarValue] = useState('');
   const [categories, setCategories] = useState(categoriesData);
-  const [chosenKeyWords, setChosenKeyWords] = useState([]);
   const avatarInput = useRef(null);
-  
+  const [blocks, setBlocks] = useState([<RepeatedBlock key={0} />]);
 
 
-  function addKeyword(e){
-    setChosenKeyWords(prevWords => {
-      return[ ...prevWords ,e.target.innerText]
-    })
-    // e.target.classList.add('hidden')
-  }
+
+  const gatherDetails = () => {
+    const details = {};
+    const keys = document.querySelectorAll("#detail-name");
+    const values = document.querySelectorAll("#detail-value");
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i].value && values[i].value) {
+        details[keys[i].value] = values[i].value;
+      }
+    }
+    return details;
+  };
+
+  const handleRepeat = () => {
+    setBlocks((prevBlocks) => [
+      ...prevBlocks,
+      <RepeatedBlock key={prevBlocks.length} />,
+    ]);
+  };
+
+
 
   const onSubmit = async (data) => {
     setLoadingStatue(true)
+    console.log('fired')
     try {
       const formData = new FormData();
       
+      const extras = gatherDetails();
+      console.log(extras)
+
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
       formData.append("price", data.price);
+      formData.append("time", data.time);
       formData.append("keywords", data.keywords.join());
+      formData.append("extras", JSON.stringify(extras));
 
-      // updating user info
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/services`,
-        formData,
-        { headers: { Authorization: `${cookies.UserToken}` } }
-      );
+      console.log(formData.getAll('name'))
+      console.log(formData.getAll('category_name'))
+      console.log(formData.getAll('description'))
+      console.log(formData.getAll('price'))
+      console.log(formData.getAll('time'))
+      console.log(formData.getAll('keywords'))
+      console.log(formData.getAll('extras'))
+      
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_API_URL}/services`,
+      //   formData,
+      //   { headers: { Authorization: `${cookies.UserToken}` } }
+      // );
     
-
       // window.location.reload()
       setLoadingStatue(false) 
       toast.success(`your changes have been saved ${cookies.User.first_name}!`, {
@@ -294,14 +328,13 @@ function AddService() {
                 id="description"
                 {...register("description", {
                   required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                 })}
                 className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
                 />
-              {errors.description && (
-                <span className="text-red-500">
-                  Please enter a valid description
-                </span>
+              {errors.description?.type === "required" && (
+                <p className="text-red-500" role="alert">
+                  Description name is required
+                </p>
               )}
             </div>
             {/* -----------price and duration---------------- */}
@@ -349,15 +382,26 @@ function AddService() {
             </div>
             {/* --------------keywords------------- */}
             <div className="mb-4 flex flex-col">
-                <label htmlFor="keywords" className="mb-2">keywords</label>
+                <label htmlFor="keywords" className="mb-2">keywords 
+                  <span className="text-xs ml-2 text-gray-400">( provide single words separated with space )</span> </label>
                 <input
-                  placeholder="ex: logo design web 3d .."
+                  placeholder="ex: logo design web 3d ..."
                   {...register("keywords", { required: true })}
                   className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
                 {errors.name && (
                   <span className="text-red-500">This field is required</span>
                 )}
               </div>
+            {/* --------------extras------------- */}
+            <div className="form-group flex flex-wrap gap-3 items-center">
+              {blocks}
+              <button
+                onClick={() => handleRepeat()}
+                type="button"
+                className="inline-block mt-[18px] h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm">
+                Add Detail
+              </button>
+            </div>
             {/* --------------------------- */}
             <button
               type="submit"
