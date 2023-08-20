@@ -7,6 +7,7 @@ import { AiFillCamera } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
+//temp
 const categoriesData = [
   {
     category_name: "Design",
@@ -152,22 +153,64 @@ const RepeatedExtras = () => {
   );
 };
 
+const ImageUpload = () => {
+  const [imagesURLS, setImagesURLS] = useState([]); 
+  const imageInput = useRef(null);
+  const { register, handleSubmit, formState: { errors } , reset } = useForm();
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      // gathering images url
+      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="file"
+        {...register("images")}
+        accept="image/*"
+        onChange={handleFileChange}
+        ref={imageInput}
+        className="serviceImage hidden"
+      />
+
+      {imagesURLS.map((imageURL, index) => (
+        <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
+          <div className="w-[170px] h-[140px] rounded-md overflow-hidden">
+            <img className="w-full h-full object-cover" src={imageURL} alt="" />
+          </div>
+          <div className="absolute rounded-md inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-1 transition-opacity cursor-pointer group-hover:opacity-100">
+            <AiFillCamera color="white" size={30} />
+          </div>
+        </div>
+      ))}
+
+      {/* Trigger the hidden file input */}
+      <button className="inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+        onClick={() => imageInput.current.click()}>Add Image</button>
+    </div>
+  );
+};
 
 
 function AddService() {
+
   const [cookies, setCookies] = useCookies(["User"]);
   const [loadingStatue, setLoadingStatue] = useState(false);
+  const [categories, setCategories] = useState(categoriesData); //temp
+  
   const form = useRef();
   const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
-  const [categories, setCategories] = useState(categoriesData);
-  // const [imagesValue, setImagesValue] = useState([]);
-  // const avatarInput = useRef(null);
+
   const [extras, setExtras] = useState([]);
+  const [images ,setImages] = useState([<ImageUpload key={0} />])
 
-const [images ,setImages] = useState([<ImageUpload key={0} />])
 
-  const gatherDetails = () => {
+  const gatherExtrasDetails = () => {
     const details = [];
     const names = document.querySelectorAll("#extra-name");
     const costs = document.querySelectorAll("#extra-cost");
@@ -189,8 +232,18 @@ const [images ,setImages] = useState([<ImageUpload key={0} />])
     ]);
   };
 
-
-
+  const gatherImagesDetails = () => {
+    const details = [];
+    const images = document.querySelectorAll(".serviceImage");
+  
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].value ) {
+        details.push(images[i].value) 
+      }
+    }
+    console.log(details)
+    return details;
+  };
 
 
   const onSubmit = async (data) => {
@@ -199,8 +252,9 @@ const [images ,setImages] = useState([<ImageUpload key={0} />])
     try {
       const formData = new FormData();
       
-      const extras = gatherDetails();
-      console.log(extras)
+      const extras = gatherExtrasDetails();
+      const images = gatherImagesDetails();
+
 
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
@@ -209,6 +263,7 @@ const [images ,setImages] = useState([<ImageUpload key={0} />])
       formData.append("time", data.time);
       formData.append("keywords", data.keywords.join());
       formData.append("extras", JSON.stringify(extras));
+      formData.append("images", JSON.stringify(images));
 
       console.log(formData.getAll('name'))
       console.log(formData.getAll('category_name'))
@@ -259,60 +314,6 @@ const [images ,setImages] = useState([<ImageUpload key={0} />])
 //   }
 //   getCAtegories()
 // })
-
-
-
-function ImageUpload() {
-  const [imagesValue, setImagesValue] = useState([]); // Store an array of image URLs
-  const avatarInput = useRef(null);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      setImagesValue((prevValues) => [...prevValues, fileURL]); // Add new URL to the array
-    }
-  };
-
-  return (
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        ref={avatarInput}
-        style={{ display: 'none' }}
-      />
-
-      {imagesValue.map((imageURL, index) => (
-        <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
-          <div className="w-[170px] h-[140px] rounded-md overflow-hidden">
-            <img className="w-full h-full object-cover" src={imageURL} alt="" />
-          </div>
-          <div className="absolute rounded-md inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-1 transition-opacity cursor-pointer group-hover:opacity-100">
-            <AiFillCamera color="white" size={30} />
-          </div>
-        </div>
-      ))}
-
-      {/* Trigger the hidden file input */}
-      <button className="inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
-        onClick={() => avatarInput.current.click()}>Add Image</button>
-    </div>
-  );
-}
-
-
-
-const handleImagesRepeat = () => {
-  setImages((prevImages) => [
-    ...prevImages,
-    <ImageUpload key={prevImages.length} />,
-  ]);
-};
-
-
-
 
 
 
