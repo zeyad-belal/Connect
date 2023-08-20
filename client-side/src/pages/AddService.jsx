@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { AiFillCamera } from "react-icons/ai";
+import { MdAdd } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
+//temp
 const categoriesData = [
   {
     category_name: "Design",
@@ -89,83 +91,194 @@ const categoriesData = [
   }
 ];
 
-const theKeywords =[
-  'logo',
-  'design',
-  'code',
-  'wordpress',
-  'web',
-  'frontend',
-  'backend',
-  'php',
-  'java script',
-  'web development',
-  'full stack',
-  'java',
-  'ai',
-  'automate',
-  'mern',
-  'mean',
-  'mevn',
-  'react',
-  'angular',
-  'vue',
-  'node',
-  'express',
-  'ads',
-  'translate',
-  'assistant',
-  'web design',
-  'python',
-  'designer',
-  '.net',
-  'c#',
-  'c++',
-  'desktop',
-  'mobile',
-  'webflow',
-  'figma',
-  'PWA',
-  'other',
-]
+const RepeatedExtras = () => {
+  const { register, handleSubmit, formState: { errors } , reset } = useForm();
+  return (
+    <div className="w-full flex gap-3 ">
+      <div className="name">
+        <label
+          htmlFor="extra-name"
+          className="mb-1 font-semibold text-text1 text-sm ">
+          Name
+        </label>
+
+        <input
+          {...register("key")}
+          type="text"
+          id="extra-name"
+          placeholder="key name"
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
+      </div>
+
+      <div className="cost">
+        <label
+          htmlFor="extra-cost"
+          className="mb-1 font-semibold text-text1 text-sm " >
+          Cost <span className="text-xs ml-2 text-gray-400">(additional service costs)</span>
+        </label>
+        <input
+          {...register("extra-cost")}
+          type="text"
+          id="extra-cost"
+          placeholder="in USD"
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
+      </div>
+
+      <div className="time">
+        <label
+          htmlFor="extra-time"
+          className="mb-1 font-semibold text-text1 text-sm " >
+          Extra Time <span className="text-xs ml-2 text-gray-400">(additional time needed)</span>
+        </label>
+          <select id="extra-time"
+          {...register("extra-time", { required: true })}
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
+          <option value="">Please select</option>
+          <option key='one day' value="one day">one day</option>
+          <option key='two day' value="two day">two days</option>
+          <option key='three days' value="three days">three days</option>
+          <option key='four days' value="four days">four days</option>
+          <option key='five day' value="five days">five days</option>
+          <option key='six days' value="six days">six days</option>
+          <option key='one week' value="one week">one week</option>
+          <option key='two weeks' value="two weeks">two weeks</option>
+          <option key='three weeks' value="three weeks">three weeks</option>
+          <option key='one month' value="one month">one month</option>
+        </select>
+        {errors['extra-time'] && (
+          <span className="text-red-500">This field is required</span>
+          )}
+      </div>
+    </div>
+  );
+};
+
+const ImageUpload = () => {
+  const [imagesURLS, setImagesURLS] = useState([]); 
+  const imageInput = useRef(null);
+  const { register, handleSubmit, formState: { errors } , reset } = useForm();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      // gathering images url
+      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="file"
+        {...register("images")}
+        accept="image/*"
+        onChange={handleFileChange}
+        ref={imageInput}
+        className="serviceImage hidden"
+      />
+
+      {imagesURLS.map((imageURL, index) => (
+        <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
+          <div className="w-[170px] h-[140px] rounded-md overflow-hidden">
+            <img className="w-full h-full object-cover" src={imageURL} alt="" />
+          </div>
+          <div className="absolute rounded-md inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-1 transition-opacity cursor-pointer group-hover:opacity-100">
+            <AiFillCamera color="white" size={30} />
+          </div>
+        </div>
+      ))}
+
+      {/* Trigger the hidden file input */}
+      <button className="inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+        onClick={() => imageInput.current.click()}>Add Image</button>
+    </div>
+  );
+};
+
 
 function AddService() {
+
   const [cookies, setCookies] = useCookies(["User"]);
   const [loadingStatue, setLoadingStatue] = useState(false);
+  const [categories, setCategories] = useState(categoriesData); //temp
+  
   const form = useRef();
   const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
-  const [avatarValue, setAvatarValue] = useState('');
-  const [categories, setCategories] = useState(categoriesData);
-  const [chosenKeyWords, setChosenKeyWords] = useState([]);
-  const avatarInput = useRef(null);
+
+  const [extras, setExtras] = useState([]);
+  const [images ,setImages] = useState([<ImageUpload key={0} />])
+
+
+  const gatherExtrasDetails = () => {
+    const details = [];
+    const names = document.querySelectorAll("#extra-name");
+    const costs = document.querySelectorAll("#extra-cost");
+    const times = document.querySelectorAll("#extra-time");
+    for (let i = 0; i < names.length; i++) {
+      if (names[i].value && costs[i].value && times[i].value) {
+        let detail =[names[i].value ,costs[i].value, times[i].value]
+        details.push(detail) 
+      }
+    }
+    console.log(details)
+    return details;
+  };
+
+  const handleExtraRepeat = () => {
+    setExtras((prevExtras) => [
+      ...prevExtras,
+      <RepeatedExtras key={prevExtras.length} />,
+    ]);
+  };
+
+  const gatherImagesDetails = () => {
+    const details = [];
+    const images = document.querySelectorAll(".serviceImage");
   
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].value ) {
+        details.push(images[i].value) 
+      }
+    }
+    console.log(details)
+    return details;
+  };
 
-
-  function addKeyword(e){
-    setChosenKeyWords(prevWords => {
-      return[ ...prevWords ,e.target.innerText]
-    })
-    // e.target.classList.add('hidden')
-  }
 
   const onSubmit = async (data) => {
     setLoadingStatue(true)
+    console.log('fired')
     try {
       const formData = new FormData();
       
+      const extras = gatherExtrasDetails();
+      const images = gatherImagesDetails();
+
+
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
       formData.append("price", data.price);
+      formData.append("time", data.time);
+      formData.append("keywords", data.keywords.join());
+      formData.append("extras", JSON.stringify(extras));
+      formData.append("images", JSON.stringify(images));
 
-      // updating user info
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/services`,
-        formData,
-        { headers: { Authorization: `${cookies.UserToken}` } }
-      );
+      console.log(formData.getAll('name'))
+      console.log(formData.getAll('category_name'))
+      console.log(formData.getAll('description'))
+      console.log(formData.getAll('price'))
+      console.log(formData.getAll('time'))
+      console.log(formData.getAll('keywords'))
+      console.log(formData.getAll('extras'))
+      
+      // const response = await axios.post(
+      //   `${import.meta.env.VITE_API_URL}/services`,
+      //   formData,
+      //   { headers: { Authorization: `${cookies.UserToken}` } }
+      // );
     
-
       // window.location.reload()
       setLoadingStatue(false) 
       toast.success(`your changes have been saved ${cookies.User.first_name}!`, {
@@ -205,48 +318,15 @@ function AddService() {
 
 
 
-
   return (
 <div className="flex relative justify-center items-center bg-gray-100">
       <form
         ref={form}
         onSubmit={handleSubmit(onSubmit)}
         className="w-full rounded-md  xl:m-10 md:m-10 sm:my-10 bg-white p-12" >
-         {/* --------image uploud--------------- */}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setValue('avatar', file);
-            }}
-            onInput={(e)=>{
-              const file = e.target.files[0];
-              const fileURL = URL.createObjectURL(file); 
-              setAvatarValue(fileURL); 
-            }}
-            ref={(e) => {
-              register('avatar'); 
-              avatarInput.current = e; 
-            }}
-            hidden
-          />
-
-        <div className="mb-4 max-w-[120px] mx-auto relative" >
-          <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
-            <img
-              className="w-full h-full object-cover"
-              src={avatarValue}
-              alt=""
-            />
-          </div>
-          <div className="absolute rounded-full inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-1 transition-opacity cursor-pointer group-hover:opacity-100">
-            <AiFillCamera color="white" size={30} />
-          </div>
-        </div>
             {/* --------------name------------- */}
               <div className="mb-4 flex flex-col">
-                <label htmlFor="name" className="mb-2">
+                <label htmlFor="name" className="mb-1 font-semibold text-text1 text-sm ">
                   Service Title
                 </label>
                 <input
@@ -260,7 +340,7 @@ function AddService() {
               </div>
             {/* --------------category_name------------- */}
             <div className="mb-4 flex flex-col">
-              <label htmlFor="category"  className="mb-2">
+              <label htmlFor="category"  className="mb-1 font-semibold text-text1 text-sm ">
                 Category
               </label>
               <select
@@ -286,28 +366,26 @@ function AddService() {
             </div>
             {/* -----------description---------------- */}
             <div className="mb-4">
-              <label htmlFor="description" className=" mb-2">
+              <label htmlFor="description" className="mb-1 font-semibold text-text1 text-sm ">
                 Description
               </label>
               <textarea
                 id="description"
                 {...register("description", {
                   required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                 })}
                 className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
                 />
-              {errors.description && (
-                <span className="text-red-500">
-                  Please enter a valid description
-                </span>
+              {errors.description?.type === "required" && (
+                <p className="text-red-500" role="alert">
+                  Description name is required
+                </p>
               )}
             </div>
             {/* -----------price and duration---------------- */}
             <div className="mb-4 flex  gap-3">
-
               <div className="mb-4 w-full">
-                <label htmlFor="price" className=" mb-2">
+                <label htmlFor="price" className="mb-1 font-semibold text-text1 text-sm " >
                   Price
                 </label>
                 <input
@@ -322,7 +400,7 @@ function AddService() {
               </div>
 
               <div className="mb-4 w-full">
-                <label htmlFor="time" className=" mb-2">
+                <label htmlFor="time" className="mb-1 font-semibold text-text1 text-sm " >
                   Delivery Period
                 </label>
                 <select
@@ -348,27 +426,36 @@ function AddService() {
             </div>
             {/* --------------keywords------------- */}
             <div className="mb-4 flex flex-col">
-                <label htmlFor="keywords" className="mb-2">keywords</label>
-                <select
+                <label htmlFor="keywords" className="mb-1 font-semibold text-text1 text-sm " >keywords 
+                  <span className="text-xs ml-2 text-gray-400">( provide single words separated with space )</span> </label>
+                <input
+                  placeholder="ex: logo design web 3d ..."
                   {...register("keywords", { required: true })}
-                  className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
-                    <option value="">Please select</option>
-                    {theKeywords.map((word)=>{
-                      return <option key={word} value={word}>{word}</option>
-                    })}
-                  </select>
+                  className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
                 {errors.name && (
                   <span className="text-red-500">This field is required</span>
                 )}
-                {/* <div className=""> */}
-                {/* {theKeywords.map((word)=>{
-                  return <span
-                    className="p-1 rounded-md m-1 text-sm cursor-pointer bg-gray-100 inline-block" key={word}
-                    onClick={(e)=> addKeyword(e)}
-                    >{word}</span>
-                })}
-                </div> */}
               </div>
+            {/* --------------images------------- */}
+            <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
+            <div className="bg-gray-100 px-3 pb-6 mb-12 pt-3 rounded-md">
+                <div id="images" className="form-group flex flex-wrap gap-3 items-center">
+                  {images}
+                </div>
+              </div>
+            {/* --------------extras------------- */}
+            <div className="bg-primary px-3 pb-6 pt-3 rounded-md">
+              <h2 className="font-bold text-gray-500  mb-3">The enhancements to the provided service are optional only.</h2>
+              <div className="form-group flex flex-wrap gap-3 items-center">
+                {extras}
+                <button
+                  onClick={() => handleExtraRepeat()}
+                  type="button"
+                  className="inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm">
+                  Add Extra
+                </button>
+              </div>
+            </div>
             {/* --------------------------- */}
             <button
               type="submit"

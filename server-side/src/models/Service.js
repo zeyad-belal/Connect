@@ -17,13 +17,16 @@ const serviceSchema = new Schema({
     type : String,
     required : true
   },
+  keywords:{
+    type : Array
+  },
   time:{
     type : String,
     required : true
   },
   extras: {
-    type: Object,
-    default: {}
+    type: Array,
+    default: []
   },
   images: {
     type: Array
