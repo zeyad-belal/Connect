@@ -25,8 +25,8 @@ const serviceSchema = new Schema({
     required : true
   },
   extras: {
-    type: Object,
-    default: {}
+    type: Array,
+    default: []
   },
   images: {
     type: Array

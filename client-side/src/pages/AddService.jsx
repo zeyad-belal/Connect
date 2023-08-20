@@ -90,19 +90,13 @@ const categoriesData = [
 ];
 
 const RepeatedBlock = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { error },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, formState: { error }, reset } = useForm();
   return (
     <div className="key-value-pair w-full flex gap-3">
       <div className="name-container">
         <label
           htmlFor="detail-name"
-          className="block text-xs font-medium text-gray-700"
-        >
+          className="mb-1 font-semibold text-text1 text-sm ">
           Name
         </label>
 
@@ -111,24 +105,21 @@ const RepeatedBlock = () => {
           type="text"
           id="detail-name"
           placeholder="key name"
-          className="mt-1 rounded-md w-full md:w-[12rem] border-gray-200 shadow-sm sm:text-sm"
-        />
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
       <div className="value-container">
         <label
           htmlFor="detail-value"
-          className="block text-xs font-medium text-gray-700"
-        >
-          Value
+          className="mb-1 font-semibold text-text1 text-sm " >
+          Cost <span className="text-xs ml-2 text-gray-400">(additional service costs)</span>
         </label>
 
         <input
           {...register("value")}
           type="text"
           id="detail-value"
-          placeholder="value"
-          className="mt-1 rounded-md w-full md:w-[12rem] border-gray-200 shadow-sm sm:text-sm"
-        />
+          placeholder="in USD"
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
     </div>
   );
@@ -145,7 +136,7 @@ function AddService() {
   const [avatarValue, setAvatarValue] = useState('');
   const [categories, setCategories] = useState(categoriesData);
   const avatarInput = useRef(null);
-  const [blocks, setBlocks] = useState([<RepeatedBlock key={0} />]);
+  const [blocks, setBlocks] = useState([]);
 
 
 
@@ -281,7 +272,7 @@ function AddService() {
         </div>
             {/* --------------name------------- */}
               <div className="mb-4 flex flex-col">
-                <label htmlFor="name" className="mb-2">
+                <label htmlFor="name" className="mb-1 font-semibold text-text1 text-sm ">
                   Service Title
                 </label>
                 <input
@@ -295,7 +286,7 @@ function AddService() {
               </div>
             {/* --------------category_name------------- */}
             <div className="mb-4 flex flex-col">
-              <label htmlFor="category"  className="mb-2">
+              <label htmlFor="category"  className="mb-1 font-semibold text-text1 text-sm ">
                 Category
               </label>
               <select
@@ -321,7 +312,7 @@ function AddService() {
             </div>
             {/* -----------description---------------- */}
             <div className="mb-4">
-              <label htmlFor="description" className=" mb-2">
+              <label htmlFor="description" className="mb-1 font-semibold text-text1 text-sm ">
                 Description
               </label>
               <textarea
@@ -341,7 +332,7 @@ function AddService() {
             <div className="mb-4 flex  gap-3">
 
               <div className="mb-4 w-full">
-                <label htmlFor="price" className=" mb-2">
+                <label htmlFor="price" className="mb-1 font-semibold text-text1 text-sm " >
                   Price
                 </label>
                 <input
@@ -356,7 +347,7 @@ function AddService() {
               </div>
 
               <div className="mb-4 w-full">
-                <label htmlFor="time" className=" mb-2">
+                <label htmlFor="time" className="mb-1 font-semibold text-text1 text-sm " >
                   Delivery Period
                 </label>
                 <select
@@ -382,7 +373,7 @@ function AddService() {
             </div>
             {/* --------------keywords------------- */}
             <div className="mb-4 flex flex-col">
-                <label htmlFor="keywords" className="mb-2">keywords 
+                <label htmlFor="keywords" className="mb-1 font-semibold text-text1 text-sm " >keywords 
                   <span className="text-xs ml-2 text-gray-400">( provide single words separated with space )</span> </label>
                 <input
                   placeholder="ex: logo design web 3d ..."
@@ -393,13 +384,14 @@ function AddService() {
                 )}
               </div>
             {/* --------------extras------------- */}
+            <h2 className="font-bold text-gray-500 mt-10 mb-3">The enhancements to the provided service are optional only.</h2>
             <div className="form-group flex flex-wrap gap-3 items-center">
               {blocks}
               <button
                 onClick={() => handleRepeat()}
                 type="button"
                 className="inline-block mt-[18px] h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm">
-                Add Detail
+                Add Extra
               </button>
             </div>
             {/* --------------------------- */}
