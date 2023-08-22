@@ -153,57 +153,25 @@ const RepeatedExtras = () => {
   );
 };
 
-const ImageUpload = () => {
-  const [imagesURLS, setImagesURLS] = useState([]); 
-  const imageInput = useRef(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      // gathering images url
-      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
-    }
-  };
-
-
-  return (
-    <div className="flex">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        ref={imageInput}
-        className="serviceImage hidden"
-      />
-      {/* Trigger the hidden file input */}
-      <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
-        onClick={(e) => imageInput.current.click(e)}>Add Image</button>
-
-      {imagesURLS.map((imageURL, index) => (
-        <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
-          <div className="w-[180px] h-[150px] rounded-md overflow-hidden flex">
-            <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
-          </div>
-        </div>
-      ))}
-
-    </div>
-  );
-};
 
 
 function AddService() {
+  // images uploud
+  const [imagesURLS, setImagesURLS] = useState([]); 
+  const [selectedImages, setSelectedImages] = useState([]);
+  const imageInput = useRef(null);
+
 
   const [cookies, setCookies] = useCookies(["User"]);
   const [loadingStatue, setLoadingStatue] = useState(false);
   const [categories, setCategories] = useState(categoriesData); //temp
   
   const form = useRef();
-  const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [extras, setExtras] = useState([]);
-  const [images ,setImages] = useState([<ImageUpload key={0} />])
+  // const [images ,setImages] = useState([''])
 
 
   const gatherExtrasDetails = () => {
@@ -227,30 +195,33 @@ function AddService() {
     ]);
   };
 
-  const gatherImagesDetails = () => {
-    const details = [];
-    const images = document.querySelectorAll(".serviceImage");
-  
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].value ) {
-        details.push(images[i].value) 
-      }
+
+  const handleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      //updating images input
+      const fileee = e.target.files[0];
+      // setValue('images', fileee);
+      setSelectedImages(prevImages => {
+        return [...prevImages, ...e.target.files]
+      })
+
+      
+      // gathering images url to display
+      const file = e.target.files[0];
+      const fileURL = URL.createObjectURL(file);
+      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
     }
-    console.log(details)
-    return details;
   };
 
 
+
   const onSubmit = async (data) => {
-    setLoadingStatue(true)
     console.log('fired')
+    setLoadingStatue(true)
     // try {
       const formData = new FormData();
       
       const extras = gatherExtrasDetails();
-      const images = gatherImagesDetails();
-    
-      console.log('data:',data)
     
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
@@ -259,7 +230,17 @@ function AddService() {
       formData.append("time", data.time);
       formData.append("keywords", data.keywords.split(" "));
       formData.append("extras", JSON.stringify(extras));
-      formData.append("images", JSON.stringify(images));
+
+      // for (const image of selectedImages) {
+      //   formData.append('images', image);
+      // }
+      // for (const image of data.images) {
+      //   console.log("formData:",formData.get('images'))
+      //   formData.append('images', image);
+      // }
+      console.log(data)
+        
+      
     
       console.log("formData:",formData.get('name'))
       console.log("formData:",formData.get('category_name'))
@@ -269,6 +250,7 @@ function AddService() {
       console.log("formData:",formData.get('keywords'))
       console.log("formData:",formData.get('extras'))
       console.log("formData:",formData.get('images'))
+      console.log(selectedImages)
     
       
       // const response = await axios.post(
@@ -436,11 +418,26 @@ function AddService() {
               </div>
             {/* --------------images------------- */}
             <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
-            <div className="bg-gray-100 px-3 p-6 mb-12  rounded-md">
-                <div id="images" className="flex  flex-wrap gap-3 ">
-                  {images}
-                </div>
+            <div className="bg-gray-100 flex  flex-wrap gap-3 px-3 p-6 mb-12  rounded-md">
+                  <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+                  onClick={(e) => imageInput.current.click(e)}>Add Image</button>
+                  {/* images display */}
+                  {imagesURLS.map((imageURL, index) => (
+                    <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
+                        <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
+                    </div> 
+                  ))}
               </div>
+            
+              <input
+                {...register("images")}
+                multiple
+                type="file"
+                onChange={(e)=> handleFileChange(e)}
+                ref={imageInput}
+                className="serviceImage hidden"
+              />
+
             {/* --------------extras------------- */}
             <div className="bg-primary px-3 pb-6 pt-3 rounded-md">
               <h2 className="font-bold text-gray-500  mb-3">The enhancements to the provided service are optional only.</h2>
