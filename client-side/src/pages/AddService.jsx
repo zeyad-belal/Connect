@@ -249,9 +249,9 @@ function AddService() {
       
       const extras = gatherExtrasDetails();
       const images = gatherImagesDetails();
-
+    
       console.log('data:',data)
-  
+    
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
@@ -260,7 +260,7 @@ function AddService() {
       formData.append("keywords", data.keywords.split(" "));
       formData.append("extras", JSON.stringify(extras));
       formData.append("images", JSON.stringify(images));
-  
+    
       console.log("formData:",formData.get('name'))
       console.log("formData:",formData.get('category_name'))
       console.log("formData:",formData.get('description'))
