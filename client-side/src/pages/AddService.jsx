@@ -269,7 +269,7 @@ function AddService() {
       console.log("formData:",formData.get('keywords'))
       console.log("formData:",formData.get('extras'))
       console.log("formData:",formData.get('images'))
-
+    
       
       // const response = await axios.post(
       //   `${import.meta.env.VITE_API_URL}/services`,
