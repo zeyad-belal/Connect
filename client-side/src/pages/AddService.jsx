@@ -153,48 +153,62 @@ const RepeatedExtras = () => {
   );
 };
 
-const ImageUpload = () => {
-  const [imagesURLS, setImagesURLS] = useState([]); 
-  const imageInput = useRef(null);
+// const ImageUpload = () => {
+//   const [imagesURLS, setImagesURLS] = useState([]); 
+//   const imageInput = useRef(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileURL = URL.createObjectURL(file);
-      // gathering images url
-      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
-    }
-  };
+//   const handleFileChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const fileURL = URL.createObjectURL(file);
+//       // gathering images url
+//       setImagesURLS((prevValues) => [...prevValues, fileURL]); 
+//     }
+//   };
 
 
-  return (
-    <div className="flex">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        ref={imageInput}
-        className="serviceImage hidden"
-      />
-      {/* Trigger the hidden file input */}
-      <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
-        onClick={(e) => imageInput.current.click(e)}>Add Image</button>
+//   return (
+//     <div className="flex">
 
-      {imagesURLS.map((imageURL, index) => (
-        <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
-          <div className="w-[180px] h-[150px] rounded-md overflow-hidden flex">
-            <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
-          </div>
-        </div>
-      ))}
+//       <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+//         onClick={(e) => imageInput.current.click(e)}>Add Image</button>
 
-    </div>
-  );
-};
+//       {imagesURLS.map((imageURL, index) => (
+//         <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
+//           <div className="w-[180px] h-[150px] rounded-md overflow-hidden flex">
+//             <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
+//           </div>
+//         </div>
+//       ))}
+
+//     </div>
+//   );
+// };
 
 
 function AddService() {
+  // images uploud
+  const [imagesURLS, setImagesURLS] = useState([]); 
+  const [selectedImages, setSelectedImages] = useState([]);
+  const imageInput = useRef(null);
 
+  const handleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      //updating images input
+      // const files = [...selectedImages,...e.target.files];
+      setSelectedImages(prevImages => {
+        return [...prevImages, ...e.target.files]
+      })
+      // console.log("hhhhhhhhhhhhhhh", selectedImages)
+      // setValue('images', files); 
+      
+      // gathering images url to display
+      const file = e.target.files[0];
+      const fileURL = URL.createObjectURL(file);
+      setImagesURLS((prevValues) => [...prevValues, fileURL]); 
+    }
+  };
+//------------------------------------------------------
   const [cookies, setCookies] = useCookies(["User"]);
   const [loadingStatue, setLoadingStatue] = useState(false);
   const [categories, setCategories] = useState(categoriesData); //temp
@@ -203,7 +217,7 @@ function AddService() {
   const { register, handleSubmit, formState: { errors } ,setValue } = useForm();
 
   const [extras, setExtras] = useState([]);
-  const [images ,setImages] = useState([<ImageUpload key={0} />])
+  // const [images ,setImages] = useState([''])
 
 
   const gatherExtrasDetails = () => {
@@ -227,30 +241,30 @@ function AddService() {
     ]);
   };
 
-  const gatherImagesDetails = () => {
-    const details = [];
-    const images = document.querySelectorAll(".serviceImage");
+  // const gatherImagesDetails = () => {
+  //   const ImageDetails = [];
+  //   const images = document.querySelectorAll(".serviceImage");
   
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].value ) {
-        details.push(images[i].value) 
-      }
-    }
-    console.log(details)
-    return details;
-  };
+  //   for (let i = 0; i < images.length; i++) {
+  //     if (images[i].value ) {
+  //       ImageDetails.push(images[i].value) 
+  //     }
+  //   }
+  //   console.log(ImageDetails)
+  //   return ImageDetails;
+  // };
 
 
   const onSubmit = async (data) => {
-    setLoadingStatue(true)
     console.log('fired')
+    setLoadingStatue(true)
     // try {
       const formData = new FormData();
       
       const extras = gatherExtrasDetails();
-      const images = gatherImagesDetails();
+      // const images = gatherImagesDetails();
     
-      console.log('data:',data)
+      // console.log('data:',data)
     
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
@@ -259,7 +273,12 @@ function AddService() {
       formData.append("time", data.time);
       formData.append("keywords", data.keywords.split(" "));
       formData.append("extras", JSON.stringify(extras));
-      formData.append("images", JSON.stringify(images));
+
+      selectedImages.forEach((image) =>{
+        formData.append('images', image);
+      })
+        
+      
     
       console.log("formData:",formData.get('name'))
       console.log("formData:",formData.get('category_name'))
@@ -269,6 +288,7 @@ function AddService() {
       console.log("formData:",formData.get('keywords'))
       console.log("formData:",formData.get('extras'))
       console.log("formData:",formData.get('images'))
+      // console.log(selectedImages)
     
       
       // const response = await axios.post(
@@ -438,9 +458,31 @@ function AddService() {
             <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
             <div className="bg-gray-100 px-3 p-6 mb-12  rounded-md">
                 <div id="images" className="flex  flex-wrap gap-3 ">
-                  {images}
+                  <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+                  onClick={(e) => imageInput.current.click(e)}>Add Image</button>
+                  {/* images display */}
+                  {imagesURLS.map((imageURL, index) => (
+                    <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
+                      <div className="w-[180px] h-[150px] rounded-md overflow-hidden flex">
+                        <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
+                      </div>
+                    </div> 
+                  ))}
                 </div>
               </div>
+            
+              <input
+                type="file"
+                {...register("images", { required: true })}
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
+                ref={imageInput}
+                className="serviceImage hidden"
+              />
+
+
+          
             {/* --------------extras------------- */}
             <div className="bg-primary px-3 pb-6 pt-3 rounded-md">
               <h2 className="font-bold text-gray-500  mb-3">The enhancements to the provided service are optional only.</h2>
