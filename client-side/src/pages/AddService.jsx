@@ -260,7 +260,7 @@ function AddService() {
       formData.append("keywords", data.keywords.split(" "));
       formData.append("extras", JSON.stringify(extras));
       formData.append("images", JSON.stringify(images));
-
+  
       console.log("formData:",formData.get('name'))
       console.log("formData:",formData.get('category_name'))
       console.log("formData:",formData.get('description'))
