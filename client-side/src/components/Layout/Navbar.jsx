@@ -3,7 +3,7 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Searchbar from "../Searchbar.jsx";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { BsFillBellFill, BsFillCollectionFill, BsSearch } from "react-icons/bs";
@@ -21,6 +21,66 @@ import { signModalActions } from "../../store/signModalSlice.jsx";
 import { menuActions } from "../../store/menuSlice.jsx";
 
 
+
+
+const categoriesData = [
+  {
+    category_name: "Design",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 1,
+  },
+  {
+    category_name: "Code",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 2,
+  },
+  {
+    category_name: "Translition",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 3,
+  },
+  {
+    category_name: "Ai",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 4,
+  },
+  {
+    category_name: "automation",
+    id: 5,
+  },
+  {
+    category_name: "Graphic",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 6,
+  },
+  {
+    category_name: "Marketing",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 7,
+  },
+  {
+    category_name: "consult",
+      image:{
+      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
+    },
+    id: 8,
+  }
+];
+
+
+
 const Navbar = (props) => {
   const cart = useSelector((state)=> state.cart);
   const menu = useSelector((state)=> state.menu);
@@ -30,6 +90,7 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
+  const [categories, setCategories] = useState(categoriesData);
 
 
 
@@ -48,6 +109,14 @@ const Navbar = (props) => {
       setCurrUser(cookies.User);
     }
   }, [cookies.User]);
+
+
+
+
+  // useEffect(()=>{
+  //   const data = axios.get(`${import.meta.env.VITE_API_URL}/categories`)
+  //   setCategories(data)
+  // },[])
 
 
 
@@ -80,17 +149,35 @@ const Navbar = (props) => {
               />
             </li>
           </Link>
+          {/* Add Service */}
           <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/addService')} >
             <MdAdd /> Add service
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          {/* Catgories */}
+          <li
+            className={menu.isCatgMenuVisible
+                ? "relative hidden lg:flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer gap-2"
+                : "relative hidden lg:flex items-center rounded-full  px-3 my-3 mx-2 text-text1 hover:bg-primary cursor-pointer gap-2"}
+            onClick={() => dispatch(menuActions.toggleCategories())} >
             <BsFillCollectionFill /> Categories
+            {menu.isCatgMenuVisible && 
+            <div className="bottom-[-540%] right-[-250%] z-40 absolute mt-2 w-[500%] text-center  bg-white rounded-lg shadow-lg">
+              <ul className="flex flex-wrap">
+                {categories.map(category =>{
+                  return <li
+                  onClick={()=>navigate(`/services/category=${category.category_name}`)}
+                  className="cursor-pointer  hover:bg-primary px-6 py-7 w-[25%]"
+                  key={category.id}>{category.category_name}</li>
+                })}
+              </ul>
+            </div>}
           </li>
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/orders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
+          {/* Purchases */}
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
@@ -133,14 +220,14 @@ const Navbar = (props) => {
             {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30  ">
-                  <ul className="flex flex-col  absolute bg-white rounded-br-lg rounded-bl-lg right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
-                    <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                  <ul className="flex flex-col overflow-hidden absolute bg-white rounded-br-lg rounded-bl-lg right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
+                    <li className="flex gap-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
-                    <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                    <li className="flex gap-2 border-t-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
-                    <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                    <li className="flex gap-2 border-t-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
                   </ul>
@@ -219,14 +306,13 @@ const Navbar = (props) => {
       {/* close overlay  */}
       {menu.isNotiMenuVisible ||
       menu.isUserMenuVisible ||
+      menu.isCatgMenuVisible ||
       menu.isSearchBarVisible ? (
         <div
           className=" fixed top-0 left-0 w-full h-screen z-10 bg-opacity-40"
           onClick={() => dispatch(menuActions.closeAllMenus())}
         ></div>
-      ) : (
-        ""
-      )}
+      ) : ""}
       {/* -------------------------------------------------------------------------------------------------------------- */}
       {menu.isSubVisible ? (
         <Backdrop

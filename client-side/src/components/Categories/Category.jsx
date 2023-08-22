@@ -14,7 +14,7 @@ const Category = ({category}) => {
     <>
       <Link
         to={`/services?category=${category.category_name}`}
-        className={`category-item flex grow h-[200px]   overflow-hidden hover:cursor-pointer`}
+        className={`category-item flex grow h-[200px] overflow-hidden hover:cursor-pointer`}
       >
         <div
           className="background-image w-full h-full bg-center bg-cover "
