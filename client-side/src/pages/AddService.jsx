@@ -166,8 +166,9 @@ const ImageUpload = () => {
     }
   };
 
+
   return (
-    <div>
+    <div className="flex">
       <input
         type="file"
         accept="image/*"
@@ -175,21 +176,18 @@ const ImageUpload = () => {
         ref={imageInput}
         className="serviceImage hidden"
       />
+      {/* Trigger the hidden file input */}
+      <button type="button" className="self-center mr-4 inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
+        onClick={(e) => imageInput.current.click(e)}>Add Image</button>
 
       {imagesURLS.map((imageURL, index) => (
         <div key={index} className="image-container mb-4 max-w-[170px] mx-auto relative">
-          <div className="w-[170px] h-[140px] rounded-md overflow-hidden">
-            <img className="w-full h-full object-cover" src={imageURL} alt="" />
-          </div>
-          <div className="absolute rounded-md inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-1 transition-opacity cursor-pointer group-hover:opacity-100">
-            <AiFillCamera color="white" size={30} />
+          <div className="w-[180px] h-[150px] rounded-md overflow-hidden flex">
+            <img className="w-full h-full object-cover" src={imageURL} alt="service image" />
           </div>
         </div>
       ))}
 
-      {/* Trigger the hidden file input */}
-      <button className="inline-block h-[38px] px-4 text-white duration-150 font-medium bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600 md:text-sm"
-        onClick={() => imageInput.current.click()}>Add Image</button>
     </div>
   );
 };
@@ -219,7 +217,6 @@ function AddService() {
         details.push(detail) 
       }
     }
-    console.log(details)
     return details;
   };
 
@@ -247,29 +244,32 @@ function AddService() {
   const onSubmit = async (data) => {
     setLoadingStatue(true)
     console.log('fired')
-    try {
+    // try {
       const formData = new FormData();
       
       const extras = gatherExtrasDetails();
       const images = gatherImagesDetails();
 
+      console.log('data:',data)
 
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
       formData.append("price", data.price);
       formData.append("time", data.time);
-      formData.append("keywords", data.keywords.join());
+      formData.append("keywords", data.keywords.split(" "));
       formData.append("extras", JSON.stringify(extras));
       formData.append("images", JSON.stringify(images));
 
-      console.log(formData.getAll('name'))
-      console.log(formData.getAll('category_name'))
-      console.log(formData.getAll('description'))
-      console.log(formData.getAll('price'))
-      console.log(formData.getAll('time'))
-      console.log(formData.getAll('keywords'))
-      console.log(formData.getAll('extras'))
+      console.log("formData:",formData.get('name'))
+      console.log("formData:",formData.get('category_name'))
+      console.log("formData:",formData.get('description'))
+      console.log("formData:",formData.get('price'))
+      console.log("formData:",formData.get('time'))
+      console.log("formData:",formData.get('keywords'))
+      console.log("formData:",formData.get('extras'))
+      console.log("formData:",formData.get('images'))
+
       
       // const response = await axios.post(
       //   `${import.meta.env.VITE_API_URL}/services`,
@@ -289,19 +289,19 @@ function AddService() {
         progress: undefined,
         theme: "light",
       })
-    } catch (error) {
-      // console.log(error)
-      toast.error(error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-    }
+    // } catch (error) {
+    //   // console.log(error)
+    //   toast.error(error, {
+    //     position: "top-right",
+    //     autoClose: 2000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light"
+    //   });
+    // }
   };
 
 
@@ -436,15 +436,15 @@ function AddService() {
               </div>
             {/* --------------images------------- */}
             <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
-            <div className="bg-gray-100 px-3 pb-6 mb-12 pt-3 rounded-md">
-                <div id="images" className="form-group flex flex-wrap gap-3 items-center">
+            <div className="bg-gray-100 px-3 p-6 mb-12  rounded-md">
+                <div id="images" className="flex  flex-wrap gap-3 ">
                   {images}
                 </div>
               </div>
             {/* --------------extras------------- */}
             <div className="bg-primary px-3 pb-6 pt-3 rounded-md">
               <h2 className="font-bold text-gray-500  mb-3">The enhancements to the provided service are optional only.</h2>
-              <div className="form-group flex flex-wrap gap-3 items-center">
+              <div className=" flex flex-wrap gap-3 items-center">
                 {extras}
                 <button
                   onClick={() => handleExtraRepeat()}
