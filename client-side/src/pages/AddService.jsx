@@ -251,7 +251,7 @@ function AddService() {
       const images = gatherImagesDetails();
 
       console.log('data:',data)
-
+  
       formData.append("name", data.name);
       formData.append("category_name", data.category_name);
       formData.append("description", data.description);
