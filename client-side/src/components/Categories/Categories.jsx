@@ -99,10 +99,10 @@ const Categories = () => {
   return (
 <>
   <section className="px-10 py-12 min-h-[100vh] bg-primary text-center flex flex-col justify-center ">
-    <h1 className="text-semibold text-4xl text-text1 my-12">
+    <h1 className="text-bold text-4xl text-text1 mb-12">
       Professional Services to Grow Your Business
     </h1>
-    <div className="gap-4 flex flex-col justify-around sm:flex-row flex-wrap">
+    <div className="gap-7 flex flex-col justify-around sm:flex-row flex-wrap">
       {categories.map((category) => {
         return (
           <div

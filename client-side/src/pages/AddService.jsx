@@ -156,7 +156,6 @@ const RepeatedExtras = () => {
 const ImageUpload = () => {
   const [imagesURLS, setImagesURLS] = useState([]); 
   const imageInput = useRef(null);
-  const { register, handleSubmit, formState: { errors } , reset } = useForm();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -171,7 +170,6 @@ const ImageUpload = () => {
     <div>
       <input
         type="file"
-        {...register("images")}
         accept="image/*"
         onChange={handleFileChange}
         ref={imageInput}

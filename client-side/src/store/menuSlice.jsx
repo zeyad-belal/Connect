@@ -8,6 +8,7 @@ const initialState = {
   isUserMenuVisible: false,
   isNotiMenuVisible: false,
   isSearchBarVisible: false,
+  isCatgMenuVisible: false,
 };
 
 export const menuSlice = createSlice({
@@ -19,30 +20,42 @@ export const menuSlice = createSlice({
       state.isNotiMenuVisible = false;
       state.isSearchBarVisible = false;
       state.isSubVisible = false;
+      state.isCatgMenuVisible = false;
     },
     toggleNotiMenu(state){
       state.isNotiMenuVisible = !state.isNotiMenuVisible
       state.isUserMenuVisible = false;
       state.isSearchBarVisible = false;
       state.isSubVisible = false;
+      state.isCatgMenuVisible = false;
     },
     toggleSearchBar(state){
       state.isSearchBarVisible = !state.isSearchBarVisible
       state.isNotiMenuVisible = false;
       state.isUserMenuVisible = false;
       state.isSubVisible = false;
+      state.isCatgMenuVisible = false;
     },
     toggleSubNav(state){
       state.isSubVisible = !state.isSubVisible
       state.isNotiMenuVisible = false;
       state.isSearchBarVisible = false;
       state.isUserMenuVisible = false;
+      state.isCatgMenuVisible = false;
+    },
+    toggleCategories(state){
+      state.isCatgMenuVisible = !state.isCatgMenuVisible
+      state.isNotiMenuVisible = false;
+      state.isSearchBarVisible = false;
+      state.isUserMenuVisible = false;
+      state.isSubVisible = false;
     },
     closeAllMenus(state){
       state.isSubVisible = false
       state.isNotiMenuVisible = false;
       state.isSearchBarVisible = false;
       state.isUserMenuVisible = false;
+      state.isCatgMenuVisible = false;
     }
   }
 })
