@@ -26,7 +26,7 @@ const createCategory = async (req, res, next) => {
     const imageResponse = await imageKit.upload({
       file: image.buffer.toString("base64"),
       fileName: image.originalname,
-      folder: "categories"
+      folder: "connect-categories"
     });
 
     const createdCategory = await Category.create({
@@ -62,7 +62,7 @@ const updateCategory = async (req, res, next) => {
     imageResponse = await imageKit.upload({
       file: image.buffer.toString("base64"),
       fileName: image.originalname,
-      folder: "categories"
+      folder: "connect-categories"
     });
   }
 

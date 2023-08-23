@@ -171,7 +171,7 @@ const updateUser = async (req, res,next) => {
     const res = await imageKit.upload({
       file: image.buffer.toString("base64"),
       fileName: image.originalname,
-      folder: "users",
+      folder: "connect-users",
     });
     avatarID = res.fileId;
     avatar = res.url;
