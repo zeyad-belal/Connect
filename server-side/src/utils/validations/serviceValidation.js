@@ -6,7 +6,8 @@ const serviceCreationValidationSchema = Joi.object({
   price: Joi.number().required(),
   description: Joi.string().required(),
   time: Joi.string().required(),
-  extras: Joi.array(),
+  extras: Joi.array(), 
+  keywords: Joi.string(),
   images: Joi.array(),
   category_name: Joi.string()
 });
@@ -16,11 +17,14 @@ const serviceUpdateValidationSchema = Joi.object({
   price: Joi.number(),
   description: Joi.string(),
   time: Joi.string(),
-  extras: Joi.array(),
+  extras: Joi.array(), 
+  keywords: Joi.string(),
+  images: Joi.array(),
   category_name: Joi.string()
 });
 
 const serviceCreationValidation = (req, res, next) => {
+  console.log(req.body)
   const { error } = serviceCreationValidationSchema.validate({
     name: req.body.name,
     price: req.body.price,
@@ -31,6 +35,7 @@ const serviceCreationValidation = (req, res, next) => {
     images: req.files,
     category_name: req.body.category_name
   });
+  if (error) console.log(error) 
   if (error) return next(new AppError(error.name, 404));
   next();
 };
@@ -46,6 +51,7 @@ const serviceUpdateValidation = (req, res, next) => {
     images: req.files,
     category_name: req.body.category_name
   });
+  if (error) console.log(error) 
   if (error) return next(new AppError(error.name, 404));
   next();
 };
