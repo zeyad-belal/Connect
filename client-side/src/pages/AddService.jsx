@@ -239,9 +239,11 @@ function AddService() {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
     
-    console.log(response)
+    // console.log(response)
       setLoadingStatue(false) 
-      // reset()
+      reset()
+      setSelectedImages([])
+      setImagesURLS([])
       toast.success(`your changes have been saved ${cookies.User.first_name}!`, {
         position: "top-right",
         autoClose: 2000,
@@ -253,7 +255,8 @@ function AddService() {
         theme: "light",
       })
     } catch (error) {
-      console.log(error)
+      setLoadingStatue(false) 
+      // console.log(error)
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
