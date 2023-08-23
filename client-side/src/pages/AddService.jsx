@@ -231,15 +231,7 @@ function AddService() {
       selectedImages.forEach(img => {
         formData.append('images', img);
       });
-      
-      console.log('name:',formData.get('name'))
-      console.log('category_name:',formData.get('category_name'))
-      console.log('description:',formData.get('description'))
-      console.log('price:',formData.get('price'))
-      console.log('time:',formData.get('time'))
-      console.log('keywords:',formData.get('keywords'))
-      console.log('extras:',formData.get('extras'))
-      console.log('images:',formData.getAll('images'))
+
       
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/services`,
