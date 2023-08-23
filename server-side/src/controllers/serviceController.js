@@ -25,7 +25,7 @@ const createService = async (req, res, next) => {
     const res = await imageKit.upload({
       file: image.buffer.toString("base64"),
       fileName: image.originalname,
-      folder: "services",
+      folder: "connect-services",
     });
     imagesInfo.push(res);
   }
@@ -50,8 +50,7 @@ const createService = async (req, res, next) => {
 const getAllServices = async (req, res, next) => {
   const Services = await Service.find()
     .populate("category_id");
-  // if (!Services) return next(new AppError("No Services found.", 404));
-  // As an empty array should be expected to return, so the error is not needed
+  if (!Services) return next(new AppError("No Services found.", 404));
   res.send(Services);
 };
 
@@ -114,7 +113,7 @@ const updateService = async (req, res, next) => {
       name: req.body.name ?? service.name,
       price: req.body.price ?? service.price,
       description: req.body.description ?? service.description,
-      description: req.body.keywords ?? service.keywords,
+      keywords: req.body.keywords ?? service.keywords,
       time: req.body.time ?? service.time,
       extras: req.body.extras
         ? JSON.parse(req.body.extras)
