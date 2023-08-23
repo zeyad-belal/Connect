@@ -100,7 +100,7 @@ const updateService = async (req, res, next) => {
       const res = await imageKit.upload({
         file: image.buffer.toString("base64"),
         fileName: image.originalname,
-        folder: "services",
+        folder: "connect-services",
       });
       // THIS SHOULD BE RES.URL or NOO !
       imagesInfo.push(res);
