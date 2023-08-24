@@ -3,93 +3,9 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import { AiFillCamera } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
-//temp
-const categoriesData = [
-  {
-    category_name: "Design",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 1,
-  },
-  {
-    category_name: "code",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 2,
-  },
-  {
-    category_name: "web",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 3,
-  },
-  {
-    category_name: "translate",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 4,
-  },
-  {
-    category_name: "art",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 5,
-  },
-  {
-    category_name: "graphic",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 6,
-  },
-  {
-    category_name: "image editing",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 7,
-  },
-  {
-    category_name: "mobile devlopment",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 8,
-  }
-];
+
 
 const RepeatedExtras = () => {
   const { register, handleSubmit, formState: { errors } , reset } = useForm();
@@ -162,7 +78,7 @@ function AddService() {
   
     const [cookies, setCookies] = useCookies(["User"]);
     const [loadingStatue, setLoadingStatue] = useState(false);
-    const [categories, setCategories] = useState(categoriesData); //temp
+    const [categories, setCategories] = useState([]); 
   
   // images uploud
   const [imagesURLS, setImagesURLS] = useState([]); 
@@ -271,15 +187,13 @@ function AddService() {
   };
 
 
-// useEffect(()=>{
-//   async function getCAtegories(){
-//     const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
-//     setCategories(repsonse)
-//   }
-//   getCAtegories()
-// })
-
-
+useEffect(()=>{
+  async function getCategories(){
+    const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+    setCategories(repsonse.data)
+  }
+  getCategories()
+},[])
 
 
   return (
@@ -403,7 +317,7 @@ function AddService() {
             {/* --------------images------------- */}
             <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
             <div className="bg-gray-100 flex flex-col  gap-3 px-3 p-6 mb-12  rounded-md">
-              <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 "
+              <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-500 "
               onClick={()=>imageInput.current.click()}
               >add image
               </button>

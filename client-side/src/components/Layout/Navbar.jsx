@@ -19,65 +19,7 @@ import { PiShoppingBagFill } from "react-icons/pi";
 import { useDispatch , useSelector } from "react-redux"
 import { signModalActions } from "../../store/signModalSlice.jsx";
 import { menuActions } from "../../store/menuSlice.jsx";
-
-
-
-
-const categoriesData = [
-  {
-    category_name: "Design",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 1,
-  },
-  {
-    category_name: "Code",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 2,
-  },
-  {
-    category_name: "Translition",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 3,
-  },
-  {
-    category_name: "Ai",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 4,
-  },
-  {
-    category_name: "automation",
-    id: 5,
-  },
-  {
-    category_name: "Graphic",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 6,
-  },
-  {
-    category_name: "Marketing",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 7,
-  },
-  {
-    category_name: "consult",
-      image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    id: 8,
-  }
-];
+import axios from "axios";
 
 
 
@@ -90,7 +32,7 @@ const Navbar = (props) => {
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
-  const [categories, setCategories] = useState(categoriesData);
+  const [categories, setCategories] = useState([]);
 
 
 
@@ -112,11 +54,13 @@ const Navbar = (props) => {
 
 
 
-
-  // useEffect(()=>{
-  //   const data = axios.get(`${import.meta.env.VITE_API_URL}/categories`)
-  //   setCategories(data)
-  // },[])
+  useEffect(()=>{
+    async function getCategories(){
+      const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+      setCategories(repsonse.data)
+    }
+    getCategories()
+  },[])
 
 
 
@@ -173,6 +117,7 @@ const Navbar = (props) => {
               </ul>
             </div>}
           </li>
+          {/* Orders */}
           <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/orders')}>
             <BiSolidTruck size={22} /> Orders
