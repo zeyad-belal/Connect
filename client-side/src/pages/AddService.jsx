@@ -17,17 +17,39 @@ const RepeatedExtras = (props) => {
       e.preventDefault()
       props.setExtras((prevExtras)=> {
         return  prevExtras.filter((extra) => {
-          console.log(extraId)
           return extra.props.id != extraId
         })
       })
     }
+
+    function gatherInputsData(e) {
+      props.setExtrasValues(prevValues => {
+        if (prevValues.length === 0) {
+          return [[e.target.name === "extra-description" ? e.target.value : "", e.target.name === "extra-cost" ? e.target.value : "", e.target.name === "extra-time" ? e.target.value : ""]];
+        } else {
+          return prevValues.map((data, index) => {
+            if (index === extraId - 1) {
+              if (e.target.name === "extra-description") {
+                data[0] = e.target.value;
+              } else if (e.target.name === "extra-cost") {
+                data[1] = e.target.value;
+              } else if (e.target.name === "extra-time") {
+                data[2] = e.target.value;
+              }
+            }
+            return data;
+          });
+        }
+      });
+    }
     
+    
+    // console.log(props.extrasValues);
+
   return (
     <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
       <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
-      onClick={(e)=> deleteExtra(e)}
-      >X</button>
+      onClick={(e)=> deleteExtra(e)} >X</button>
       <div className="name w-full lg:w-[30%]">
         <label
           htmlFor="extra-name"
@@ -36,10 +58,11 @@ const RepeatedExtras = (props) => {
         </label>
 
         <input
-          {...register("extra-description")}
+          name="extra-description"
           type="text"
           id="extra-description"
           placeholder="extra description"
+          onChange={(e)=>gatherInputsData(e)}
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
@@ -50,10 +73,11 @@ const RepeatedExtras = (props) => {
           Cost <span className="text-xs ml-2 text-gray-400">(additional service costs)</span>
         </label>
         <input
-          {...register("extra-cost")}
+          name="extra-cost"
           type="text"
           id="extra-cost"
           placeholder="in USD"
+          onChange={(e)=>gatherInputsData(e)}
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
@@ -63,8 +87,10 @@ const RepeatedExtras = (props) => {
           className="mb-1 font-semibold text-text1 text-sm " >
           Extra Time <span className="text-xs ml-2 text-gray-400">(additional time needed)</span>
         </label>
-          <select id="extra-time"
-          {...register("extra-time", { required: true })}
+        <select 
+          id="extra-time"
+          name="extra-time"
+          onChange={(e)=>gatherInputsData(e)}
           className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
           <option value="">Please select</option>
           <option key='one day' value="one day">one day</option>
@@ -106,6 +132,8 @@ function AddService() {
   const imageInput = useRef(null);
   
   const [extras, setExtras] = useState([]);
+  const [extrasValues, setExtrasValues] = useState([]);
+console.log(extrasValues)
 
   const gatherExtrasDetails = () => {
     const details = [];
@@ -124,11 +152,13 @@ function AddService() {
   const handleExtraRepeat = () => {
     setExtras((prevExtras) => [
       ...prevExtras,
-      <RepeatedExtras key={prevExtras.length} 
+      <RepeatedExtras 
+        key={prevExtras.length} 
         id={prevExtras.length}
-        gatherExtrasDetails={gatherExtrasDetails}
         setExtras={setExtras} 
-        />,
+        extrasValues={extrasValues} 
+        setExtrasValues={setExtrasValues}
+      />,
     ]);
   };
 
@@ -141,7 +171,6 @@ function AddService() {
       
       // gathering images url to display
       const imagesfiles = [...e.target.files];
-      console.log(e.target.files)
       let URLs=[];
       imagesfiles.map((file)=>{
         URLs.push(URL.createObjectURL(file));
