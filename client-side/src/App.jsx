@@ -9,7 +9,7 @@ import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
 import Services from "./pages/Services.jsx";
-import ServicePage from "./pages/Service.jsx";
+import Service from "./pages/Service.jsx";
 import About from "./pages/About.jsx";
 import { useCookies } from "react-cookie";
 import Login from "./components/Login.jsx";
@@ -76,7 +76,7 @@ function App() {
         <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/services/:id" element={<ServicePage />} />
+        <Route path="/services/:id" element={<Service />} />
         <Route path="/addService" element={<AddService />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />

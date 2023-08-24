@@ -29,11 +29,13 @@ router.post(
 // get all Services
 router.get("/", getAllServices);
 
+// get  Services by gategory id
+router.get("/filtered/:id", getServicebyCategoryId);
+
+
 // get a Service by Service id
 router.get("/:id", getService);
 
-// get a Service by gategory id
-router.get("/:id", getServicebyCategoryId);
 
 // update a Service using the Service id
 router.put(

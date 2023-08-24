@@ -64,8 +64,8 @@ function CategoryDisplay(props) {
   useEffect(()=>{
     async function getfilteredServices(){
       try{
-        const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/${props.category.id}`)
-        console.log(repsonse.data)
+        const repsonse = await  axios.get(`${import.meta.env.VITE_API_URL}/services/filtered/${props.category.id}`)
+        console.log(repsonse)
         setFilteredServices(repsonse.data)
       }catch(error){
         toast.error(error, {
@@ -82,7 +82,6 @@ function CategoryDisplay(props) {
     }
     getfilteredServices()
   },[props.category.id])
-
 
 
   return (

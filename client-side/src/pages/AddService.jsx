@@ -154,6 +154,7 @@ function AddService() {
       const extras = gatherExtrasDetails();
       
       const formData = new FormData();
+      formData.append("user_id", cookies.User.id);
       formData.append("name", data.name);
       formData.append("price", data.price);
       formData.append("description", data.description);
@@ -178,7 +179,7 @@ function AddService() {
       reset()
       setSelectedImages([])
       setImagesURLS([])
-      toast.success(`your changes have been saved ${cookies.User.first_name}!`, {
+      toast.success(`your service has been added ${cookies.User.first_name}!`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,

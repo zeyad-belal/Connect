@@ -35,6 +35,10 @@ const serviceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category"
   },
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   created_at: {
     type: Date,
     default: Date.now()

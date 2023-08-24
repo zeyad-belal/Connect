@@ -10,9 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { cartActions }  from "../store/cartSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
+import axios from "axios";
 
 
-const ServicePage = () => {
+const Service = () => {
   const dispatch = useDispatch()
   const services = useSelector((state)=> state.services.services);
   const [service, setService] = useState(null);
@@ -68,12 +69,29 @@ const ServicePage = () => {
   };
 
 
-  useEffect(() => {
-    const currService = services.map((service)=> service.id == id)
-    setService(currService);
-  }, []);
 
-  
+
+  useEffect(()=>{
+    async function getService(){
+      try{
+        const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/${id}`)
+        setService(repsonse.data)
+      }catch(error){
+        toast.error(error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
+    }
+    getService()
+  },[])
+  console.log(service)
   return (
     <>
       <div>
@@ -103,4 +121,4 @@ const ServicePage = () => {
   );
 };
 
-export default ServicePage;
+export default Service;
