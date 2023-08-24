@@ -91,7 +91,8 @@ const Service = () => {
     }
     getService()
   },[])
-  console.log(service)
+
+  
   return (
     <>
       <div>
