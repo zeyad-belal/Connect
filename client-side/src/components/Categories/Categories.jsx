@@ -101,7 +101,7 @@ const Categories = () => {
     <h1 className="text-semibold text-4xl text-text1 mb-12">
       Professional Services to Grow Your Business
     </h1>
-    <div className="gap-7 flex flex-col justify-around sm:flex-row flex-wrap">
+    <div className="mt-5 gap-7 flex flex-col justify-around sm:flex-row flex-wrap">
       {categories.map((category) => {
         return (
           <div

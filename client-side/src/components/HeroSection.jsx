@@ -5,9 +5,7 @@ function HeroSection() {
       style={{
         backgroundImage: `url(/public/main.png)`,
         
-      }}
-    >
-      
+      }} >
       <div className="z-10 flex flex-col items-center text-center ">
         <div className="mx-6">
             <h1 className="text-bold text-white text-[30px] lg:text-[50px] md:text-[40px] mb-5">Where Talent Meets Opportunity </h1>
