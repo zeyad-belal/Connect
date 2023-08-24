@@ -45,8 +45,8 @@ const Footer = () => {
       );
   }
   const sendBtnClasses = emailSent
-    ? "bg-green-500 p-2 text-white text-md rounded-e-md px-5"
-    : "bg-secondary p-2 text-white text-md rounded-e-md px-5";
+    ? "bg-secHover p-2 text-white text-md rounded-e-md px-5"
+    : "bg-secondary hover:bg-secHover p-2 text-white text-md rounded-e-md px-5";
 
 
 
@@ -176,8 +176,15 @@ const Footer = () => {
             <p className=" text-[#A8A8A8]">Buy Online or Pickup in Store </p>
           </div>
         </section>
-        <section className="grid grid-cols-2 py-5 bg-[#0c0c0c]">
-          <div className="col-span-3 md:col-span-1 mx-12 gap-3 ">
+        <section className="grid grid-cols-3 py-3 px-5 bg-[#0c0c0c]">
+        <div className="col-span-2 md:col-span-2 ">
+            <p className="text-white">
+              Developed by <span className="text-secondary text-sm"> zeyad belal </span>|
+              Contact : <a href="mailto:zeyadbelal00@gmail.com" className="text-secondary hover:text-secHover text-sm">
+                zeyadbelal00@gmail.com</a> 
+            </p>
+          </div>
+          <div className="col-span-1 md:col-span-1 mx-12 gap-3 ">
             <div className="flex gap-x-1 ">
               <a href="https://eg.visamiddleeast.com/en_EG">
                 <FaCcVisa size={32} color="gray" />
@@ -190,11 +197,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="col-span-1 md:col-span-1 ml-12 ">
-            <p className="text-text1">
-              ©Copyright 2023 by Zeyad Belal. All Rights Reserved.
-            </p>
-          </div>
+
         </section>
       </footer>
       <BackToTopButton />

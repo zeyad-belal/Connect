@@ -71,6 +71,23 @@ const getService = async (req, res, next) => {
   res.send(service);
 };
 
+const getServicebyCategoryId = async (req, res, next) => {
+  // check if id is a valid objectId
+  if (!Types.ObjectId.isValid(req.params.id))
+    return next(new AppError("Invalid ObjectId.", 401));
+
+  const services = await Service.find({ category_id: req.params.category_id })
+    .populate({
+      path: "reviews",
+      populate: { path: "user_id" },
+    })
+    .populate("category_id")
+
+  if (!services) return next(new AppError("Service was not found.", 404));
+
+  res.send(services);
+};
+
 const updateService = async (req, res, next) => {
   // check if id is a valid objectId
   if (!Types.ObjectId.isValid(req.params.id))
@@ -160,7 +177,7 @@ const deleteService = async (req, res, next) => {
 module.exports = {
   getAllServices,
   createService,
-  getAllServices,
+  getServicebyCategoryId,
   getService,
   updateService,
   deleteService,

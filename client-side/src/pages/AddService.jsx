@@ -207,11 +207,25 @@ function AddService() {
 
 useEffect(()=>{
   async function getCategories(){
-    const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
-    setCategories(repsonse.data)
+    try{
+      const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+      setCategories(repsonse.data)
+    }catch(error){
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
   }
   getCategories()
 },[])
+
 
 
   return (

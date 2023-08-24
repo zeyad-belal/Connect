@@ -6,6 +6,7 @@ const upload = require("../utils/multer");
 // controllers and validations
 const {
   getAllServices,
+  getServicebyCategoryId,
   createService,
   getService,
   updateService,
@@ -28,8 +29,11 @@ router.post(
 // get all Services
 router.get("/", getAllServices);
 
-// get a Service using the Service id
+// get a Service by Service id
 router.get("/:id", getService);
+
+// get a Service by gategory id
+router.get("/:id", getServicebyCategoryId);
 
 // update a Service using the Service id
 router.put(
