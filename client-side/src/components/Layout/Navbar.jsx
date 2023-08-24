@@ -111,7 +111,7 @@ const Navbar = (props) => {
                 {categories.map(category =>{
                   return <li
                   onClick={()=>navigate(`/services/category=${category.category_name}`)}
-                  className="cursor-pointer  hover:bg-primary px-6 py-7 w-[25%]"
+                  className="cursor-pointer  hover:bg-primary rounded-lg px-6 py-7 w-[25%]"
                   key={category.id}>{category.category_name}</li>
                 })}
               </ul>

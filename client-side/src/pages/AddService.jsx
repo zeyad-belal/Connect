@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -7,11 +8,16 @@ import { ToastContainer, toast } from "react-toastify";
 
 
 
-const RepeatedExtras = () => {
+const RepeatedExtras = (props) => {
   const { register, handleSubmit, formState: { errors } , reset } = useForm();
+
   return (
-    <div className="w-full flex gap-3 ">
-      <div className="name">
+    
+    <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
+      {/* <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
+      onClick={(e)=>props.deleteExtra(props.key)}
+      >X</button> */}
+      <div className="name w-full lg:w-[30%]">
         <label
           htmlFor="extra-name"
           className="mb-1 font-semibold text-text1 text-sm ">
@@ -19,14 +25,14 @@ const RepeatedExtras = () => {
         </label>
 
         <input
-          {...register("key")}
+          {...register("extra-description")}
           type="text"
-          id="extra-name"
-          placeholder="key name"
+          id="extra-description"
+          placeholder="extra description"
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="cost">
+      <div className="cost w-full lg:w-[30%]">
         <label
           htmlFor="extra-cost"
           className="mb-1 font-semibold text-text1 text-sm " >
@@ -40,7 +46,7 @@ const RepeatedExtras = () => {
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="time">
+      <div className="time w-full lg:w-[30%]">
         <label
           htmlFor="extra-time"
           className="mb-1 font-semibold text-text1 text-sm " >
@@ -65,6 +71,9 @@ const RepeatedExtras = () => {
           <span className="text-red-500">This field is required</span>
           )}
       </div>
+      {/* <button 
+      onClick={(e)=>props.deleteExtra(props.key)}
+      className="self-start hidden lg:block text-red-500 rounded-full  text-lg font-bold">X</button> */}
     </div>
   );
 };
@@ -91,7 +100,7 @@ function AddService() {
 
   const gatherExtrasDetails = () => {
     const details = [];
-    const names = document.querySelectorAll("#extra-name");
+    const names = document.querySelectorAll("#extra-description");
     const costs = document.querySelectorAll("#extra-cost");
     const times = document.querySelectorAll("#extra-time");
     for (let i = 0; i < names.length; i++) {
@@ -104,9 +113,15 @@ function AddService() {
   };
 
   const handleExtraRepeat = () => {
+    // function deleteExtra(e){
+    //   e.preventDefault()
+    //   if(e.currentTarget.tagName == "s"){
+    //     console.log(e)
+    //   }
+    // }
     setExtras((prevExtras) => [
       ...prevExtras,
-      <RepeatedExtras key={prevExtras.length} />,
+      <RepeatedExtras key={prevExtras.length} id={prevExtras.length} deleteExtra={deleteExtra} />,
     ]);
   };
 
