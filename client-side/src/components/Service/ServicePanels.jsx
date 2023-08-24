@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import ServiceInfoPanel from "./ServiceInfoPanel";
 import ServiceReviewsPanel from "./ServiceReviewsPanel";

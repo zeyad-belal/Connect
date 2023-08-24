@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 const ServiceInfoPanel = ({ service, checkActive }) => {
-  const detailsArr = Object.entries(service.details);
+  const detailsArr = Object.entries(service.extras);
   return (
     <>
       <div className={`panel ${checkActive(1, "active")}`}>
