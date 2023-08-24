@@ -21,35 +21,12 @@ const RepeatedExtras = (props) => {
         })
       })
     }
-
-    function gatherInputsData(e) {
-      props.setExtrasValues(prevValues => {
-        if (prevValues.length === 0) {
-          return [[e.target.name === "extra-description" ? e.target.value : "", e.target.name === "extra-cost" ? e.target.value : "", e.target.name === "extra-time" ? e.target.value : ""]];
-        } else {
-          return prevValues.map((data, index) => {
-            if (index === extraId - 1) {
-              if (e.target.name === "extra-description") {
-                data[0] = e.target.value;
-              } else if (e.target.name === "extra-cost") {
-                data[1] = e.target.value;
-              } else if (e.target.name === "extra-time") {
-                data[2] = e.target.value;
-              }
-            }
-            return data;
-          });
-        }
-      });
-    }
     
-    
-    // console.log(props.extrasValues);
-
   return (
     <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
       <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
-      onClick={(e)=> deleteExtra(e)} >X</button>
+      onClick={(e)=> deleteExtra(e)}
+      >X</button>
       <div className="name w-full lg:w-[30%]">
         <label
           htmlFor="extra-name"
@@ -58,11 +35,10 @@ const RepeatedExtras = (props) => {
         </label>
 
         <input
-          name="extra-description"
+          {...register("extra-description")}
           type="text"
           id="extra-description"
           placeholder="extra description"
-          onChange={(e)=>gatherInputsData(e)}
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
@@ -73,11 +49,10 @@ const RepeatedExtras = (props) => {
           Cost <span className="text-xs ml-2 text-gray-400">(additional service costs)</span>
         </label>
         <input
-          name="extra-cost"
+          {...register("extra-cost")}
           type="text"
           id="extra-cost"
           placeholder="in USD"
-          onChange={(e)=>gatherInputsData(e)}
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
@@ -87,10 +62,8 @@ const RepeatedExtras = (props) => {
           className="mb-1 font-semibold text-text1 text-sm " >
           Extra Time <span className="text-xs ml-2 text-gray-400">(additional time needed)</span>
         </label>
-        <select 
-          id="extra-time"
-          name="extra-time"
-          onChange={(e)=>gatherInputsData(e)}
+          <select id="extra-time"
+          {...register("extra-time", { required: true })}
           className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
           <option value="">Please select</option>
           <option key='one day' value="one day">one day</option>
@@ -117,7 +90,6 @@ const RepeatedExtras = (props) => {
 
 
 
-
 function AddService() {
   const form = useRef();
   const { register, handleSubmit, formState: { errors },reset } = useForm();
@@ -132,8 +104,6 @@ function AddService() {
   const imageInput = useRef(null);
   
   const [extras, setExtras] = useState([]);
-  const [extrasValues, setExtrasValues] = useState([]);
-console.log(extrasValues)
 
   const gatherExtrasDetails = () => {
     const details = [];
@@ -152,13 +122,11 @@ console.log(extrasValues)
   const handleExtraRepeat = () => {
     setExtras((prevExtras) => [
       ...prevExtras,
-      <RepeatedExtras 
-        key={prevExtras.length} 
+      <RepeatedExtras key={prevExtras.length} 
         id={prevExtras.length}
+        gatherExtrasDetails={gatherExtrasDetails}
         setExtras={setExtras} 
-        extrasValues={extrasValues} 
-        setExtrasValues={setExtrasValues}
-      />,
+        />,
     ]);
   };
 
@@ -404,17 +372,16 @@ useEffect(()=>{
                     </button>
                   </div>
             </div>
-            {/* --------------------------- */}
+            {/* --------------submit------------- */}
             <button
-                  type="submit"
-                  className="w-full py-3 px-4 my-10 bg-secondary text-white text-lg rounded-md hover:bg-secHover focus:outline-none  focus:border-secondary transition-colors">
-                  {loadingStatue ? <div role="status">
-                    <svg aria-hidden="true" className="inline w-6 h-6 mr-2 text-gray-100 animate-spin dark:text-gray-400 fill-text1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+              type="submit"
+              className="w-full py-3 px-4 my-10 bg-secondary text-white text-lg rounded-md hover:bg-secHover focus:outline-none  focus:border-secondary transition-colors">
+              {loadingStatue ? <div role="status">
+                <svg aria-hidden="true" className="inline w-6 h-6 mr-2 text-gray-100 animate-spin dark:text-gray-400 fill-text1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                    </svg>
-                  </div> : 'save'}
-                  
+                </svg>
+              </div> : 'save'}
             </button>
       </form>
       <ToastContainer />
