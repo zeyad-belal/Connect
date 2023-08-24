@@ -106,12 +106,12 @@ const Navbar = (props) => {
               onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
             {menu.isCatgMenuVisible && 
-            <div className="bottom-[-225%] right-[-250%] z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
+            <div className="bottom-[-225%] right-[-250%] rounded-md z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
                   onClick={()=>navigate(`/services/category=${category.category_name}`)}
-                  className="cursor-pointer text-sm hover:bg-primary rounded-lg px-5 py-6 w-[25%]"
+                  className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-sm px-5 py-6 w-[25%]"
                   key={category.id}>{category.category_name.toUpperCase()}</li>
                 })}
               </ul>
