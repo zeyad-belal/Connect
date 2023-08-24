@@ -75,8 +75,8 @@ const Cart = () => {
 
 
   return (
-    <>
-      <div className="container mx-11 my-10">
+    <div className="bg-primary">
+      <div className="container px-11 py-10">
         <div className="grid grid-cols-5 gap-4">
           <section className="col-span-4 lg:col-span-3 mr-4">
             {/* cart header */}
@@ -101,15 +101,15 @@ const Cart = () => {
             )}
           </section>
           <aside className="col-span-5 lg:col-span-2">
-            <div className="py-6 bg-gray-50 flex flex-col px-5">
+            <div className="py-6  flex flex-col px-5">
               <h6 className="font-semibold text-xl">Subtotal</h6>
               <span>
-                {cart.totalItemsNum}cart.items:
+                <span className="text-bold">{cart.totalItemsNum}</span> cart items :
                 <span className="font-bold"> {cart.totalAmount} LE</span>
               </span>
               <button
                 onClick={checkoutHandler}
-                className="bg-secondary px-2 max-w-[200px] rounded block"
+                className="bg-secondary hover:bg-secHover my-1 px-2 max-w-[200px] rounded block"
               >
                 Checkout
               </button>
@@ -117,7 +117,7 @@ const Cart = () => {
           </aside>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

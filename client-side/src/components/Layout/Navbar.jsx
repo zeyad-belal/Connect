@@ -68,15 +68,15 @@ const Navbar = (props) => {
     <>
       <nav
         id="MainNav"
-        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 py-1 flex justify-between "
+        className=" relative border-b border-gray-300  top-0  bg-white  h-15 w-full z-50 lg:px-5 px-1  flex justify-between "
       >
         <ul className="flex ">
           {/* subnav icon  */}
           <li
             className={
               menu.isSubVisible
-                ? " cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-1  text-text1 bg-primary"
-                : " cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-1  text-text1 hover:bg-primary"
+                ? " cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-5 py-3  text-text1 bg-primary"
+                : " cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-5 py-3  text-text1 hover:bg-primary"
             }
             onClick={() => dispatch(menuActions.toggleSubNav())} >
             <FiMenu size={30} />
@@ -94,36 +94,36 @@ const Navbar = (props) => {
             </li>
           </Link>
           {/* Add Service */}
-          <li className="text-md items-center shrink-0  rounded-lg lg:flex hidden  px-3 my-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center shrink-0  lg:flex hidden  px-5 py-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/addService')} >
             <MdAdd /> Add service
           </li>
           {/* Catgories */}
           <li
             className={menu.isCatgMenuVisible
-                ? "relative hidden lg:flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer gap-2"
-                : "relative hidden lg:flex items-center rounded-full  px-3 my-3 mx-2 text-text1 hover:bg-primary cursor-pointer gap-2"}
-            onClick={() => dispatch(menuActions.toggleCategories())} >
+              ? "relative hidden lg:flex items-center  px-5 py-3  text-text1 bg-primary cursor-pointer gap-2"
+              : "relative hidden lg:flex items-center  px-5 py-3  text-text1 hover:bg-primary cursor-pointer gap-2"}
+              onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
             {menu.isCatgMenuVisible && 
-            <div className="bottom-[-540%] right-[-250%] z-40 absolute mt-2 w-[500%] text-center  bg-white rounded-lg shadow-lg">
+            <div className="bottom-[-225%] right-[-250%] rounded-md z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
                   onClick={()=>navigate(`/services/category=${category.category_name}`)}
-                  className="cursor-pointer  hover:bg-primary rounded-lg px-6 py-7 w-[25%]"
-                  key={category.id}>{category.category_name}</li>
+                  className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-sm px-5 py-6 w-[25%]"
+                  key={category.id}>{category.category_name.toUpperCase()}</li>
                 })}
               </ul>
             </div>}
           </li>
           {/* Orders */}
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/orders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
           {/* Purchases */}
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navigate('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
           </li>
@@ -144,8 +144,8 @@ const Navbar = (props) => {
           <li
             className={
               menu.isSearchBarVisible
-                ? "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer"
-                : "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1  hover:bg-primary cursor-pointer"
+                ? "search flex items-center px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "search flex items-center px-5 py-3 text-text1  hover:bg-primary cursor-pointer"
             }
             onClick={() => dispatch(menuActions.toggleSearchBar())}
           >
@@ -155,8 +155,8 @@ const Navbar = (props) => {
           <li
             className={
               menu.isNotiMenuVisible
-                ? "flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer"
-                : "flex items-center rounded-full  px-3 my-3 mx-2 text-text1 hover:bg-primary cursor-pointer"
+                ? "flex items-center   px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "flex items-center   px-5 py-3 text-text1 hover:bg-primary cursor-pointer"
             }
             onClick={() => dispatch(menuActions.toggleNotiMenu())}
           >
@@ -165,7 +165,7 @@ const Navbar = (props) => {
             {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30  ">
-                  <ul className="flex flex-col overflow-hidden absolute bg-white rounded-br-lg rounded-bl-lg right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
+                  <ul className="flex flex-col overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
                     <li className="flex gap-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
@@ -182,7 +182,7 @@ const Navbar = (props) => {
           </li>
           {/* cart  */}
           <Link
-            className="text-text1 flex items-center relative hover:bg-primary rounded-full  px-3 my-3 mx-2"
+            className="text-text1 flex items-center relative hover:bg-primary px-5 py-3"
             to="/cart"
           >
             <li
@@ -215,7 +215,7 @@ const Navbar = (props) => {
                 {menu.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
-                      <ul className="flex flex-col gap-3  absolute right-[-10px]   bottom-[-95px] min-w-[150px] bg-white  shadow-md ">
+                      <ul className="flex flex-col gap-1  absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
                         <li
                           className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
                           onClick={() => navigate("/userInfo")}

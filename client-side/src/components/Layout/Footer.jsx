@@ -45,16 +45,16 @@ const Footer = () => {
       );
   }
   const sendBtnClasses = emailSent
-    ? "bg-green-500 p-2 text-white text-md rounded-e-md px-5"
-    : "bg-secondary p-2 text-white text-md rounded-e-md px-5";
+    ? "bg-secHover p-2 text-white text-md rounded-e-md px-5"
+    : "bg-secondary hover:bg-secHover p-2 text-white text-md rounded-e-md px-5";
 
 
 
 
   return (
     <>
-      <footer className="bg-primary">
-        <header className=" flex flex-col justify-center py-5 mx-2 gap-5 ">
+      <footer className="bg-white">
+        <header className=" flex flex-col justify-center pb-5 pt-12 mx-2 gap-5 ">
           <h1 className="text-center text-text1 font-extrabold ">
             BE THE FIRST TO KNOW
           </h1>
@@ -72,7 +72,7 @@ const Footer = () => {
               name="email"
               type="email"
               required
-              className="w-full  rounded-s-md pl-2 pr-12  focus:outline-none  focus:border-orange-300 transition-colors"
+              className="border w-full  rounded-s-md pl-2 pr-12 py-3 focus:outline-none  focus:border-secondary transition-colors"
               placeholder="Email Address"
             />
             <button className={sendBtnClasses}> send</button>
@@ -100,21 +100,21 @@ const Footer = () => {
             alt="Connect"
           />
         </header>
-        <section className="grid grid-cols-4 pb-5 border-b gap-7 border-[#3d3d38]  px-12 mx-12">
-          <div className="col-span-4 md:col-span-1">
-            <h2 className="text-orange-500 font-serif font-semibold">
+        <section className="grid grid-cols-2 pb-5 border-b gap-7 border-[#3d3d38]   mx-12">
+          <div className="col-span-1 md:col-span-1 flex flex-col items-center ">
+            <h2 className="text-text1 font-serif font-semibold">
               CONNECT WITH US
             </h2>
             <Link to={"/about"}>
-              <p className="text-text1  hover:text-orange-500  text-sm">
+              <p className="text-text1  hover:text-text1  text-sm">
                 About company
               </p>
             </Link>
 
             <p className="text-text1  text-sm">call us: 442266</p>
           </div>
-          <div className="col-span-4 md:col-span-1">
-            <h2 className="text-orange-500 font-serif font-semibold">
+          <div className="col-span-1 md:col-span-1 flex flex-col items-center ">
+            <h2 className="text-text1 font-serif font-semibold">
               ARITHMETIC
             </h2>
 
@@ -124,37 +124,8 @@ const Footer = () => {
 
             <p className="text-text1  text-sm mb-1">Track your order</p>
           </div>
-          <div className="col-span-4 md:col-span-1 ">
-            <h2 className="text-orange-500 font-serif font-semibold">
-              MOST SEARCHED
-            </h2>
 
-            <p className="text-text1 text-sm mb-1 ">Mobiles</p>
 
-            <p className="text-text1 text-sm mb-1 ">laptop</p>
-
-            <p className="text-text1 text-sm mb-1 ">TV accessories</p>
-          </div>
-
-          <div className="col-span-4 md:col-span-1">
-            <p className="text-gray-300 text-opacity-50">
-              Working days of all our branches , Daily / 10:00 am - 10:00 pm{" "}
-            </p>
-
-            <p className="text-text1 font-bold ">Download the our app </p>
-
-            <div className="grid  grid-cols-2 mx-auto gap-y-3">
-              <div className=" max-w-[240px] ">
-                <img src="/apple_new.png"></img>
-              </div>
-              <div className=" max-w-[240px] ">
-                <img src="/google_new.png"></img>
-              </div>
-              <div className=" max-w-[240px] ">
-                <img src="/huawei_new.png"></img>
-              </div>
-            </div>
-          </div>
         </section>
         <section className="grid grid-cols-4 py-5 gap-7  px-12 mx-10">
           <div className="col-span-4 md:col-span-1">
@@ -205,8 +176,15 @@ const Footer = () => {
             <p className=" text-[#A8A8A8]">Buy Online or Pickup in Store </p>
           </div>
         </section>
-        <section className="grid grid-cols-2 py-5 bg-[#0c0c0c]">
-          <div className="col-span-3 md:col-span-1 mx-12 gap-3 ">
+        <section className="grid grid-cols-3 py-3 px-5 bg-[#0c0c0c]">
+        <div className="col-span-2 md:col-span-2 ">
+            <p className="text-white">
+              Developed by <span className="text-secondary text-sm"> zeyad belal </span>|
+              Contact : <a href="mailto:zeyadbelal00@gmail.com" className="text-secondary hover:text-secHover text-sm">
+                zeyadbelal00@gmail.com</a> 
+            </p>
+          </div>
+          <div className="col-span-1 md:col-span-1 mx-12 gap-3 ">
             <div className="flex gap-x-1 ">
               <a href="https://eg.visamiddleeast.com/en_EG">
                 <FaCcVisa size={32} color="gray" />
@@ -219,11 +197,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="col-span-1 md:col-span-1 ml-12 ">
-            <p className="text-text1">
-              ©Copyright 2023 by Zeyad Belal. All Rights Reserved.
-            </p>
-          </div>
+
         </section>
       </footer>
       <BackToTopButton />

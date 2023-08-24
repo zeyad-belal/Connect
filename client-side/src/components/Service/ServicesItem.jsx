@@ -67,7 +67,7 @@ const ServicesItem = ({ item }) => {
                   {item.name}
                 </h3>
               <div className="flex flex-col ">
-                <RatingBadge avg_rating={item.avg_rating} />
+                <RatingBadge avg_rating={item.avg_rating ? item.avg_rating : 0} />
                 <div className="flex  my-1 text-gray-700 text-md">
                       starts from <span className="font-bold ml-1"> ${item.price}</span>
                   </div>

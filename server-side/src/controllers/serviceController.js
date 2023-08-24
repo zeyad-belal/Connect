@@ -6,6 +6,7 @@ const Category = require("../models/Category");
 
 const AppError = require("../utils/AppError");
 const imageKit = require("../utils/imageKit");
+const User = require("../models/User");
 
 const createService = async (req, res, next) => {
   if (!req.files) {
@@ -17,6 +18,12 @@ const createService = async (req, res, next) => {
     category_name: req.body.category_name,
   });
   if (!category) return next(new AppError("Category does not exist.", 404));
+
+  // find if user sent exists
+  const user = await User.findOne({
+    _id: req.body.user_id,
+  });
+  if (!user) return next(new AppError("User does not exist.", 404));
 
   // handle images upload
   let imagesInfo = [];
@@ -38,11 +45,12 @@ const createService = async (req, res, next) => {
     time: req.body.time,
     extras: req.body.extras ? JSON.parse(req.body.extras) : undefined,
     images: imagesInfo,
-    category_id: category._id
+    category_id: category._id,
+    user_id: user._id
   });
 
   const toBeSentDocument = await Service.findById(createdService._id)
-    .populate("category_id")
+    .populate("category_id").populate("user_id")
 
   res.send({ message: "Service was created successfully!", toBeSentDocument });
 };
@@ -69,6 +77,22 @@ const getService = async (req, res, next) => {
   if (!service) return next(new AppError("Service was not found.", 404));
 
   res.send(service);
+};
+
+const getServicebyCategoryId = async (req, res, next) => {
+  // check if id is a valid objectId
+  if (!Types.ObjectId.isValid(req.params.id))
+    return next(new AppError("Invalid ObjectId.", 401));
+
+  const services = await Service.find({ category_id: req.params.id })
+    .populate({
+      path: "reviews",
+      populate: { path: "user_id" },
+    })
+    .populate("category_id")
+  if (!services) return next(new AppError("no services was found.", 404));
+
+  res.send(services);
 };
 
 const updateService = async (req, res, next) => {
@@ -160,7 +184,7 @@ const deleteService = async (req, res, next) => {
 module.exports = {
   getAllServices,
   createService,
-  getAllServices,
+  getServicebyCategoryId,
   getService,
   updateService,
   deleteService,
