@@ -107,7 +107,6 @@ function AddService() {
   
   const [extras, setExtras] = useState([]);
 
-console.log(extras)
   const gatherExtrasDetails = () => {
     const details = [];
     const names = document.querySelectorAll("#extra-description");
