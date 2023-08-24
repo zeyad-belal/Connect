@@ -11,12 +11,23 @@ import { ToastContainer, toast } from "react-toastify";
 const RepeatedExtras = (props) => {
   const { register, handleSubmit, formState: { errors } , reset } = useForm();
 
-  return (
+  const extraId = parseInt(props.id, 10);
+
+    function deleteExtra(e){
+      e.preventDefault()
+      props.setExtras((prevExtras)=> {
+        return  prevExtras.filter((extra) => {
+          console.log(extraId)
+          return extra.props.id != extraId
+        })
+      })
+    }
     
+  return (
     <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
-      {/* <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
-      onClick={(e)=>props.deleteExtra(props.key)}
-      >X</button> */}
+      <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
+      onClick={(e)=> deleteExtra(e)}
+      >X</button>
       <div className="name w-full lg:w-[30%]">
         <label
           htmlFor="extra-name"
@@ -71,9 +82,9 @@ const RepeatedExtras = (props) => {
           <span className="text-red-500">This field is required</span>
           )}
       </div>
-      {/* <button 
-      onClick={(e)=>props.deleteExtra(props.key)}
-      className="self-start hidden lg:block text-red-500 rounded-full  text-lg font-bold">X</button> */}
+      <button 
+      onClick={(e)=> deleteExtra(e)}
+      className="self-start hidden lg:block text-red-500 rounded-full  text-lg font-bold">X</button>
     </div>
   );
 };
@@ -96,8 +107,7 @@ function AddService() {
   
   const [extras, setExtras] = useState([]);
 
-
-
+console.log(extras)
   const gatherExtrasDetails = () => {
     const details = [];
     const names = document.querySelectorAll("#extra-description");
@@ -113,15 +123,13 @@ function AddService() {
   };
 
   const handleExtraRepeat = () => {
-    // function deleteExtra(e){
-    //   e.preventDefault()
-    //   if(e.currentTarget.tagName == "s"){
-    //     console.log(e)
-    //   }
-    // }
     setExtras((prevExtras) => [
       ...prevExtras,
-      <RepeatedExtras key={prevExtras.length} id={prevExtras.length} deleteExtra={deleteExtra} />,
+      <RepeatedExtras key={prevExtras.length} 
+        id={prevExtras.length}
+        gatherExtrasDetails={gatherExtrasDetails}
+        setExtras={setExtras} 
+        />,
     ]);
   };
 
