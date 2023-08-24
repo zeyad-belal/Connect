@@ -1,101 +1,34 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import { AiFillCamera } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
-//temp
-const categoriesData = [
-  {
-    category_name: "Design",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 1,
-  },
-  {
-    category_name: "code",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 2,
-  },
-  {
-    category_name: "web",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 3,
-  },
-  {
-    category_name: "translate",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 4,
-  },
-  {
-    category_name: "art",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 5,
-  },
-  {
-    category_name: "graphic",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 6,
-  },
-  {
-    category_name: "image editing",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 7,
-  },
-  {
-    category_name: "mobile devlopment",
-    image:{
-      url :"https://img.freepik.com/premium-photo/intriguing-photos-capturing-objects-found-inside-homes_853677-18721.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph",
-    },
-    description : 'any desgin you need',
-    created_at : 'nov 2012',
-    updated_at : 'jan 2022',
-    id: 8,
-  }
-];
 
-const RepeatedExtras = () => {
+
+const RepeatedExtras = (props) => {
   const { register, handleSubmit, formState: { errors } , reset } = useForm();
+
+  const extraId = parseInt(props.id, 10);
+
+    function deleteExtra(e){
+      e.preventDefault()
+      props.setExtras((prevExtras)=> {
+        return  prevExtras.filter((extra) => {
+          console.log(extraId)
+          return extra.props.id != extraId
+        })
+      })
+    }
+    
   return (
-    <div className="w-full flex gap-3 ">
-      <div className="name">
+    <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
+      <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
+      onClick={(e)=> deleteExtra(e)}
+      >X</button>
+      <div className="name w-full lg:w-[30%]">
         <label
           htmlFor="extra-name"
           className="mb-1 font-semibold text-text1 text-sm ">
@@ -103,14 +36,14 @@ const RepeatedExtras = () => {
         </label>
 
         <input
-          {...register("key")}
+          {...register("extra-description")}
           type="text"
-          id="extra-name"
-          placeholder="key name"
+          id="extra-description"
+          placeholder="extra description"
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="cost">
+      <div className="cost w-full lg:w-[30%]">
         <label
           htmlFor="extra-cost"
           className="mb-1 font-semibold text-text1 text-sm " >
@@ -124,7 +57,7 @@ const RepeatedExtras = () => {
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="time">
+      <div className="time w-full lg:w-[30%]">
         <label
           htmlFor="extra-time"
           className="mb-1 font-semibold text-text1 text-sm " >
@@ -149,6 +82,9 @@ const RepeatedExtras = () => {
           <span className="text-red-500">This field is required</span>
           )}
       </div>
+      <button 
+      onClick={(e)=> deleteExtra(e)}
+      className="self-start hidden lg:block text-red-500 rounded-full  text-lg font-bold">X</button>
     </div>
   );
 };
@@ -162,7 +98,7 @@ function AddService() {
   
     const [cookies, setCookies] = useCookies(["User"]);
     const [loadingStatue, setLoadingStatue] = useState(false);
-    const [categories, setCategories] = useState(categoriesData); //temp
+    const [categories, setCategories] = useState([]); 
   
   // images uploud
   const [imagesURLS, setImagesURLS] = useState([]); 
@@ -171,11 +107,10 @@ function AddService() {
   
   const [extras, setExtras] = useState([]);
 
-
-
+console.log(extras)
   const gatherExtrasDetails = () => {
     const details = [];
-    const names = document.querySelectorAll("#extra-name");
+    const names = document.querySelectorAll("#extra-description");
     const costs = document.querySelectorAll("#extra-cost");
     const times = document.querySelectorAll("#extra-time");
     for (let i = 0; i < names.length; i++) {
@@ -190,7 +125,11 @@ function AddService() {
   const handleExtraRepeat = () => {
     setExtras((prevExtras) => [
       ...prevExtras,
-      <RepeatedExtras key={prevExtras.length} />,
+      <RepeatedExtras key={prevExtras.length} 
+        id={prevExtras.length}
+        gatherExtrasDetails={gatherExtrasDetails}
+        setExtras={setExtras} 
+        />,
     ]);
   };
 
@@ -271,15 +210,13 @@ function AddService() {
   };
 
 
-// useEffect(()=>{
-//   async function getCAtegories(){
-//     const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
-//     setCategories(repsonse)
-//   }
-//   getCAtegories()
-// })
-
-
+useEffect(()=>{
+  async function getCategories(){
+    const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+    setCategories(repsonse.data)
+  }
+  getCategories()
+},[])
 
 
   return (
@@ -403,7 +340,7 @@ function AddService() {
             {/* --------------images------------- */}
             <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
             <div className="bg-gray-100 flex flex-col  gap-3 px-3 p-6 mb-12  rounded-md">
-              <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 "
+              <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-500 "
               onClick={()=>imageInput.current.click()}
               >add image
               </button>
