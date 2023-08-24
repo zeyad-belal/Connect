@@ -183,22 +183,20 @@ const Navbar = (props) => {
           {/* cart  */}
           <Link
             className="text-text1 flex items-center relative hover:bg-primary px-5 py-3"
-            to="/cart"
-          >
+            to="/cart">
             <li
-              className="flex items-center "
-              onClick={() => dispatch(menuActions.closeAllMenus())}
-            >
+              className="flex items-center"
+              onClick={() => dispatch(menuActions.closeAllMenus())}>
               <FaShoppingCart size={20} />
               {cart.totalAmount > 0 && (
-                <span className="ml-1 bg-text1 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
-                  {cart.totalAmount}
+                <span className="ml-1 bg-text1 text-white rounded-full px-[6px] text-[12px]  absolute right-[-1px] top-[7px]">
+                  {cart.totalItemsNum}
                 </span>
               )}
             </li>
           </Link>
           {/* user  */}
-          <li className="flex items-center py-2 sm:px-6 px-0  text-text1  text-sm:10 ">
+          <li className="flex items-center py-2 sm:px-6 px-1  text-text1  text-sm:10 ">
             {userStatus ? (
               <div
                 className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"

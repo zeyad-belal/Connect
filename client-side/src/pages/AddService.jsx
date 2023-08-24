@@ -26,7 +26,7 @@ const RepeatedExtras = (props) => {
       <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
       onClick={(e)=> deleteExtra(e)}
       >X</button>
-      <div className="name w-full lg:w-[30%]">
+      <div className="name w-full lg:w-[31%]">
         <label
           htmlFor="extra-name"
           className="mb-1 font-semibold text-text1 text-sm ">
@@ -41,11 +41,11 @@ const RepeatedExtras = (props) => {
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="cost w-full lg:w-[30%]">
+      <div className="cost w-full lg:w-[31%]">
         <label
           htmlFor="extra-cost"
           className="mb-1 font-semibold text-text1 text-sm " >
-          Cost <span className="text-xs ml-2 text-gray-400">(additional service costs)</span>
+          Cost <span className="text-xs ml-2 text-gray-400">(additional costs)</span>
         </label>
         <input
           {...register("extra-cost")}
@@ -55,11 +55,11 @@ const RepeatedExtras = (props) => {
           className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
-      <div className="time w-full lg:w-[30%]">
+      <div className="time w-full lg:w-[31%]">
         <label
           htmlFor="extra-time"
           className="mb-1 font-semibold text-text1 text-sm " >
-          Extra Time <span className="text-xs ml-2 text-gray-400">(additional time needed)</span>
+          Extra Time <span className="text-[10px] ml-2 text-gray-400">(additional time)</span>
         </label>
           <select id="extra-time"
           {...register("extra-time", { required: true })}
@@ -174,7 +174,6 @@ function AddService() {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
     
-    // console.log(response)
       setLoadingStatue(false) 
       reset()
       setSelectedImages([])
@@ -206,26 +205,26 @@ function AddService() {
   };
 
 
-useEffect(()=>{
-  async function getCategories(){
-    try{
-      const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
-      setCategories(repsonse.data)
-    }catch(error){
-      toast.error(error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
+  useEffect(()=>{
+    async function getCategories(){
+      try{
+        const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+        setCategories(repsonse.data)
+      }catch(error){
+        toast.error(error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
     }
-  }
-  getCategories()
-},[])
+    getCategories()
+  },[])
 
 
 
@@ -237,7 +236,7 @@ useEffect(()=>{
         <form
           ref={form}
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full rounded-md  xl:m-10 md:m-10 sm:my-10 bg-white p-12" >
+          className="w-full rounded-md  lg:my-10 md:m-10 sm:my-10 bg-white p-3 lg:mr-1" >
               {/* --------------name------------- */}
                 <div className="mb-4 flex flex-col">
                   <label htmlFor="name" className="mb-1 font-semibold text-text1 text-sm ">
@@ -402,7 +401,7 @@ useEffect(()=>{
               </button>
         </form>
 
-        <div className="py-12 p-2 self-start max-w-[400px]">
+        <div className="hidden lg:block py-12 p-5 self-start max-w-[400px]">
           <h3 className="text-lg font-semibold mb-2">Service Title</h3>
           <p className="text-gray-700 text-md mb-12">
             Choose a concise and clear title that accurately reflects what you're offering in your service.

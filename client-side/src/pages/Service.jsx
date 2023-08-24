@@ -91,7 +91,8 @@ const Service = () => {
     }
     getService()
   },[])
-  console.log(service)
+
+  
   return (
     <>
       <div>
@@ -102,7 +103,7 @@ const Service = () => {
                 <ServiceRoute service={service} />
               </div>
               <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
-                <ServiceImageCarousel ServiceImages={service.images} />
+                <ServiceImageCarousel serviceImages={service.images} />
                 <ServiceDetails
                   service={service}
                   count={count}
