@@ -147,8 +147,7 @@ const Navbar = (props) => {
                 ? "search flex items-center px-5 py-3 text-text1 bg-primary cursor-pointer"
                 : "search flex items-center px-5 py-3 text-text1  hover:bg-primary cursor-pointer"
             }
-            onClick={() => dispatch(menuActions.toggleSearchBar())}
-          >
+            onClick={() => dispatch(menuActions.toggleSearchBar())} >
             <BsSearch size={20} />
           </li>
           {/* notifcations  */}
