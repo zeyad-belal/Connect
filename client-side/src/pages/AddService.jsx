@@ -38,7 +38,7 @@ const RepeatedExtras = (props) => {
           type="text"
           id="extra-description"
           placeholder="extra description"
-          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
       <div className="cost w-full lg:w-[31%]">
@@ -52,7 +52,7 @@ const RepeatedExtras = (props) => {
           type="text"
           id="extra-cost"
           placeholder="in USD"
-          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" />
+          className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" />
       </div>
 
       <div className="time w-full lg:w-[31%]">
@@ -63,7 +63,7 @@ const RepeatedExtras = (props) => {
         </label>
           <select id="extra-time"
           {...register("extra-time", { required: true })}
-          className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
+          className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" >
           <option value="">Please select</option>
           <option key='one day' value="one day">one day</option>
           <option key='two day' value="two day">two days</option>
@@ -236,7 +236,7 @@ function AddService() {
         <form
           ref={form}
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full rounded-md  lg:my-10 md:m-10 sm:my-10 bg-white p-3 lg:mr-1" >
+          className="w-full rounded-md   lg:my-10 md:m-10 sm:my-10 bg-white p-3 lg:mr-1" >
               {/* --------------name------------- */}
                 <div className="mb-4 flex flex-col">
                   <label htmlFor="name" className="mb-1 font-semibold text-text1 text-sm ">
@@ -245,7 +245,7 @@ function AddService() {
                   <input
                     id="name"
                     {...register("name", { required: true })}
-                    className="bg-primary focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
+                    className="bg-primary focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors"
                     />
                   {errors.name && (
                     <span className="text-red-500">This field is required</span>
@@ -261,7 +261,7 @@ function AddService() {
                         required: true })}
                       aria-invalid={errors.category_name ? "true" : "false"}
                       id="category"
-                      className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
+                      className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" >
                       <option value="">Please select</option>
                       {categories.map((category) => {
                         return (
@@ -287,7 +287,7 @@ function AddService() {
                       {...register("description", {
                         required: true,
                       })}
-                      className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
+                      className="bg-gray-100  focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors"
                       />
                     {errors.description?.type === "required" && (
                       <p className="text-red-500" role="alert">
@@ -305,7 +305,7 @@ function AddService() {
                         id="price"
                         placeholder="in USD"
                         {...register("price", { required: true })}
-                        className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
+                        className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors"
                       />
                       {errors.price && (
                         <span className="text-red-500">This field is required</span>
@@ -319,7 +319,7 @@ function AddService() {
                       <select
                         id="time"
                         {...register("time", { required: true })}
-                        className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors" >
+                        className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" >
                         <option value="">Please select</option>
                         <option key='one day' value="one day">one day</option>
                         <option key='two day' value="two day">two days</option>
@@ -351,8 +351,8 @@ function AddService() {
                 </div>
               {/* --------------images------------- */}
               <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
-              <div className="bg-gray-100 flex flex-col  gap-3 px-3 p-6 mb-12  rounded-md">
-                <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-500 "
+              <div className="bg-gray-100 flex flex-col  gap-3 px-3 p-6 mb-12  rounded-sm">
+                <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-secondary rounded-md  hover:bg-secHover active:bg-yellow-500 "
                 onClick={()=>imageInput.current.click()}
                 >add image
                 </button>
@@ -374,14 +374,14 @@ function AddService() {
                 </div>
               </div>
               {/* --------------extras------------- */}
-              <div className="bg-primary px-3 pb-6 pt-3 rounded-md">
+              <div className="bg-primary px-3 pb-6 pt-3 rounded-sm">
                     <h2 className="font-bold text-gray-500  mb-3">The enhancements to the provided service are optional only.</h2>
                     <div className=" flex flex-wrap gap-3 items-center">
                       {extras}
                       <button
                         onClick={() => handleExtraRepeat()}
                         type="button"
-                        className=" h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 font-xs bg-secondary rounded-lg hover:bg-secHover active:bg-yellow-600">
+                        className=" h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 font-xs bg-secondary rounded-md hover:bg-secHover active:bg-yellow-600">
                         add extra
                       </button>
                     </div>

@@ -106,12 +106,12 @@ const Navbar = (props) => {
               onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
             {menu.isCatgMenuVisible && 
-            <div className="bottom-[-225%] right-[-250%] rounded-md z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
+            <div className="bottom-[-225%] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
                   onClick={()=>navigate(`/services/category=${category.category_name}`)}
-                  className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-sm px-5 py-6 w-[25%]"
+                  className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-md  px-5 py-6 w-[25%]"
                   key={category.id}>{category.category_name.toUpperCase()}</li>
                 })}
               </ul>
@@ -145,8 +145,7 @@ const Navbar = (props) => {
             className={
               menu.isSearchBarVisible
                 ? "search flex items-center px-5 py-3 text-text1 bg-primary cursor-pointer"
-                : "search flex items-center px-5 py-3 text-text1  hover:bg-primary cursor-pointer"
-            }
+                : "search flex items-center px-5 py-3 text-text1  hover:bg-primary cursor-pointer"}
             onClick={() => dispatch(menuActions.toggleSearchBar())} >
             <BsSearch size={20} />
           </li>
@@ -154,24 +153,22 @@ const Navbar = (props) => {
           <li
             className={
               menu.isNotiMenuVisible
-                ? "flex items-center   px-5 py-3 text-text1 bg-primary cursor-pointer"
-                : "flex items-center   px-5 py-3 text-text1 hover:bg-primary cursor-pointer"
-            }
-            onClick={() => dispatch(menuActions.toggleNotiMenu())}
-          >
+                ? "flex items-center  px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "flex items-center  px-5 py-3 text-text1 hover:bg-primary cursor-pointer" }
+            onClick={() => dispatch(menuActions.toggleNotiMenu())} >
             <BsFillBellFill size={20} />
             {/* -------noti menu------- */}
             {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30  ">
-                  <ul className="flex flex-col overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
-                    <li className="flex gap-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
+                    <li className="flex gap-2 rounded-md     border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
-                    <li className="flex gap-2 border-t-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                    <li className="flex gap-2 rounded-md   border-t-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
-                    <li className="flex gap-2 border-t-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                    <li className="flex gap-2 rounded-md    border-t-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                       handle noti here
                     </li>
                   </ul>
@@ -212,11 +209,10 @@ const Navbar = (props) => {
                 {menu.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
-                      <ul className="flex flex-col gap-1  absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
+                      <ul className="flex flex-col gap-1 rounded-md  absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
                         <li
                           className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
-                          onClick={() => navigate("/userInfo")}
-                        >
+                          onClick={() => navigate("/userInfo")}>
                           {" "}
                           <RxAvatar size={22} /> {CurrUser.first_name}{" "}
                           {CurrUser.last_name}
