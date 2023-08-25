@@ -356,7 +356,6 @@ function AddService() {
                 onClick={()=>imageInput.current.click()}
                 >add image
                 </button>
-
                   <input
                     name='images'
                     type="file"
@@ -368,9 +367,8 @@ function AddService() {
                 {/* images display */}
                 <div className="flex flex-wrap items-center gap-1">
                   {imagesURLS.map((imageURL, index) => (
-                    <div key={index} className="max-w-[200px] w-full max-h-[160px] overflow-clip ">
+                    <div key={index} className="max-w-[200px] w-full max-h-[110px] overflow-clip ">
                         <img className=" " src={imageURL} alt="service image" />
-
                     </div> 
                   ))}
                 </div>

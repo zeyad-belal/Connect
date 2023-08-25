@@ -41,7 +41,7 @@ const createService = async (req, res, next) => {
     name: req.body.name,
     price: req.body.price,
     description: req.body.description,
-    keywords: req.body.keywords,
+    keywords: [...req.body.keywords],
     time: req.body.time,
     extras: req.body.extras ? JSON.parse(req.body.extras) : undefined,
     images: imagesInfo,
@@ -130,14 +130,14 @@ const updateService = async (req, res, next) => {
       imagesInfo.push(res);
     }
   }
-
+console.log([service.keywords])
   const updatedService = await Service.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name ?? service.name,
       price: req.body.price ?? service.price,
       description: req.body.description ?? service.description,
-      keywords: req.body.keywords ?? service.keywords,
+      keywords: req.body.keywords ? req.body.keywords[0].split(",") : service.keywords,
       time: req.body.time ?? service.time,
       extras: req.body.extras
         ? JSON.parse(req.body.extras)

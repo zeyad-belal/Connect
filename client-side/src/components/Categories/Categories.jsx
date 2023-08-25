@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import Category from "./Category";
 import axios from "axios";
-
+import './categories.css'
 
 
 const Categories = () => {
@@ -27,7 +27,7 @@ const Categories = () => {
     <div className="mt-5 gap-7 flex flex-col justify-around sm:flex-row flex-wrap">
       {categories.length > 0 && categories.map((category) => {
         return (
-          <div key={category.id} className="w-100 sm:w-1/3 md:w-1/5 grow" >
+          <div key={category.id} className="animate-up hover:shadow-md  w-100 sm:w-1/3 md:w-1/5 grow" >
             <Category category={category} />
           </div>
         );
