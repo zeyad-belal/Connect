@@ -49,7 +49,7 @@ const ServicesItem = ({ item }) => {
     }
   }
 
-  
+
   return (
     <>
       <div className="py-1 m-2  transition-shadow duration-300">
@@ -79,12 +79,12 @@ const ServicesItem = ({ item }) => {
                       starts from <span className="font-bold ml-1"> ${item.price}</span>
                   </div>
                 </div>
-                <button
+                {/* <button
                   onClick={() => addItemToCart(item)}
                   className="flex justify-center items-center border border-slate text-white rounded-lg p-2 bg-secondary hover:bg-secHover hover:text-text1 transition-all duration-300" >
                   <CartIcon />
                   <span>Add to Cart</span>
-                </button>
+                </button> */}
             </div>
           </Link>
         </div>
