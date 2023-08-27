@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Counter from "../Counter";
-import { CartIcon } from "../Icons";
+
 import { RatingBadge } from "../Badges";
 
 const ServiceDetails = ({
@@ -14,7 +14,7 @@ const ServiceDetails = ({
 }) => {
   return (
     <>
-      <div className="md:max-w-[50%] min-w-0">
+      <div className="md:max-w-[50%] min-w-0 border-l-2 px-5 lg:ml-12">
         <div className="border-b pb-4">
           {/* Tags */}     
             <div className="flex items-center">
@@ -43,13 +43,7 @@ const ServiceDetails = ({
               count={count}
               handleCounterDecrement={handleCounterDecrement}
               handleCounterIncrement={handleCounterIncrement} />
-            <button
-              onClick={() => handleAddItemToCart(service)}
-              type="button"
-              className="primaryBtn focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
-              <CartIcon></CartIcon>
-              Buy the service
-            </button>
+
           </div>
       </div>
     </>

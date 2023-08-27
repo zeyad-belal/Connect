@@ -7,7 +7,7 @@ const ServiceRoute = ({ service }) => {
   // console.log(service);
   return (
     <>
-      <div className="flex flex-wrap text-sm font-semibold text-gray-500  lg:justify-center lg:items-center p-5">
+      <div className="flex flex-wrap text-sm font-semibold text-gray-500  lg:justify-center lg:items-center p-2">
         <Link to="/">
           <HomeIcon />
         </Link>

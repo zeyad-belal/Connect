@@ -11,7 +11,7 @@ import { cartActions }  from "../store/cartSlice";
 import {useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import axios from "axios";
-
+import { CartIcon } from "./../components/Icons";
 
 const Service = () => {
   const dispatch = useDispatch()
@@ -95,16 +95,23 @@ const Service = () => {
   return (
     <>
       <div>
-        <div className="flex flex-col gap-5 bg-gray-100 p-5">
+        <div className="flex flex-col gap-5 bg-gray-100 p-7">
           {service && (
             <>
               <div className=" flex flex-col items-start ">
                 <ServiceRoute service={service} />
-                <h1 className="text-2xl mb-4 px-5 font-semibold text-gray-800">{service.name}</h1>
+                <div className="flex flex-col lg:flex-row justify-between w-full items-start lg:items-center">
+                  <h1 className="text-2xl mb-4 px-2 font-semibold text-gray-800">{service.name}</h1>
+                  <button
+                    onClick={() => handleAddItemToCart(service)}
+                    type="button"
+                    className="bg-secondary border-2 border-transparent text-white hover:bg-transparent hover:text-secondary transition-all hover:border-secondary focus:outline-none font-medium rounded text-md px-2 py-1 text-center inline-flex items-center ">
+                    <CartIcon></CartIcon> Buy the service </button>
+                </div>
               </div>
               <div>
-                <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
-                  <ServiceImageCarousel serviceImages={service.images} />
+                <div className="flex flex-col md:flex-row justify-start items-center gap-12  bg-white p-4">
+                    <ServiceImageCarousel  serviceImages={service.images} />
                   <ServiceDetails
                     service={service}
                     count={count}
