@@ -2,53 +2,9 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import {RatingBadge} from "../Badges";
-import { CartIcon } from "../Icons";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useDispatch} from "react-redux"
-import { signModalActions } from "./../../store/signModalSlice"
-import { cartActions } from "../../store/cartSlice"
+
 
 const ServicesItem = ({ item }) => {
-  const dispatch = useDispatch()
-
-
-  async function addItemToCart(service) {
-    if (window.localStorage.getItem("logged")) {
-      dispatch(cartActions.add({
-        key: service._id,
-        id: service._id,
-        name: service.name,
-        image: service.images[0].url,
-        amount: 1,
-        price: service.price,
-      }))
-
-      toast.success("Item added to cart !", {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-      });
-    } else {
-      toast.info("Sign in first !", {
-            position: "top-right",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-      });
-      dispatch(signModalActions.toggleModal());
-    }
-  }
-
 
   return (
     <>

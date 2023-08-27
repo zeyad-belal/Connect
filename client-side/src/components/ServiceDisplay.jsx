@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import ServicesItem from "./Service/ServicesItem";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function CategoryDisplay(props) {
   const [filteredServices, setFilteredServices] = useState('')
-
+  const navigate = useNavigate();
   
   useEffect(()=>{
     async function getfilteredServices(){
       try{
-        const repsonse = await  axios.get(`${import.meta.env.VITE_API_URL}/services/filtered/${props.category.id}`)
+        const repsonse = await  axios.get(`${import.meta.env.VITE_API_URL}/services/filteredFour/${props.category.id}`)
         setFilteredServices(repsonse.data)
       }catch(error){
         toast.error(error, {
@@ -33,9 +34,14 @@ function CategoryDisplay(props) {
 
   return (
     <div className="px-10 py-3  text-center flex flex-col justify-center ">
-      <h1 className="text-semibold text-2xl ml-1 text-text1 mt-8 mb-3 self-start">
-        {props.category.category_name}
-      </h1>
+      <div className="flex justify-between items-end mb-2 px-1">
+        <h1 className="text-semibold text-2xl ml-1 text-text1 mt-8  self-start">
+          {props.category.category_name}
+        </h1>
+        <button className="bg-secondary text-white rounded-sm py-1 px-1  border-2 border-transparent transition-all hover:border-secHover hover:border-2 hover:border-solid hover:bg-transparent hover:text-secondary focus:outline-none"
+          onClick={()=>navigate(`services?category=${props.category.category_name}`)}>
+          show all</button>
+      </div>
       <div className="gap-4 flex flex-col justify-around sm:flex-row flex-wrap">
         {filteredServices.length > 0 && filteredServices.map((item) => {
           return (
