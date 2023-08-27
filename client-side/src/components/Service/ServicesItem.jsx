@@ -6,8 +6,6 @@ import {RatingBadge} from "../Badges";
 
 const ServicesItem = ({ item }) => {
 
-
-console.log(item)
   return (
     <>
       <div className="py-1 m-2  transition-shadow duration-300">

@@ -98,11 +98,11 @@ const Service = () => {
         <div className="flex flex-col gap-5 bg-gray-100 p-5">
           {service && (
             <>
-              <div className="bg-white flex px-5">
+              <div className=" flex flex-col items-start ">
                 <ServiceRoute service={service} />
+                <h1 className="text-2xl mb-4 px-5 font-semibold text-gray-800">{service.name}</h1>
               </div>
               <div>
-                <h1 className="text-2xl mb-4 text-gray-800">{service.name}</h1>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
                   <ServiceImageCarousel serviceImages={service.images} />
                   <ServiceDetails

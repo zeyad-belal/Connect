@@ -40,7 +40,7 @@ const Services = () => {
           }
         });
       }
-      // console.log(filtered);
+      
       setfilteredServices(filtered);
     }
   }, [allServices, searchParams]);

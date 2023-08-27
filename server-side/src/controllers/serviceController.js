@@ -57,7 +57,7 @@ const createService = async (req, res, next) => {
 
 const getAllServices = async (req, res, next) => {
   const Services = await Service.find()
-    .populate("category_id");
+    .populate("category_id").populate("user_id");
   if (!Services) return next(new AppError("No Services found.", 404));
   res.send(Services);
 };

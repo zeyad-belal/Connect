@@ -16,9 +16,7 @@ const ServiceDetails = ({
     <>
       <div className="md:max-w-[50%] min-w-0">
         <div className="border-b pb-4">
-          {/* Tags */}
-          <h1 className="text-2xl mb-4 text-gray-800">{service.name}</h1>
-           
+          {/* Tags */}     
             <div className="flex items-center">
               <RatingBadge avg_rating={service.avg_rating}></RatingBadge>
               <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full"></span>

@@ -7,7 +7,7 @@ const ServiceRoute = ({ service }) => {
   // console.log(service);
   return (
     <>
-      <div className="flex flex-wrap text-sm font-bold text-gray-800 lg:justify-center lg:items-center p-5">
+      <div className="flex flex-wrap text-sm font-semibold text-gray-500  lg:justify-center lg:items-center p-5">
         <Link to="/">
           <HomeIcon />
         </Link>
@@ -20,7 +20,7 @@ const ServiceRoute = ({ service }) => {
 
         <RightArrowIcon />
 
-        <span className="pb-[2px] break-words">{service.name}</span>
+        <span className=" break-words">{service.name}</span>
       </div>
     </>
   );
