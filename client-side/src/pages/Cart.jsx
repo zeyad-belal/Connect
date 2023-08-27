@@ -109,8 +109,7 @@ const Cart = () => {
               </span>
               <button
                 onClick={checkoutHandler}
-                className="bg-secondary hover:bg-secHover my-1 px-2 max-w-[200px] rounded block"
-              >
+                className="bg-secondary hover:bg-secHover my-1 px-2 max-w-[200px] rounded block">
                 Checkout
               </button>
             </div>

@@ -184,7 +184,7 @@ const Navbar = (props) => {
               className="flex items-center"
               onClick={() => dispatch(menuActions.closeAllMenus())}>
               <FaShoppingCart size={20} />
-              {cart.totalAmount > 0 && (
+              {cart.totalItemsNum > 0 && (
                 <span className="ml-1 bg-text1 text-white rounded-full px-[6px] text-[12px]  absolute right-[-1px] top-[7px]">
                   {cart.totalItemsNum}
                 </span>
@@ -196,14 +196,12 @@ const Navbar = (props) => {
             {userStatus ? (
               <div
                 className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"
-                onClick={() => dispatch(menuActions.toggleUserMenu())}
-              >
+                onClick={() => dispatch(menuActions.toggleUserMenu())} >
                 <div className="w-[45px] h-[45px] rounded-full overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
                     src={CurrUser.avatar}
-                    alt="User Avatar"
-                  />
+                    alt="User Avatar" />
                 </div>
                 {/* --------menu------ */}
                 {menu.isUserMenuVisible && (
@@ -220,8 +218,7 @@ const Navbar = (props) => {
 
                         <li
                           onClick={signoutHandler}
-                          className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
-                        >
+                          className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
                           <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
                         </li>
                       </ul>

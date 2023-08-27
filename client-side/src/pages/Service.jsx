@@ -101,14 +101,17 @@ const Service = () => {
               <div className="bg-white flex px-5">
                 <ServiceRoute service={service} />
               </div>
-              <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
-                <ServiceImageCarousel serviceImages={service.images} />
-                <ServiceDetails
-                  service={service}
-                  count={count}
-                  handleCounterDecrement={handleCounterDecrement}
-                  handleCounterIncrement={handleCounterIncrement}
-                  handleAddItemToCart={handleAddItemToCart} />
+              <div>
+                <h1 className="text-2xl mb-4 text-gray-800">{service.name}</h1>
+                <div className="flex flex-col md:flex-row justify-center items-center gap-5 bg-white p-10">
+                  <ServiceImageCarousel serviceImages={service.images} />
+                  <ServiceDetails
+                    service={service}
+                    count={count}
+                    handleCounterDecrement={handleCounterDecrement}
+                    handleCounterIncrement={handleCounterIncrement}
+                    handleAddItemToCart={handleAddItemToCart} />
+                </div>
               </div>
               <div className="bg-white  px-5">
                 <ServicePanels service={service} />

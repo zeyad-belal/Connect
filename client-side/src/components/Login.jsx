@@ -30,17 +30,18 @@ function Login() {
       setCookie("UserToken", response.data.token);
       setCookie("User", JSON.stringify(response.data.user));
       window.localStorage.setItem("logged", true);
-      toast(`Welcome back ${response.data.user?.["first_name"] || ""}!`, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
       dispatch(signModalActions.toggleModal())
+      window.location.reload();
+      // toast(`Welcome back ${response.data.user?.["first_name"] || ""}!`, {
+      //   position: "top-right",
+      //   autoClose: 1500,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      // });
     } catch (error) {
       // console.error(error);
       error.response
@@ -65,23 +66,19 @@ function Login() {
         <h1 className="mx-auto w-fit  text-sm mb-4">Sign in to your account</h1>
         <p className="mx-auto w-fit  text-sm mb-4">
           Don't have an account?{" "}
-          <a
-            onClick={()=> dispatch(signModalActions.toggleModalContent())}
-            className="text-secondary cursor-pointer"
-          >
+          <a onClick={()=> dispatch(signModalActions.toggleModalContent())}
+            className="text-secondary cursor-pointer" >
             Sign Up
           </a>
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg "
-        >
+          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg " >
           {/* -------------------------------email------------------------------------------------ */}
           <div className="w-full mb-2">
             <label
               htmlFor="email"
-              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
-            >
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm" >
               Email
             </label>
             <input
@@ -93,8 +90,7 @@ function Login() {
                 },
               })}
               aria-invalid={errors.email ? "true" : "false"}
-              className="input mb-0"
-            />
+              className="input mb-0" />
           </div>
           {errors.email?.type === "required" && (
             <p className="text-red-500 mb-3 text-sm" role="alert">
@@ -110,8 +106,7 @@ function Login() {
           <div className="w-full mb-2">
             <label
               htmlFor="password"
-              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
-            >
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm" >
               Password
             </label>
             <input
@@ -122,8 +117,7 @@ function Login() {
               })}
               type="password"
               aria-invalid={errors.password ? "true" : "false"}
-              className="input mb-0"
-            />
+              className="input mb-0" />
           </div>
           {errors.password?.type === "required" && (
             <p className="text-red-500 mb-3 text-sm" role="alert">
@@ -143,8 +137,7 @@ function Login() {
           <input
             type="submit"
             value={"Login"}
-            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center"
-          />
+            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
         </form>
       </Modal>
       <ToastContainer />

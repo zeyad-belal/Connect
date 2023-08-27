@@ -5,11 +5,6 @@ import { Link } from "react-router-dom";
 
 const Category = ({category}) => {
 
-  // category_name
-  // image
-  // description
-  // created_at
-  // updated_at
   return (
     <>
       <Link
