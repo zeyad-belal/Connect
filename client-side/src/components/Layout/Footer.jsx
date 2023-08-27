@@ -55,12 +55,12 @@ const Footer = () => {
     <>
       <footer className="bg-white">
         <header className=" flex flex-col justify-center pb-5 pt-12 mx-2 gap-5 ">
-          <h1 className="text-center text-text1 font-extrabold ">
+          <h1 className="text-center text-text1 font-bold ">
             BE THE FIRST TO KNOW
           </h1>
 
-          <h3 className="text-text1 font-bold text-center ">
-            Subscribe and know all the new offers and news now
+          <h3 className="text-text1 font-semibold text-center ">
+            Subscribe To Get The Latest Services Available
           </h3>
 
           <form
