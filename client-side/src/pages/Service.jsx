@@ -8,14 +8,13 @@ import ServiceRoute from "../components/Service/ServiceRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cartActions }  from "../store/cartSlice";
-import {useSelector, useDispatch} from "react-redux"
+import {useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import axios from "axios";
 
 
 const Service = () => {
   const dispatch = useDispatch()
-  const services = useSelector((state)=> state.services.services);
   const [service, setService] = useState(null);
 
   const [count, setCount] = useState(1);
