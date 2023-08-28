@@ -1,17 +1,18 @@
+/* eslint-disable react/prop-types */
 
 
 const Counter = ({ count, handleCounterDecrement, handleCounterIncrement }) => {
   return (
     <div className="flex border rounded">
       <button
-        className="hover:text-orange-500 px-1"
+        className="hover:text-secondary px-1"
         onClick={handleCounterDecrement}
       >
         <MinusIcon></MinusIcon>
       </button>
       <p className="py-[7px] px-4 border-r border-l text-bold">{count}</p>
       <button
-        className="hover:text-orange-500 px-1"
+        className="hover:text-secondary px-1"
         onClick={handleCounterIncrement}
       >
         <PlusIcon></PlusIcon>
