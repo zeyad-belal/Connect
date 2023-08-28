@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,8 +18,8 @@ import { FreeMode, Navigation, Pagination, Thumbs, Zoom } from "swiper";
 const ServiceImageCarousel = ({ serviceImages }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
-    <>
-      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 md:max-w-[50%] w-full h-[420px] ">
+    <div className="relative">
+      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 max-w-[600px] w-full h-[420px] ">
         <Swiper
           onSwiper={setThumbsSwiper}
           direction={"vertical"}
@@ -27,13 +28,12 @@ const ServiceImageCarousel = ({ serviceImages }) => {
           freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs]}
-          className="first-swiper"
-        >
+          className="first-swiper" >
           {serviceImages.map((image) => {
             return (
-              <SwiperSlide key={image.fileId}>
+              <SwiperSlide key={image.fileId} >
                 <div className="box-border border-2 border-gray-300 rounded-md cursor-pointer h-auto overflow-hidden w-full flex justify-center items-center transition-all duration-200 ease-in-out">
-                  <div className="relative pb-[130%] pl-[73.327%] w-full">
+                  <div className="relative pb-[56%] pl-[73.327%] w-full">
                     <div className="absolute inset-0 flex flex-col">
                       <img src={image.url} />
                     </div>
@@ -71,7 +71,7 @@ const ServiceImageCarousel = ({ serviceImages }) => {
           })}
         </Swiper>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -5,17 +5,11 @@ import Counter from "../Counter";
 
 import { RatingBadge } from "../Badges";
 
-const ServiceDetails = ({
-  count,
-  handleCounterDecrement,
-  handleCounterIncrement,
-  handleAddItemToCart,
-  service
-}) => {
+const ServiceDetails = ({service}) => {
   return (
-    <>
-      <div className="md:max-w-[50%] min-w-0 border-l-2 px-5 lg:ml-12">
-        <div className="border-b pb-4">
+    <div className="py-3 pl-3">
+        <div className="border-b pb-4 ">
+          <h3 className="text-lg font-medium text-text1 mb-3">Service Details</h3>
           {/* Tags */}     
             <div className="flex items-center">
               <RatingBadge avg_rating={service.avg_rating}></RatingBadge>
@@ -37,16 +31,8 @@ const ServiceDetails = ({
               </div>
           </div>
         </div>
-          <p className="border-b py-4">Delivery Period: {service.time}</p>
-          <div className="flex items-center gap-4 py-4">
-            <Counter
-              count={count}
-              handleCounterDecrement={handleCounterDecrement}
-              handleCounterIncrement={handleCounterIncrement} />
-
-          </div>
-      </div>
-    </>
+          <p className="py-4">Delivery Period: {service.time}</p>
+    </div>
   );
 };
 

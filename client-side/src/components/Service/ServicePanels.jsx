@@ -3,7 +3,7 @@ import { useState } from "react";
 import ServiceExtrasPanel from "./ServiceExtrasPanel"
 import ServiceReviewsPanel from "./ServiceReviewsPanel";
 
-const ServicePanels = ({ service }) => {
+const ServicePanels = ({ service ,setExtrasCost }) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const handleClick = (index) => setActiveIndex(index);
   const checkActive = (index, className) =>
@@ -11,7 +11,7 @@ const ServicePanels = ({ service }) => {
 
   return (
     <>
-      <section className="p-5">
+      <section className="p-5 ">
         <div className="tabs flex justify-start">
           <button
             className={`tab ${checkActive(1, "active")}`}
@@ -26,7 +26,7 @@ const ServicePanels = ({ service }) => {
           </button>
         </div>
         <div className="panels">
-          <ServiceExtrasPanel service={service} checkActive={checkActive} />
+          <ServiceExtrasPanel service={service} checkActive={checkActive} setExtrasCost={setExtrasCost} />
           <ServiceReviewsPanel service={service} checkActive={checkActive} />
         </div>
       </section>
