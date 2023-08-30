@@ -97,7 +97,7 @@ const Service = () => {
   
   return (
     <>
-        <div className="flex flex-col gap-5 bg-gray-100 p-7">
+        <div className="flex flex-col gap-5 bg-gray-100 p-6 md:p-10">
           {service && (
             <>
               <div className=" flex flex-col items-start">
@@ -111,15 +111,15 @@ const Service = () => {
                 </div>
               </div>
 
-              <div className="flex gap-7">
-                <div className="flex items-start gap-12  bg-white p-4 w-[80%]">
-                    <div>
-                  <ServiceImageCarousel  serviceImages={service.images} />
-                    <p className="text-sm text-text1 lg:tracking-2xl my-8" >{service.description}</p>
+              <div className="flex flex-col lg:flex-row gap-1 justify-between">
+                <div className="flex items-center gap-12  bg-white p-4 lg:w-[65%]">
+                    <div className="max-w-full flex flex-col items-center p-2">
+                      <ServiceImageCarousel  serviceImages={service.images} />
+                      <p className="text-sm text-text1 lg:tracking-2xl my-8 px-7" >{service.description}</p>
                     </div>
                 </div>
-
-                <div className="flex flex-col items-start  bg-white  h-fit w-[30%]">
+                {/* SERVICES DETAILS  */}
+                <div className="flex flex-col  bg-white  h-fit lg:w-[33%] p-2">
                   <ServiceDetails
                     service={service}
                     count={count}
@@ -127,12 +127,12 @@ const Service = () => {
                     handleCounterIncrement={handleCounterIncrement}
                     handleAddItemToCart={handleAddItemToCart} />
                 </div>
-              </div>
-              <div className="bg-white  px-5 max-w-[80%] flex flex-col items-start">
+              </div> 
+              <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
                 <ServicePanels service={service} setExtrasCost={setExtrasCost} />
               </div>
-
-              <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10">
+              {/* buy the service  */}
+              <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10 lg:max-w-[65%]">
                 <h2 className="self-start text-2xl text-text1">Buy the service</h2>
                 <div className="border-t w-full flex flex-col items-center mt-3 pt-3">
                   <div className="flex items-center gap-4 py-4 ">
@@ -140,7 +140,7 @@ const Service = () => {
                     count={count}
                     handleCounterDecrement={handleCounterDecrement}
                     handleCounterIncrement={handleCounterIncrement} />
-                  <span className="text-lg font-semibold"> subtotal: {(service.price * count) + extrasCost} </span>
+                  <span className="text-lg font-semibold"> subtotal: {(service.price * count) + (extrasCost* count)}$</span>
                   </div>
                   <button
                     onClick={() => handleAddItemToCart(service)}
