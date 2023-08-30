@@ -19,7 +19,7 @@ const ServiceImageCarousel = ({ serviceImages }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
     <div className="relative">
-      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 max-w-[600px] w-full h-[420px] ">
+      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 max-w-[500px] lg:max-w-[600px] w-full h-[420px] mb-3">
         <Swiper
           onSwiper={setThumbsSwiper}
           direction={"vertical"}
