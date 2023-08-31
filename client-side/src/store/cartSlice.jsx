@@ -43,6 +43,18 @@ export const cartSlice = createSlice({
         state.totalItemsNum -= 1;
       }
     },
+    delete(state, action) {
+      const id = action.payload;
+      const existingCartItemIndex = state.items.findIndex((cartItem) => cartItem.id === id);
+      state.changed = true;
+      
+      if (existingCartItemIndex !== -1) {
+        const existingCartItem = state.items[existingCartItemIndex];
+        state.totalAmount -= existingCartItem.price * existingCartItem.amount;
+        state.totalItemsNum -= existingCartItem.amount;
+        state.items.splice(existingCartItemIndex, 1);
+      }
+    },
     clear(state){
       state.items = [],
       state.totalAmount = 0,
@@ -101,7 +113,7 @@ export  function fetchCartItems(userID , userToken) {
           name: item.name,
           image: item.images[0].url,
           amount: quantities[index],
-          price: item.new_price,
+          price: item.price,
         }));
 
         const totalAmount = myItems.reduce(

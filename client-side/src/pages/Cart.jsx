@@ -81,7 +81,6 @@ const Cart = () => {
             {/* cart header */}
             <div className="relative p-6 border-b-2">
               <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-              <span className="absolute right-5">Price</span>
             </div>
             {/* cartcart.items */}
             {cart.items.length !== 0 ? (
@@ -99,10 +98,10 @@ const Cart = () => {
               </p>
             )}
           </section>
-          <aside className="">
+          <aside className="w-[300px] self-end ">
             <div className="py-6  flex flex-col gap-5 px-5">
               <h6 className="font-semibold text-xl">Subtotal</h6>
-              <div className="flex flex-col font-semibold gap-2 max-w-[300px]">
+              <div className="flex flex-col font-semibold gap-2 ">
                 <div className="flex justify-between">
                   <span>Total: </span> <span>$ {cart.totalAmount}</span>
                 </div>
