@@ -8,8 +8,8 @@ import { RatingBadge } from "../Badges";
 const ServiceDetails = ({service}) => {
   return (
     <div className="py-3 pl-3">
-        <div className="border-b pb-4 ">
-          <h3 className="text-lg font-medium text-text1 mb-3">Service Details</h3>
+        <div className=" pb-4 ">
+          <h3 className="text-lg font-medium text-text1 mb-6 border-b pb-3 ">Service Details</h3>
           {/* Tags */}     
             <div className="flex items-center">
               <RatingBadge avg_rating={service.avg_rating}></RatingBadge>
@@ -22,7 +22,7 @@ const ServiceDetails = ({service}) => {
             </div>
           
         </div>
-        <div className="flex flex-wrap items-center gap-5 border-b py-4">
+        <div className="flex flex-wrap items-center gap-5  py-4">
           <div className="flex items-end gap-2 text-text1">
             <span>Price starts from:</span>
 

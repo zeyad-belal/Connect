@@ -19,6 +19,8 @@ const Service = () => {
   const dispatch = useDispatch()
   const [service, setService] = useState(null);
   const [extrasCost, setExtrasCost] = useState(0);
+  const [extrasTime, setExtrasTime] = useState("");
+  const [period, setPeriod] = useState("");
 
   const [count, setCount] = useState(1);
   const { id } = useParams();
@@ -71,13 +73,52 @@ const Service = () => {
   };
 
 
+  const wordToNumber ={
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+  }
+  const conversions ={
+    "day" :1,
+    "days" :1,
+    "week": 7,
+    "month" :30
+  }
 
+  function convertWordToNumber(word){
+    return wordToNumber[word];
+  }
 
+  function convertToDays(input) {
+    const parts = input.split(" ");
+    const value = convertWordToNumber(parts[0]);
+    const unit = parts[1];
+    return value * conversions[unit];
+  }
+
+// handle service days
+  useEffect(() => {
+    if (extrasTime && extrasTime.length > 0) {
+      let totalExtraDays = 0;
+      extrasTime.forEach((extra) => {
+        totalExtraDays += convertToDays(extra.time);
+      });
+      setPeriod(convertToDays(service.extras[2][2]) + totalExtraDays);
+    }else{
+      service? setPeriod(convertToDays(service.extras[2][2])) :''
+    }
+  }, [extrasTime, service]);
+
+// get service
   useEffect(()=>{
     async function getService(){
       try{
         const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/${id}`)
         setService(repsonse.data)
+        setPeriod(convertToDays(repsonse.data.extras[2][2]))
       }catch(error){
         toast.error(error, {
           position: "top-right",
@@ -94,7 +135,6 @@ const Service = () => {
     getService()
   },[])
 
-  
   return (
     <>
         <div className="flex flex-col gap-5 bg-gray-100 p-6 md:p-10">
@@ -129,7 +169,7 @@ const Service = () => {
                 </div>
               </div> 
               <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
-                <ServicePanels service={service} setExtrasCost={setExtrasCost} />
+                <ServicePanels service={service} setExtrasCost={setExtrasCost} setExtrasTime={setExtrasTime} />
               </div>
               {/* buy the service  */}
               <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10 lg:max-w-[65%]">
@@ -142,6 +182,7 @@ const Service = () => {
                     handleCounterIncrement={handleCounterIncrement} />
                   <span className="text-lg font-semibold"> subtotal: {(service.price * count) + (extrasCost* count)}$</span>
                   </div>
+                  <div className="text-lg font-semibold mb-5">this service will take up to : {period} days</div>
                   <button
                     onClick={() => handleAddItemToCart(service)}
                     type="button"

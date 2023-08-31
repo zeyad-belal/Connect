@@ -1,24 +1,33 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-
 /* eslint-disable react/prop-types */
-const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost }) => {
-  const [checkedExtras, setCheckedExtras] = useState([]);
+import { useEffect, useState } from "react";
 
-  const handleExtras = (e, extraCost) => {
+
+
+const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime }) => {
+  const [checkedExtrasCost, setCheckedExtrasCost] = useState([]);
+  const [checkedExtrasTime, setCheckedExtrasTime] = useState([]);
+
+  const handleExtrasCost = (e, extraCost , extraTime) => {
     const extraName = e.target.name;
 
     if (e.target.checked) {
-      setCheckedExtras((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
+      setCheckedExtrasCost((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
+      setCheckedExtrasTime((prevChecked) => [...prevChecked, { name: extraName, time: extraTime }]);
     } else {
-      setCheckedExtras((prevChecked) =>
-        prevChecked.filter((extra) => extra.name !== extraName)
-      );
+      setCheckedExtrasCost((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
+      setCheckedExtrasTime((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
     }
   };
+  let costs = +checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0)
 
-  setExtrasCost(+checkedExtras.reduce((acc, extra) => acc + (+extra.cost), 0));
+  useEffect(()=>{
+    setExtrasCost(costs);
+    setExtrasTime(checkedExtrasTime);
+  },[checkedExtrasTime,checkedExtrasCost])
 
+
+  
   
   return (
     <>
@@ -32,7 +41,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost }) => {
                 name={extra[0]} 
                 id={`extra${extra[0]}`}
                 className="mr-1 cursor-pointer"
-                onChange={(e) => handleExtras(e, extra[1])} 
+                onChange={(e) => handleExtrasCost(e, extra[1],extra[2])} 
               />
               <span className="text-sm lg:text-md"> {extra[0]} </span>
             </label>

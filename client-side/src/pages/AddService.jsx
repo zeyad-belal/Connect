@@ -322,7 +322,7 @@ function AddService() {
                         className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors" >
                         <option value="">Please select</option>
                         <option key='one day' value="one day">one day</option>
-                        <option key='two day' value="two day">two days</option>
+                        <option key='two day' value="two days">two days</option>
                         <option key='three days' value="three days">three days</option>
                         <option key='four days' value="four days">four days</option>
                         <option key='five day' value="five days">five days</option>
