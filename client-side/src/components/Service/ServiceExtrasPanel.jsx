@@ -2,23 +2,28 @@
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost }) => {
-  const [checkedExtras, setCheckedExtras] = useState([]);
+const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime }) => {
+  const [checkedExtrasCost, setCheckedExtrasCost] = useState([]);
+  const [checkedExtrasTime, setCheckedExtrasTime] = useState([]);
 
-  const handleExtras = (e, extraCost) => {
+  const handleExtrasCost = (e, extraCost) => {
     const extraName = e.target.name;
 
     if (e.target.checked) {
-      setCheckedExtras((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
+      setCheckedExtrasCost((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
+      setCheckedExtrasTime((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
     } else {
-      setCheckedExtras((prevChecked) =>
-        prevChecked.filter((extra) => extra.name !== extraName)
-      );
+      setCheckedExtrasCost((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
+      setCheckedExtrasTime((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
+
     }
   };
 
-  setExtrasCost(+checkedExtras.reduce((acc, extra) => acc + (+extra.cost), 0));
+  setExtrasCost(+checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0));
+  setExtrasTime(+checkedExtrasTime.reduce((acc, extra) => acc + (+extra.cost), 0));
 
+
+  
   
   return (
     <>
@@ -32,7 +37,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost }) => {
                 name={extra[0]} 
                 id={`extra${extra[0]}`}
                 className="mr-1 cursor-pointer"
-                onChange={(e) => handleExtras(e, extra[1])} 
+                onChange={(e) => handleExtrasCost(e, extra[1])} 
               />
               <span className="text-sm lg:text-md"> {extra[0]} </span>
             </label>

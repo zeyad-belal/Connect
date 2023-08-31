@@ -19,6 +19,7 @@ const Service = () => {
   const dispatch = useDispatch()
   const [service, setService] = useState(null);
   const [extrasCost, setExtrasCost] = useState(0);
+  const [extrasTime, setExtrasTime] = useState("");
 
   const [count, setCount] = useState(1);
   const { id } = useParams();
@@ -129,7 +130,7 @@ const Service = () => {
                 </div>
               </div> 
               <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
-                <ServicePanels service={service} setExtrasCost={setExtrasCost} />
+                <ServicePanels service={service} setExtrasCost={setExtrasCost} setExtrasTime={setExtrasTime} />
               </div>
               {/* buy the service  */}
               <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10 lg:max-w-[65%]">
@@ -142,6 +143,7 @@ const Service = () => {
                     handleCounterIncrement={handleCounterIncrement} />
                   <span className="text-lg font-semibold"> subtotal: {(service.price * count) + (extrasCost* count)}$</span>
                   </div>
+                  <div className="text-lg font-semibold mb-5">this service will take up to :</div>
                   <button
                     onClick={() => handleAddItemToCart(service)}
                     type="button"
