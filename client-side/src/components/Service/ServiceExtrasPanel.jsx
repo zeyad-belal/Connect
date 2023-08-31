@@ -6,21 +6,20 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
   const [checkedExtrasCost, setCheckedExtrasCost] = useState([]);
   const [checkedExtrasTime, setCheckedExtrasTime] = useState([]);
 
-  const handleExtrasCost = (e, extraCost) => {
+  const handleExtrasCost = (e, extraCost , extraTime) => {
     const extraName = e.target.name;
 
     if (e.target.checked) {
       setCheckedExtrasCost((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
-      setCheckedExtrasTime((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
+      setCheckedExtrasTime((prevChecked) => [...prevChecked, { name: extraName, time: extraTime }]);
     } else {
       setCheckedExtrasCost((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
       setCheckedExtrasTime((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
-
     }
   };
 
   setExtrasCost(+checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0));
-  setExtrasTime(+checkedExtrasTime.reduce((acc, extra) => acc + (+extra.cost), 0));
+  setExtrasTime(checkedExtrasTime);
 
 
   
@@ -37,7 +36,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
                 name={extra[0]} 
                 id={`extra${extra[0]}`}
                 className="mr-1 cursor-pointer"
-                onChange={(e) => handleExtrasCost(e, extra[1])} 
+                onChange={(e) => handleExtrasCost(e, extra[1],extra[2])} 
               />
               <span className="text-sm lg:text-md"> {extra[0]} </span>
             </label>
