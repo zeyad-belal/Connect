@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+
+
+
 const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime }) => {
   const [checkedExtrasCost, setCheckedExtrasCost] = useState([]);
   const [checkedExtrasTime, setCheckedExtrasTime] = useState([]);
@@ -17,9 +19,12 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
       setCheckedExtrasTime((prevChecked) => prevChecked.filter((extra) => extra.name !== extraName));
     }
   };
+  let costs = +checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0)
 
-  setExtrasCost(+checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0));
-  setExtrasTime(checkedExtrasTime);
+  useEffect(()=>{
+    setExtrasCost(costs);
+    setExtrasTime(checkedExtrasTime);
+  },[checkedExtrasTime,checkedExtrasCost])
 
 
   

@@ -108,7 +108,7 @@ const Service = () => {
       });
       setPeriod(convertToDays(service.extras[2][2]) + totalExtraDays);
     }else{
-      setPeriod(convertToDays(service.extras[2][2]))
+      service? setPeriod(convertToDays(service.extras[2][2])) :''
     }
   }, [extrasTime, service]);
 
