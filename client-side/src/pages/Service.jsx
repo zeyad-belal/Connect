@@ -106,9 +106,11 @@ const Service = () => {
       extrasTime.forEach((extra) => {
         totalExtraDays += convertToDays(extra.time);
       });
-      setPeriod(convertToDays(service.extras[2][2]) + totalExtraDays);
+      // console.log(service.extras[2])
+      setPeriod(convertToDays(service.time) + totalExtraDays);
     }else{
-      service? setPeriod(convertToDays(service.extras[2][2])) :''
+      // service? console.log(service.time):''
+      service? setPeriod(convertToDays(service.time)) :''
     }
   }, [extrasTime, service]);
 
@@ -151,7 +153,7 @@ const Service = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row gap-1 justify-between">
+              <div className="flex flex-col lg:flex-row gap-5 justify-between">
                 <div className="flex items-center gap-12  bg-white p-4 lg:w-[65%]">
                     <div className="max-w-full flex flex-col items-center p-2">
                       <ServiceImageCarousel  serviceImages={service.images} />

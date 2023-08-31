@@ -61,7 +61,6 @@ export const cartActions = cartSlice.actions;
   // ---------------------sync cart with backend functions------------------------------------
 
 export async function sendCartItems(cart, userID, userToken) {
-  console.log("data sent");
   const sendRequest = async () => {
     const reqData = {
       cart_items: cart.items.map((item) => ({

@@ -76,9 +76,8 @@ const Cart = () => {
 
   return (
     <div className="bg-primary">
-      <div className="container px-11 py-10">
-        <div className="grid grid-cols-5 gap-4">
-          <section className="col-span-4 lg:col-span-3 mr-4">
+        <div className="flex flex-col px-11 py-10 justify-between gap-4">
+          <section className="">
             {/* cart header */}
             <div className="relative p-6 border-b-2">
               <h1 className="font-semibold text-2xl">Shopping Cart</h1>
@@ -100,13 +99,20 @@ const Cart = () => {
               </p>
             )}
           </section>
-          <aside className="col-span-5 lg:col-span-2">
-            <div className="py-6  flex flex-col px-5">
+          <aside className="">
+            <div className="py-6  flex flex-col gap-5 px-5">
               <h6 className="font-semibold text-xl">Subtotal</h6>
-              <span>
-                <span className="text-bold">{cart.totalItemsNum}</span> cart items :
-                <span className="font-bold"> {cart.totalAmount} LE</span>
-              </span>
+              <div className="flex flex-col font-semibold gap-2 max-w-[300px]">
+                <div className="flex justify-between">
+                  <span>Total: </span> <span>$ {cart.totalAmount}</span>
+                </div>
+                <div className="flex justify-between border-b border-t pt-1 pb-1">
+                  <span>Site fees: </span>  <span>$ 10</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-bold text-lg">Subtotal: </span>  <span>$ {cart.totalAmount + 10} </span>
+                </div>
+              </div>
               <button
                 onClick={checkoutHandler}
                 className="bg-secondary hover:bg-secHover my-1 px-2 max-w-[200px] rounded block">
@@ -115,7 +121,6 @@ const Cart = () => {
             </div>
           </aside>
         </div>
-      </div>
     </div>
   );
 };

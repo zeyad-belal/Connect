@@ -13,7 +13,7 @@ const CartItem = ({item, onAdd , onRemove}) => {
       >
         <div className="flex">
           <img
-            className="max-w-[140px]"
+            className="max-w-[250px] mr-6"
             src={item.image}
             alt="Image not Found"
           />
@@ -26,7 +26,10 @@ const CartItem = ({item, onAdd , onRemove}) => {
             </div>
           </div>
         </div>
-        <div className=" me-3 text-bold"> { item.amount * item.price } LE </div>
+        <div className=" me-3 ml-10 text-bold flex flex-col justify-between">
+          <span> $ { item.amount * item.price }</span>  
+          <button className="mb-3  px-1 py-1 text-[13px] font-medium rounded-sm text-red-500 border border-red-500 hover:text-white hover:bg-red-500">delete</button>
+        </div>
       </div>
     </>
   );
