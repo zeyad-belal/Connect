@@ -78,7 +78,7 @@ const Footer = () => {
             <button className={sendBtnClasses}> send</button>
           </form>
           {emailSent && (
-            <div className="flex items-center fixed bottom-0 left-0 mb-4 mr-4 bg-green-500 text-text1 rounded-lg p-2">
+            <div className=" flex items-center fixed bottom-0 left-0 mb-4 mr-4 bg-green-500 text-text1 rounded-lg p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -187,13 +187,13 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-1 mx-12 gap-3 ">
             <div className="flex gap-x-1 ">
               <a href="https://eg.visamiddleeast.com/en_EG">
-                <FaCcVisa size={32} color="gray" />
+                <FaCcVisa size={25} color="gray" />
               </a>
               <a href="https://www.parliament.uk/site-information/glossary/money-bills/">
-                <FaMoneyBill size={32} color="gray" />
+                <FaMoneyBill size={25} color="gray" />
               </a>
               <a href="https://www.mastercard.us/en-us.html">
-                <FaCcMastercard size={32} color="gray" />
+                <FaCcMastercard size={25} color="gray" />
               </a>
             </div>
           </div>

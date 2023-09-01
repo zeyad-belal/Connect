@@ -98,7 +98,7 @@ const Checkout = () => {
 
   return (
     <div className="mx-12">
-      <div className="mx-auto rounded-lg my-2 bg-orange-100 p-3 w-fit">
+      <div className="mx-auto rounded-lg my-2 bg-primary p-3 w-fit">
         The Total of Your Order is:{" "}
         <span className="text-bold">{cart.totalAmount}</span> LE{" "}
         <span className="text-secondary font-bold">OR</span>{" "}
@@ -125,7 +125,7 @@ const Checkout = () => {
                 id="name"
                 {...register("name", { required: true })}
                 defaultValue={`${cookies.User?.first_name} ${cookies.User?.last_name}`}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
               />
               {errors.name && (
                 <span className="text-red-500">This field is required</span>
@@ -140,7 +140,7 @@ const Checkout = () => {
                 id="phone"
                 defaultValue={`${cookies.User?.phone_number}`}
                 {...register("phone", { required: true })}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
               />
               {errors.phone && (
                 <span className="text-red-500">This field is required</span>
@@ -158,7 +158,7 @@ const Checkout = () => {
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 })}
                 defaultValue={`${cookies.User?.email}`}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
               />
               {errors.email && (
                 <span className="text-red-500">
@@ -188,7 +188,7 @@ const Checkout = () => {
                 defaultValue={`${
                   cookies.User.address ? cookies.User.address : ""
                 }`}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
               />
               {errors.address && (
                 <span className="text-red-500">This field is required</span>
@@ -202,7 +202,7 @@ const Checkout = () => {
               <select
                 id="paymentMethod"
                 {...register("paymentMethod", { required: true })}
-                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-orange-300 transition-colors"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
               >
                 <option value="">Select a payment method</option>
                 <option value="PayPal">PayPal Or Credit Card</option>
@@ -217,7 +217,7 @@ const Checkout = () => {
 
             <button
               type="submit"
-              className="w-full py-2 px-4 my-10 bg-secondary text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring focus:border-orange-300 transition-colors"
+              className="w-full py-2 px-4 my-10 bg-secondary text-white rounded-md hover:bg-secHover focus:outline-none focus:ring focus:border-secondary transition-colors"
             >
               Proceed To Payment
             </button>

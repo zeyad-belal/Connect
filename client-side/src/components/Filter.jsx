@@ -96,9 +96,9 @@ const Filter = () => {
 
   return (
     <>
-      <div className="md:hidden fixed min-w-0 max-w-full block top-[50%] left-3">
+      <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3">
         <button
-          className="rounded-full bg-orange-500 p-3 focus:outline-none"
+          className=" rounded-full bg-secondary p-3 focus:outline-none"
           onClick={toggleMenu}
         >
           <FilterIcon />
@@ -208,7 +208,7 @@ const Filter = () => {
             </div>
           )}
           <button
-            className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600"
+            className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-secondary rounded-md hover:bg-secHover"
             onClick={applyFilters}
           >
             Apply Filters

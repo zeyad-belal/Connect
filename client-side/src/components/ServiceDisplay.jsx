@@ -30,7 +30,7 @@ function CategoryDisplay(props) {
     }
     getfilteredServices()
   },[props.category.id])
-
+console.log(filteredServices)
 
   return (
     <div className="px-10 py-3  text-center flex flex-col justify-center ">
@@ -38,7 +38,7 @@ function CategoryDisplay(props) {
         <h1 className="text-semibold text-2xl ml-1 text-text1 mt-8  self-start">
           {props.category.category_name}
         </h1>
-        <button className="bg-secondary text-white rounded-sm py-1 px-1  border-2 border-transparent transition-all hover:border-secHover hover:border-2 hover:border-solid hover:bg-transparent hover:text-secondary focus:outline-none"
+        <button className="bg-transparent text-secondary rounded-sm py-1 px-1 text-md font-semibold  border-secHover transition-all hover:border-secHover border-2 border-solid hover:bg-secHover hover:text-white focus:outline-none"
           onClick={()=>navigate(`services?category=${props.category.category_name}`)}>
           show all</button>
       </div>

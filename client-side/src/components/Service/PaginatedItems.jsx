@@ -36,10 +36,10 @@ function PaginatedItems({ filteredServices }) {
         pageRangeDisplayed={5}
         onPageChange={handlePageClick}
         containerClassName="flex justify-center py-10"
-        pageClassName="mx-2 py-2 px-4 rounded hover:bg-orange-500 transition duration-100"
+        pageClassName="mx-2 py-2 px-4 rounded hover:bg-secHover transition duration-100"
         previousClassName="mx-2 py-2 px-4 rounded transition duration-100"
         nextClassName="mx-2 py-2 px-4 rounded transition duration-100"
-        activeClassName="bg-orange-500 hover:bg-orange-500 text-white"
+        activeClassName="bg-secondary hover:bg-secondary text-white"
         disabledClassName="text-gray-400 cursor-default"
         initialPage={0}
         renderOnZeroPageCount={null}

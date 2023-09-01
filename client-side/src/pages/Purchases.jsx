@@ -100,7 +100,7 @@ function Purchases() {
                                   item.new_price} LE{" "}
                               </div>
                               <button
-                                className="bg-black text-white hover:bg-orange-600 text-[13px] px-2 py-1 rounded-lg"
+                                className="bg-black text-white hover:bg-secHover text-[13px] px-2 py-1 rounded-lg"
                                 onClick={() => addItemHandler(item)}
                               >
                                 buy again!

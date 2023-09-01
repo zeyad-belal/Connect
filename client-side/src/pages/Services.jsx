@@ -17,7 +17,9 @@ const Services = () => {
       let filtered = null;
 
       if (searchParams.get("orderBy") && searchParams.get("orderBy") === "rating") {
-        filtered = allServices.sort((a, b) => b.avg_rating - a.avg_rating);
+        const allServicesCopy = [...allServices];
+        filtered = allServicesCopy.sort((a, b) => b.avg_rating - a.avg_rating);
+
       }
       // console.log("before", filtered);
 
