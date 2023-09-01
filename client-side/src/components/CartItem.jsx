@@ -18,13 +18,12 @@ console.log(item)
       >
         <div className="flex">
           <img
-            className="max-w-[250px] mr-6"
+            className="max-w-[180px] md:max-w-[280px] h-auto mr-6 self-center"
             src={item.image}
             alt="Image not Found"
           />
           <div className="flex flex-col mr-2">
-            <h5 className="text-md md:text-lg font-semibold text-text1">{item.name}</h5>
-            <p className="my-1">details here</p>
+            <h5 className="text-sm md:text-lg font-semibold text-text1 mb-3">{item.name}</h5>
       
             <div className="flex gap-2">
               <Counter count={item.amount} handleCounterDecrement={onRemove} handleCounterIncrement={onAdd} />
@@ -32,7 +31,7 @@ console.log(item)
           </div>
         </div>
 
-        <div className="flex  gap-8 my-3  self-end md:self-center items-center h-full min-w-[30%]">
+        <div className="flex  gap-8 my-5  self-end md:self-center justify-between items-center h-full min-w-[30%]">
         <div className="text-bold ">
           <span> $ { item.amount * item.price }</span>  
         </div>

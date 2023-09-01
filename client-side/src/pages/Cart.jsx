@@ -76,7 +76,7 @@ const Cart = () => {
 
   return (
     <div className="bg-primary">
-        <div className="flex flex-col px-11 py-10 justify-between gap-4">
+        <div className="flex flex-col px-2 md:px-11 py-10 justify-between gap-4">
           <section className="">
             {/* cart header */}
             <div className="relative p-6 border-b-2">
@@ -100,16 +100,15 @@ const Cart = () => {
           </section>
           <aside className="w-[300px] self-end ">
             <div className="py-6  flex flex-col gap-5 px-5">
-              <h6 className="font-semibold text-xl">Subtotal</h6>
               <div className="flex flex-col font-semibold gap-2 ">
                 <div className="flex justify-between">
-                  <span>Total: </span> <span>$ {cart.totalAmount}</span>
+                  <span>Sub-total: </span> <span>$ {cart.totalAmount}</span>
                 </div>
                 <div className="flex justify-between border-b border-t pt-1 pb-1">
                   <span>Site fees: </span>  <span>$ 10</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-bold text-lg">Subtotal: </span>  <span>$ {cart.totalAmount + 10} </span>
+                  <span className="font-bold text-lg">Total: </span>  <span>$ {cart.totalAmount + 10} </span>
                 </div>
               </div>
               <button
