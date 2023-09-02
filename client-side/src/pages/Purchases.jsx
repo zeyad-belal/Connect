@@ -70,55 +70,52 @@ function Purchases() {
     }
   }, []);
 
+
+console.log(PurchasedItems)
+
   return (
-    <>
-              <div className="">
-                <div className="">
-                  {PurchasedItems.map((items, ind) =>
-                    cart.items.map((item, index) => (
-                      <div
-                        className="flex justify-between my-1 border-b-[2px] py-1"
-                        key={item.id}
-                      >
-                        <div className="flex">
-                          <img
-                            className="max-w-[140px]"
-                            src={item.images[0].thumbnailUrl}
-                            alt="Image not Found"
-                          />
-                          <div className="flex flex-col">
-                            <h3 className="text-[13px] leading-4 font-bold">
-                              {item.name}
-                            </h3>
-                            <div className="flex gap-2 flex-col">
-                              <div className="text-secondary text-[13px]">
-                                {quantities[ind][index]} pieces Purchased
-                              </div>
-                              <div className="me-1 text-bold">
-                                {" "}
-                                {quantities[ind][index] *
-                                  item.new_price} LE{" "}
-                              </div>
-                              <button
-                                className="bg-black text-white hover:bg-secHover text-[13px] px-2 py-1 rounded-lg"
-                                onClick={() => addItemHandler(item)}
-                              >
-                                buy again!
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
+    <div className="flex gap-3 p-12">
+      {/* -----------------------purchased items----------------------------  */}
+      <div className="bg-primary min-w-[70%]">
+        <div className=" bg-white py-3 text-gray-500">
+          {PurchasedItems.map((item) => (
+            item.map((item)=> (
+              <div
+              className="text-text1 flex flex-col md:flex-row justify-between items-center my-1 border-b px-3 py-4"
+              key={item.id}>
+              <div className="flex">
+                <img
+                  className="max-w-[180px] md:max-w-[250px] h-auto mr-6 self-center"
+                  src={item.images[0].url}
+                  alt="Image not Found" />
+                <div className="flex flex-col mr-2">
+                  <h5 className="text-sm md:text-[17px] max-w-[400px] font-semibold text-text1 mb-3">{item.name}</h5>
+                  <span> $ {item.price }</span>  
                 </div>
-                {!PurchasedItems.length > 0  && (
-                  <p className="text-start pb-3 ml-6 text-gray-500 mt-4">
-                    No purchased items found.
-                  </p>
-                )}
               </div>
-    </>
+
+              <div className="flex  gap-8 my-5  self-end md:self-center justify-between items-center h-full min-w-[30%]">
+                <div className="text-bold ">
+                  purchased at : 
+                </div>
+              </div>
+            </div>
+          ))
+            ))}
+        </div>
+        {!PurchasedItems.length > 0  && (
+          <p className="flex justify-center items-center  bg-white py-3 text-gray-500 ">
+            No purchased items found.
+          </p>
+        )}
+      </div>
+      {/* ----------------------------filter---------------------------------- */}
+      <div className="bg-primary w-full min-w-[25%]">
+          this is filter
+      </div>
+
+
+    </div>
   );
 }
 
