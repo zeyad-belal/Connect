@@ -110,7 +110,7 @@ const Navbar = (props) => {
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
-                  onClick={()=>navigate(`/services/category=${category.category_name}`)}
+                  onClick={()=>navigate(`/services?category=${category.category_name}`)}
                   className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-md  px-5 py-6 w-[25%]"
                   key={category.id}>{category.category_name.toUpperCase()}</li>
                 })}
