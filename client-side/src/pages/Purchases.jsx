@@ -90,7 +90,7 @@ console.log(PurchasedItems)
                   alt="Image not Found" />
                 <div className="flex flex-col mr-2">
                   <h5 className="text-sm md:text-[17px] max-w-[400px] font-semibold text-text1 mb-3">{item.name}</h5>
-                  <span> $ {item.price }</span>  
+                  <span> $ {item.price}</span>  
                 </div>
               </div>
 
