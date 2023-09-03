@@ -41,7 +41,8 @@ function Purchases() {
 
 
   return (
-    <div className="bg-primary py-6 px-6">
+    <div className="bg-primary py-6 px-6 relative">
+      {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
           className=" rounded-full bg-secondary p-3 focus:outline-none"
@@ -49,22 +50,22 @@ function Purchases() {
           <FilterIcon />
         </button>
       </div>
-        {/* ----------route---------*/}
-        <div className="flex items-center text-gray-500">
+      {/* ----------------------------route------------------------------*/}
+      <div className="flex items-center text-gray-500">
           <Link to={'/'}  >
             <p className="ml-2 text-gray-500 text-sm cursor-pointer flex"> <HomeIcon />  </p>
           </Link>
           <RightArrowIcon className="text-gray-500" />
           <h1 className="text-lg ">Purchased items</h1>
-        </div>
+      </div>
 
 
-{/* ---------------------page-content-------------------------  */}
-      <div className="gap-6 flex flex-col md:flex-row  min-h-[83vh]">
+      {/* ---------------------------page-content---------------------------*/}
+      <div className="gap-6 flex flex-col md:flex-row  ">
 
-        {/* ----------------------------filter---------------------------------- */}
-        <StatusFilter isMenuOpen={isMenuOpen} />
-        {/* -----------------------purchased items----------------------------  */}
+        {/* ----------------------------filter-------------------------------*/}
+        <StatusFilter isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        {/* -------------------------purchased items-------------------------*/}
         <div className="md:min-w-[500px] py-3 my-10 px-3 h-fit bg-white rounded-sm ">
           <div className="py-3 text-gray-500 flex flex-col items-start">
             {PurchasedItems.map((item) => (
@@ -98,8 +99,6 @@ function Purchases() {
         </div>
 
       </div>
-
-
 
     </div>
   );

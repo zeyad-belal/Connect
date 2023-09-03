@@ -1,12 +1,22 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-function StatusFilter({isMenuOpen}) {
+function StatusFilter({isMenuOpen,setIsMenuOpen}) {
   let myClasses = isMenuOpen ? 
-  " md:min-w-[230px] lg:min-w-[280px] max-w-[300px] py-6 my-10 px-5 bg-white rounded-sm h-fit" :
-  "hidden md:min-w-[230px] lg:min-w-[280px] max-w-[300px] py-6 my-10 px-5 bg-white rounded-sm h-fit"
+  "fixed top-0 left-0  md:min-w-[230px] max-w-[190px] py-6 my-10 px-0  bg-white rounded-sm h-fit z-30 h-[100vh]" :
+  "hidden md:block md:min-w-[230px] lg:min-w-[280px] max-w-[300px] py-6 my-10 px-5 bg-white rounded-sm h-fit z-30"
+
+
+  function toggleOverlay(){
+    setIsMenuOpen(false)
+  }
+
   return (
     <>
+      {isMenuOpen && <div className="fixed top-0 left-0 h-[100%] w-[100%] z-20 bg-black bg-opacity-30"
+      onClick={toggleOverlay}
+      ></div>}
+
       <div className={myClasses} >
 
       <form className="flex flex-col justify-around items-start px-3">
