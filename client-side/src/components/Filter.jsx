@@ -14,7 +14,7 @@ const Filter = () => {
   const [isOpenPrice, setIsOpenPrice] = useState(false);
 
   const [selectedOrderBy, setSelectedOrderBy] = useState(
-    searchParams.get("orderBy") ? searchParams.get("orderBy") : "bestSeller"
+    searchParams.get("orderBy") ? searchParams.get("orderBy") : "rating"
   );
   const [selectedCategory, setSelectedCategory] = useState(
     searchParams.get("category") ? searchParams.get("category") : "All"
