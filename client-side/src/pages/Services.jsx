@@ -74,18 +74,18 @@ const Services = () => {
   };
 
   return (
-    <>
-      <div className="w-full flex relative">
+    <div className="bg-primary">
+      <div className="w-full flex flex-col md:flex-row relative ">
         <Filter />
 
         {/* Render your services using the filtered services */}
-        <div>
+        <div className="py-12 mt-11 px-2  md:px-12">
         {filteredServices && filteredServices?.length !== 0 && (
             <PaginatedItems filteredServices={filteredServices} />
-          )}
+        )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
