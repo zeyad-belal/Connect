@@ -34,9 +34,15 @@ function Purchases() {
   }, [cookies.User._id, cookies.UserToken]);
 
 
-// console.log(PurchasedItems)
+console.log(PurchasedItems)
 
-
+const ItemStatus={
+  pending:`<span className='bg-gray-400 text-text1 px-1 text-xs font-thin'>pending</span>`,
+  inProgress:`<span className='bg-secondary text-text1 px-1 text-xs font-thin'>inProgress</span>`,
+  waitingForDelivery:`<span className='bg-secHover text-text1 px-1 text-xs font-thin'>waitingForDelivery</span>`,
+  delivered:`<span className='bg-green-400 text-text1 px-1 text-xs font-thin'>delivered</span>`,
+  canceled:`<span className='bg-red-400 text-text1 px-1 text-xs font-thin'>canceled</span>`,
+}
 
 
 
@@ -58,7 +64,7 @@ function Purchases() {
           <RightArrowIcon className="text-gray-500" />
           <h1 className="text-lg ">Purchased items</h1>
       </div>
-
+{<span className='bg-gray-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg'>pending</span>}
 
       {/* ---------------------------page-content---------------------------*/}
       <div className="gap-6 flex flex-col md:flex-row  ">
@@ -67,7 +73,7 @@ function Purchases() {
         <StatusFilter isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         {/* -------------------------purchased items-------------------------*/}
         <div className="md:min-w-[500px] py-3 my-10 px-3 h-fit bg-white rounded-sm ">
-          <div className="py-3 text-gray-500 flex flex-col items-start">
+          {PurchasedItems.length >0 && <div className="py-3 text-gray-500 flex flex-col items-start">
             {PurchasedItems.map((item) => (
               item.order.map((order)=> (
                 <div className="text-text1 flex flex-col sm:flex-row justify-between items-center my-1 border-b px-3 py-4"
@@ -90,7 +96,8 @@ function Purchases() {
               </div>
             ))
               ))}
-          </div>
+          </div>}
+          
           {!PurchasedItems.length > 0  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
               No purchased items found.
