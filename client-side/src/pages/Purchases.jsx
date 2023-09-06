@@ -23,7 +23,7 @@ function Purchases() {
       );
       const orders = await response.data.order.map((order) => order)
       
-    console.log(orders)
+    // console.log(orders)
 
       setPurchasedItems(orders);
 
@@ -35,8 +35,6 @@ function Purchases() {
 
 
 // console.log(PurchasedItems)
-
-
 
 
 
@@ -60,14 +58,12 @@ function Purchases() {
       </div>
 
 
-      {/* ---------------------------page-content---------------------------*/}
       <div className="gap-6 flex flex-col md:flex-row  ">
-
         {/* ----------------------------filter-------------------------------*/}
         <StatusFilter isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         {/* -------------------------purchased items-------------------------*/}
         <div className="md:min-w-[500px] py-3 my-10 px-3 h-fit bg-white rounded-sm ">
-          <div className="py-3 text-gray-500 flex flex-col items-start">
+          {PurchasedItems.length >0 && <div className="py-3 text-gray-500 flex flex-col items-start">
             {PurchasedItems.map((item) => (
               item.order.map((order)=> (
                 <div className="text-text1 flex flex-col sm:flex-row justify-between items-center my-1 border-b px-3 py-4"
@@ -78,9 +74,15 @@ function Purchases() {
                       alt="Image not Found" />
                     <div className="mr-2 flex flex-col ">
                       <h5 className="text-md font-semibold text-text1 mb-3">{order.service_id.name}</h5>
-                      <div className="mr-3 font-semibold text-sm flex gap-4">
+                      <div className="mr-3 font-semibold text-sm flex gap-4 relative">
                         <span>$ {order.service_id.price * order.quantity} </span>
                         <span> Q : {order.quantity}</span>
+                        {item.status == 'pending' && <span className='absolute right-0 top-[30%] bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
+                        {item.status == 'inProgress' && <span className='absolute right-0 top-[30%] bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>inProgress</span>}
+                        {item.status == 'waitingForDelivery' && <span className='absolute right-0 top-[30%] bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
+                        {item.status == 'delivered' && <span className='absolute right-0 top-[30%] bg-green-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>delivered</span>}
+                        {item.status == 'canceled' && <span className='absolute right-0 top-[30%] bg-red-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>canceled</span>}
+
                       </div>  
                       <p className="mt-2 text-gray-500 font-semibold text-xs">
                         purchased at : 
@@ -90,7 +92,8 @@ function Purchases() {
               </div>
             ))
               ))}
-          </div>
+          </div>}
+          
           {!PurchasedItems.length > 0  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
               No purchased items found.

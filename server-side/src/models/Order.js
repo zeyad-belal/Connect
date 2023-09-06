@@ -13,6 +13,11 @@ const orderSchema = new Schema({
   created_at: {
     type: Date,
     default: Date.now()
+  },
+  status:{
+    type : String ,
+    enum:['pending','inProgress', 'waitingForDelivery','delivered','canceled'],
+    default:'pending'
   }
 });
 
