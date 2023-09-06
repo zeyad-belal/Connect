@@ -37,48 +37,55 @@ function SubNav(props) {
                   ? "translateX(0)"
                   : "translateX(-100%)",
             }}
-            className="py-3  bg-white w-[240px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary"
-          >
+            className="py-3  bg-white w-[240px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary">
+              {/* ---------searchbar------  */}
             <li className="relative  mb-5 flex">
               <input
                 onChange={changeHandler}
                 ref={searchBar}
                 type="text"
                 className="realtive mx-3 px-5 py-3 w-full text-text1 bg-primary border-2 border-transparent focus:border-text1 rounded-lg shadow-primary  outline-none "
-                placeholder="Search..."
-              />
+                placeholder="Search..." />
               <BsSearch
                 size={22}
-                className="absolute right-5 top-3  cursor-pointer"
-              />
+                className="absolute right-5 top-3  cursor-pointer" />
             </li>
-            <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
-              <MdAdd /> Add Service
-            </li>
-            <Link
-              to={"/cart"}
-              onClick={() => dispatch(menuActions.closeAllMenus())}
-            >
+
+            <Link to={"/addService"}
+              onClick={() => dispatch(menuActions.closeAllMenus())} >
+              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+                <MdAdd /> Add Service
+              </li>
+            </Link>
+
+            <Link to={"/cart"}
+              onClick={() => dispatch(menuActions.closeAllMenus())} >
               <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <FaShoppingCart /> Cart
               </li>
             </Link>
-            <li
-              className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"
-              onClick={() => navigate("/orders")}
-            >
-              {" "}
-              <BiSolidTruck size={22} /> Incoming Orders
-            </li>
+
+            <Link to={"/orders"}
+              onClick={() => dispatch(menuActions.closeAllMenus())} >
+              <li
+                className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"
+                onClick={() => navigate("/orders")} >
+                {" "}
+                <BiSolidTruck size={22} /> Incoming Orders
+              </li>
+            </Link>
+
             <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
               <BsFillCollectionFill /> Categories
             </li>
-            <li
-              className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"
-              onClick={() => navigate("/purchases")}
-            >
-              <PiShoppingBagFill size={22} /> Purchases
-            </li>
+
+            <Link to={"/purchases"}
+              onClick={() => dispatch(menuActions.closeAllMenus())} > 
+              <li
+                className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+                <PiShoppingBagFill size={22} /> Purchases
+              </li>
+            </Link>
           </ul>
         )}
       </Transition>
