@@ -64,6 +64,8 @@ useEffect(()=>{
 },[currentStatus])
 
 // setCurrentStatus use this to store the current selected status 
+console.log(allPurchasedItems)
+
 
   return (
     <div className="bg-primary py-6 px-6 relative">
@@ -92,18 +94,17 @@ useEffect(()=>{
         <div className="md:min-w-[500px] py-3 my-10 px-3 h-fit bg-white rounded-sm ">
           {filteredOrders.length >0 && <div className="py-3 text-gray-500 flex flex-col items-start">
             {filteredOrders.map((item) => (
-              item.order.map((order)=> (
                 <div className="text-text1 flex flex-col sm:flex-row justify-between items-center my-1 border-b px-3 py-4"
-                  key={order.service_id.id}>
+                  key={item.id}>
                     <img
                       className="max-w-[170px] lg:max-w-[220px] h-auto mr-6 mb-2 sm:mb-0 self-start sm:self-center"
-                      src={order.service_id.images[0].url}
+                      src={item.images[0].url}
                       alt="Image not Found" />
                     <div className="mr-2 flex flex-col ">
-                      <h5 className="text-md font-semibold text-text1 mb-3">{order.service_id.name}</h5>
+                      <h5 className="text-md font-semibold text-text1 mb-3">{item.name}</h5>
                       <div className="mr-3 font-semibold text-sm flex gap-4 relative">
-                        <span>$ {order.service_id.price * order.quantity} </span>
-                        <span> Q : {order.quantity}</span>
+                        <span>$ {item.price * item.quantity} </span>
+                        <span> Q : {item.quantity}</span>
                         {item.status == 'pending' && <span className='absolute right-0 top-[30%] bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
                         {item.status == 'inProgress' && <span className='absolute right-0 top-[30%] bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>inProgress</span>}
                         {item.status == 'waitingForDelivery' && <span className='absolute right-0 top-[30%] bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
@@ -117,7 +118,6 @@ useEffect(()=>{
                       </p>
                     </div>
               </div>
-            ))
               ))}
           </div>}
           
