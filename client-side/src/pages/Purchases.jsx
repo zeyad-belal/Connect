@@ -40,28 +40,24 @@ function Purchases() {
       );
       const data = await response.data.order.map((order) => order)
 
-      let allOrdersData =[];
-      data.map((ordersData)=>{
-        allOrdersData.push(
-            ordersData.items.map((item)=>{ 
-            return {
-              id: ordersData._id,
-              buyer:ordersData.user_id,
-              quantity:item.quantity,
-              status:item.status,
-              created_at :ordersData.created_at ,
-              name:item.service_id.name,
-              avg_rating :item.service_id.avg_rating,
-              description :item.service_id.description,
-              image: item.service_id.images[0].url,
-              price: item.service_id.price,
-              time: item.service_id.time,
-              extras:item.service_id.extras,
-              seller:item.service_id.user_id,
-            }
-          })
-        )
-      })
+      const allOrdersData = data.flatMap((ordersData) =>
+      ordersData.items.map((item) => ({
+        id: ordersData._id,
+        buyer: ordersData.user_id,
+        quantity: item.quantity,
+        status: item.status,
+        created_at: ordersData.created_at,
+        name: item.service_id.name,
+        avg_rating: item.service_id.avg_rating,
+        description: item.service_id.description,
+        image: item.service_id.images[0].url,
+        price: item.service_id.price,
+        time: item.service_id.time,
+        extras: item.service_id.extras,
+        seller: item.service_id.user_id,
+      }))
+    );
+    
       setAllOrders(allOrdersData.flatMap((order) => order))
 
     }
@@ -77,9 +73,8 @@ function Purchases() {
       return
     }
     let filteredOrders = allOrders
-    .flatMap((order) => order) // Flatten the array of arrays
+    .flatMap((order) => order) 
     .filter((item) => {
-      console.log('sssssssssssssssssssss', item);
       return currentStatus.includes(item.status);
     });
   
@@ -131,7 +126,7 @@ function Purchases() {
                       <h5 className="text-md font-semibold text-text1 mb-3">{item.name}</h5>
 
                         {item.status == 'pending' && <span className=' w-fit mb-1 bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
-                        {item.status == 'inProgress' && <span className=' w-fit mb-1 bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>inProgress</span>}
+                        {item.status == 'inProgress' && <span className=' w-fit mb-1 bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>in progress</span>}
                         {item.status == 'waitingForDelivery' && <span className=' w-fit mb-1 bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
                         {item.status == 'delivered' && <span className=' w-fit mb-1 bg-green-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>delivered</span>}
                         {item.status == 'canceled' && <span className=' w-fit mb-1 bg-red-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>canceled</span>}
