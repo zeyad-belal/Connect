@@ -51,7 +51,7 @@ const Checkout = () => {
       // create order in the backend
       if (data.paymentMethod == "Cash") {
         const reqData = {
-          order: cart.items.map((item) => ({
+          items: cart.items.map((item) => ({
             service_id: item.id,
             quantity: item.amount,
           })),

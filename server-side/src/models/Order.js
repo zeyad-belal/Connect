@@ -4,21 +4,24 @@ const { Schema } = mongoose;
 
 const orderSchema = new Schema({
   user_id: { type: Schema.Types.ObjectId, ref: "User" },
-  order: [
+  items: [
     {
       service_id: { type: Schema.Types.ObjectId, ref: "Service" },
-      quantity: Number
+      quantity:{
+        type: Number
+      },
+      status:{
+        type : String ,
+        enum:['pending','inProgress', 'waitingForDelivery','delivered','canceled'],
+        default:'pending'
+      }
     }
   ],
   created_at: {
     type: Date,
     default: Date.now()
   },
-  status:{
-    type : String ,
-    enum:['pending','inProgress', 'waitingForDelivery','delivered','canceled'],
-    default:'pending'
-  }
+
 });
 
 // create the model
