@@ -207,7 +207,7 @@ const Navbar = (props) => {
                 {menu.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
-                      <ul className="flex flex-col gap-1 rounded-md  absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
+                      <ul className="flex flex-col gap-1 rounded-br-md rounded-bl-md absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
                         <li
                           className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
                           onClick={() => navigate("/userInfo")}>
