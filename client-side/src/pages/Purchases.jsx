@@ -42,10 +42,10 @@ function Purchases() {
 
       let allOrdersData =[];
       data.map((ordersData)=>{
-        allOrdersData.push({
-          id: ordersData._id,
-          items: ordersData.items.map((item)=>{ 
+        allOrdersData.push(
+            ordersData.items.map((item)=>{ 
             return {
+              id: ordersData._id,
               buyer:ordersData.user_id,
               quantity:item.quantity,
               status:item.status,
@@ -60,9 +60,9 @@ function Purchases() {
               seller:item.service_id.user_id,
             }
           })
-        })
+        )
       })
-      setAllOrders(allOrdersData)
+      setAllOrders(allOrdersData.flatMap((order) => order))
 
     }
     if (window.localStorage.getItem("logged")) {
@@ -76,15 +76,17 @@ function Purchases() {
     if(currentStatus.length < 1 ){
       return
     }
-    let ordersData = allOrders.map((order)=> order.items)
-    let filteredOrders = ordersData.map((order)=> order.map((orderItem)=> orderItem))
-    // let filteredOrders = ordersData2.map((order)=> order)
-    console.log('filteredOrders',filteredOrders)
+    let filteredOrders = allOrders
+    .flatMap((order) => order) // Flatten the array of arrays
+    .filter((item) => {
+      console.log('sssssssssssssssssssss', item);
+      return currentStatus.includes(item.status);
+    });
+  
     setFilteredOrders(filteredOrders);
 
   },[allOrders,currentStatus])
-  
-  // console.log(allOrders)
+
 
   return (
     <div className="bg-primary py-6 px-6 relative">
@@ -116,8 +118,8 @@ function Purchases() {
         {/* -----------------------displaying orders if any ------------------------------ */}
           {allOrders.length > 0 && 
             <div className="py-3 text-gray-500 flex flex-col items-start">
-              {(filteredOrders.length > 0 ? filteredOrders : allOrders).map((order) => (
-                order.items.map((item,index)=>(
+              {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
+                  return(  
                   <div 
                     className="text-text1 w-full flex flex-col sm:flex-row justify-start items-center my-1 border-b px-3 py-4"
                     key={index} >
@@ -144,13 +146,12 @@ function Purchases() {
                         {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
                       </p>
                     </div>
-                  </div>
-                ))
-              ))}
+                  </div>)
+              })}
             </div>
           }
           {/* ----------------------------no orders found message------------------------------------ */}
-          {(!filteredOrders.length > 0 && !allOrders.length > 0 )  && (
+          {(!filteredOrders.length && !allOrders.length > 0 )  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
               No purchased items found.
             </p>
