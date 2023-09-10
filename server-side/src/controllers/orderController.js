@@ -4,11 +4,11 @@ const Order = require("../models/Order");
 const AppError = require("../utils/AppError");
 
 const createOrder = async (req, res, next) => {
-  const { order } = req.body;
+  const { items } = req.body;
 
   const createdOrder = await Order.create({
     user_id: req.user._id,
-    order: order
+    items: items
   });
 
   res.send({ message: "Order created successfully!", createdOrder });
@@ -27,7 +27,7 @@ const getOrderById = async (req, res, next) => {
 
   const order = await Order.findById(req.params.id)
     .populate("user_id")
-    .populate("order.service_id");
+    .populate("items.service_id");
 
   res.send(order);
 };
@@ -39,7 +39,13 @@ const getOrderByUserId = async (req, res, next) => {
 
   const order = await Order.find({user_id : req.params.id})
     .populate("user_id")
-    .populate("order.service_id");
+    .populate("items.service_id")
+    .populate({
+      path: "items.service_id",
+      populate: {
+        path: "user_id",
+      }
+    });
 
   res.send({order});
 }

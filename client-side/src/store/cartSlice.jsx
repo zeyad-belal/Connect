@@ -18,6 +18,7 @@ export const cartSlice = createSlice({
   reducers: {
     add(state, action){
       const item = action.payload;
+      console.log(item)
       const existingCartItemIndex = state.items.findIndex((cartItem) => cartItem.id === item.id);
       state.changed = true;
       if (existingCartItemIndex !== -1) {
@@ -78,6 +79,9 @@ export async function sendCartItems(cart, userID, userToken) {
       cart_items: cart.items.map((item) => ({
         service: item.id,
         quantity: item.amount,
+        extras: item.extras,
+        time: item.time,
+        price: item.price,
       })),
     };
     
@@ -107,13 +111,16 @@ export  function fetchCartItems(userID , userToken) {
 
         const cartData = await response.data.user.cart_items;
         const quantities = cartData.map((item) => item.quantity);
+        const Prices = cartData.map((item) => item.price);
         const cartItems = cartData.map((item) => item.service);
         const myItems = cartItems.map((item, index) => ({
           id: item.id,
           name: item.name,
           image: item.images[0].url,
           amount: quantities[index],
-          price: item.price,
+          price: Prices[index],
+          extras: item.extras,
+          time: item.time
         }));
 
         const totalAmount = myItems.reduce(

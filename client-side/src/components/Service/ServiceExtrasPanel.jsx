@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 
 
 
-const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime }) => {
+const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime, setExtrasChosen }) => {
   const [checkedExtrasCost, setCheckedExtrasCost] = useState([]);
   const [checkedExtrasTime, setCheckedExtrasTime] = useState([]);
 
   const handleExtrasCost = (e, extraCost , extraTime) => {
     const extraName = e.target.name;
 
-    if (e.target.checked) {
+  if (e.target.checked) {
       setCheckedExtrasCost((prevChecked) => [...prevChecked, { name: extraName, cost: extraCost }]);
       setCheckedExtrasTime((prevChecked) => [...prevChecked, { name: extraName, time: extraTime }]);
     } else {
@@ -21,13 +21,15 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
   };
   let costs = +checkedExtrasCost.reduce((acc, extra) => acc + (+extra.cost), 0)
 
+
+
   useEffect(()=>{
+    setExtrasChosen(checkedExtrasCost.map((extra)=> extra.name))
     setExtrasCost(costs);
     setExtrasTime(checkedExtrasTime);
   },[checkedExtrasTime,checkedExtrasCost])
 
 
-  
   
   return (
     <>
