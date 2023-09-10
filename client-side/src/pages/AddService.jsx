@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -23,9 +24,9 @@ const RepeatedExtras = (props) => {
     
   return (
     <div className="w-full flex gap-2 flex-wrap border-b-2 pb-4"  >
-      <button className="ml-[97%] block lg:hidden text-red-500 rounded-full mb-[-13px] text-lg font-bold"
+      <button className="ml-[97%] block hover:text-red-700 lg:hidden text-red-500 rounded-full mb-[-13px] text-lg"
       onClick={(e)=> deleteExtra(e)}
-      >X</button>
+      ><AiOutlineCloseCircle /></button>
       <div className="name w-full lg:w-[31%]">
         <label
           htmlFor="extra-name"
@@ -82,7 +83,8 @@ const RepeatedExtras = (props) => {
       </div>
       <button 
       onClick={(e)=> deleteExtra(e)}
-      className="self-start hidden lg:block text-red-500 rounded-full  text-lg font-bold">X</button>
+      className="self-start hidden lg:block text-red-500 hover:text-red-700  text-lg ">
+        <AiOutlineCloseCircle /></button>
     </div>
   );
 };
@@ -130,7 +132,6 @@ function AddService() {
   };
 
   const handleImagesChange = (e) => {
-    if (e.target.files.length > 0) {
       //updating images input
       setSelectedImages(prevImages => {
         return [...prevImages, ...e.target.files]
@@ -143,10 +144,24 @@ function AddService() {
         URLs.push(URL.createObjectURL(file));
       })
       setImagesURLS((prevValues) => [...prevValues, ...URLs]); 
-    }
   };
 
-
+  function handleImageDeletion(index) {
+    // Remove the image from selectedImages array
+    setSelectedImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages.splice(index, 1); // Remove 1 element at the specified index
+      return newImages;
+    });
+  
+    // Remove the corresponding URL from imagesURLS array
+    setImagesURLS((prevValues) => {
+      const newURLs = [...prevValues];
+      newURLs.splice(index, 1); // Remove 1 element at the specified index
+      return newURLs;
+    });
+  }
+  
 
   const onSubmit = async (data) => {
     try {
@@ -350,7 +365,9 @@ function AddService() {
                       )}
                 </div>
               {/* --------------images------------- */}
-              <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images</label>
+              <label htmlFor="images"className="mb-1 font-semibold text-text1 text-sm " >Images
+              <span className="text-[10px] text-gray-400"> (preferable dimensions 625*350)</span>
+              </label>
               <div className="bg-gray-100 flex flex-col  gap-3 px-3 p-6 mb-12  rounded-sm">
                 <button type="button" className="relative self-center  h-[35px] px-3 font-medium text-sm  md:text-md text-white duration-150 bg-secondary rounded-md  hover:bg-secHover active:bg-yellow-500 "
                 onClick={()=>imageInput.current.click()}
@@ -367,7 +384,11 @@ function AddService() {
                 {/* images display */}
                 <div className="flex flex-wrap items-center gap-1">
                   {imagesURLS.map((imageURL, index) => (
-                    <div key={index} className="max-w-[200px] w-full max-h-[110px] overflow-clip ">
+                    <div key={index} className="max-w-[200px] w-full max-h-[110px] overflow-clip relative ">
+                        <span className="absolute text-white z-10 mt-1 ml-1 cursor-pointer"
+                        onClick={(e,index)=> handleImageDeletion(e,index)}
+                        >  <AiOutlineCloseCircle /> </span>
+                        <span className="bg-black opacity-40 absolute w-full h-full"></span>
                         <img className=" " src={imageURL} alt="service image" />
                     </div> 
                   ))}

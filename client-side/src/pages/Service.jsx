@@ -204,6 +204,7 @@ const Service = () => {
               </div>
             </>
           )}
+        {!service && <p className="self-center text-lg text-text1">Item not found !</p>}
         </div>
     </>
   );
