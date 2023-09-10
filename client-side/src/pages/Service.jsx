@@ -18,6 +18,7 @@ import Counter from "../components/Counter";
 const Service = () => {
   const dispatch = useDispatch()
   const [service, setService] = useState(null);
+  const [extrasChosen, setExtrasChosen] = useState([]);
   const [extrasCost, setExtrasCost] = useState(0);
   const [extrasTime, setExtrasTime] = useState("");
   const [period, setPeriod] = useState("");
@@ -27,6 +28,7 @@ const Service = () => {
   const cartSectionRef = useRef(null);
 
   const handleAddItemToCart = (service) => {
+
       if (window.localStorage.getItem("logged")) {
         dispatch(cartActions.add({
           key: service._id,
@@ -34,7 +36,9 @@ const Service = () => {
           name: service.name,
           image: service.images[0].url,
           amount: count,
-          price: service.new_price ?? service.price,
+          price: (service.price * count) + (extrasCost* count),
+          extras: extrasChosen,
+          time: period
         }))
         toast.success("Item added to cart !", {
           position: "top-right",
@@ -61,13 +65,12 @@ const Service = () => {
       }
   };
 
-  // handleCounterDecrement
   const handleCounterDecrement = () => {
     if (count > 1) {
       setCount((prevState) => prevState - 1);
     }
   };
-  // handleCounterIncrement
+
   const handleCounterIncrement = () => {
     setCount((prevState) => prevState + 1);
   };
@@ -106,10 +109,9 @@ const Service = () => {
       extrasTime.forEach((extra) => {
         totalExtraDays += convertToDays(extra.time);
       });
-      // console.log(service.extras[2])
+
       setPeriod(convertToDays(service.time) + totalExtraDays);
     }else{
-      // service? console.log(service.time):''
       service? setPeriod(convertToDays(service.time)) :''
     }
   }, [extrasTime, service]);
@@ -136,6 +138,8 @@ const Service = () => {
     }
     getService()
   },[])
+
+
 
   return (
     <>
@@ -171,7 +175,12 @@ const Service = () => {
                 </div>
               </div> 
               <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
-                <ServicePanels service={service} setExtrasCost={setExtrasCost} setExtrasTime={setExtrasTime} />
+                <ServicePanels 
+                service={service}
+                setExtrasCost={setExtrasCost}
+                setExtrasTime={setExtrasTime}
+                setExtrasChosen={setExtrasChosen}
+                />
               </div>
               {/* buy the service  */}
               <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10 lg:max-w-[65%]">

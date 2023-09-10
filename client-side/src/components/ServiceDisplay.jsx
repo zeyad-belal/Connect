@@ -30,7 +30,7 @@ function CategoryDisplay(props) {
     }
     getfilteredServices()
   },[props.category.id])
-// console.log(filteredServices)
+
 
   return (
     <div className="px-10 py-3  text-center flex flex-col justify-center ">

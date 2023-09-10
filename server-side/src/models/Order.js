@@ -10,6 +10,13 @@ const orderSchema = new Schema({
       quantity:{
         type: Number
       },
+      extras:{
+        type: Array,
+        default: []
+      },
+      price:{
+        type: Number
+      },
       status:{
         type : String ,
         enum:['pending','inProgress', 'waitingForDelivery','delivered','canceled'],

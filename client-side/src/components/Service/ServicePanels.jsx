@@ -3,7 +3,7 @@ import { useState } from "react";
 import ServiceExtrasPanel from "./ServiceExtrasPanel"
 import ServiceReviewsPanel from "./ServiceReviewsPanel";
 
-const ServicePanels = ({ service ,setExtrasCost,setExtrasTime }) => {
+const ServicePanels = ({ service ,setExtrasCost,setExtrasTime ,setExtrasChosen }) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const handleClick = (index) => setActiveIndex(index);
   const checkActive = (index, className) =>
@@ -26,7 +26,13 @@ const ServicePanels = ({ service ,setExtrasCost,setExtrasTime }) => {
           </button>
         </div>
         <div className="panels">
-          <ServiceExtrasPanel service={service} checkActive={checkActive} setExtrasCost={setExtrasCost} setExtrasTime={setExtrasTime} />
+          <ServiceExtrasPanel
+            service={service}
+            checkActive={checkActive}
+            setExtrasCost={setExtrasCost}
+            setExtrasTime={setExtrasTime}
+            setExtrasChosen={setExtrasChosen}
+            />
           <ServiceReviewsPanel service={service} checkActive={checkActive} />
         </div>
       </section>

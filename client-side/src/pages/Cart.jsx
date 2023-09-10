@@ -39,12 +39,14 @@ const Cart = () => {
           name: item.name,
           image: item.image ? item.image : item.images[0].url,
           price: item.price,
+          extras: item.extras,
+          time: item.time,
           amount: 1,
         }));
         
 
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.info("Something went wrong !", {
         position: "top-right",
         autoClose: 1500,

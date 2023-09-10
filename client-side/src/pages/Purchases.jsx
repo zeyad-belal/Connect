@@ -45,16 +45,16 @@ function Purchases() {
         id: ordersData._id,
         buyer: ordersData.user_id,
         quantity: item.quantity,
-        status: item.status,
         created_at: ordersData.created_at,
         name: item.service_id.name,
         avg_rating: item.service_id.avg_rating,
         description: item.service_id.description,
         image: item.service_id.images[0].url,
-        price: item.service_id.price,
-        time: item.service_id.time,
-        extras: item.service_id.extras,
         seller: item.service_id.user_id,
+        status: item.status,
+        price: item.price,
+        time: item.time,
+        extras: item.extras,
       }))
     );
     
@@ -83,6 +83,8 @@ function Purchases() {
   },[allOrders,currentStatus])
 
 
+
+  
   return (
     <div className="bg-primary py-6 px-6 relative">
       {/* ---------------------------filter icon------------------------*/}
@@ -112,14 +114,14 @@ function Purchases() {
 
         {/* -----------------------displaying orders if any ------------------------------ */}
           {allOrders.length > 0 && 
-            <div className="py-3 text-gray-500 flex flex-col items-start">
+            <div className="py-3 text-gray-500 flex flex-col items-start ">
               {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
                   return(  
                   <div 
-                    className="text-text1 w-full flex flex-col sm:flex-row justify-start items-center my-1 border-b px-3 py-4"
+                    className="text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 border-b px-3 py-4"
                     key={index} >
                     <img
-                      className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center"
+                      className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
                       src={item.image}
                       alt="Image not Found" />
                     <div className="mr-2 flex flex-col ">
@@ -134,12 +136,25 @@ function Purchases() {
                       <div className="mr-3 font-semibold text-sm flex gap-4 relative">
                         <span>$ {item.price * item.quantity} </span>
                         <span> Q : {item.quantity}</span>
-
                       </div>  
-                      <p className="mt-2 text-gray-500 font-semibold text-xs">
+
+
+                      <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
+                        <h4 className="text-sm text-gray-600 mb-1">Extras</h4>
+                        {item.extras.map((extra, index)=>{
+                          return (
+                            <p key={index} >-{extra}</p>
+                          )
+                        })}
+                      </div>
+
+                      <p className=" text-gray-500 font-semibold text-[11px] self-start">
                         purchased at : 
                         {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
                       </p>
+
+                    
+
                     </div>
                   </div>)
               })}

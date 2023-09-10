@@ -54,6 +54,9 @@ const Checkout = () => {
           items: cart.items.map((item) => ({
             service_id: item.id,
             quantity: item.amount,
+            extras:item.extras,
+            time:item.time,
+            price:item.price,
           })),
         };
         const response2 = await axios.post(
