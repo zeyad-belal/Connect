@@ -108,7 +108,15 @@ const getAllUsers = async (req, res) => {
 //get user by id
 const getUserById = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id).populate("cart_items.service");
+  const user = await User.findById(id)
+  .populate({
+    path: "cart_items.service",
+    populate: {
+      path: "user_id",
+      model: "User" 
+    }
+  });
+
   if (!user) return next(new AppError("user not found", 404));
   res.send({ user });
 };

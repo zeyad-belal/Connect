@@ -1,23 +1,42 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {RatingBadge} from "../Badges";
 
 
 const ServicesItem = ({ item }) => {
+  const navigate = useNavigate();
+
+  function handleUserNavigate(e){
+    e.preventDefault()
+    e.stopPropagation()
+    navigate(`/user/${item.user_id.id}`)
+    
+  }
+
+  function handleServiceNavigate(e){
+    e.preventDefault()
+
+    navigate(`/services/${item.id}`)
+  }
+  
+
 
   return (
     <>
-      <div className="py-1 m-2 transition-shadow duration-300 min-h-[325px]">
-        <div className="flex flex-col justify-between h-full ">
-          <Link to={`/services/${item.id}`}>
-            <div className={`relative`}>
+      <div className="py-1 m-2 transition-shadow duration-300 min-h-[325px] cursor-pointer ">
+        <div className="flex flex-col justify-between ">
+            <div className='relative' 
+              onClick={(e)=> handleServiceNavigate(e)} id="service" >
               <img
                 src={item.images[0].url}
+                id="avatar"
                 alt="Image Not Found"
                 className="w-full " />
                 {/* ---------seller avatar---------*/}
-              <div className="absolute bottom-2 left-2 w-[30px] h-[30px] bg-white p-[1px] shadow-md rounded-full overflow-hidden">
+              <div 
+                className="hover:border-2   absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
+                onClick={(e)=> handleUserNavigate(e)} >
                   <img
                     className="w-full h-full object-cover"
                     src={item.user_id.avatar}
@@ -37,7 +56,6 @@ const ServicesItem = ({ item }) => {
                   </div>
                 </div>
             </div>
-          </Link>
         </div>
       </div>
     </>

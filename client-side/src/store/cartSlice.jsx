@@ -110,17 +110,23 @@ export  function fetchCartItems(userID , userToken) {
         );
 
         const cartData = await response.data.user.cart_items;
+        // dynamic info about the service stored in cart_items in user modal
         const quantities = cartData.map((item) => item.quantity);
         const Prices = cartData.map((item) => item.price);
+        const Extras = cartData.map((item) => item.extras);
+        const Times = cartData.map((item) => item.time);
+        // fixed info from refrencing service in cart_items in user modal
         const cartItems = cartData.map((item) => item.service);
+
         const myItems = cartItems.map((item, index) => ({
           id: item.id,
           name: item.name,
           image: item.images[0].url,
           amount: quantities[index],
           price: Prices[index],
-          extras: item.extras,
-          time: item.time
+          extras: Extras[index],
+          time: Times[index],
+          seller: item.user_id, 
         }));
 
         const totalAmount = myItems.reduce(

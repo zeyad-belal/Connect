@@ -148,7 +148,7 @@ const updateService = async (req, res, next) => {
       imagesInfo.push(res);
     }
   }
-console.log([service.keywords])
+// console.log([service.keywords])
   const updatedService = await Service.findByIdAndUpdate(
     req.params.id,
     {
