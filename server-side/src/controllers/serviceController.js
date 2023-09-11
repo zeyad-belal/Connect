@@ -107,6 +107,7 @@ const getServicebySellerId = async (req, res, next) => {
       populate: { path: "user_id" },
     })
     .populate("category_id")
+    .populate("user_id")
   if (!services) return next(new AppError("no services was found.", 404));
 
   res.send(services);

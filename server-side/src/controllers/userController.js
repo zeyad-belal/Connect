@@ -15,6 +15,7 @@ const signUp = async (req, res, next) => {
     phone_number,
     cart_items,
     address,
+    bio
   } = req.body;
   if (!email || !password)
     return next(new AppError("email and password required", 401));
@@ -29,6 +30,7 @@ const signUp = async (req, res, next) => {
       phone_number,
       cart_items,
       address,
+      bio
     });
     newUser.password = undefined;
 
@@ -163,7 +165,7 @@ const dashboardUpdateUser = async (req, res, next) => {
 // update user info
 const updateUser = async (req, res,next) => {
   const { id } = req.user;
-  const { first_name, last_name, email, phone_number, address, role, cart_items } = req.body;
+  const { first_name, last_name, email, phone_number, address, role, cart_items,bio } = req.body;
   let {avatar,avatarID } = req.body;
 
   // handle new image uploud 
@@ -197,7 +199,7 @@ const updateUser = async (req, res,next) => {
 
   const user = await User.findByIdAndUpdate(
     id,
-    { first_name, last_name, email, phone_number, address, avatar ,avatarID, role, cart_items },
+    { first_name, last_name, email, phone_number, address, avatar ,avatarID, role, cart_items,bio },
     { new: true }
   );
 
