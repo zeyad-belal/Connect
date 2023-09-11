@@ -96,6 +96,24 @@ const getServicebyCategoryId = async (req, res, next) => {
   res.send(services);
 };
 
+
+const getServicebySellerId = async (req, res, next) => {
+  if (!Types.ObjectId.isValid(req.params.id))
+    return next(new AppError("Invalid ObjectId.", 401));
+
+  const services = await Service.find({ user_id: req.params.id })
+    .populate({
+      path: "reviews",
+      populate: { path: "user_id" },
+    })
+    .populate("category_id")
+    .populate("user_id")
+  if (!services) return next(new AppError("no services was found.", 404));
+
+  res.send(services);
+};
+
+
 const getFourServicesbyCategoryId = async (req, res, next) => {
   // check if id is a valid objectId
   if (!Types.ObjectId.isValid(req.params.id))
@@ -112,6 +130,7 @@ const getFourServicesbyCategoryId = async (req, res, next) => {
 
   res.send(services);
 };
+
 
 const updateService = async (req, res, next) => {
   // check if id is a valid objectId
@@ -148,7 +167,7 @@ const updateService = async (req, res, next) => {
       imagesInfo.push(res);
     }
   }
-console.log([service.keywords])
+// console.log([service.keywords])
   const updatedService = await Service.findByIdAndUpdate(
     req.params.id,
     {
@@ -203,6 +222,7 @@ module.exports = {
   getAllServices,
   createService,
   getServicebyCategoryId,
+  getServicebySellerId,
   getFourServicesbyCategoryId,
   getService,
   updateService,

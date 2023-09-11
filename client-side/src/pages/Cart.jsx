@@ -29,35 +29,17 @@ const Cart = () => {
   }
 
   async function addItemHandler(item) {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services/${item.id}`
-      );
+    dispatch(cartActions.add({
+      id: item.id,
+      name: item.name,
+      image: item.image ? item.image : item.images[0].url,
+      price: item.price,
+      extras: item.extras,
+      time: item.time,
+      amount: 1,
+      seller: item.seller,
+    }));
 
-        dispatch(cartActions.add({
-          id: item.id,
-          name: item.name,
-          image: item.image ? item.image : item.images[0].url,
-          price: item.price,
-          extras: item.extras,
-          time: item.time,
-          amount: 1,
-        }));
-        
-
-    } catch (error) {
-      // console.log(error);
-      toast.info("Something went wrong !", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
   }
 
   function checkoutHandler() {

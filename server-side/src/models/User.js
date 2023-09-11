@@ -59,6 +59,13 @@ const userSchema = new Schema({
   }],
   address:{
     type : String
+  },
+  created_at: {
+    type: Date,
+    default: Date.now()
+  },
+  bio:{
+    type : String
   }
 })
 

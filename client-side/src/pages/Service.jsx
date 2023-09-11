@@ -38,7 +38,8 @@ const Service = () => {
           amount: count,
           price: (service.price * count) + (extrasCost* count),
           extras: extrasChosen,
-          time: period
+          time: period,
+          seller:service.user_id
         }))
         toast.success("Item added to cart !", {
           position: "top-right",

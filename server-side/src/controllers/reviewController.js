@@ -1,12 +1,11 @@
 const Review = require("../models/Review");
 const Service = require("../models/Service");
-const User = require("../models/User");
 const AppError = require("../utils/AppError");
 
 const getReviews = async (req, res) => {
   const { service_id } = req.body;
 
-  if (!service_idervice_id)
+  if (!service_id)
     return next(new AppError("Must provide service_id in request"), 404);
   const reviews = await Review.find({ service_id: service_id }).populate({
     path: "service_id"
@@ -14,6 +13,42 @@ const getReviews = async (req, res) => {
 
   res.send(reviews);
 };
+
+const getSellerReviews = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return next(new AppError("Must provide seller_id in request"), 404);
+  }
+
+  try {
+    const reviews = await Review.aggregate([
+      {
+        $lookup: {
+          from: "Service", 
+          localField: "service_id",
+          foreignField: "_id",
+          as: "service"
+        }
+      },
+      {
+        $unwind: "$service"
+      },
+      {
+        $match: {
+          "service.user_id": id
+        }
+      }
+    ]);
+
+    res.send(reviews);
+  } catch (error) {
+    // Handle errors here
+    console.error(error);
+    return next(new AppError("Error while fetching reviews", 500));
+  }
+};
+
 
 const createReview = async (req, res, next) => {
   const { service_id } = req.body;
@@ -84,4 +119,4 @@ const deleteReview = async (req, res, next) => {
   res.send({ message: "Review deleted successfully!", deletedReview });
 };
 
-module.exports = { getReviews, createReview, updateReview, deleteReview };
+module.exports = { getReviews,getSellerReviews, createReview, updateReview, deleteReview };
