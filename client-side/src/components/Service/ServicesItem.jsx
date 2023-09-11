@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {RatingBadge} from "../Badges";
 
 
 const ServicesItem = ({ item }) => {
   const navigate = useNavigate();
 
-  function handleUserNavigate(e){
+  function handleSellerNavigate(e){
     e.preventDefault()
     e.stopPropagation()
-    navigate(`/user/${item.user_id.id}`)
+    navigate(`/seller/${item.user_id.id}`)
     
   }
 
@@ -35,12 +35,12 @@ const ServicesItem = ({ item }) => {
                 className="w-full " />
                 {/* ---------seller avatar---------*/}
               <div 
-                className="hover:border-2   absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
-                onClick={(e)=> handleUserNavigate(e)} >
+                className="hover:border-2  absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
+                onClick={(e)=> handleSellerNavigate(e)} >
                   <img
                     className="w-full h-full object-cover"
                     src={item.user_id.avatar}
-                    alt="User Avatar"
+                    alt="Seller Avatar"
                   />
               </div>
             </div>

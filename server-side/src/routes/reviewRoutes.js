@@ -14,6 +14,7 @@ const canDeleteReview = require("../middlewares/review/canDeleteReview");
 const {
   createReview,
   getReviews,
+  getSellerReviews,
   updateReview,
   deleteReview
 } = require("../controllers/reviewController");
@@ -29,6 +30,9 @@ router.post(
 
 // get reviews for a service (req must include service._id)
 router.get("/", verifyUserToken, getReviews);
+
+// get all reviews for a Seller (provide id in params)
+router.get("/sellerReviews/:id", verifyUserToken, getSellerReviews);
 
 // update a review in a service (must provide review fields in req & review id in params)
 router.put(

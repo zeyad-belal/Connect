@@ -7,6 +7,7 @@ const upload = require("../utils/multer");
 const {
   getAllServices,
   getServicebyCategoryId,
+  getServicebySellerId,
   getFourServicesbyCategoryId,
   createService,
   getService,
@@ -32,6 +33,10 @@ router.get("/", getAllServices);
 
 // get  Services by gategory id
 router.get("/filtered/:id", getServicebyCategoryId);
+
+// get  Services by seller id
+router.get("/seller/:id", getServicebySellerId);
+
 // get 4 services only
 router.get("/filteredFour/:id", getFourServicesbyCategoryId);
 

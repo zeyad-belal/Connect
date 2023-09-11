@@ -21,7 +21,7 @@ import {useSelector, useDispatch} from "react-redux"
 import Orders from "./pages/Orders.jsx";
 import Purchases from "./pages/Purchases.jsx";
 import AddService from "./pages/AddService.jsx";
-import User from "./pages/User.jsx";
+import Seller from "./pages/Seller.jsx";
 
 
 let firstRender =true;
@@ -83,7 +83,7 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />
-        <Route path="/user/:id" element={<User />} />
+        <Route path="/seller/:id" element={<Seller />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
