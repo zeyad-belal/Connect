@@ -105,14 +105,14 @@ console.log('reviews:',reviews)
           <img src={user.avatar} alt="user image"  />
           </div>
           
-          <div className='text-lg text-text1 font-semibold my-2' >{user.first_name} {user.last_name}</div>
+          <div className='text-2xl text-text1 font-semibold my-2' >{user.first_name} {user.last_name}</div>
         </div> 
 
         {/* -------------------------------about and stats------------------------------- */}
         <div className='flex flex-col md:flex-row justify-between px-3 sm:px-5 md:px-8 lg:px-12 my-3'>
           <div className='my-5 p-5 bg-white w-full md:max-w-[60%]'>
             <h2 className='font-semibold text-md text-text1 border-b pb-3 mb-2'> About </h2>
-            <p className='max-w-[90%]'>{user ? user.bio : 'Nothing here..'}</p>
+            <p className='max-w-[90%] text-gray-600'>{user ? user.bio : 'Nothing here..'}</p>
           </div>
           
           <div className='my-5 p-5 bg-white w-full md:max-w-[37%]'>
@@ -131,7 +131,7 @@ console.log('reviews:',reviews)
         </div>
 
         {/* -------------------------------- services ---------------------------------- */}
-        <div className='flex gap-3 bg-white flex-wrap justify-around px-3 sm:px-5 md:px-8 lg:px-12 py-8 mx-12 my-3'>
+        <div className='flex gap-3 bg-white flex-wrap justify-around px-3 sm:px-5 md:px-5  py-8 mx-12 my-3'>
           {services && services.map((service, index)=>{
             return(
               <div key={index} className='w-100% sm:w-[47%] md:w-[30%] lg:w-[20%] '>
