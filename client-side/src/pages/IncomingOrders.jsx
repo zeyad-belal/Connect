@@ -1,18 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
+import { Link } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
 
-function Purchases() {
+
+function IncomingOrders() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
-  const [allOrders, setAllOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [allIncomingOrders, setAllIncomingOrders] = useState([]);
+  const [filteredIncomingOrders, setFilteredIncomingOrders] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState([]);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,19 +29,18 @@ function Purchases() {
       setCurrentStatus((prevStatus) => prevStatus.filter((status) => status !== id));
     }
   }
-  
 
 
-  //get all orders
+
+  //get all Incoming orders
   useEffect(() => {
-    async function getOrderHistory() {
+    async function getIncomingOrderHistory() {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/orders/user/${cookies.User._id}`,
+        `${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-      const data = await response.data.order.map((order) => order)
-
-      const allOrdersData = data.flatMap((ordersData) =>
+      const data = await response.data.incomingOrder.map((order) => order)
+      const allIncomingOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
         id: ordersData._id,
         buyer: ordersData.user_id,
@@ -58,11 +58,11 @@ function Purchases() {
       }))
     );
     
-      setAllOrders(allOrdersData.flatMap((order) => order))
+      setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order))
 
     }
     if (window.localStorage.getItem("logged")) {
-      getOrderHistory();
+      getIncomingOrderHistory();
     }
   }, [ cookies.User._id, cookies.UserToken]);
 
@@ -72,21 +72,21 @@ function Purchases() {
     if(currentStatus.length < 1 ){
       return
     }
-    let filteredOrders = allOrders
+    let filteredOrders = allIncomingOrders
     .flatMap((order) => order) 
     .filter((item) => {
       return currentStatus.includes(item.status);
     });
   
-    setFilteredOrders(filteredOrders);
+    setFilteredIncomingOrders(filteredOrders);
 
-  },[allOrders,currentStatus])
+  },[allIncomingOrders,currentStatus])
 
 
 
-  
+
   return (
-    <div className="bg-primary py-6 px-6 relative">
+  <div className="bg-primary py-6 px-6 relative">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
@@ -113,9 +113,9 @@ function Purchases() {
         <div className="max-w-[1100px] w-full py-3 my-10 px-3 h-fit bg-white rounded-sm ">
 
         {/* -----------------------displaying orders if any ------------------------------ */}
-          {allOrders.length > 0 && 
+          {allIncomingOrders.length > 0 && 
             <div className="py-3 text-gray-500 flex flex-col items-start ">
-              {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
+              {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item,index) => {
                   return(  
                   <div 
                     className="text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 border-b px-3 py-4"
@@ -161,7 +161,7 @@ function Purchases() {
             </div>
           }
           {/* ----------------------------no orders found message------------------------------------ */}
-          {(!filteredOrders.length && !allOrders.length > 0 )  && (
+          {(!filteredIncomingOrders.length && !allIncomingOrders.length > 0 )  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
               No purchased items found.
             </p>
@@ -175,6 +175,4 @@ function Purchases() {
   );
 }
 
-export default Purchases;
-
-
+export default IncomingOrders;

@@ -14,6 +14,7 @@ const categoryRouter = require("./src/routes/categoryRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
 const orderRoutes = require("./src/routes/orderRoutes");
 const reviewRoutes = require("./src/routes/reviewRoutes");
+const incomingOrderRoutes = require("./src/routes/incomingOrderRoutes");
 
 // parsing incoming requests
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use("/categories", categoryRouter);
 app.use("/services", serviceRoutes);
 app.use("/orders", orderRoutes);
 app.use("/reviews", reviewRoutes);
+app.use("/incomingOrders", incomingOrderRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

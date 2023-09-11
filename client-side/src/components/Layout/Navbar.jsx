@@ -117,9 +117,9 @@ const Navbar = (props) => {
               </ul>
             </div>}
           </li>
-          {/* Orders */}
+          {/* incoming Orders */}
           <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
-          onClick={()=>navigate('/orders')}>
+          onClick={()=>navigate('/incomingOrders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
           {/* Purchases */}
