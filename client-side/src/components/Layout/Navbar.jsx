@@ -237,7 +237,7 @@ const Navbar = (props) => {
         </ul>
       </nav>
 
-      <Searchbar {...props} isSearchBarVisible={menu.isSearchBarVisible} />
+      <Searchbar  isSearchBarVisible={menu.isSearchBarVisible} />
       {/* close overlay  */}
       {menu.isNotiMenuVisible ||
       menu.isUserMenuVisible ||

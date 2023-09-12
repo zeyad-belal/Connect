@@ -13,7 +13,7 @@ export default function Seller() {
   const [user ,setUser] = useState(null)
   const [reviews ,setReviews] = useState(null)
   const [services ,setServices] = useState(null)
-
+  const [allIncomingOrders, setAllIncomingOrders] = useState([]);
 
 // get user
   useEffect(()=>{
@@ -63,7 +63,7 @@ export default function Seller() {
   },[cookies.UserToken, id])
 
 
-// get user reviews
+// get seller reviews
   useEffect(()=>{
     async function getUserReviews(){
       const repsonse = await axios.get( `${import.meta.env.VITE_API_URL}/reviews/sellerReviews/${id}`,
@@ -89,10 +89,43 @@ export default function Seller() {
   },[cookies.UserToken, id])
 
 
-console.log('user:',user)
-console.log('services:',services)
-console.log('reviews:',reviews)
+// get seller incoming orders
+  useEffect(()=>{
+    async function getIncomingOrderHistory() {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
+        { headers: { Authorization: `${cookies.UserToken}` } }
+      );
+      const data = await response.data.incomingOrder.map((order) => order)
+      const allIncomingOrdersData = data.flatMap((ordersData) =>
+      ordersData.items.map((item) => ({
+        id: ordersData._id,
+        buyer: ordersData.user_id,
+        quantity: item.quantity,
+        created_at: ordersData.created_at,
+        name: item.service_id.name,
+        avg_rating: item.service_id.avg_rating,
+        description: item.service_id.description,
+        image: item.service_id.images[0].url,
+        seller: item.service_id.user_id,
+        status: item.status,
+        price: item.price,
+        time: item.time,
+        extras: item.extras,
+      }))
+    );
+      setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order))
+    }
+    if (window.localStorage.getItem("logged")) {
+      getIncomingOrderHistory();
+    }
+  },[cookies.User._id, cookies.UserToken, id])
 
+
+// console.log('user:',user)
+// console.log('services:',services)
+// console.log('reviews:',reviews)
+// console.log('allIncomingOrders:',allIncomingOrders)
 
 
   return (
@@ -110,17 +143,17 @@ console.log('reviews:',reviews)
 
         {/* -------------------------------about and stats------------------------------- */}
         <div className='flex flex-col md:flex-row justify-between px-3 sm:px-5 md:px-8 lg:px-12 my-3'>
-          <div className='my-5 p-5 bg-white w-full md:max-w-[60%]'>
+          <div className='my-5 p-5 bg-white rounded-md w-full md:max-w-[60%]'>
             <h2 className='font-semibold text-md text-text1 border-b pb-3 mb-2'> About </h2>
             <p className='max-w-[90%] text-gray-600'>{user ? user.bio : 'Nothing here..'}</p>
           </div>
           
-          <div className='my-5 p-5 bg-white w-full md:max-w-[37%]'>
+          <div className='my-5 py-5 px-7 bg-white w-full md:max-w-[37%] rounded-md'>
             <h2 className='font-semibold text-md text-text1 border-b pb-3 mb-2'> Stats </h2>
             <ul className='flex flex-col gap-3 py-2 px-1 text-sm font-semibold text-text1'>
               <li className='flex justify-between'>rate : <span className='text-gray-500'><RatingBadge avg_rating={reviews && reviews.avg_rating ? reviews.avg_rating : 0} /></span>  </li> 
               <li className='flex justify-between'>published services : <span className='text-gray-500'>{services ? services.length: 0}</span>  </li>
-              <li className='flex justify-between'>customers :     <span className='text-gray-500'>incoming orders count</span>  </li>
+              <li className='flex justify-between'>customers :     <span className='text-gray-500'>{allIncomingOrders? allIncomingOrders.length : 0}</span>  </li>
               <li className='flex justify-between'>member since : 
               <span className='text-gray-500'>
               {` ${new Date(user.created_at).getDate().toString().padStart(2, '0')}/${(new Date(user.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(user.created_at).getFullYear()}` }

@@ -13,39 +13,38 @@ const Services = () => {
 
   useEffect(() => {
     if (allServices) {
-      // filter Services
-      let filtered = null;
-
-      if (searchParams.get("orderBy") && searchParams.get("orderBy") === "rating") {
-        const allServicesCopy = [...allServices];
-        filtered = allServicesCopy.sort((a, b) => b.avg_rating - a.avg_rating);
-
+      // Initialize a copy of all services 
+      let filtered = allServices.slice();
+  
+      if (searchParams.get("orderBy") === "rating") {
+        // Sort by rating if specified
+        filtered.sort((a, b) => b.avg_rating - a.avg_rating);
       }
-      // console.log("before", filtered);
-
-      if (searchParams.get("category") !== "All") {
-        filtered = (filtered ? filtered : allServices).filter((service) => {
-          if (isInPriceRange(service) && hasMatchCategory(service)) {
-            return service;
-          }
-        });
-      } else if (searchParams.get("category") === "All") {
-        filtered = (filtered ? filtered : allServices).filter((service) => {
-          if (isInPriceRange(service)) {
-            return service;
-          }
-        });
-      } else {
-        filtered = (filtered ? filtered : allServices).filter((service) => {
-          if (isInPriceRange(service) && hasMatchCategory(service)) {
-            return service;
-          }
+  
+      // Check if category parameter exists and is not All
+      if (searchParams.has("category") && searchParams.get("category") !== "All") {
+        filtered = filtered.filter((service) => {
+          return hasMatchCategory(service);
         });
       }
-      
+  
+      // Filter by price range
+      filtered = filtered.filter(isInPriceRange);
+  
+      if (searchParams.has("keyword")) {
+        // Check if the keyword parameter exists
+        filtered = filtered.filter((service) => {
+          const serviceKeywords = service.keywords.join('').split(',');
+          return serviceKeywords.includes(searchParams.get("keyword"));
+        });
+      }
+  
+      // Update the filtered services state
       setfilteredServices(filtered);
     }
   }, [allServices, searchParams]);
+  
+
 
   const hasMatchCategory = (service) => {
     let matchCategory = true;
@@ -57,6 +56,7 @@ const Services = () => {
     return matchCategory;
   };
 
+  
   const isInPriceRange = (service) => {
     const minPrice = searchParams.get("min");
     const maxPrice = searchParams.get("max");
@@ -77,11 +77,10 @@ const Services = () => {
     <div className="bg-primary">
       <div className="w-full flex flex-col md:flex-row relative ">
         <Filter />
-
         {/* Render your services using the filtered services */}
         <div className="py-12 mt-11 px-2  md:px-12">
         {filteredServices && filteredServices?.length !== 0 && (
-            <PaginatedItems filteredServices={filteredServices} />
+          <PaginatedItems filteredServices={filteredServices} />
         )}
         </div>
       </div>

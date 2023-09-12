@@ -86,7 +86,6 @@ function IncomingOrders() {
   },[allIncomingOrders,currentStatus])
 
 
-console.log('allIncomingOrders:',allIncomingOrders)
 
 
   return (

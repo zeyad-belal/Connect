@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { BiSolidTruck } from "react-icons/bi";
 import { BsFillCollectionFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart } from "react-icons/fa";
-import { MdAdd } from "react-icons/md";
-import { useRef } from "react";
+import { MdAdd, MdDragIndicator } from "react-icons/md";
+import { useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import { Link, useNavigate } from "react-router-dom";
 import { PiShoppingBagFill } from "react-icons/pi";
@@ -16,9 +17,35 @@ function SubNav(props) {
   const searchBar = useRef();
   const navigate = useNavigate();
 
-  const changeHandler = (e) => {
-    props.setSearchText(e.target.value);
+  const [searchText, setSearchText] = useState("");
+  const [catgMenuIsOpen, setCatgMenuIsOpen] = useState(false);
+
+
+
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+
+  const changeHandler = debounce((e) => {
+    setSearchText(e.target.value)
+  }, 900);
+  
+
+  const navToResults = () => {
+    dispatch(menuActions.closeAllMenus())
+    setSearchText("");
+    navigate(`/services?keyword=${searchText}`);
+    searchBar.current.value = "";
   };
+
+  function toggleCatgMenu(){
+    setCatgMenuIsOpen((prevValue) => !prevValue)
+  }
 
   return (
     <>
@@ -37,7 +64,7 @@ function SubNav(props) {
                   ? "translateX(0)"
                   : "translateX(-100%)",
             }}
-            className="py-3  bg-white w-[240px] h-screen  absolute text-text1 z-[51] shadow-lg shadow-primary">
+            className="py-3  bg-white w-[200px] md:w-[240px] h-screen  absolute text-text1 z-[51] shadow-md">
               {/* ---------searchbar------  */}
             <li className="relative  mb-5 flex">
               <input
@@ -48,19 +75,21 @@ function SubNav(props) {
                 placeholder="Search..." />
               <BsSearch
                 size={22}
-                className="absolute right-5 top-3  cursor-pointer" />
+                className="absolute right-5 top-3  cursor-pointer"
+                onClick={navToResults}
+                />
             </li>
 
             <Link to={"/addService"}
               onClick={() => dispatch(menuActions.closeAllMenus())} >
-              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+              <li className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <MdAdd /> Add Service
               </li>
             </Link>
 
             <Link to={"/cart"}
               onClick={() => dispatch(menuActions.closeAllMenus())} >
-              <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+              <li className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <FaShoppingCart /> Cart
               </li>
             </Link>
@@ -68,21 +97,54 @@ function SubNav(props) {
             <Link to={"/incomingOrders"}
               onClick={() => dispatch(menuActions.closeAllMenus())} >
               <li
-                className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"
+                className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2"
                 onClick={() => navigate("/orders")} >
                 {" "}
                 <BiSolidTruck size={22} /> Incoming Orders
               </li>
             </Link>
 
-            <li className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+            {/* ----------catgories-------- */}
+            <li className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2"
+            onClick={toggleCatgMenu} >
               <BsFillCollectionFill /> Categories
             </li>
+
+            <Transition
+              in={catgMenuIsOpen}
+              timeout={300}
+              mountOnEnter
+              unmountOnExit >
+                {(state) => (
+              <ul 
+              className="cursor-pointer mx-5  text-xs md:text-sm py-2 text-start flex flex-col justify-start  gap-1"
+              style={{
+                transition: "all 0.3s ease-in-out",
+                transform:
+                  state === "entering" || state === "entered"
+                    ? "translateX(0)"
+                    : "translateX(-100%) ",
+                    opacity:
+                  state === "entering" || state === "entered"
+                    ? "opacity-1"
+                    : "opacity-0 ",
+              }}
+              >
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Code </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Design </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Digital Marketing </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Business </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Online Learning </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> translation </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Sounds </span> </li>
+                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Video Editing </span> </li>
+              </ul> )}
+              </Transition>
 
             <Link to={"/purchases"}
               onClick={() => dispatch(menuActions.closeAllMenus())} > 
               <li
-                className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2">
+                className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <PiShoppingBagFill size={22} /> Purchases
               </li>
             </Link>
