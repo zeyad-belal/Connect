@@ -65,7 +65,7 @@ function SubNav(props) {
               </li>
             </Link>
 
-            <Link to={"/orders"}
+            <Link to={"/incomingOrders"}
               onClick={() => dispatch(menuActions.closeAllMenus())} >
               <li
                 className="hover:bg-primary cursor-pointer text-lg py-3 pl-4 flex justify-start items-center gap-2"

@@ -1,18 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
+import { Link } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
 
-function Purchases() {
+
+function IncomingOrders() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
-  const [allOrders, setAllOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [allIncomingOrders, setAllIncomingOrders] = useState([]);
+  const [filteredIncomingOrders, setFilteredIncomingOrders] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState([]);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,19 +29,19 @@ function Purchases() {
       setCurrentStatus((prevStatus) => prevStatus.filter((status) => status !== id));
     }
   }
-  
 
 
-  //get all orders
+
+  //get all Incoming orders for this user
   useEffect(() => {
-    async function getOrderHistory() {
+    async function getIncomingOrderHistory() {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/orders/user/${cookies.User._id}`,
+        `${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-      const data = await response.data.order.map((order) => order)
-
-      const allOrdersData = data.flatMap((ordersData) =>
+      const data = await response.data.incomingOrder.map((order) => order)
+      console.log(data)
+      const allIncomingOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
         id: ordersData._id,
         buyer: ordersData.user_id,
@@ -58,11 +59,11 @@ function Purchases() {
       }))
     );
     
-      setAllOrders(allOrdersData.flatMap((order) => order))
+      setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order))
 
     }
     if (window.localStorage.getItem("logged")) {
-      getOrderHistory();
+      getIncomingOrderHistory();
     }
   }, [ cookies.User._id, cookies.UserToken]);
 
@@ -72,21 +73,21 @@ function Purchases() {
     if(currentStatus.length < 1 ){
       return
     }
-    let filteredOrders = allOrders
+    let filteredOrders = allIncomingOrders
     .flatMap((order) => order) 
     .filter((item) => {
       return currentStatus.includes(item.status);
     });
   
-    setFilteredOrders(filteredOrders);
+    setFilteredIncomingOrders(filteredOrders);
 
-  },[allOrders,currentStatus])
+  },[allIncomingOrders,currentStatus])
 
 
 
-  
+
   return (
-    <div className="bg-primary py-6 px-6 relative">
+  <div className="bg-primary py-6 px-6 relative">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
@@ -113,10 +114,10 @@ function Purchases() {
         <div className="max-w-[1100px] w-full py-3 my-10 px-3 h-fit bg-white rounded-sm ">
 
         {/* -----------------------displaying orders if any ------------------------------ */}
-          {allOrders.length > 0 && 
+          {allIncomingOrders.length > 0 && 
             <div className="py-3 text-gray-500 flex flex-col items-start ">
-              {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
-                  return(  
+              {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item,index) => {
+                return(  
                   <div 
                     className="text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 border-b px-3 py-4"
                     key={index} >
@@ -127,41 +128,44 @@ function Purchases() {
                     <div className="mr-2 flex flex-col ">
                       <h5 className="text-md font-semibold text-text1 mb-3">{item.name}</h5>
 
-                        {item.status == 'pending' && <span className=' w-fit mb-1 bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
-                        {item.status == 'inProgress' && <span className=' w-fit mb-1 bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>in progress</span>}
-                        {item.status == 'waitingForDelivery' && <span className=' w-fit mb-1 bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
-                        {item.status == 'delivered' && <span className=' w-fit mb-1 bg-green-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>delivered</span>}
-                        {item.status == 'canceled' && <span className=' w-fit mb-1 bg-red-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>canceled</span>}
+                      {item.status == 'pending' &&
+                        <span className=' w-fit mb-1 bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
+                      {item.status == 'inProgress' &&
+                        <span className=' w-fit mb-1 bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>in progress</span>}
+                      {item.status == 'waitingForDelivery' &&
+                        <span className=' w-fit mb-1 bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
+                      {item.status == 'delivered' &&
+                        <span className=' w-fit mb-1 bg-green-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>delivered</span>}
+                      {item.status == 'canceled' &&
+                        <span className=' w-fit mb-1 bg-red-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>canceled</span>}
 
                       <div className="mr-3 font-semibold text-sm flex gap-4 relative">
                         <span>$ {item.price * item.quantity} </span>
                         <span> Q : {item.quantity}</span>
                       </div>  
 
-
-                      <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
+                      {item.extras[0] &&<div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
                         <h4 className="text-sm text-gray-600 mb-1">Extras</h4>
                         {item.extras.map((extra, index)=>{
                           return (
                             <p key={index} >-{extra}</p>
                           )
                         })}
-                      </div>
+                      </div>}
 
                       <p className=" text-gray-500 font-semibold text-[11px] self-start">
                         purchased at : 
                         {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
                       </p>
 
-                    
-
                     </div>
-                  </div>)
+                  </div>
+                )
               })}
             </div>
           }
           {/* ----------------------------no orders found message------------------------------------ */}
-          {(!filteredOrders.length && !allOrders.length > 0 )  && (
+          {(!filteredIncomingOrders.length && !allIncomingOrders.length > 0 )  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
               No purchased items found.
             </p>
@@ -175,6 +179,4 @@ function Purchases() {
   );
 }
 
-export default Purchases;
-
-
+export default IncomingOrders;

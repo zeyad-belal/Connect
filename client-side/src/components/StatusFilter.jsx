@@ -3,7 +3,7 @@
 
 function StatusFilter({handleStatusChange,isMenuOpen,setIsMenuOpen}) {
   let myClasses = isMenuOpen ? 
-  "fixed top-0 left-0  md:min-w-[230px] max-w-[190px] py-6 my-10 px-0  bg-white rounded-sm h-fit z-30 h-[100vh]" :
+  "fixed top-0 left-0  md:min-w-[240px] min-w-[180px]  py-6 my-10 px-0  bg-white rounded-sm h-fit z-30 min-h-[100vh]" :
   "hidden md:block md:min-w-[230px] lg:min-w-[280px] max-w-[300px] py-6 my-10 px-5 bg-white rounded-sm h-fit z-30"
 
 

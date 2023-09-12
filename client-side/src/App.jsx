@@ -18,10 +18,10 @@ import UserInfo from "./pages/UserInfo.jsx";
 import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
 import { fetchServices }  from "./store/servicesSlice.jsx";
 import {useSelector, useDispatch} from "react-redux"
-import Orders from "./pages/Orders.jsx";
 import Purchases from "./pages/Purchases.jsx";
 import AddService from "./pages/AddService.jsx";
 import Seller from "./pages/Seller.jsx";
+import IncomingOrders from "./pages/IncomingOrders.jsx";
 
 
 let firstRender =true;
@@ -80,7 +80,7 @@ function App() {
         <Route path="/services/:id" element={<Service />} />
         <Route path="/addService" element={<AddService />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/incomingOrders" element={<IncomingOrders />} />
         <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />
         <Route path="/seller/:id" element={<Seller />} />
