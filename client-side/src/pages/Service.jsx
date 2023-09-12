@@ -194,7 +194,7 @@ const Service = () => {
                     handleCounterIncrement={handleCounterIncrement} />
                   <span className="text-lg font-semibold"> subtotal: {(service.price * count) + (extrasCost* count)}$</span>
                   </div>
-                  <div className="text-lg font-semibold mb-5">this service will take up to : {period} days</div>
+                  <div className="text-md italic mb-5">this service will take up to : {period} days</div>
                   <button
                     onClick={() => handleAddItemToCart(service)}
                     type="button"

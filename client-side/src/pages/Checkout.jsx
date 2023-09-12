@@ -57,13 +57,41 @@ const Checkout = () => {
             extras:item.extras,
             time:item.time,
             price:item.price,
+            seller:item.seller,
           })),
         };
+        // updating user order history 
         const response2 = await axios.post(
           `${import.meta.env.VITE_API_URL}/orders`,
           reqData,
           { headers: { Authorization: `${cookies.UserToken}` } }
         );
+
+      // getting ids of the sellers
+      const sellersIds = cart.items.map((item) => item.seller);
+
+      sellersIds.forEach((ID) => {
+        const sellerItems = {
+          items: cart.items
+            .filter((item) => item.seller === ID)
+            .map((item) => ({
+              service_id: item.id,
+              quantity: item.amount,
+              extras: item.extras,
+              time: item.time,
+              price: item.price,
+              seller: item.seller,
+            })),
+        };
+        
+        axios.post(
+            `${import.meta.env.VITE_API_URL}/incomingOrders/${ID}`,
+            sellerItems,
+            { headers: { Authorization: `${cookies.UserToken}` } }
+          )
+      });
+      
+
         emailjs.sendForm(
           "service_97xavkg",
           "template_6bes58a",
@@ -92,6 +120,7 @@ const Checkout = () => {
       });
     }
   };
+
 
   function closeHandler() {
     setCashclass("hidden");

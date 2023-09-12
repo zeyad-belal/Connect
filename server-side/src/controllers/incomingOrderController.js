@@ -4,10 +4,11 @@ const IncomingOrder = require("../models/IncomingOrder");
 const AppError = require("../utils/AppError");
 
 const createIncomingOrder = async (req, res, next) => {
+  const { id } = req.params;
   const { items } = req.body;
 
   const createdIncomingOrder = await IncomingOrder.create({
-    user_id: req.user._id,
+    user_id: id,
     items: items
   });
 
@@ -33,7 +34,6 @@ const getIncomingOrderById = async (req, res, next) => {
 };
 
 const getIncomingOrderByUserId = async (req, res, next) => {
-  // check if id is a valid objectId
   if (!Types.ObjectId.isValid(req.params.id))
     return next(new AppError("Invalid ObjectId.", 401));
 

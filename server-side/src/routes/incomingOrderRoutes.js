@@ -22,7 +22,7 @@ router.get("/:id", verfiyUserToken, getIncomingOrderById);
 router.get("/user/:id", verfiyUserToken, getIncomingOrderByUserId);
 
 // create a new order
-router.post("/", verfiyUserToken, createIncomingOrder);
+router.post("/:id", verfiyUserToken, createIncomingOrder);
 
 // update order
 router.patch( "/:id", verfiyUserToken, updateIncomingOrder);
