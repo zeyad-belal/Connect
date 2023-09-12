@@ -27,7 +27,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
     setExtrasChosen(checkedExtrasCost.map((extra)=> extra.name))
     setExtrasCost(costs);
     setExtrasTime(checkedExtrasTime);
-  },[checkedExtrasTime,checkedExtrasCost])
+  },[checkedExtrasTime, checkedExtrasCost, setExtrasChosen, setExtrasCost, costs, setExtrasTime])
 
 
   

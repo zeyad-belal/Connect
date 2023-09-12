@@ -157,7 +157,7 @@ const Service = () => {
                     <CartIcon></CartIcon> Buy the service </button>
                 </div>
               </div>
-
+              {/* SERVICES IMAGES  */}
               <div className="flex flex-col lg:flex-row gap-5 justify-between">
                 <div className="flex items-center gap-12  bg-white p-4 lg:w-[65%]">
                     <div className="max-w-full flex flex-col items-center p-2">
@@ -175,12 +175,13 @@ const Service = () => {
                     handleAddItemToCart={handleAddItemToCart} />
                 </div>
               </div> 
+              {/* SERVICES PANELS  */}
               <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
                 <ServicePanels 
-                service={service}
-                setExtrasCost={setExtrasCost}
-                setExtrasTime={setExtrasTime}
-                setExtrasChosen={setExtrasChosen}
+                  service={service}
+                  setExtrasCost={setExtrasCost}
+                  setExtrasTime={setExtrasTime}
+                  setExtrasChosen={setExtrasChosen}
                 />
               </div>
               {/* buy the service  */}

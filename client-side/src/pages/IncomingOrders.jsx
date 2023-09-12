@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import { Link } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
+import { BsChatFill } from "react-icons/bs";
 
 
 function IncomingOrders() {
@@ -30,7 +31,9 @@ function IncomingOrders() {
     }
   }
 
-
+  function startChatHandler(e){
+    console.log(e.target)
+  }
 
   //get all Incoming orders for this user
   useEffect(() => {
@@ -40,7 +43,6 @@ function IncomingOrders() {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const data = await response.data.incomingOrder.map((order) => order)
-      console.log(data)
       const allIncomingOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
         id: ordersData._id,
@@ -87,7 +89,7 @@ function IncomingOrders() {
 
 
   return (
-  <div className="bg-primary py-6 px-6 relative">
+    <div className="bg-primary py-6 px-6 relative">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
@@ -106,12 +108,12 @@ function IncomingOrders() {
       </div>
 
 
-      <div className="gap-6 flex flex-col md:flex-row  ">
+      <div className="gap-6 lg:gap-12 flex flex-col md:flex-row  lg:ml-8 ">
         {/* ----------------------------filter-------------------------------*/}
         <StatusFilter handleStatusChange={handleStatusChange} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
         {/* ------------------------------orders------------------------------------------ */}
-        <div className="max-w-[1100px] w-full py-3 my-10 px-3 h-fit bg-white rounded-sm ">
+        <div className="max-w-[850px] w-full py-3 my-10 px-3 h-fit bg-white rounded-sm ">
 
         {/* -----------------------displaying orders if any ------------------------------ */}
           {allIncomingOrders.length > 0 && 
@@ -119,7 +121,7 @@ function IncomingOrders() {
               {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item,index) => {
                 return(  
                   <div 
-                    className="text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 border-b px-3 py-4"
+                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 ${allIncomingOrders.length == 1 || allIncomingOrders.length -1 == index ? '' : 'border-b'} px-3 py-2`}
                     key={index} >
                     <img
                       className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
@@ -129,17 +131,17 @@ function IncomingOrders() {
                       <h5 className="text-md font-semibold text-text1 mb-3">{item.name}</h5>
 
                       {item.status == 'pending' &&
-                        <span className=' w-fit mb-1 bg-gray-400 text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg'>pending</span>}
+                        <span className=' w-fit mb-1 bg-gray-400 text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg'>pending</span>}
                       {item.status == 'inProgress' &&
-                        <span className=' w-fit mb-1 bg-secondary text-text1 px-[4px] py-[2px] text-xs font-medium rounded-lg '>in progress</span>}
+                        <span className=' w-fit mb-1 bg-secondary text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg '>in progress</span>}
                       {item.status == 'waitingForDelivery' &&
-                        <span className=' w-fit mb-1 bg-secHover text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
+                        <span className=' w-fit mb-1 bg-secHover text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg '>waiting for delivery</span>}
                       {item.status == 'delivered' &&
-                        <span className=' w-fit mb-1 bg-green-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>delivered</span>}
+                        <span className=' w-fit mb-1 bg-green-400 text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg '>delivered</span>}
                       {item.status == 'canceled' &&
-                        <span className=' w-fit mb-1 bg-red-400 text-text1 px-[4px] py-[1px] text-xs font-medium rounded-lg '>canceled</span>}
+                        <span className=' w-fit mb-1 bg-red-400 text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg '>canceled</span>}
 
-                      <div className="mr-3 font-semibold text-sm flex gap-4 relative">
+                      <div className="mr-3 font-semibold text-sm flex gap-4 relative mt-1">
                         <span>$ {item.price * item.quantity} </span>
                         <span> Q : {item.quantity}</span>
                       </div>  
@@ -153,10 +155,18 @@ function IncomingOrders() {
                         })}
                       </div>}
 
-                      <p className=" text-gray-500 font-semibold text-[11px] self-start">
-                        purchased at : 
-                        {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
-                      </p>
+                      <div className="flex justify-between items-center ">
+                        <p className=" text-gray-500 font-semibold text-[11px]  ">
+                          purchased at : 
+                          {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
+                        </p>
+
+                        <button 
+                        className="bg-green-400  hover:bg-green-600 text-white p-4 text-2xl rounded-full"
+                        onClick={(e)=>startChatHandler(e)} >
+                          <BsChatFill />
+                        </button>
+                      </div>
 
                     </div>
                   </div>

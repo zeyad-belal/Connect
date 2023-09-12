@@ -27,10 +27,8 @@ import IncomingOrders from "./pages/IncomingOrders.jsx";
 let firstRender =true;
 
 function App() {
-  const [searchText, setSearchText] = useState("");
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
 
-  
   const signModal = useSelector((state)=> state.signModal);
   const cart = useSelector((state)=> state.cart);
   const dispatch = useDispatch()
@@ -70,7 +68,7 @@ function App() {
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-        <Navbar searchText={searchText} setSearchText={setSearchText} />
+        <Navbar />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />

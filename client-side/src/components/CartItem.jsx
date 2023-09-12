@@ -9,13 +9,19 @@ const CartItem = ({item, onAdd , onRemove}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
+  function handleSellerNavigate(e){
+    e.preventDefault()
+    e.stopPropagation()
+    navigate(`/seller/${item.seller.id}`)
+    
+  }
 
-
+  
   return (
     <>
       {/* cart item */}
       <div
-        className="text-text1 flex flex-col md:flex-row justify-between items-center my-1 border-b-[2px] py-1"
+        className="text-text1 flex flex-col md:flex-row justify-between items-center my-1 border-b py-1"
         key={item.id} >
         <div className="flex relative">
           <img
@@ -25,8 +31,8 @@ const CartItem = ({item, onAdd , onRemove}) => {
 
           {/* ---------seller avatar---------*/}
           <div 
-          className="absolute cursor-pointer bottom-2 left-2 w-[30px] h-[30px] bg-white p-[1px] shadow-md rounded-full overflow-hidden"
-          onClick={() => navigate(`/user/${item.seller.id}`)} >
+            className="hover:border-2 cursor-pointer  absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
+            onClick={(e)=> handleSellerNavigate(e)} >
             <img
               className="w-full h-full object-cover"
               src={item.seller.avatar}

@@ -118,7 +118,7 @@ function Purchases() {
               {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
                   return(  
                   <div 
-                    className="text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 border-b px-3 py-4"
+                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 ${allOrders.length == 1 || allOrders.length -1 == index ? '' : 'border-b'} px-3 py-4`}
                     key={index} >
                     <img
                       className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
