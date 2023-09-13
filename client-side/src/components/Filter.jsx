@@ -6,7 +6,7 @@ import { ArrowIcon, CloseIcon, FilterIcon, HomeIcon, RightArrowIcon } from "./Ic
 
 
 const Filter = () => {
-  // Filter Functionalities ///////////////////////////////////
+  // Filter Functionalities 
   const [searchParams, setSearchParams] = useSearchParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOpenOrderBy, setIsOpenOrderBy] = useState(false);
@@ -24,7 +24,7 @@ const Filter = () => {
     max: searchParams.get("max") ? searchParams.get("max") : ""
   });
 
-  // Data /////////////////////////////////////////////////////
+  // Data 
   const [categories, setCategories] = useState(null);
 
 
@@ -40,7 +40,7 @@ const Filter = () => {
     getAllCategories();
   }, []);
 
-  // Togglers ////////////////////////////////////////////////////////
+  // Togglers 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -58,7 +58,7 @@ const Filter = () => {
     setIsOpenPrice(!isOpenPrice);
   };
 
-  // Handlers ////////////////////////////////////////////////////
+  // Handlers 
   const handleBackdropClick = () => {
     setIsMenuOpen(false);
   };

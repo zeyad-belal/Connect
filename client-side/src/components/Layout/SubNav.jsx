@@ -18,7 +18,6 @@ function SubNav(props) {
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("");
-  const [catgMenuIsOpen, setCatgMenuIsOpen] = useState(false);
 
 
 
@@ -43,8 +42,9 @@ function SubNav(props) {
     searchBar.current.value = "";
   };
 
-  function toggleCatgMenu(){
-    setCatgMenuIsOpen((prevValue) => !prevValue)
+  function navToChoosenCatg(catg){
+    dispatch(menuActions.closeAllMenus())
+    navigate(`/services?category=${catg}`)
   }
 
   return (
@@ -53,16 +53,12 @@ function SubNav(props) {
         in={menu.isSubVisible}
         timeout={300}
         mountOnEnter
-        unmountOnExit
-      >
+        unmountOnExit >
         {(state) => (
           <ul
             style={{
               transition: "all 0.3s ease-in-out",
-              transform:
-                state === "entering" || state === "entered"
-                  ? "translateX(0)"
-                  : "translateX(-100%)",
+              transform: state === "entering" || state === "entered" ? "translateX(0)": "translateX(-100%)",
             }}
             className="py-3  bg-white w-[200px] md:w-[240px] h-screen  absolute text-text1 z-[51] shadow-md">
               {/* ---------searchbar------  */}
@@ -105,13 +101,14 @@ function SubNav(props) {
             </Link>
 
             {/* ----------catgories-------- */}
-            <li className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2"
-            onClick={toggleCatgMenu} >
+            <li 
+            className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2"
+            onClick={()=>dispatch(menuActions.toggleSubCategories())} >
               <BsFillCollectionFill /> Categories
             </li>
 
             <Transition
-              in={catgMenuIsOpen}
+              in={menu.isCatgSubMenuVisible}
               timeout={300}
               mountOnEnter
               unmountOnExit >
@@ -128,16 +125,15 @@ function SubNav(props) {
                   state === "entering" || state === "entered"
                     ? "opacity-1"
                     : "opacity-0 ",
-              }}
-              >
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Code </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Design </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Digital Marketing </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Business </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Online Learning </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> translation </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Sounds </span> </li>
-                <li className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Video Editing </span> </li>
+              }} >
+                <li onClick={() =>navToChoosenCatg(`Code`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Code </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Design`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Design </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Digital Marketing`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Digital Marketing </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Business`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Business </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Online Learning`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Online Learning </span> </li>
+                <li onClick={() =>navToChoosenCatg(`translation`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> translation </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Sounds`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Sounds </span> </li>
+                <li onClick={() =>navToChoosenCatg(`Video Editing`)} className="font-[400] pb-2 hover:bg-primary flex items-center gap-2"> <MdDragIndicator /> <span> Video Editing </span> </li>
               </ul> )}
               </Transition>
 

@@ -104,7 +104,7 @@ function IncomingOrders() {
             <p className="ml-2 text-gray-500 text-sm cursor-pointer flex"> <HomeIcon />  </p>
           </Link>
           <RightArrowIcon className="text-gray-500" />
-          <h1 className="text-lg ">Purchased items</h1>
+          <h1 className="text-lg ">Incoming orders</h1>
       </div>
 
 
@@ -177,7 +177,7 @@ function IncomingOrders() {
           {/* ----------------------------no orders found message------------------------------------ */}
           {(!filteredIncomingOrders.length && !allIncomingOrders.length > 0 )  && (
             <p className="flex justify-center items-center py-3 text-gray-500 ">
-              No purchased items found.
+              No incoming orders found.
             </p>
           )}
 

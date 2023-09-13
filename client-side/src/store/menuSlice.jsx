@@ -9,6 +9,7 @@ const initialState = {
   isNotiMenuVisible: false,
   isSearchBarVisible: false,
   isCatgMenuVisible: false,
+  isCatgSubMenuVisible: false,
 };
 
 export const menuSlice = createSlice({
@@ -21,6 +22,7 @@ export const menuSlice = createSlice({
       state.isSearchBarVisible = false;
       state.isSubVisible = false;
       state.isCatgMenuVisible = false;
+      state.isCatgSubMenuVisible = false;
     },
     toggleNotiMenu(state){
       state.isNotiMenuVisible = !state.isNotiMenuVisible
@@ -28,6 +30,7 @@ export const menuSlice = createSlice({
       state.isSearchBarVisible = false;
       state.isSubVisible = false;
       state.isCatgMenuVisible = false;
+      state.isCatgSubMenuVisible = false;
     },
     toggleSearchBar(state){
       state.isSearchBarVisible = !state.isSearchBarVisible
@@ -35,6 +38,7 @@ export const menuSlice = createSlice({
       state.isUserMenuVisible = false;
       state.isSubVisible = false;
       state.isCatgMenuVisible = false;
+      state.isCatgSubMenuVisible = false;
     },
     toggleSubNav(state){
       state.isSubVisible = !state.isSubVisible
@@ -42,13 +46,22 @@ export const menuSlice = createSlice({
       state.isSearchBarVisible = false;
       state.isUserMenuVisible = false;
       state.isCatgMenuVisible = false;
+      state.isCatgSubMenuVisible = false;
     },
     toggleCategories(state){
       state.isCatgMenuVisible = !state.isCatgMenuVisible
+      state.isCatgSubMenuVisible = false;
       state.isNotiMenuVisible = false;
       state.isSearchBarVisible = false;
       state.isUserMenuVisible = false;
       state.isSubVisible = false;
+    },
+    toggleSubCategories(state){
+      state.isCatgSubMenuVisible = !state.isCatgSubMenuVisible;
+      state.isCatgMenuVisible = false;
+      state.isNotiMenuVisible = false;
+      state.isSearchBarVisible = false;
+      state.isUserMenuVisible = false;
     },
     closeAllMenus(state){
       state.isSubVisible = false
@@ -56,6 +69,7 @@ export const menuSlice = createSlice({
       state.isSearchBarVisible = false;
       state.isUserMenuVisible = false;
       state.isCatgMenuVisible = false;
+      state.isCatgSubMenuVisible = false;
     }
   }
 })
