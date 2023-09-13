@@ -22,7 +22,7 @@ function PaginatedItems({ filteredServices }) {
 
   return (
     <>
-      <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="w-full grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
         {currentItems.map((item, index) => (
           <ServicesItem key={index} item={item} />
         ))}

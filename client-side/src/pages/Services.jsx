@@ -76,9 +76,11 @@ const Services = () => {
   return (
     <div className="bg-primary">
       <div className="w-full flex flex-col md:flex-row relative ">
+        <div className="md:max-w-[250px] lg:max-w-[300px]">
         <Filter />
+        </div>
         {/* Render your services using the filtered services */}
-        <div className="py-12 mt-11 px-2  md:px-12">
+        <div className="py-12 mt-11 px-2  md:px-7 lg:px-6">
         {filteredServices && filteredServices?.length !== 0 && (
           <PaginatedItems filteredServices={filteredServices} />
         )}

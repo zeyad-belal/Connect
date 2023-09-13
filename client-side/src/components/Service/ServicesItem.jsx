@@ -46,7 +46,7 @@ const ServicesItem = ({ item }) => {
             </div>
           
             <div className=" mt-1 flex flex-col justify-start">
-                <h3 className="text-text1 lg:text-md text-sm my-2 text-left hover:text-secHover font-semibold self-start ">
+                <h3 className="text-text1 lg:text-md text-xs md:text-sm my-2 text-left hover:text-secHover font-semibold self-start ">
                   {item.name}
                 </h3>
               <div className="flex flex-col ">
