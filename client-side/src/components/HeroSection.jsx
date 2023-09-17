@@ -33,7 +33,7 @@ function HeroSection() {
     <div
       className=" bg-cover bg-center min-h-screen min-w-full  mt-[-58px] flex flex-col justify-center items-center  "
       style={{
-        backgroundImage: `url(/public/main.png)`,
+        backgroundImage: `url(./main.png)`,
         
       }} >
       <div className="z-10 flex flex-col items-center text-center ">
