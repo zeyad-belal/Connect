@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PiShoppingBagFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { menuActions } from "../../store/menuSlice";
+import { toast } from "react-toastify";
 
 function SubNav(props) {
   const dispatch = useDispatch();
@@ -41,6 +42,27 @@ function SubNav(props) {
     navigate(`/services?keyword=${searchText}`);
     searchBar.current.value = "";
   };
+
+
+  function navTo(destination){
+    if(window.localStorage.getItem("logged")){
+      dispatch(menuActions.closeAllMenus());
+      navigate(destination);
+    }else{
+      toast.info("please sign in first !", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  }
+
+
 
   function navToChoosenCatg(catg){
     dispatch(menuActions.closeAllMenus())
@@ -76,12 +98,11 @@ function SubNav(props) {
                 />
             </li>
 
-            <Link to={"/addService"}
-              onClick={() => dispatch(menuActions.closeAllMenus())} >
+            <div  onClick={() => navTo("/addService")} >
               <li className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <MdAdd /> Add Service
               </li>
-            </Link>
+            </div>
 
             <Link to={"/cart"}
               onClick={() => dispatch(menuActions.closeAllMenus())} >
@@ -90,15 +111,13 @@ function SubNav(props) {
               </li>
             </Link>
 
-            <Link to={"/incomingOrders"}
-              onClick={() => dispatch(menuActions.closeAllMenus())} >
+            <div onClick={() => navTo("/incomingOrders")} >
               <li
-                className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2"
-                onClick={() => navigate("/orders")} >
+                className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 {" "}
                 <BiSolidTruck size={22} /> Incoming Orders
               </li>
-            </Link>
+            </div>
 
             {/* ----------catgories-------- */}
             <li 
@@ -137,13 +156,12 @@ function SubNav(props) {
               </ul> )}
               </Transition>
 
-            <Link to={"/purchases"}
-              onClick={() => dispatch(menuActions.closeAllMenus())} > 
+            <div onClick={() => navTo("/purchases")} > 
               <li
                 className="hover:bg-primary cursor-pointer text-md md:text-lg py-3 pl-4 flex justify-start items-center gap-2">
                 <PiShoppingBagFill size={22} /> Purchases
               </li>
-            </Link>
+            </div>
           </ul>
         )}
       </Transition>

@@ -4,7 +4,7 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
@@ -22,7 +22,7 @@ import Purchases from "./pages/Purchases.jsx";
 import AddService from "./pages/AddService.jsx";
 import Seller from "./pages/Seller.jsx";
 import IncomingOrders from "./pages/IncomingOrders.jsx";
-
+import "./App.css"
 
 let firstRender =true;
 
@@ -62,7 +62,7 @@ function App() {
 
 
   return (
-    <>
+    <div className="app">
       {/* sign in Modals */}
       {signModal.modalIsShown && signModal.loginModalStatus && <Login />}
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
@@ -85,7 +85,7 @@ function App() {
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -55,8 +55,8 @@ const Footer = () => {
     <>
       <footer className="bg-white">
         <header className=" flex flex-col justify-center pb-5 pt-12 mx-2 gap-5 ">
-          <h1 className="text-center text-text1 font-bold ">
-            BE THE FIRST TO KNOW
+          <h1 className="text-center text-red-500 font-bold ">
+             FOOTER IS NOT DONE YET
           </h1>
 
           <h3 className="text-text1 font-semibold text-center ">
