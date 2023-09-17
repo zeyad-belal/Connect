@@ -20,6 +20,7 @@ import { useDispatch , useSelector } from "react-redux"
 import { signModalActions } from "../../store/signModalSlice.jsx";
 import { menuActions } from "../../store/menuSlice.jsx";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
@@ -45,6 +46,25 @@ const Navbar = (props) => {
     navigate("/");
     window.location.reload();
   }
+
+  function navTo(destination){
+    if(window.localStorage.getItem("logged")){
+      navigate(destination)
+    }else{
+      toast.info("please sign in first !", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  }
+
+
 
   useEffect(() => {
     if (cookies.User) {
@@ -95,7 +115,7 @@ const Navbar = (props) => {
           </Link>
           {/* Add Service */}
           <li className="text-md items-center shrink-0  lg:flex hidden  px-5 py-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
-          onClick={()=>navigate('/addService')} >
+          onClick={()=>navTo('/addService')} >
             <MdAdd /> Add service
           </li>
           {/* Catgories */}
@@ -119,12 +139,12 @@ const Navbar = (props) => {
           </li>
           {/* incoming Orders */}
           <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
-          onClick={()=>navigate('/incomingOrders')}>
+          onClick={()=>navTo('/incomingOrders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
           {/* Purchases */}
           <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
-          onClick={()=>navigate('/purchases')}>
+          onClick={()=>navTo('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
           </li>
         </ul>
