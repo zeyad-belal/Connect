@@ -1,39 +1,56 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
-import { useGlobalContext } from "../context/ServicesContext";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Transition } from "react-transition-group";
+import {useSelector} from "react-redux"
 
 const Searchbar = (props) => {
-  const { services } = useGlobalContext();
+  const [searchText, setSearchText] = useState("");
+  const services = useSelector((state)=> state.services.services);
   const navigate = useNavigate();
   const searchBar = useRef();
 
   const filteredServices = services.filter((service) => {
-    return service.name.toLowerCase().includes(props.searchText.toLowerCase());
+    return service.name.toLowerCase().includes(searchText.toLowerCase());
   });
 
-  const changeHandler = (e) => {
-    props.setSearchText(e.target.value);
-  };
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+
+
+  const changeHandler = debounce((e) => {
+    setSearchText(e.target.value)
+  }, 900);
+  
 
   const navToService = (ID) => {
     navigate(`/services/${ID}`);
-    props.setSearchText("");
+    setSearchText("");
     searchBar.current.value = "";
   };
 
-
   return (
-    <Transition in={props.searchBarIsVisible} 
-    timeout={300}
-    mountOnEnter
-    unmountOnExit >
-      {state => (
-        <div className='absolute z-20 top-[63px] left-0 w-full'
+    <Transition
+      in={props.isSearchBarVisible}
+      timeout={300}
+      mountOnEnter
+      unmountOnExit
+    >
+      {(state) => (
+        <div
+          className="absolute z-20 top-[63px] left-0 w-full"
           style={{
-            transition: 'all 0.3s ease-in-out',
-            transform: state === 'entering' || state === 'entered' ? 'translateY(0)' : 'translateY(-100%)'
+            transition: "all 0.3s ease-in-out",
+            transform:
+              state === "entering" || state === "entered"
+                ? "translateY(0)"
+                : "translateY(-100%)",
           }}
         >
           <div className="flex items-center justify-center ">
@@ -42,21 +59,20 @@ const Searchbar = (props) => {
               ref={searchBar}
               type="text"
               autoFocus
-              className="realtive px-5 py-5 w-full text-text1 bg-white border-2 border-primary rounded-lg shadow-primary   outline-none shadow-md "
+              className="realtive px-5 py-5 w-full text-text1 bg-white border-2 border-primary   outline-none  "
               placeholder="Search..."
             />
           </div>
-          
+
           {/* Filtered services Panel */}
-          {props.searchText.length > 0 && (
+          {searchText.length > 0 && (
             <div className="max-h-44 overflow-y-auto z-50 absolute mt-2 w-full bg-white rounded-lg shadow-lg">
               {filteredServices.length > 0 ? (
                 filteredServices.map((service) => (
                   <div key={service.id} className="px-4 py-2 hover:bg-gray-100">
                     <div
                       onClick={() => navToService(service.id)}
-                      className="text-text1 text-[10px] sm:text-xs cursor-pointer"
-                    >
+                      className="text-text1 text-[10px] sm:text-xs cursor-pointer" >
                       {service.name.slice(0, 90)}
                       {service.name.length > 90 ? "..." : ""}
                     </div>

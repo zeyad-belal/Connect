@@ -47,8 +47,24 @@ const userSchema = new Schema({
       type: Number,
       default: 1,
     },
+    extras:{
+      type: Array
+    } ,
+    time:{
+      type: Array
+    },
+    price:{
+      type: Number
+    }
   }],
   address:{
+    type : String
+  },
+  created_at: {
+    type: Date,
+    default: Date.now()
+  },
+  bio:{
     type : String
   }
 })

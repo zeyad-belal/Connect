@@ -13,9 +13,20 @@ const serviceSchema = new Schema({
     type: Number,
     required: true
   },
-  details: {
-    type: Object,
-    default: {}
+  description:{
+    type : String,
+    required : true
+  },
+  keywords:{
+    type : Array
+  },
+  time:{
+    type : String,
+    required : true
+  },
+  extras: {
+    type: Array,
+    default: []
   },
   images: {
     type: Array
@@ -24,9 +35,9 @@ const serviceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category"
   },
-  best_seller: {
-    type: Boolean,
-    default: false
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
   },
   created_at: {
     type: Date,
@@ -34,19 +45,6 @@ const serviceSchema = new Schema({
   }
 });
 
-serviceSchema.virtual("new_arrival")
-  .get(function () {
-    const oneDay = 1000 * 3600 * 24;
-    const curDate = new Date();
-    const differenceInTime = curDate - this.created_at;
-
-    const differenceInDays = differenceInTime / oneDay;
-    if (differenceInDays <= 30) return true;
-    else return false;
-  })
-  .set(function (v) {
-    return this.set(v);
-  });
 
   serviceSchema.virtual("reviews", {
   ref: "Review",

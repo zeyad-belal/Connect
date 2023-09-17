@@ -4,86 +4,84 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
 import Services from "./pages/Services.jsx";
-import ServicePage from "./pages/Service.jsx";
+import Service from "./pages/Service.jsx";
 import About from "./pages/About.jsx";
-import { useGlobalContext } from "./context/ServicesContext.jsx";
-import CartContext from "./context/CartContext.jsx";
-import { useCookies } from 'react-cookie';
-import { useCartContext } from "./context/CartProvider.jsx";
+import { useCookies } from "react-cookie";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
-import UserContext from "./context/UserContext.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
+import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
+import { fetchServices }  from "./store/servicesSlice.jsx";
+import {useSelector, useDispatch} from "react-redux"
+import Purchases from "./pages/Purchases.jsx";
+import AddService from "./pages/AddService.jsx";
+import Seller from "./pages/Seller.jsx";
+import IncomingOrders from "./pages/IncomingOrders.jsx";
+import "./App.css"
 
+let firstRender =true;
 
 function App() {
-  const [searchText, setSearchText] = useState("");
-  const [cookies, setCookie] = useCookies(['UserToken','User']);
-  const { fetchServices } = useGlobalContext();
-  const myCart = useContext(CartContext)
-  const {fetchCartItems,sendCartItems} = useCartContext()
-  const initialRenderRef = useRef(true);
-  const userCTX = useContext(UserContext);
+  const [cookies, setCookie] = useCookies(["UserToken", "User"]);
 
+  const signModal = useSelector((state)=> state.signModal);
+  const cart = useSelector((state)=> state.cart);
+  const dispatch = useDispatch()
 
-  // FETCHING SERVICES 
+  // FETCHING SERVICES
   useEffect(() => {
-      fetchServices();
-      window.localStorage.setItem('User',JSON.stringify(cookies.User))
-      window.localStorage.setItem('UserToken',cookies.UserToken)
-  }, [] );
+    dispatch(fetchServices());
+    window.localStorage.setItem("User", JSON.stringify(cookies.User));
+    window.localStorage.setItem("UserToken", cookies.UserToken);
+  }, []);
 
-  // UPDATING cart items in backend on change
+  // FETCHING CART ITEMS
   useEffect(() => {
-    async function sendData(){
-      sendCartItems(myCart, cookies.User.id, cookies.UserToken);
-    }
-    // console.log("intial :" , initialRenderRef.current)
-    if (initialRenderRef.current) {
-      initialRenderRef.current = false;
-      return;
-    }
-      if(window.localStorage.getItem('logged')){
-        sendData()
-      }
-    
-  }, [myCart]);
-  
-
-  // getting cart items FROM backend AFTER refresh
-  useEffect(() => {
-    if(window.localStorage.getItem('logged')){  
-      fetchCartItems()
+    if (window.localStorage.getItem("logged")) {
+      cookies.User?
+      dispatch(fetchCartItems(cookies.User.id , cookies.UserToken)) : ''
     }
   }, []);
-  
+
+  // UPDATING CART ITEMS IN THE BACKEND ON CHANGE
+  useEffect(() => {
+    if (firstRender) {
+      firstRender= false;
+      return;
+    }
+    if (window.localStorage.getItem("logged") && cart.changed) {
+      sendCartItems(cart, cookies.User.id, cookies.UserToken);
+    }
+  }, [cart]);
+
 
 
   return (
-    <div className="bg-primary">
+    <div className="app">
       {/* sign in Modals */}
-      {userCTX.modalIsShown && userCTX.loginModalStatus && <Login />}
-      {userCTX.modalIsShown && userCTX.signUpModalStatus && <Signup />}
+      {signModal.modalIsShown && signModal.loginModalStatus && <Login />}
+      {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-      <Navbar 
-        searchText={searchText}
-        setSearchText={setSearchText}
-        />
+        <Navbar />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
-        <Route path="/userInfo" element={<UserInfo />} />
-        <Route path="/services/:id" element={<ServicePage />} />
+        <Route path="/services/:id" element={<Service />} />
+        <Route path="/addService" element={<AddService />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/incomingOrders" element={<IncomingOrders />} />
+        <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />
+        <Route path="/seller/:id" element={<Seller />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
@@ -92,4 +90,3 @@ function App() {
 }
 
 export default App;
-

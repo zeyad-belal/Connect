@@ -3,11 +3,9 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Searchbar from "../Searchbar.jsx";
-import { useContext, useEffect, useReducer, useState } from "react";
-import UserContext from "../../context/UserContext";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import CartContext from "../../context/CartContext";
 import { BsFillBellFill, BsFillCollectionFill, BsSearch } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import SubNav from "./SubNav";
@@ -16,29 +14,29 @@ import { BiSolidTruck } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Backdrop } from "../../UI/Modal";
-import menuReducer, {ActionTypes} from "./menuReducer.js"
 import { AiFillHome } from "react-icons/ai";
 import { PiShoppingBagFill } from "react-icons/pi";
+import { useDispatch , useSelector } from "react-redux"
+import { signModalActions } from "../../store/signModalSlice.jsx";
+import { menuActions } from "../../store/menuSlice.jsx";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
 const Navbar = (props) => {
+  const cart = useSelector((state)=> state.cart);
+  const menu = useSelector((state)=> state.menu);
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
-  const userCTX = useContext(UserContext);
-  const cartCTX = useContext(CartContext);
   const userStatus = window.localStorage.getItem("logged");
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
-
-  const [menuState, dispatch] = useReducer(menuReducer, {
-    subIsVisible: false,
-    isUserMenuVisible: false,
-    isNotiMenuVisible: false,
-    searchBarIsVisible: false,
-  });
+  const [categories, setCategories] = useState([]);
 
 
-  
+
   function signoutHandler() {
     window.localStorage.removeItem("logged");
     removeCookie("UserToken");
@@ -48,7 +46,26 @@ const Navbar = (props) => {
     navigate("/");
     window.location.reload();
   }
-  
+
+  function navTo(destination){
+    if(window.localStorage.getItem("logged")){
+      navigate(destination)
+    }else{
+      toast.info("please sign in first !", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  }
+
+
+
   useEffect(() => {
     if (cookies.User) {
       setCurrUser(cookies.User);
@@ -56,129 +73,183 @@ const Navbar = (props) => {
   }, [cookies.User]);
 
 
+
+  useEffect(()=>{
+    async function getCategories(){
+      const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
+      setCategories(repsonse.data)
+    }
+    getCategories()
+  },[])
+
+
+
   return (
     <>
       <nav
         id="MainNav"
-        className=" relative border-b border-gray-300  top-0  bg-white my-30 h-15 w-full z-50 md:px-5 px-1 flex justify-between " >
+        className=" relative border-b border-gray-300  top-0  bg-white  h-15 w-full z-50 lg:px-5 px-1  flex justify-between "
+      >
         <ul className="flex ">
           {/* subnav icon  */}
-          <li className={menuState.subIsVisible? "mr-3 cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-2 my-2 mx-2 text-text1 bg-primary" :"mr-3 cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-2 my-2 mx-2 text-text1 hover:bg-primary"}
-            onClick={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })}>
-          <FiMenu size={30} />
+          <li
+            className={
+              menu.isSubVisible
+                ? " cursor-pointer text-lg flex lg:hidden items-center rounded-lg  px-5 py-3  text-text1 bg-primary"
+                : " cursor-pointer  lg:hidden text-lg flex items-center rounded-lg  px-5 py-3  text-text1 hover:bg-primary"
+            }
+            onClick={() => dispatch(menuActions.toggleSubNav())} >
+            <FiMenu size={30} />
           </li>
           {/* Logo */}
-          <Link to={"/"} className="md:flex hidden items-baseline py-2 mx-1 h-auto sm:w-56">
-            <li  onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}>
+          <Link
+            to={"/"}
+            className="md:flex hidden items-center py-2 h-auto sm:w-56" >
+            <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <img
-                className="max-w-[200px]"
+                className="max-w-[160px] mb-[-8px] ml-4"
                 src="/assets/logo/main-yellow-and-white.png"
                 alt="Connect"
-                />
+              />
             </li>
           </Link>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
-            <MdAdd /> Add service 
+          {/* Add Service */}
+          <li className="text-md items-center shrink-0  lg:flex hidden  px-5 py-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navTo('/addService')} >
+            <MdAdd /> Add service
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          {/* Catgories */}
+          <li
+            className={menu.isCatgMenuVisible
+              ? "relative hidden lg:flex items-center  px-5 py-3  text-text1 bg-primary cursor-pointer gap-2"
+              : "relative hidden lg:flex items-center  px-5 py-3  text-text1 hover:bg-primary cursor-pointer gap-2"}
+              onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
+            {menu.isCatgMenuVisible && 
+            <div className="bottom-[-225%] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
+              <ul className="flex flex-wrap">
+                {categories.map(category =>{
+                  return <li
+                  onClick={()=>navigate(`/services?category=${category.category_name}`)}
+                  className="border border-gray-100 cursor-pointer text-sm hover:bg-primary rounded-md  px-5 py-6 w-[25%]"
+                  key={category.id}>{category.category_name.toUpperCase()}</li>
+                })}
+              </ul>
+            </div>}
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          {/* incoming Orders */}
+          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navTo('/incomingOrders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
-          <li className="text-md items-center rounded-lg lg:flex hidden  px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
+          {/* Purchases */}
+          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
+          onClick={()=>navTo('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
           </li>
         </ul>
-        
-      {/* ----------------------------------------------------------------------------- */}
+
+        {/* ----------------------------------------------------------------------------- */}
         <ul className="flex ">
           {/* home  */}
-          <Link to={"/"} className="md:hidden flex items-center rounded-full px-3 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2">
-            <li  onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}>
-              <AiFillHome size={20} />
+          <Link
+            to={"/"}
+            className="md:hidden flex items-center rounded-full px-1 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+          >
+            <li onClick={() => dispatch(menuActions.closeAllMenus())}>
+              <AiFillHome size={22} />
             </li>
-        </Link>
+          </Link>
           {/* Searchbar  */}
-          <li className={menuState.searchBarIsVisible ?
-            "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer" :
-            "search flex items-center rounded-full  px-3 my-3 mx-2 text-text1  hover:bg-primary cursor-pointer"} onClick={() => dispatch({ type: ActionTypes.TOGGLE_SEARCH_BAR })}>
+          <li
+            className={
+              menu.isSearchBarVisible
+                ? "search flex items-center px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "search flex items-center px-5 py-3 text-text1  hover:bg-primary cursor-pointer"}
+            onClick={() => dispatch(menuActions.toggleSearchBar())} >
             <BsSearch size={20} />
           </li>
           {/* notifcations  */}
-          <li className={menuState.isNotiMenuVisible ?"flex items-center rounded-full  px-3 my-3 mx-2 text-text1 bg-primary cursor-pointer" :"flex items-center rounded-full  px-3 my-3 mx-2 text-text1 hover:bg-primary cursor-pointer"}
-            onClick={() => dispatch({ type: ActionTypes.TOGGLE_NOTI_MENU })}>
+          <li
+            className={
+              menu.isNotiMenuVisible
+                ? "flex items-center  px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "flex items-center  px-5 py-3 text-text1 hover:bg-primary cursor-pointer" }
+            onClick={() => dispatch(menuActions.toggleNotiMenu())} >
             <BsFillBellFill size={20} />
             {/* -------noti menu------- */}
-            {menuState.isNotiMenuVisible && (
+            {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30  ">
-                        <ul className="flex flex-col  absolute bg-white rounded-br-lg rounded-bl-lg right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
-                          {/* <div className="absolute  before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div> */}
-                            <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                              handle noti here
-                              </li>
-                            <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                              handle noti here
-                              </li>
-                            <li className="flex gap-2 border-b-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                              handle noti here
-                              </li>
-                            
-                          </ul>
+                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
+                    <li className="flex gap-2 rounded-md     border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                      handle noti here
+                    </li>
+                    <li className="flex gap-2 rounded-md   border-t-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                      handle noti here
+                    </li>
+                    <li className="flex gap-2 rounded-md    border-t-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                      handle noti here
+                    </li>
+                  </ul>
                 </div>
               </>
-                )}
+            )}
           </li>
           {/* cart  */}
-            <Link
-              className="text-text1 flex items-center relative hover:bg-primary rounded-full  px-3 my-3 mx-2"
-              to="/cart" >
-                <li className="flex items-center " onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })} >
-                <FaShoppingCart size={20}  />
-                {cartCTX.totalItemsNum > 0 && (
-                  <span className="ml-1 bg-text1 text-white rounded-full px-[7px] py-[1px] text-[14px] absolute right-[-20px] top-[-17px]">
-                    {cartCTX.totalItemsNum}
-                  </span>
-                )}
-                </li>
-            </Link>
+          <Link
+            className="text-text1 flex items-center relative hover:bg-primary px-5 py-3"
+            to="/cart">
+            <li
+              className="flex items-center"
+              onClick={() => dispatch(menuActions.closeAllMenus())}>
+              <FaShoppingCart size={20} />
+              {cart.totalItemsNum > 0 && (
+                <span className="ml-1 bg-text1 text-white rounded-full px-[6px] text-[12px]  absolute right-[-1px] top-[7px]">
+                  {cart.totalItemsNum}
+                </span>
+              )}
+            </li>
+          </Link>
           {/* user  */}
-          <li className="flex items-center py-2 sm:px-6 px-0  text-text1  text-sm:10 " >
+          <li className="flex items-center py-2 sm:px-6 px-1  text-text1  text-sm:10 ">
             {userStatus ? (
-              <div className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full" onClick={() => dispatch({ type: ActionTypes.TOGGLE_USER_MENU })}>
+              <div
+                className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"
+                onClick={() => dispatch(menuActions.toggleUserMenu())} >
                 <div className="w-[45px] h-[45px] rounded-full overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
                     src={CurrUser.avatar}
-                    alt="User Avatar"
-                  />
+                    alt="User Avatar" />
                 </div>
                 {/* --------menu------ */}
-                {menuState.isUserMenuVisible && (
+                {menu.isUserMenuVisible && (
                   <>
                     <div className="relative z-30">
-                      <ul className="flex flex-col gap-3  absolute right-[-10px]   bottom-[-95px] min-w-[150px] bg-white  shadow-md ">
-                        {/* <div className="absolute before:w-0  before:h-0  before:transform before:-rotate-45  before:border-white before:border-8 before:bg-white before:absolute before:top-[-3px] before:right-[-127px]"></div> */}
-                          
-                          <li className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer" 
-                            onClick={()=>navigate('/userInfo')}
-                          > <RxAvatar size={22} /> {CurrUser.first_name} {CurrUser.last_name}</li>
+                      <ul className="flex flex-col gap-1 rounded-br-md rounded-bl-md absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
+                        <li
+                          className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
+                          onClick={() => navigate("/userInfo")}>
+                          {" "}
+                          <RxAvatar size={22} /> {CurrUser.first_name}{" "}
+                          {CurrUser.last_name}
+                        </li>
 
-                          <li
-                            onClick={signoutHandler}
-                            className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer" >
-                            <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
-                          </li>
-                        </ul>
-                      </div>
+                        <li
+                          onClick={signoutHandler}
+                          className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                          <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
+                        </li>
+                      </ul>
+                    </div>
                   </>
                 )}
               </div>
             ) : (
               <button
-                className="hover:text-text1 whitespace-nowrap text-[15px] ml-1"
-                onClick={() => userCTX.toggleModal()} >
+                className="text-text1 transition-all whitespace-nowrap text-[15px] rounded-md font-semibold border-2 hover:text-white hover:bg-text1 border-text1 px-3 py-2"
+                onClick={() => dispatch(signModalActions.toggleModal())} >
                 Sign in
               </button>
             )}
@@ -186,12 +257,29 @@ const Navbar = (props) => {
         </ul>
       </nav>
 
-      <Searchbar {...props} searchBarIsVisible={menuState.searchBarIsVisible} />
+      <Searchbar  isSearchBarVisible={menu.isSearchBarVisible} />
       {/* close overlay  */}
-      {menuState.isNotiMenuVisible || menuState.isUserMenuVisible || menuState.searchBarIsVisible ? <div className=" fixed top-0 left-0 w-full h-screen z-10 bg-opacity-40" onClick={() => dispatch({ type: ActionTypes.CLOSE_ALL_MENUS })}></div>: ''}
-{/* -------------------------------------------------------------------------------------------------------------- */}
-        {menuState.subIsVisible? <Backdrop  toggleModal={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })} /> : ''}
-        <SubNav {...props} subIsVisible={menuState.subIsVisible} toggleSubNav={()=> dispatch({ type: ActionTypes.TOGGLE_SUB_NAV })} />
+      {menu.isNotiMenuVisible ||
+      menu.isUserMenuVisible ||
+      menu.isCatgMenuVisible ||
+      menu.isSearchBarVisible ? (
+        <div
+          className=" fixed top-0 left-0 w-full h-screen z-10 bg-opacity-40"
+          onClick={() => dispatch(menuActions.closeAllMenus())}
+        ></div>
+      ) : ""}
+      {/* -------------------------------------------------------------------------------------------------------------- */}
+      {menu.isSubVisible ? (
+        <Backdrop
+          toggleModal={() => dispatch(menuActions.toggleSubNav())}
+        />
+      ) : (
+        ""
+      )}
+      <SubNav
+        {...props}
+        isSubVisible={menu.isSubVisible}
+      />
     </>
   );
 };

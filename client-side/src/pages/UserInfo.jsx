@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { AiFillCamera } from  "react-icons/ai";
 
 function UserInfo(){
@@ -42,6 +42,7 @@ function UserInfo(){
       formData.append("phone", data.phone);
       formData.append("email", data.email);
       formData.append("address", data.address);
+      formData.append("bio", data.bio);
       formData.append("avatarID", cookies.User.avatarID);
       // get the new avatar data or the old if no deletion happened
       if(!avatarDeleted && data.avatar){
@@ -228,6 +229,23 @@ function UserInfo(){
                 <span className="text-red-500">This field is required</span>
               )}
             </div>
+            {/* --------------bio------------- */}
+            <div className="mb-4">
+              <label htmlFor="bio" className=" mb-2">
+                About:
+              </label>
+              <input
+                id="bio"
+                {...register("bio", { required: true })}
+                defaultValue={`${
+                  cookies.User.bio ? cookies.User.bio : ""
+                }`}
+                className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
+              />
+              {errors.bio && (
+                <span className="text-red-500">This field is required</span>
+              )}
+            </div>
             {/* --------------------------- */}
             <button
               type="submit"
@@ -241,7 +259,6 @@ function UserInfo(){
               
             </button>
       </form>
-      <ToastContainer />
     </div>
   )
 }

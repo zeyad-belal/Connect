@@ -1,54 +1,56 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PayPalScriptProvider,
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import CartContext from "../context/CartContext.jsx";
-import emailjs from 'emailjs-com';
+import emailjs from "emailjs-com";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import {useSelector, useDispatch} from "react-redux"
+import {cartActions} from "../store/cartSlice.jsx"
 
-const ButtonWrapper = ({form , currency, showSpinner }) => {
-  const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-  const CartCTX = useContext(CartContext);
+const ButtonWrapper = ({ form, currency, showSpinner }) => {
+  const cart = useSelector((state)=> state.cart);
+  const dispatch = useDispatch()
+
+  const [{ options, isPending }, Pdispatch] = usePayPalScriptReducer();
   const [amount, setAmount] = useState("");
   const style = { layout: "vertical" };
   const [cookies, setCookies] = useCookies(["User"]);
-  emailjs.init('ieyQAv01RBSvsmGou');
+  emailjs.init("ieyQAv01RBSvsmGou");
 
   useEffect(() => {
-    dispatch({
+    Pdispatch({
       type: "resetOptions",
       value: {
         ...options,
         currency: currency,
       },
     });
-    setAmount(Math.round(CartCTX.totalAmount /30))
+    setAmount(Math.round(cart.totalAmount / 30));
   }, [currency, showSpinner]);
 
   async function sendEmail(data) {
     try {
       await emailjs.sendForm(
-        'service_97xavkg',
-        'template_6bes58a',
+        "service_97xavkg",
+        "template_6bes58a",
         form,
-        'ieyQAv01RBSvsmGou'
+        "ieyQAv01RBSvsmGou"
       );
-      console.log('Email sent successfully');
+      console.log("Email sent successfully");
     } catch (error) {
-      console.error('Failed to send email:', error);
+      console.error("Failed to send email:", error);
     }
   }
-
 
   return (
     <>
       {showSpinner && isPending && <div className="spinner" />}
-      <PayPalButtons 
+      <PayPalButtons
         style={style}
         disabled={false}
         forceReRender={[amount, currency, style]}
@@ -73,32 +75,33 @@ const ButtonWrapper = ({form , currency, showSpinner }) => {
         onApprove={async function (data, actions) {
           await actions.order.capture();
           sendEmail(data);
-          // window.localStorage.setItem("purchasedItems", JSON.stringify(CartCTX.items));
           const reqData = {
-            order: CartCTX.items.map((item) => ({
-              service_id : item.id,
-              quantity : item.amount
-            }))
+            order: cart.items.map((item) => ({
+              service_id: item.id,
+              quantity: item.amount,
+            })),
           };
-          const response2 = await axios.post(`${import.meta.env.VITE_API_URL}orders`,
-          reqData,
-          { headers: { Authorization: `${cookies.UserToken}` } }
-          )
-          CartCTX.clearCart();
-          // window.localStorage.setItem("cartItems", "");
-          window.localStorage.setItem("totalAmount", "")
-            .then((result_2) => {
+          const response2 = await axios.post(
+            `${import.meta.env.VITE_API_URL}orders`,
+            reqData,
+            { headers: { Authorization: `${cookies.UserToken}` } }
+          );
+          dispatch(cartActions.clear());
+          window.localStorage.setItem("cart.totalAmount", "").then(
+            (result_2) => {
               console.log(result_2.text);
-            }, (error) => {
+            },
+            (error) => {
               console.log(error.text);
-            });
+            }
+          );
         }}
       />
     </>
   );
 };
 
-export default function PayPal({form}) {
+export default function PayPal({ form }) {
   const currency = "USD";
 
   return (

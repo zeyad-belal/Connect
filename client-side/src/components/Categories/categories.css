@@ -1,0 +1,17 @@
+/* categories.css */
+@keyframes up {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-7px);
+  }
+}
+
+.animate-up {
+  transition: transform 0.3s; /* Add a smooth transition */
+}
+
+.animate-up:hover {
+  animation: up 0.3s linear forwards; /* Apply the animation on hover and maintain final state */
+}

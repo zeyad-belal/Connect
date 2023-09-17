@@ -7,7 +7,7 @@
     @apply border border-gray-300 rounded-md px-3 w-full py-1  focus:outline-none focus:ring-1 focus:ring-text1 text-text1;
   }
   .primaryBtn {
-    @apply  bg-secondary text-text1 font-medium px-4 py-4 border-2 border-transparent hover:border-text1 hover:border-2 hover:border-solid focus:outline-none ;
+    @apply  bg-secondary text-white font-medium px-4 py-4 border-2 border-transparent transition-all hover:border-secHover hover:border-2 hover:border-solid hover:bg-transparent hover:text-secondary focus:outline-none ;
   }
 }
 
@@ -17,7 +17,7 @@
   }
 
   .tab.active {
-    @apply font-semibold border-b-2 border-orange-500 text-orange-500;
+    @apply font-semibold border-b-2 border-secHover text-secHover;
   }
 
   .panel {

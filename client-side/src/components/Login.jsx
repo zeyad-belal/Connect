@@ -6,18 +6,17 @@ import Modal from "../UI/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
-import UserContext from "../context/UserContext";
-import { useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch} from "react-redux"
+import { signModalActions } from "./../store/signModalSlice"
+
 
 function Login() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
-  const userCTX = useContext(UserContext);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const dispatch = useDispatch()
+
+
 
   async function onSubmit(data) {
     const { email, password } = data;
@@ -31,17 +30,18 @@ function Login() {
       setCookie("UserToken", response.data.token);
       setCookie("User", JSON.stringify(response.data.user));
       window.localStorage.setItem("logged", true);
-      toast(`Welcome back ${response.data.user?.["first_name"] || ""}!`, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-      userCTX.toggleModal();
+      dispatch(signModalActions.toggleModal())
+      window.location.reload();
+      // toast(`Welcome back ${response.data.user?.["first_name"] || ""}!`, {
+      //   position: "top-right",
+      //   autoClose: 1500,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      // });
     } catch (error) {
       // console.error(error);
       error.response
@@ -53,7 +53,7 @@ function Login() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light"
+            theme: "light",
           })
         : "";
     }
@@ -61,28 +61,24 @@ function Login() {
 
   return (
     <>
-      <Modal toggleModal={userCTX.toggleModal}>
+      <Modal toggleModal={()=> dispatch(signModalActions.toggleModal())}>
         <h1 className="mx-auto w-fit text-2xl font-bold mb-4">Welcome back!</h1>
         <h1 className="mx-auto w-fit  text-sm mb-4">Sign in to your account</h1>
         <p className="mx-auto w-fit  text-sm mb-4">
           Don't have an account?{" "}
-          <a
-            onClick={userCTX.toggleModalContent}
-            className="text-secondary cursor-pointer"
-          >
+          <a onClick={()=> dispatch(signModalActions.toggleModalContent())}
+            className="text-secondary cursor-pointer" >
             Sign Up
           </a>
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg "
-        >
+          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg " >
           {/* -------------------------------email------------------------------------------------ */}
           <div className="w-full mb-2">
             <label
               htmlFor="email"
-              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
-            >
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm" >
               Email
             </label>
             <input
@@ -90,12 +86,11 @@ function Login() {
                 required: true,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address"
-                }
+                  message: "Invalid email address",
+                },
               })}
               aria-invalid={errors.email ? "true" : "false"}
-              className="input mb-0"
-            />
+              className="input mb-0" />
           </div>
           {errors.email?.type === "required" && (
             <p className="text-red-500 mb-3 text-sm" role="alert">
@@ -111,20 +106,18 @@ function Login() {
           <div className="w-full mb-2">
             <label
               htmlFor="password"
-              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm"
-            >
+              className="block text-gray-700 font-semibold mb-2 mt-3  text-sm" >
               Password
             </label>
             <input
               {...register("password", {
                 required: true,
                 minLength: 6,
-                maxLength: 20
+                maxLength: 20,
               })}
               type="password"
               aria-invalid={errors.password ? "true" : "false"}
-              className="input mb-0"
-            />
+              className="input mb-0" />
           </div>
           {errors.password?.type === "required" && (
             <p className="text-red-500 mb-3 text-sm" role="alert">
@@ -141,15 +134,15 @@ function Login() {
               password must be less than 20 chars
             </p>
           )}
-            <input type="submit" value={"Login"} className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
-          </form>
-        </Modal>
-        <ToastContainer />
-      </>
-    );
-  }
-
-
-
+          <input
+            type="submit"
+            value={"Login"}
+            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
+        </form>
+      </Modal>
+      <ToastContainer />
+    </>
+  );
+}
 
 export default Login;

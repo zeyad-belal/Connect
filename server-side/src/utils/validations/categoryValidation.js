@@ -3,14 +3,12 @@ const AppError = require("../AppError");
 
 const createCategoryValidationSchema = Joi.object({
   category_name: Joi.string().required(),
-  image: Joi.object(),
-  description: Joi.string().min(15),
+  image: Joi.object()
 });
 
 const updateCategoryValidationSchema = Joi.object({
   category_name: Joi.string(),
-  image: Joi.object(),
-  description: Joi.string().min(15),
+  image: Joi.object()
 });
 
 const createCategoryValidation = (req, res, next) => {

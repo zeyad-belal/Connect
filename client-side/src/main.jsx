@@ -3,19 +3,15 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import CartProvider from "./context/CartProvider";
-import UserProvider from "./context/UserProvider";
-import { ServiceProvider } from "./context/ServicesContext";
+import {Provider} from  "react-redux";
+import store from "./store/store";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ServiceProvider>
-    <BrowserRouter>
-      <UserProvider>
-        <CartProvider>
+  <BrowserRouter>
+      <Provider store={store}>
           <ToastContainer />
           <App />
-        </CartProvider>
-      </UserProvider>
-    </BrowserRouter>
-  </ServiceProvider>
+      </Provider>
+  </BrowserRouter>
 );

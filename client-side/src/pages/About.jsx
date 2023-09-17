@@ -5,7 +5,7 @@ const About = () => {
       <h1 className="text-3xl font-bold mb-4 text-secondary">About Connect?</h1>
       <div className="text-start">
       <p className="text-md mb-4 max-w-[800px] mx-auto text-gray-600">
-      Connect is an online electronics store that offers a wide range of high-quality electronics . We aim to provide our customers with the latest gadgets, appliances, and accessories from top brands at affordable prices.
+      Connect is an online electronics store that offers a wide range of high-quality electronics . We aim to provide our customers with the latest gadgets, appliances, and accessories from top services at affordable prices.
       </p>
       <p className="text-md mb-4 max-w-[800px] mx-auto text-gray-600">
         Our team at Connect is passionate about technology and constantly strives to bring the best  to our customers. We carefully curate our  selection to ensure that we offer reliable and innovative devices that enhance your lifestyle.
