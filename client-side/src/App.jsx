@@ -23,6 +23,7 @@ import AddService from "./pages/AddService.jsx";
 import Seller from "./pages/Seller.jsx";
 import IncomingOrders from "./pages/IncomingOrders.jsx";
 import "./App.css"
+import { menuActions } from "./store/menuSlice.jsx";
 
 let firstRender =true;
 
@@ -31,8 +32,8 @@ function App() {
 
   const signModal = useSelector((state)=> state.signModal);
   const cart = useSelector((state)=> state.cart);
+  const menu = useSelector((state)=> state.menu);
   const dispatch = useDispatch()
-
   // FETCHING SERVICES
   useEffect(() => {
     dispatch(fetchServices());
@@ -63,6 +64,14 @@ function App() {
 
   return (
     <div className="app">
+      {menu.isSubVisible ? (
+        <div
+        className="bg-black opacity-30 min-w-full min-h-full fixed z-[9] top-0 left-0"
+          onClick={() => dispatch(menuActions.toggleSubNav())}
+        >ssssssssssssssssssssssssssssssssssssssssssssssssssss</div>
+      ) : (
+        ""
+      )}
       {/* sign in Modals */}
       {signModal.modalIsShown && signModal.loginModalStatus && <Login />}
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}

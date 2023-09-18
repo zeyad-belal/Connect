@@ -70,7 +70,7 @@ function SubNav(props) {
   }
 
   return (
-    <>
+    <div className="fixed">
       <Transition
         in={menu.isSubVisible}
         timeout={300}
@@ -82,7 +82,7 @@ function SubNav(props) {
               transition: "all 0.3s ease-in-out",
               transform: state === "entering" || state === "entered" ? "translateX(0)": "translateX(-100%)",
             }}
-            className="py-3  bg-white w-[200px] md:w-[240px] h-screen  absolute text-text1 z-[51] shadow-md">
+            className="py-3  bg-white w-[200px] md:w-[240px] h-[95vh] top-[58px]  absolute text-text1 z-[51] shadow-md">
               {/* ---------searchbar------  */}
             <li className="relative  mb-5 flex">
               <input
@@ -165,7 +165,7 @@ function SubNav(props) {
           </ul>
         )}
       </Transition>
-    </>
+    </div>
   );
 }
 

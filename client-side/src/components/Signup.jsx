@@ -102,8 +102,7 @@ function Signup() {
             <div className="w-full mb-0">
               <label
                 htmlFor="email"
-                className="block text-gray-700 font-semibold mb-1 mt-3  text-sm"
-              >
+                className="block text-gray-700 font-semibold mb-1 mt-3  text-sm" >
                 Email
               </label>
               <input
