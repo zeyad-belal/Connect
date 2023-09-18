@@ -11,7 +11,7 @@ const ServicePanels = ({ service ,setExtrasCost,setExtrasTime ,setExtrasChosen }
 
   return (
     <>
-      <section className="p-5 ">
+      <section className="lg:p-5 p-2 ">
         <div className="tabs flex justify-start">
           <button
             className={`tab ${checkActive(1, "active")}`}

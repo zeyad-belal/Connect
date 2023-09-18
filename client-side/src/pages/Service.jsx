@@ -162,7 +162,7 @@ const Service = () => {
                 <div className="flex items-center gap-12  bg-white p-4 lg:w-[65%]">
                     <div className="max-w-full flex flex-col items-center p-2">
                       <ServiceImageCarousel  serviceImages={service.images} />
-                      <p className="text-sm text-text1 lg:tracking-2xl my-8 px-7" >{service.description}</p>
+                      <p className="text-sm text-text1 lg:tracking-2xl my-8 px-1 md:px-7" >{service.description}</p>
                     </div>
                 </div>
                 {/* SERVICES DETAILS  */}

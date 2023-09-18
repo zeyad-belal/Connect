@@ -3,14 +3,15 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Transition } from "react-transition-group";
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
+import { menuActions } from "../store/menuSlice";
 
 const Searchbar = (props) => {
   const [searchText, setSearchText] = useState("");
   const services = useSelector((state)=> state.services.services);
   const navigate = useNavigate();
   const searchBar = useRef();
-
+  const dispatch = useDispatch()
   const filteredServices = services.filter((service) => {
     return service.name.toLowerCase().includes(searchText.toLowerCase());
   });
@@ -30,6 +31,7 @@ const Searchbar = (props) => {
   
 
   const navToService = (ID) => {
+    dispatch(menuActions.closeAllMenus())
     navigate(`/services/${ID}`);
     setSearchText("");
     searchBar.current.value = "";

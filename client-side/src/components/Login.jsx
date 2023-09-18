@@ -73,7 +73,7 @@ function Login() {
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-start min-w-[300px] w-[400px] mx-auto py-3 px-10 bg-white rounded-lg " >
+          className="flex flex-col items-start min-w-[300px] w-[400px] max-w-full mx-auto py-3 px-10 bg-white rounded-lg " >
           {/* -------------------------------email------------------------------------------------ */}
           <div className="w-full mb-2">
             <label

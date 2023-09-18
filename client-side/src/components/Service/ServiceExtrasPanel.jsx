@@ -36,7 +36,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
       <div className={`panel ${checkActive(1, "active")}`}>
         
       {service.extras.map((extra) => (
-          <div key={extra[0]} className="border-b py-3 ">
+          <div key={extra[0]} className="border-b py-3 m-w-full ">
             <label htmlFor={`extra${extra[0]}`} className="text-text1 flex gap-1 cursor-pointer">
               <input
                 type="checkbox"

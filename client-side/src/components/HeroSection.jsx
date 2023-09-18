@@ -47,7 +47,7 @@ function HeroSection() {
             type="text"
             ref={searchBar}  
             onChange={changeHandler}
-            className="rounded-md w-[350px] sm:w-[450px] md:w-[600px] lg:w-[700px] py-6  pl-18 mb-0  pl-2 pr-12 focus:outline-none focus:ring-2 focus:ring-secHover"
+            className="rounded-md w-[340px] sm:w-[450px] md:w-[600px] lg:w-[700px] py-6  pl-18 mb-0  pl-2 pr-12 focus:outline-none focus:ring-2 focus:ring-secHover"
             placeholder="Try : logo desgin or web .."
             />
           <button

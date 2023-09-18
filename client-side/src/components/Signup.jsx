@@ -96,7 +96,7 @@ function Signup() {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className=" flex flex-col items-center min-w-[380px]  mx-auto py-2 px-7 bg-white rounded-lg "
+            className=" flex flex-col items-center min-w-[310px]   mx-auto py-2 md:px-7 px-4 bg-white rounded-lg max-w-full"
           >
             {/* -------------------------------email------------------------------------------------ */}
             <div className="w-full mb-0">

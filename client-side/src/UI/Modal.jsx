@@ -13,7 +13,7 @@ export function Backdrop(props) {
 
 function ModalOverlay(props) {
   return (
-    <div className="fixed z-[51] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white mx-1 py-5 rounded-lg shadow-md animate-slide-down">
+    <div className="fixed z-[51] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white mx-1 py-5 rounded-lg shadow-md animate-slide-down max-w-[90%]">
       {props.children}
     </div>
   );
