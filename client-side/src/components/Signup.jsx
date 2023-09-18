@@ -79,7 +79,7 @@ function Signup() {
   return (
     <>
       <Modal toggleModal={()=>dispatch(signModalActions.toggleModal())}>
-        <div className="max-h-[420px] ">
+        <div className="max-h-[500px] ">
           <h1 className="mx-auto w-fit text-2xl font-bold mb-3">
             Create an account
           </h1>
@@ -96,7 +96,7 @@ function Signup() {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className=" flex flex-col items-center min-w-[310px]   mx-auto py-2 md:px-7 px-4 bg-white rounded-lg max-w-full"
+            className=" flex flex-col items-center min-w-[300px] w-[400px] max-w-full   mx-auto py-2 px-7 bg-white rounded-lg "
           >
             {/* -------------------------------email------------------------------------------------ */}
             <div className="w-full mb-0">
