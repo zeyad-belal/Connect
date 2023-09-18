@@ -79,7 +79,7 @@ function Signup() {
   return (
     <>
       <Modal toggleModal={()=>dispatch(signModalActions.toggleModal())}>
-        <div className="max-h-[500px] ">
+        <div className="max-h-[420px] ">
           <h1 className="mx-auto w-fit text-2xl font-bold mb-3">
             Create an account
           </h1>
