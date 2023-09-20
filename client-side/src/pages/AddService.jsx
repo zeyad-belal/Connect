@@ -146,8 +146,9 @@ function AddService() {
       setImagesURLS((prevValues) => [...prevValues, ...URLs]); 
   };
 
-  function handleImageDeletion(index) {
+  function handleImageDeletion(e,index) {
     // Remove the image from selectedImages array
+    console.log(index)
     setSelectedImages((prevImages) => {
       const newImages = [...prevImages];
       newImages.splice(index, 1); // Remove 1 element at the specified index
@@ -383,10 +384,10 @@ function AddService() {
                   />
                 {/* images display */}
                 <div className="flex flex-wrap items-center gap-1">
-                  {imagesURLS.map((imageURL, index) => (
+                  {imagesURLS && imagesURLS.map((imageURL, index) => (
                     <div key={index} className="max-w-[200px] w-full max-h-[110px] overflow-clip relative ">
                         <span className="absolute text-white z-10 mt-1 ml-1 cursor-pointer"
-                        onClick={(e,index)=> handleImageDeletion(e,index)}
+                        onClick={(e)=> handleImageDeletion(e,index)}
                         >  <AiOutlineCloseCircle /> </span>
                         <span className="bg-black opacity-40 absolute w-full h-full"></span>
                         <img className=" " src={imageURL} alt="service image" />
