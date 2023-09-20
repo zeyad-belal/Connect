@@ -31,7 +31,7 @@ function HeroSection() {
 
   return (
     <div
-      className=" bg-cover bg-center min-h-screen min-w-full  mt-[-58px] flex flex-col justify-center items-center  "
+      className=" bg-cover bg-center min-h-screen min-w-full   flex flex-col justify-center items-center  "
       style={{
         backgroundImage: `url(./main.png)`,
         
