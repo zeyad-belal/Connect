@@ -54,10 +54,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-white">
-        <header className=" flex flex-col justify-center pb-5 pt-12 mx-2 gap-5 ">
-          <h1 className="text-center text-red-500 font-bold ">
-             FOOTER IS NOT DONE YET
-          </h1>
+        <header className=" flex flex-col justify-center pb-5 pt-7 mx-2 gap-5 ">
 
           <h3 className="text-text1 font-semibold text-center ">
             Subscribe To Get The Latest Services Available
@@ -94,42 +91,13 @@ const Footer = () => {
               <span className="ml-2">Kindly check your email !</span>
             </div>
           )}
-          <img
-            className="flex items-center w-36 my-6 mx-auto"
-            src="/assets/logo/main-gray.png"
-            alt="Connect"
-          />
+
         </header>
-        <section className="grid grid-cols-2 pb-5 border-b gap-7 border-[#3d3d38]   mx-12">
-          <div className="col-span-1 md:col-span-1 flex flex-col items-center ">
-            <h2 className="text-text1 font-serif font-semibold">
-              CONNECT WITH US
-            </h2>
-            <Link to={"/about"}>
-              <p className="text-text1  hover:text-text1  text-sm">
-                About company
-              </p>
-            </Link>
 
-            <p className="text-text1  text-sm">call us: 442266</p>
-          </div>
-          <div className="col-span-1 md:col-span-1 flex flex-col items-center ">
-            <h2 className="text-text1 font-serif font-semibold">
-              ARITHMETIC
-            </h2>
-
-            <p className="text-text1 text-sm mb-1">my personal account</p>
-
-            <p className="text-text1  text-sm mb-1">Order history</p>
-
-            <p className="text-text1  text-sm mb-1">Track your order</p>
-          </div>
+        <section className="flex justify-around py-5 gap-7  px-12 mx-10">
 
 
-        </section>
-        <section className="grid grid-cols-4 py-5 gap-7  px-12 mx-10">
-          <div className="col-span-4 md:col-span-1">
-            <div className="flex gap-x-1 mr-1">
+            <div className="flex items-center gap-x-1 mr-1">
               <a
                 href="https://www.facebook.com/"
                 className="bg-[#33332f] hover:bg-[#4267B2] p-2 rounded-full"
@@ -155,27 +123,15 @@ const Footer = () => {
                 <FaInstagram size={20} color="white" />
               </a>
             </div>
-          </div>
-          <div className="col-span-4 md:col-span-1">
-            <p className=" text-[#A8A8A8]">Main Features</p>
-          </div>
-          <div className="col-span-4 md:col-span-1">
-            <p className=" text-[#A8A8A8]">Super Fast Shipping</p>
-            <br />
-            <p className=" text-text1">
-              Return and exchange service ”T & C applied”
-            </p>
-          </div>
-          <div className="col-span-4 md:col-span-1">
-            <p className=" text-[#A8A8A8]">Maintenance Center to help you</p>
-            <br />
-            <p className=" text-[#A8A8A8]">
-              More than 50 Stores at your service anywhere
-            </p>
-            <br />
-            <p className=" text-[#A8A8A8]">Buy Online or Pickup in Store </p>
-          </div>
+
+
         </section>
+
+
+
+
+
+
         <section className="grid grid-cols-3 py-3 px-5 bg-[#0c0c0c]">
         <div className="col-span-2 md:col-span-2 ">
             <p className="text-white">
