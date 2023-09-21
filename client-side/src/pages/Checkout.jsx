@@ -129,7 +129,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="lg:mx-12 md:mx-6 mx-3  mt-[65px] pt-4 flex flex-col items-center">
+    <div className="bg-primary lg:mx-12 md:mx-6 mx-3  mt-[65px] pt-4 flex flex-col items-center">
 
       <div className=" rounded-lg my-2 bg-primary p-3 w-fit">
         The Total of Your Order is:{" "}
@@ -144,7 +144,7 @@ const Checkout = () => {
           <form
             ref={form}
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-5 mx-3 px-3  min-w-[340px]" >
+            className=" mt-5 mx-3 px-3  min-w-[340px]" >
             <div className="mb-4">
               <label htmlFor="name" className="block mb-2">
                 Name:

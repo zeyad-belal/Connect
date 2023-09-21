@@ -9,8 +9,7 @@ import axios from "axios";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import { cartActions } from "./../store/cartSlice"
-import { BiHappyAlt } from "react-icons/bi";
-import { FaRegSadTear } from "react-icons/fa";
+
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -90,8 +89,7 @@ useEffect(()=>{
                   item={item}
                   key={item.id}
                   onAdd={() => addItemHandler(item)}
-                  onRemove={() => removeItemHandler(item.id)}
-                />
+                  onRemove={() => removeItemHandler(item.id)} />
               ))}
           </section>
               {(!cart || cart.items.length < 1)  && LoadingState }

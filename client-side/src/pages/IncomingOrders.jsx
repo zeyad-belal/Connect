@@ -6,8 +6,7 @@ import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import { Link } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
 import { BsChatFill } from "react-icons/bs";
-import { BiHappyAlt } from "react-icons/bi";
-import { FaRegSadTear } from "react-icons/fa";
+
 
 
 function IncomingOrders() {
