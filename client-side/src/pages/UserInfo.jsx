@@ -234,7 +234,7 @@ function UserInfo(){
               <label htmlFor="bio" className=" mb-2">
                 About:
               </label>
-              <input
+              <textarea
                 id="bio"
                 {...register("bio", { required: true })}
                 defaultValue={`${

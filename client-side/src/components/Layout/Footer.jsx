@@ -54,7 +54,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-white">
-        <header className=" flex flex-col justify-center pb-5 pt-7 mx-2 gap-5 ">
+        <header className=" flex flex-col justify-center pb-2 pt-5 mx-2 gap-5 ">
 
           <h3 className="text-text1 font-semibold text-center ">
             Subscribe To Get The Latest Services Available
@@ -94,10 +94,8 @@ const Footer = () => {
 
         </header>
 
-        <section className="flex justify-around py-5 gap-7  px-12 mx-10">
 
-
-            <div className="flex items-center gap-x-1 mr-1">
+            <div className="flex justify-center my-3 items-center gap-x-1 mr-1">
               <a
                 href="https://www.facebook.com/"
                 className="bg-[#33332f] hover:bg-[#4267B2] p-2 rounded-full"
@@ -125,22 +123,16 @@ const Footer = () => {
             </div>
 
 
-        </section>
 
-
-
-
-
-
-        <section className="grid grid-cols-3 py-3 px-5 bg-[#0c0c0c]">
-        <div className="col-span-2 md:col-span-2 ">
+        <section className="flex justify-between py-3 px-5 bg-[#0c0c0c]">
+        <div className="">
             <p className="text-white">
               Developed by <span className="text-secondary text-sm"> zeyad belal </span>|
               Contact : <a href="mailto:zeyadbelal00@gmail.com" className="text-secondary hover:text-secHover text-sm">
                 zeyadbelal00@gmail.com</a> 
             </p>
           </div>
-          <div className="col-span-1 md:col-span-1 mx-12 gap-3 ">
+          <div className=" mx-12 gap-3 ">
             <div className="flex gap-x-1 ">
               <a href="https://eg.visamiddleeast.com/en_EG">
                 <FaCcVisa size={25} color="gray" />

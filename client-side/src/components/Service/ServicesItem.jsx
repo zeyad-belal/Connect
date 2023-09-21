@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import {RatingBadge} from "../Badges";
+import LoadingItemCard from "../../UI/LoadingItemCard";
 
 
 const ServicesItem = ({ item }) => {
@@ -20,12 +21,12 @@ const ServicesItem = ({ item }) => {
     navigate(`/services/${item.id}`)
   }
   
-
+console.log(item)
 
   return (
     <>
       <div className="py-1 m-2 transition-shadow duration-300 min-h-[325px] cursor-pointer ">
-        <div className="flex flex-col justify-between ">
+        {item ? <div className="flex flex-col justify-between ">
             <div className='relative' 
               onClick={(e)=> handleServiceNavigate(e)} id="service" >
               <img
@@ -57,6 +58,9 @@ const ServicesItem = ({ item }) => {
                 </div>
             </div>
         </div>
+        :
+        <LoadingItemCard />
+        }
       </div>
     </>
   );

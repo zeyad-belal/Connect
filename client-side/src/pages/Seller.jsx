@@ -164,7 +164,7 @@ export default function Seller() {
         </div>
 
         {/* -------------------------------- services ---------------------------------- */}
-        <div className='flex gap-3 bg-white flex-wrap justify-around px-3 sm:px-5 md:px-5  py-8 mx-12 my-3'>
+        <div className='flex gap-1 bg-white flex-wrap justify-around px-3 sm:px-5 md:px-1  py-8 mx-12 my-3'>
           {services && services.map((service, index)=>{
             return(
               <div key={index} className='w-100% sm:w-[47%] md:w-[30%] lg:w-[20%] '>

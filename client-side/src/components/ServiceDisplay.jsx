@@ -5,6 +5,7 @@ import ServicesItem from "./Service/ServicesItem";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import LoadingItemCard from "../UI/LoadingItemCard";
 
 function CategoryDisplay(props) {
   const [filteredServices, setFilteredServices] = useState('')
@@ -43,13 +44,21 @@ function CategoryDisplay(props) {
           show all</button>
       </div>
       <div className="gap-4 flex flex-col justify-around sm:flex-row flex-wrap">
-        {filteredServices.length > 0 && filteredServices.map((item) => {
+        {filteredServices.length > 0 ? filteredServices.map((item) => {
           return (
             <div key={item.id} className="w-100 sm:w-1/3 md:w-1/5 grow">
               <ServicesItem item={item} />
             </div>
           );
-        })}
+        })
+        :
+        <div className="flex w-full justify-between gap-12">
+          <LoadingItemCard />
+          <LoadingItemCard />
+          <LoadingItemCard />
+          <LoadingItemCard />
+        </div>
+      }
       </div>
       <ToastContainer />
     </div>
