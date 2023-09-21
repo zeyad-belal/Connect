@@ -54,7 +54,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-white">
-        <header className=" flex flex-col justify-center pb-2 pt-5 mx-2 gap-5 ">
+        <div className=" flex flex-col justify-center pb-1 pt-5 mx-2 gap-5 ">
 
           <h3 className="text-text1 font-semibold text-center ">
             Subscribe To Get The Latest Services Available
@@ -63,7 +63,7 @@ const Footer = () => {
           <form
             ref={form}
             onSubmit={(e) => submitHandler(e)}
-            className="flex mx-auto sm:w-[450px] mb-1"
+            className="flex mx-auto sm:w-[450px] mb-2"
           >
             <input
               name="email"
@@ -92,10 +92,10 @@ const Footer = () => {
             </div>
           )}
 
-        </header>
+        </div>
 
-
-            <div className="flex justify-center my-3 items-center gap-x-1 mr-1">
+        {/* social media */}
+        <div className="flex justify-center my-3 items-center gap-x-1 mr-1">
               <a
                 href="https://www.facebook.com/"
                 className="bg-[#33332f] hover:bg-[#4267B2] p-2 rounded-full"
@@ -120,10 +120,10 @@ const Footer = () => {
               >
                 <FaInstagram size={20} color="white" />
               </a>
-            </div>
+        </div>
 
 
-
+        {/* credits  */}
         <section className="flex justify-between py-3 px-5 bg-[#0c0c0c]">
         <div className="">
             <p className="text-white">
