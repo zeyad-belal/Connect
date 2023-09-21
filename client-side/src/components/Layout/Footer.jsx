@@ -63,7 +63,7 @@ const Footer = () => {
           <form
             ref={form}
             onSubmit={(e) => submitHandler(e)}
-            className="flex mx-auto sm:w-[450px] mb-2"
+            className="flex mx-auto sm:w-[450px] mb-1"
           >
             <input
               name="email"
