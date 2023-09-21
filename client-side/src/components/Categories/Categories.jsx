@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Category from "./Category";
 import axios from "axios";
 import './categories.css'
+import LoadingCategory from "../../UI/LoadingCategory";
 
 
 const Categories = () => {
@@ -32,6 +33,18 @@ const Categories = () => {
           </div>
         );
       })}
+      {!categories && 
+      <>
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      <LoadingCategory />
+      </>
+    }
     </div>
   </section>
   );
