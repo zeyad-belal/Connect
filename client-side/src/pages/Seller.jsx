@@ -129,7 +129,7 @@ export default function Seller() {
 
 
   return (
-    <div className='bg-primary min-h-[100vh]'>
+    <div className='bg-primary min-h-[100vh] mt-[65px]'>
       {user ?
       <>
         {/* --------------------------------img and name------------------------------ */}

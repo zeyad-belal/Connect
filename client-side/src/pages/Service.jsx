@@ -165,7 +165,7 @@ const Service = () => {
 
   return (
     <>
-        <div className="flex flex-col min-h-[60vh] gap-5 mt-12 bg-gray-100 p-6 md:p-10">
+        <div className="mt-[65px] flex flex-col min-h-[60vh] gap-5 mt-12 bg-gray-100 p-6 md:p-10">
           {service ? (
             <>
               <div className=" flex flex-col items-start">

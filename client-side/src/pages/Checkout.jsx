@@ -129,8 +129,9 @@ const Checkout = () => {
   }
 
   return (
-    <div className="mx-12">
-      <div className="mx-auto rounded-lg my-2 bg-primary p-3 w-fit">
+    <div className="lg:mx-12 md:mx-6 mx-3  mt-[65px] pt-4 flex flex-col items-center">
+
+      <div className=" rounded-lg my-2 bg-primary p-3 w-fit">
         The Total of Your Order is:{" "}
         <span className="text-bold">{cart.totalAmount}</span> LE{" "}
         <span className="text-secondary font-bold">OR</span>{" "}
@@ -140,15 +141,10 @@ const Checkout = () => {
         $
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between p-1 lg:p-12">
-        {/* Form */}
-
-        <div className="mx-auto xl:m-12 md:m-12 sm:my-12 min-w-[350px] ">
           <form
             ref={form}
             onSubmit={handleSubmit(onSubmit)}
-            className="mx-auto xl:m-10 md:m-10 sm:my-10 min-w-[350px]"
-          >
+            className="mt-5 mx-3 px-3  min-w-[340px]" >
             <div className="mb-4">
               <label htmlFor="name" className="block mb-2">
                 Name:
@@ -249,13 +245,16 @@ const Checkout = () => {
 
             <button
               type="submit"
-              className="w-full py-2 px-4 my-10 bg-secondary text-white rounded-md hover:bg-secHover focus:outline-none focus:ring focus:border-secondary transition-colors"
+              className="w-full py-2 px-4 my-6 bg-secondary text-white rounded-md hover:bg-secHover focus:outline-none focus:ring focus:border-secondary transition-colors"
             >
               Proceed To Payment
             </button>
+
             <div className={paypalclass}>
               <PayPal form={form.current} />
             </div>
+
+            {/* -------modal confirmation modal------  */}
             <div className={cashclass}>
               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2  -translate-y-1/2  bg-slate-100 p-8 rounded-lg shadow-md z-30 animate-slide-down">
                 <div className="flex justify-center m-auto items-center gap-2">
@@ -283,10 +282,11 @@ const Checkout = () => {
               </div>
             </div>
           </form>
-        </div>
+
+
 
         {/* Items */}
-        <div
+        {/* <div
           className="flex flex-wrap justify-center gap-4 overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 100px)" }}
         >
@@ -327,8 +327,7 @@ const Checkout = () => {
               </div>
             ))}
           {!cart.items && <div className="text-gray-500">Cart Is Empty</div>}
-        </div>
-      </div>
+        </div> */}
       <ToastContainer />
     </div>
   );

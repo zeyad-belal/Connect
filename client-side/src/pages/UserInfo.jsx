@@ -97,7 +97,7 @@ function UserInfo(){
 
 
   return (
-    <div className="flex relative justify-center items-center bg-gray-100">
+    <div className="flex relative justify-center items-center bg-gray-100 mt-[65px]">
       <form
         ref={form}
         onSubmit={handleSubmit(onSubmit)}

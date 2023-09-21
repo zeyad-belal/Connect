@@ -82,14 +82,10 @@ function IncomingOrders() {
     setTimeout(()=>{
       setLoadingState(
       <div className="flex flex-col justify-center items-center gap-3">
-        <h3 className="text-text1 self-center  font-bold text-4xl  ">OOPS !</h3>
-        <p className=" self-center font-semibold text-2xl text-text1 flex items-center gap-3">Items not found <FaRegSadTear /></p>
-        <button className="bg-secondary self-center w-[20%] rounded-md text-white font-medium py-1 hover:bg-secHover flex items-center justify-center gap-3 text-lg min-w-fit px-5"
-        onClick={()=>location.reload()}
-        >Retry  <BiHappyAlt size={22} /> ? </button>
+        <p className=" self-center  text-md text-text1 flex items-center gap-3">no orders found </p>
       </div>
       )
-    },6000)
+    },2000)
   }, [ ]);
 
 
@@ -113,7 +109,7 @@ function IncomingOrders() {
 
 
   return (
-    <div className="bg-primary py-6 px-6 relative">
+    <div className="bg-primary py-6 px-6 relative mt-[65px]">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
