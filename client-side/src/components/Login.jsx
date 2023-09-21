@@ -137,7 +137,7 @@ function Login() {
           <input
             type="submit"
             value={"Login"}
-            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center" />
+            className="primaryBtn rounded-lg py-3 px-5 mt-3 self-center cursor-pointer" />
         </form>
       </Modal>
       <ToastContainer />
