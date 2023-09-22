@@ -23,7 +23,9 @@ const CartItem = ({item, onAdd , onRemove}) => {
       <div
         className="text-text1 flex flex-col md:flex-row justify-between items-start px-3 my-1 border-b py-1"
         key={item.id} >
-        <div className="flex relative">
+        <div className="flex ">
+          <div className="relative h-fit">
+
           <img
             className="max-w-[180px] md:max-w-[280px] h-auto mr-6 self-center"
             src={item.image}
@@ -31,13 +33,15 @@ const CartItem = ({item, onAdd , onRemove}) => {
 
           {/* ---------seller avatar---------*/}
           <div 
-            className="hover:border-2 cursor-pointer  absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
+            className="hover:border-2 cursor-pointer  absolute sm:bottom-2 bottom-[7%] w-[25px]
+            h-[25px]  left-2  md:w-[30px] md:h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
             onClick={(e)=> handleSellerNavigate(e)} >
             <img
               className="w-full h-full object-cover"
               src={item.seller.avatar}
               alt="User Avatar" />
           </div>
+        </div>
 
           <div className="flex flex-col mr-2">
             <h5 className="text-sm md:text-md lg:text-lg font-semibold text-text1 mb-3">{item.name}</h5>

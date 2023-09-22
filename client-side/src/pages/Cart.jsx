@@ -75,7 +75,6 @@ const Cart = () => {
     
           // getting ids of the sellers
           const sellersIds = cart.items.map((item) => item.seller.id);
-            console.log('sellersIds:',sellersIds)
           sellersIds.forEach((ID) => {
             const sellerItems = {
               items: cart.items
@@ -97,12 +96,11 @@ const Cart = () => {
               )
           });
           
-          
           emailjs.send(
           "service_waoczhk",
           "template_7lmeg3p",
           {
-            items :cart.items? cart.items.map((item) => item.name).join("------------------------ ") : "",
+            items :cart.items? cart.items.map((item) => item.name).join("--- + --- ") : "",
             totalAmount:cart.totalAmount + 10,
             name:cookies.User.first_name,
             email:cookies.User.email
@@ -124,11 +122,11 @@ const Cart = () => {
           );
           
           // clear cart items in the backend 
-          // axios.patch(
-          //     `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
-          //     { cart_items: [] },
-          //     { headers: { Authorization: `${cookies.UserToken}` } }
-          // );
+          sellersIds ? axios.patch(
+              `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
+              { cart_items: [] },
+              { headers: { Authorization: `${cookies.UserToken}` } }
+          ) : ''
             
             // nav to stripe checkout page
             window.location.href = payRes.data.sessionUrl;
@@ -167,6 +165,7 @@ useEffect(()=>{
     )
   },2000)
 },[])
+
 
   return (
     <div className="bg-primary  mt-[65px]">

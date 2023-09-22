@@ -27,11 +27,12 @@ const makePayment  = async (req, res) => {
       product_data: {
         name: "site fees",
       },
-      unit_amount: 10,
+      unit_amount: 1000,
     },
+    quantity: 1,
   }
   lineItems.push(siteFees)
-  
+
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
