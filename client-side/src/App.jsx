@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import Cart from "./pages/Cart.jsx";
-import Checkout from "./pages/Checkout.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import { useEffect } from "react";
@@ -68,7 +67,7 @@ function App() {
         <div
         className="bg-black opacity-30 min-w-full min-h-full fixed z-[9] top-0 left-0"
           onClick={() => dispatch(menuActions.toggleSubNav())}
-        >ssssssssssssssssssssssssssssssssssssssssssssssssssss</div>
+        ></div>
       ) : (
         ""
       )}
@@ -86,7 +85,6 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<Service />} />
         <Route path="/addService" element={<AddService />} />
-        <Route path="/checkout" element={<Checkout />} />
         <Route path="/incomingOrders" element={<IncomingOrders />} />
         <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />

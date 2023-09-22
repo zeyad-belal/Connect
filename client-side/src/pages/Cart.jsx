@@ -9,12 +9,12 @@ import axios from "axios";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import { cartActions } from "./../store/cartSlice"
-
+import emailjs from "emailjs-com";
 
 const Cart = () => {
   const dispatch = useDispatch()
   const cart = useSelector((state)=> state.cart);
-
+  emailjs.init("ieyQAv01RBSvsmGou");
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const [LoadingState, setLoadingState] = useState(
@@ -49,13 +49,108 @@ const Cart = () => {
     }));
 
   }
-
+console.log(cart.items)
   function checkoutHandler() {
     const cartIsNotEmpty = cart.totalItemsNum ? true : false;
     const userStatus = window.localStorage.getItem("logged");
 
     if (userStatus && cartIsNotEmpty) {
-      navigate("/checkout");
+      const checkout = async () => {
+        try {
+          // -------------------stripe--------------------------
+          const paymentData = {
+            items: cart.items.map((item) => ({
+              name: item.name,
+              price: item.price * 100,
+              quantity: item.amount,
+            })),
+          };
+          // nav to checkout
+          const payRes = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`,
+            paymentData,
+            { headers: { Authorization: `${cookies.UserToken}` } }
+          );
+    
+          // create order in the backend
+            const reqData = {
+              items: cart.items.map((item) => ({
+                service_id: item.id,
+                quantity: item.amount,
+                extras:item.extras,
+                time:item.time,
+                price:item.price,
+                seller:item.seller,
+              })),
+            };
+            const orderRes = await axios.post(
+              `${import.meta.env.VITE_API_URL}/orders`,
+              reqData,
+              { headers: { Authorization: `${cookies.UserToken}` } }
+            );
+    
+          // getting ids of the sellers
+          const sellersIds = cart.items.map((item) => item.seller.id);
+            console.log(sellersIds)
+          sellersIds.forEach((ID) => {
+            const sellerItems = {
+              items: cart.items
+                .filter((item) => item.seller === ID)
+                .map((item) => ({
+                  service_id: item.id,
+                  quantity: item.amount,
+                  extras: item.extras,
+                  time: item.time,
+                  price: item.price,
+                  seller: item.seller,
+                })),
+            };
+    
+            axios.post(
+                `${import.meta.env.VITE_API_URL}/incomingOrders/${ID}`,
+                sellerItems,
+                { headers: { Authorization: `${cookies.UserToken}` } }
+              )
+          });
+          
+    
+            // emailjs.sendForm(
+            //   "service_97xavkg",
+            //   "template_6bes58a",
+            //   form.current,
+            //   "ieyQAv01RBSvsmGou"
+            // );
+    
+            dispatch(cartActions.clear());
+    
+            const response = await axios.patch(
+              `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
+              { cart_items: [] },
+              { headers: { Authorization: `${cookies.UserToken}` } }
+            );
+            window.location.href = payRes.data.sessionUrl;
+          
+        } catch (error) {
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      };
+
+      checkout()
+    console.log(cart.items)
+
+
+
+
+
+
     } else if (!userStatus) {
       dispatch(signModalActions.toggleModal());
       toast(`Please Sign First!`);

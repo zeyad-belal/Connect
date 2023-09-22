@@ -21,7 +21,7 @@ const ServicesItem = ({ item }) => {
     navigate(`/services/${item.id}`)
   }
   
-console.log(item)
+
 
   return (
     <>

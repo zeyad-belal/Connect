@@ -148,7 +148,6 @@ function AddService() {
 
   function handleImageDeletion(e,index) {
     // Remove the image from selectedImages array
-    console.log(index)
     setSelectedImages((prevImages) => {
       const newImages = [...prevImages];
       newImages.splice(index, 1); // Remove 1 element at the specified index

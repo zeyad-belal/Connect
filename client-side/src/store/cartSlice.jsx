@@ -18,7 +18,6 @@ export const cartSlice = createSlice({
   reducers: {
     add(state, action){
       const item = action.payload;
-      console.log(item)
       const existingCartItemIndex = state.items.findIndex((cartItem) => cartItem.id === item.id);
       state.changed = true;
       if (existingCartItemIndex !== -1) {
