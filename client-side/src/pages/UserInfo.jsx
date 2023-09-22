@@ -41,7 +41,6 @@ function UserInfo(){
       formData.append("lastName", data.lastName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
-      formData.append("address", data.address);
       formData.append("bio", data.bio);
       formData.append("avatarID", cookies.User.avatarID);
       // get the new avatar data or the old if no deletion happened
@@ -210,23 +209,6 @@ function UserInfo(){
                 <span className="text-red-500">
                   Please enter a valid email address
                 </span>
-              )}
-            </div>
-            {/* -----------Address---------------- */}
-            <div className="mb-4">
-              <label htmlFor="address" className=" mb-2">
-                Address:
-              </label>
-              <input
-                id="address"
-                {...register("address", { required: true })}
-                defaultValue={`${
-                  cookies.User.address ? cookies.User.address : ""
-                }`}
-                className="bg-gray-100 focus:bg-white w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-secondary transition-colors"
-              />
-              {errors.address && (
-                <span className="text-red-500">This field is required</span>
               )}
             </div>
             {/* --------------bio------------- */}

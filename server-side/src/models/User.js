@@ -57,9 +57,6 @@ const userSchema = new Schema({
       type: Number
     }
   }],
-  address:{
-    type : String
-  },
   created_at: {
     type: Date,
     default: Date.now()

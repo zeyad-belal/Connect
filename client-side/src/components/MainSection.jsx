@@ -4,6 +4,7 @@ import CategoryDisplay from "./ServiceDisplay"
 // import { useForm } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingItemCard from "../UI/LoadingItemCard";
 
 function MainSection() {
   // const form = useRef();
@@ -58,9 +59,25 @@ function MainSection() {
   return (
     <div className="bg-primary px-3">
       
-    {categories.length > 0 &&categories.map((category)=>
+    {categories.length > 0 ? categories.map((category)=>
       <CategoryDisplay key={category.id} category={category} />
     )
+    :
+    <div className="flex flex-wrap  w-[95%] justify-between gap-6 py-10 lg:mx-12 ">
+      <div className="w-100 sm:w-1/3 md:w-1/5 grow">
+        <LoadingItemCard />
+      </div>
+      <div className="w-100 sm:w-1/3 md:w-1/5 grow">
+        <LoadingItemCard />
+      </div>
+      <div className="w-100 sm:w-1/3 md:w-1/5 grow">
+        <LoadingItemCard />
+      </div>
+      <div className="w-100 sm:w-1/3 md:w-1/5 grow">
+        <LoadingItemCard />
+      </div>
+
+  </div>
   }
 
     <ToastContainer />

@@ -21,7 +21,7 @@ const CartItem = ({item, onAdd , onRemove}) => {
     <>
       {/* cart item */}
       <div
-        className="text-text1 flex flex-col md:flex-row justify-between items-center my-1 border-b py-1"
+        className="text-text1 flex flex-col md:flex-row justify-between items-start px-3 my-1 border-b py-1"
         key={item.id} >
         <div className="flex relative">
           <img

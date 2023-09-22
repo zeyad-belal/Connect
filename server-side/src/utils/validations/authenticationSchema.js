@@ -14,7 +14,6 @@ const signupSchema = joi.object({
   role: joi.string().valid("user", "admin", "superAdmin"),
   phone_number: joi.string(),
   cart_items: joi.array(),
-  address: joi.string()
 });
 
 const loginValidation = (req, res, next) => {

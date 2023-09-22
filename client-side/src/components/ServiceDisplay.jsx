@@ -52,12 +52,7 @@ function CategoryDisplay(props) {
           );
         })
         :
-        <div className="flex w-full justify-between gap-12">
-          <LoadingItemCard />
-          <LoadingItemCard />
-          <LoadingItemCard />
-          <LoadingItemCard />
-        </div>
+        ""
       }
       </div>
       <ToastContainer />
