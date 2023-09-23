@@ -16,17 +16,15 @@ const Footer = () => {
 
   const [emailSent, setEmailSent] = useState(false);
   const form = useRef();
-  emailjs.init("ieyQAv01RBSvsmGou");
+  emailjs.init("cv-nxqRdyTV9lWZoa");
 
   function submitHandler(e) {
     e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_97xavkg",
-        "template_puu3859",
-        form.current,
-        "ieyQAv01RBSvsmGou"
+    emailjs.sendForm(
+        "service_waoczhk",
+        "template_4g2809i",
+        form.current
       )
       .then(
         (result) => {
@@ -63,8 +61,7 @@ const Footer = () => {
           <form
             ref={form}
             onSubmit={(e) => submitHandler(e)}
-            className="flex mx-auto sm:w-[450px] mb-2"
-          >
+            className="flex mx-auto sm:w-[450px] mb-2" >
             <input
               name="email"
               type="email"
@@ -75,20 +72,19 @@ const Footer = () => {
             <button className={sendBtnClasses}> send</button>
           </form>
           {emailSent && (
-            <div className=" flex items-center fixed bottom-0 left-0 mb-4 mr-4 bg-green-500 text-text1 rounded-lg p-2">
+            <div className=" flex items-center fixed bottom-12 left-0 mb-4 mr-4 bg-green-500 text-text1 rounded-lg p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-4 w-4 md:h-5 md:w-5"
                 viewBox="0 0 20 20"
-                fill="currentColor"
-              >
+                fill="currentColor" >
                 <path
                   fillRule="evenodd"
                   d="M10 2a8 8 0 100 16 8 8 0 000-16zM7 10a1 1 0 011-1h4a1 1 0 110 2h-4a1 1 0 01-1-1zm1 2a1 1 0 100 2 1 1 0 000-2z"
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="ml-2">Kindly check your email !</span>
+              <span className="ml-2 text-xs md:text-sm">Kindly check your email !</span>
             </div>
           )}
 

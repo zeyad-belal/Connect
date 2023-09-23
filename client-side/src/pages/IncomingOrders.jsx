@@ -181,7 +181,7 @@ function IncomingOrders() {
                         </p>
 
                         <button 
-                        className="bg-green-400  hover:bg-green-600 text-white p-4 text-2xl rounded-full"
+                        className="bg-green-400  hover:bg-green-600 text-white p-4 text-xl rounded-full"
                         onClick={(e)=>startChatHandler(e)} >
                           <BsChatFill />
                         </button>
