@@ -58,7 +58,7 @@ const Cart = () => {
       const checkout = async () => {
         try {
           // create order in the backend
-            const reqData = {
+          const reqData = {
               items: cart.items.map((item) => ({
                 service_id: item.id,
                 quantity: item.amount,
@@ -67,11 +67,11 @@ const Cart = () => {
                 price:item.price,
                 seller:item.seller,
               })),
-            };
-            axios.post(`${import.meta.env.VITE_API_URL}/orders`,
+          };
+          axios.post(`${import.meta.env.VITE_API_URL}/orders`,
               reqData,
               { headers: { Authorization: `${cookies.UserToken}` } }
-            );
+          );
     
           // getting ids of the sellers
           const sellersIds = cart.items.map((item) => item.seller.id);
@@ -127,10 +127,9 @@ const Cart = () => {
               { cart_items: [] },
               { headers: { Authorization: `${cookies.UserToken}` } }
           ) : ''
-            
-            // nav to stripe checkout page
-            window.location.href = payRes.data.sessionUrl;
-
+          
+          // nav to stripe checkout page
+          window.location.href = payRes.data.sessionUrl;
         } catch (error) {
           toast.error(error, {
             position: "top-right",
@@ -146,7 +145,6 @@ const Cart = () => {
       };
 
       checkout()
-
 
     } else if (!userStatus) {
       dispatch(signModalActions.toggleModal());
@@ -165,6 +163,7 @@ useEffect(()=>{
     )
   },2000)
 },[])
+
 
 
   return (

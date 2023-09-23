@@ -4,6 +4,7 @@ import Counter from "./Counter";
 import { cartActions } from "./../store/cartSlice"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const CartItem = ({item, onAdd , onRemove}) => {
   const dispatch = useDispatch()
@@ -16,6 +17,9 @@ const CartItem = ({item, onAdd , onRemove}) => {
     
   }
 
+  useEffect(()=>{
+    !item.seller.avatar ? window.location.reload() : ''
+  },[])
   
   return (
     <>

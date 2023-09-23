@@ -5,7 +5,6 @@ import ServicesItem from "./Service/ServicesItem";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import LoadingItemCard from "../UI/LoadingItemCard";
 
 function CategoryDisplay(props) {
   const [filteredServices, setFilteredServices] = useState('')

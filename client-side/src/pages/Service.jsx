@@ -160,20 +160,45 @@ const Service = () => {
       )
     },6000)
   },[])
+console.log(service)
 
+  // get related services
+  useEffect(()=>{
+    const id = service?  service.category_id.id  : ''
+    console.log(id)
+    async function getRelatedServices(){
+      try{
+        const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/filtered/${id}`)
+        setService(repsonse.data)
+        setPeriod(convertToDays(repsonse.data.extras[2][2]))
+      }catch(error){
+        toast.error(error, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
+    }
+    id ? getRelatedServices() : ''
+    
+  },[service])
 
 
   return (
     <>
-        <div className="mt-[65px] flex flex-col min-h-[60vh] gap-5 mt-12 bg-gray-100 p-6 md:p-10">
+        <div className="mt-[65px] flex flex-col min-h-[60vh] gap-5  bg-gray-100 p-6 md:p-10">
           {service ? (
             <>
               <div className=" flex flex-col items-start">
                 <ServiceRoute service={service} />
                 <div className="flex flex-col lg:flex-row justify-between w-full items-start lg:items-center">
                   <h1 className="text-2xl mb-4 px-2 font-semibold text-text1">{service.name}</h1>
-                  <button
-                    onClick={() => cartSectionRef.current.scrollIntoView({ behavior: "smooth" }) }
+                  <button onClick={() => cartSectionRef.current.scrollIntoView({ behavior: "smooth" }) }
                     className="bg-secondary border-2 border-transparent  text-white hover:bg-transparent hover:text-secondary transition-all hover:border-secondary focus:outline-none font-medium rounded text-md px-3 py-1 text-center inline-flex items-center ">
                     <CartIcon></CartIcon> Buy the service </button>
                 </div>
@@ -224,6 +249,9 @@ const Service = () => {
                     <CartIcon></CartIcon> add to cart 
                   </button>
                 </div>
+              </div>
+              <div className="bg-white flex flex-col justify-center items-center p-10 ">
+                {}
               </div>
             </>
           )
