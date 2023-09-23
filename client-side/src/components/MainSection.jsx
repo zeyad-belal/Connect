@@ -63,7 +63,7 @@ function MainSection() {
       <CategoryDisplay key={category.id} category={category} />
     )
     :
-    <div className="flex flex-wrap  w-[95%] justify-between gap-6 py-10 lg:mx-12 ">
+    <div className="flex flex-wrap mx-auto w-[95%] justify-between gap-6 py-10  ">
       <div className="w-100 sm:w-1/3 md:w-1/5 grow">
         <LoadingItemCard />
       </div>
