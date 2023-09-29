@@ -24,6 +24,11 @@ const incomingOrderSchema = new Schema({
       }
     }
   ],
+  buyerID:  {type: Schema.Types.ObjectId},
+  chatHistroy:  { 
+    type: Array,
+    default:[]
+  },
   created_at: {
     type: Date,
     default: Date.now()

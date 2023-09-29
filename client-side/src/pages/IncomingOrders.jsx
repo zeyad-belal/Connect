@@ -52,24 +52,21 @@ function IncomingOrders() {
     }
   }
 
-  function startChatHandler(e) {
-    navigate("/chat");
+  function startChatHandler(e,item) {
+    navigate(`/chat/${item.seller._id}${item.buyer}`)
   }
 
   //get all Incoming orders for this user
   useEffect(() => {
     async function getIncomingOrderHistory() {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/incomingOrders/user/${
-          cookies.User._id
-        }`,
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const data = await response.data.incomingOrder.map((order) => order);
       const allIncomingOrdersData = data.flatMap((ordersData) =>
         ordersData.items.map((item) => ({
           id: ordersData._id,
-          buyer: ordersData.user_id,
+          buyer: ordersData.buyerID,
           quantity: item.quantity,
           created_at: ordersData.created_at,
           name: item.service_id.name,
@@ -115,7 +112,6 @@ function IncomingOrders() {
 
     setFilteredIncomingOrders(filteredOrders);
   }, [allIncomingOrders, currentStatus]);
-
 
 
 
@@ -238,8 +234,7 @@ function IncomingOrders() {
 
                         <button
                           className="bg-green-400  hover:bg-green-600 text-white p-4 text-xl rounded-full"
-                          onClick={(e) => startChatHandler(e)}
-                        >
+                          onClick={(e) => startChatHandler(e,item)} >
                           <BsChatFill />
                         </button>
                       </div>

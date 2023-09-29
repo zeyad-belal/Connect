@@ -5,11 +5,13 @@ const AppError = require("../utils/AppError");
 
 const createIncomingOrder = async (req, res, next) => {
   const { id } = req.params;
-  const { items } = req.body;
+  const { items ,buyerID , chatHistroy } = req.body;
 
   const createdIncomingOrder = await IncomingOrder.create({
     user_id: id,
-    items: items
+    items: items,
+    buyerID:buyerID,
+    chatHistroy:chatHistroy
   });
 
   res.send({ message: "Order created successfully!", createdIncomingOrder });
@@ -55,12 +57,12 @@ const updateIncomingOrder = async (req, res, next) => {
   if (!Types.ObjectId.isValid(req.params.id))
     return next(new AppError("Invalid ObjectId.", 401));
 
-  const incomingOrder = await IncomingOrder.findById(req.params.id);
+  const incomingOrder = await IncomingOrder.findById({user_id : req.params.id});
   if (!incomingOrder) return next(new AppError("IncomingOrder not found!", 404));
 
   const updatedIncomingOrder = await IncomingOrder.findByIdAndUpdate(
-    req.params.id,
-    { incomingOrder: req.body.incomingOrder },
+    {user_id : req.params.id},
+    { chatHistroy: req.body.chatHistroy },
     { new: true }
   );
 

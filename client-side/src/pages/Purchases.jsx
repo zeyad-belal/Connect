@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import StatusFilter from "../components/StatusFilter";
+import { BsChatFill } from "react-icons/bs";
 
 
 function Purchases() {
@@ -14,6 +15,8 @@ function Purchases() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState([]);
+  const navigate = useNavigate();
+
 
   const [LoadingState, setLoadingState] = useState(
     <div role="status " className=" flex justify-center items-center ">
@@ -39,6 +42,10 @@ function Purchases() {
     }
   }
   
+
+  function startChatHandler(e,item) {
+    navigate(`/chat/${item.seller._id}${cookies.User._id}`)
+  }
 
 
   //get all orders
@@ -170,7 +177,11 @@ function Purchases() {
                         {` ${new Date(item.created_at).getDate().toString().padStart(2, '0')}/${(new Date(item.created_at).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.created_at).getFullYear()}` }
                       </p>
 
-                    
+                      <button
+                          className="bg-green-400  hover:bg-green-600 text-white p-4 text-xl rounded-full"
+                          onClick={(e) => startChatHandler(e,item)} >
+                          <BsChatFill />
+                        </button>
 
                     </div>
                   </div>)

@@ -94,8 +94,8 @@ const Navbar = (props) => {
           <li
             className={
               menu.isSubVisible
-                ? " cursor-pointer text-lg flex lg:hidden items-center rounded-lg px-2 py-1 lg:px-5 lg:py-3  text-text1 bg-primary"
-                : " cursor-pointer  lg:hidden text-lg flex items-center rounded-lg px-2 py-1  lg:px-5 lg:py-3  text-text1 hover:bg-primary"
+                ? " cursor-pointer text-lg flex lg:hidden items-center  px-2 py-1 lg:px-5 lg:py-3  text-text1 bg-primary"
+                : " cursor-pointer  lg:hidden text-lg flex items-center  px-2 py-1  lg:px-5 lg:py-3  text-text1 hover:bg-primary"
             }
             onClick={() => dispatch(menuActions.toggleSubNav())} >
             <FiMenu size={30} />

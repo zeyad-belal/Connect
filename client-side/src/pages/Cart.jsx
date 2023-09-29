@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
@@ -14,7 +14,6 @@ const Cart = () => {
   const dispatch = useDispatch()
   const cart = useSelector((state)=> state.cart);
   emailjs.init("cv-nxqRdyTV9lWZoa");
-  const form = useRef();
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const [LoadingState, setLoadingState] = useState(
     <div role="status " className=" flex justify-center items-center ">
@@ -75,7 +74,7 @@ const Cart = () => {
     
           // getting ids of the sellers
           const sellersIds = cart.items.map((item) => item.seller.id);
-          
+          console.log(sellersIds)
           sellersIds.forEach((ID) => {
             const sellerItems = { items: cart.items.filter((item) => item.seller._id === ID)
                 .map((item) => ({
@@ -86,10 +85,11 @@ const Cart = () => {
                   price: item.price,
                   seller: item.seller,
                 })),
+                buyerID: cookies.User._id
             };
-            console.log('sellersIds', sellersIds)
-            console.log('sellerItems', sellerItems)
-            console.log('cart.items', cart.items)
+            // console.log('sellersIds', sellersIds)
+            // console.log('sellerItems', sellerItems)
+            // console.log('cart.items', cart.items)
 
             async function updateIncomingOrders(){
               // updating seller incoming orders
@@ -125,13 +125,13 @@ const Cart = () => {
             paymentData,
             { headers: { Authorization: `${cookies.UserToken}` } }
           );
-          console.log('payRes',payRes)
+          // console.log('payRes',payRes)
           // clear cart items in the backend 
           const clearCartRes = await axios.patch(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
               { cart_items: [] },
               { headers: { Authorization: `${cookies.UserToken}` } }
           ) 
-          console.log('clearCartRes',clearCartRes)
+          // console.log('clearCartRes',clearCartRes)
           // nav to stripe checkout page
           window.location.href = payRes.data.sessionUrl;
         } catch (error) {
@@ -188,7 +188,7 @@ useEffect(()=>{
                   onRemove={() => removeItemHandler(item.id)} />
               ))}
           </section>
-              {(!cart || cart.items.length < 1)  && LoadingState }
+          {(!cart || cart.items.length < 1)  && LoadingState }
           {/* -----------info------------- */}
           <aside className="w-[300px] self-end ">
             <div className="py-6  flex flex-col gap-5 px-5">

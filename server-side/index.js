@@ -47,16 +47,20 @@ app.post('/create-checkout-session',verfiyUserToken, makePayment);
 
 
 io.on('connection', (socket) => {
-  // console.log('A user connected:', socket.id);
-  socket.on('send-message', (message,room)=>{
-    room !== '' ? 
-    io.emit('receive-message',message)
-    :
-    socket.to(room).emit('receive-message',message)
-  })
+  socket.on('send-message', (message, room) => {
+    console.log(message)
+    if (room !== '') {
+      // Join the specified room
+      socket.join(room);
+      socket.to(room).emit('receive-message', message); 
+    }
+  });
 
+  socket.on('join-room', (room) => {
+    socket.join(room);
+    console.log(`User ${socket.id} joined room ${room}`);
+  });
 });
-
 
 
 

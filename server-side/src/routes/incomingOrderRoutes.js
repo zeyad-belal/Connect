@@ -24,7 +24,7 @@ router.get("/user/:id", verfiyUserToken, getIncomingOrderByUserId);
 // create a new order
 router.post("/:id", verfiyUserToken, createIncomingOrder);
 
-// update order
+// update order (by userID)
 router.patch( "/:id", verfiyUserToken, updateIncomingOrder);
 
 // delete order
