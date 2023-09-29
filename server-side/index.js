@@ -47,10 +47,12 @@ app.post('/create-checkout-session',verfiyUserToken, makePayment);
 
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-  socket.on('send-message', (message)=>{
+  // console.log('A user connected:', socket.id);
+  socket.on('send-message', (message,room)=>{
+    room !== '' ? 
     io.emit('receive-message',message)
-    console.log(message)
+    :
+    socket.to(room).emit('receive-message',message)
   })
 
 });

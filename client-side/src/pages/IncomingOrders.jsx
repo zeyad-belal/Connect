@@ -6,7 +6,6 @@ import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import { Link, useNavigate } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
 import { BsChatFill } from "react-icons/bs";
-import Chat from "./Chat";
 
 function IncomingOrders() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
@@ -150,7 +149,6 @@ function IncomingOrders() {
 
         {/* ------------------------------orders------------------------------------------ */}
         <div className="max-w-[850px] w-full py-3 my-10 px-3 h-fit bg-white rounded-sm ">
-          <Chat />
 
           {/* -----------------------displaying orders if any ------------------------------ */}
           {allIncomingOrders.length > 0 && (
