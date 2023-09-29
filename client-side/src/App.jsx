@@ -14,25 +14,26 @@ import { useCookies } from "react-cookie";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
-import { fetchCartItems, sendCartItems }  from "./store/cartSlice.jsx";
-import { fetchServices }  from "./store/servicesSlice.jsx";
-import {useSelector, useDispatch} from "react-redux"
+import { fetchCartItems, sendCartItems } from "./store/cartSlice.jsx";
+import { fetchServices } from "./store/servicesSlice.jsx";
+import { useSelector, useDispatch } from "react-redux";
 import Purchases from "./pages/Purchases.jsx";
 import AddService from "./pages/AddService.jsx";
 import Seller from "./pages/Seller.jsx";
 import IncomingOrders from "./pages/IncomingOrders.jsx";
-import "./App.css"
+import "./App.css";
 import { menuActions } from "./store/menuSlice.jsx";
+import Chat from "./pages/Chat.jsx";
 
-let firstRender =true;
+let firstRender = true;
 
 function App() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
 
-  const signModal = useSelector((state)=> state.signModal);
-  const cart = useSelector((state)=> state.cart);
-  const menu = useSelector((state)=> state.menu);
-  const dispatch = useDispatch()
+  const signModal = useSelector((state) => state.signModal);
+  const cart = useSelector((state) => state.cart);
+  const menu = useSelector((state) => state.menu);
+  const dispatch = useDispatch();
   // FETCHING SERVICES
   useEffect(() => {
     dispatch(fetchServices());
@@ -43,15 +44,16 @@ function App() {
   // FETCHING CART ITEMS
   useEffect(() => {
     if (window.localStorage.getItem("logged")) {
-      cookies.User?
-      dispatch(fetchCartItems(cookies.User.id , cookies.UserToken)) : ''
+      cookies.User
+        ? dispatch(fetchCartItems(cookies.User.id, cookies.UserToken))
+        : "";
     }
   }, []);
 
   // UPDATING CART ITEMS IN THE BACKEND ON CHANGE
   useEffect(() => {
     if (firstRender) {
-      firstRender= false;
+      firstRender = false;
       return;
     }
     if (window.localStorage.getItem("logged") && cart.changed) {
@@ -59,13 +61,11 @@ function App() {
     }
   }, [cart]);
 
-
-
   return (
     <div className="app">
       {menu.isSubVisible ? (
         <div
-        className="bg-black opacity-30 min-w-full min-h-full fixed z-[9] top-0 left-0"
+          className="bg-black opacity-30 min-w-full min-h-full fixed z-[9] top-0 left-0"
           onClick={() => dispatch(menuActions.toggleSubNav())}
         ></div>
       ) : (
@@ -86,6 +86,7 @@ function App() {
         <Route path="/services/:id" element={<Service />} />
         <Route path="/addService" element={<AddService />} />
         <Route path="/incomingOrders" element={<IncomingOrders />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/purchases" element={<Purchases />} />
         <Route path="/about" element={<About />} />
         <Route path="/seller/:id" element={<Seller />} />

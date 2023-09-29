@@ -7,6 +7,16 @@ const morgan = require("morgan");
 const app = express();
 const port = process.env.PORT;
 const cors = require("cors");
+const http = require("http"); 
+const socketIo = require("socket.io");
+const server = http.createServer(app); 
+const io = socketIo(server, {
+  cors: {
+    origin: ["http://localhost:5173"],
+  },
+});
+
+
 
 // import routes
 const usersRoutes = require("./src/routes/userRoutes");
@@ -25,7 +35,6 @@ app.use(morgan("dev"));
 app.use(cors());
 
 // Routes
-
 app.use("/users", usersRoutes);
 app.use("/categories", categoryRouter);
 app.use("/services", serviceRoutes);
@@ -34,6 +43,18 @@ app.use("/reviews", reviewRoutes);
 app.use("/incomingOrders", incomingOrderRoutes);
 
 app.post('/create-checkout-session',verfiyUserToken, makePayment);
+
+
+
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+  socket.on('send-message', (message)=>{
+    io.emit('receive-message',message)
+    console.log(message)
+  })
+
+});
+
 
 
 
@@ -49,6 +70,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`server is running on port ${port}! ✅`);
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}! ✅`);
 });
