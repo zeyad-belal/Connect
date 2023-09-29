@@ -30,7 +30,7 @@ const Navbar = (props) => {
   const dispatch = useDispatch()
 
   const navigate = useNavigate();
-  const userStatus = window.localStorage.getItem("logged");
+  const [userStatus, setUserStatus] = useState(window.localStorage.getItem("logged"));
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
   const [categories, setCategories] = useState([]);

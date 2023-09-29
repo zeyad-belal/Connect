@@ -83,7 +83,6 @@ function IncomingOrders() {
           extras: item.extras,
         }))
       );
-      console.log(data)
 
       setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order));
     }
@@ -116,6 +115,10 @@ function IncomingOrders() {
 
     setFilteredIncomingOrders(filteredOrders);
   }, [allIncomingOrders, currentStatus]);
+
+
+
+
 
   return (
     <div className="bg-primary py-6 px-6 relative mt-[65px]">

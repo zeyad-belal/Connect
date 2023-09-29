@@ -34,7 +34,6 @@ const Chat = () => {
     return () => {
       socket.off('connect');
       socket.off('receive-message');
-      socket.off('send-message');
     };
   }, []);
 
