@@ -83,6 +83,7 @@ function IncomingOrders() {
           extras: item.extras,
         }))
       );
+      console.log(data)
 
       setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order));
     }

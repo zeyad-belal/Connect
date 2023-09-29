@@ -75,10 +75,9 @@ const Cart = () => {
     
           // getting ids of the sellers
           const sellersIds = cart.items.map((item) => item.seller.id);
+          
           sellersIds.forEach((ID) => {
-            const sellerItems = {
-              items: cart.items
-                .filter((item) => item.seller === ID)
+            const sellerItems = { items: cart.items.filter((item) => item.seller._id === ID)
                 .map((item) => ({
                   service_id: item.id,
                   quantity: item.amount,
@@ -88,14 +87,20 @@ const Cart = () => {
                   seller: item.seller,
                 })),
             };
-    
-            axios.post(
-                `${import.meta.env.VITE_API_URL}/incomingOrders/${ID}`,
-                sellerItems,
-                { headers: { Authorization: `${cookies.UserToken}` } }
+            console.log('sellersIds', sellersIds)
+            console.log('sellerItems', sellerItems)
+            console.log('cart.items', cart.items)
+
+            async function updateIncomingOrders(){
+              // updating seller incoming orders
+              const sellerReq = await axios.post( `${import.meta.env.VITE_API_URL}/incomingOrders/${ID}`,
+              sellerItems,
+              { headers: { Authorization: `${cookies.UserToken}` } }
               )
+              console.log(sellerReq)
+            }
+            updateIncomingOrders()
           });
-          
           emailjs.send(
           "service_waoczhk",
           "template_7lmeg3p",
@@ -120,14 +125,13 @@ const Cart = () => {
             paymentData,
             { headers: { Authorization: `${cookies.UserToken}` } }
           );
-          
+          console.log('payRes',payRes)
           // clear cart items in the backend 
-          sellersIds ? axios.patch(
-              `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
+          const clearCartRes = await axios.patch(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
               { cart_items: [] },
               { headers: { Authorization: `${cookies.UserToken}` } }
-          ) : ''
-          
+          ) 
+          console.log('clearCartRes',clearCartRes)
           // nav to stripe checkout page
           window.location.href = payRes.data.sessionUrl;
         } catch (error) {

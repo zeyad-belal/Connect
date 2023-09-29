@@ -162,11 +162,9 @@ const Service = () => {
       )
     },7000)
   },[id])
-console.log(service)
 
   // get related services
   useEffect(()=>{
-    service? console.log(service.category_id) : ''
     async function getRelatedServices(id){
       const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/filtered/${service.category_id._id}`)
       setRelatedServices(repsonse.data)

@@ -73,7 +73,6 @@ const Navbar = (props) => {
   }, [cookies.User]);
 
 
-
   useEffect(()=>{
     async function getCategories(){
       const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)

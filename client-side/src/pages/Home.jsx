@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 
 export default function Home(props) {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
-  const services = useSelector((state)=> state.services.services);
 
   useEffect(() => {
     async function getUserData() {
@@ -48,8 +47,6 @@ export default function Home(props) {
     <div>
       <HeroSection />
       <Categories />
-      {/* {services.loading && <loadingMain />}
-      {!services.loading && <MainSection />} */}
       <MainSection />
     </div>
   );
