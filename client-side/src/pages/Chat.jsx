@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { FiSend } from 'react-icons/fi';
 import { useLocation, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
 const Chat = () => {
+  const inputField = useRef()
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
   const { room } = useParams();
   const { search } = useLocation();
@@ -57,9 +58,9 @@ const Chat = () => {
       socket.off('connect');
       socket.off('receive-message');
     };
-  }, []);
+  }, [room, socket]);
 
-
+console.log(messages)
   // get chat history
   useEffect(()=>{
     async function getChat(){
@@ -73,7 +74,7 @@ const Chat = () => {
       setMessages(currentIncomingOrder[0].chatHistroy || [])
     }
     try{
-      getChat()
+      sellerID ?getChat() : ''
     }catch(error){
       console.log('cannot get chat history', error)
     }
@@ -100,7 +101,6 @@ const Chat = () => {
       const OtherGuyId =  cookies.User._id == buyerID ? sellerID :  buyerID;
       const OtherGuyRes = await axios.get(`${import.meta.env.VITE_API_URL}/users/${OtherGuyId}`,
       { headers: { Authorization: `${cookies.UserToken}` } })
-      console.log(OtherGuyRes)
       setOtherGuyDataData(OtherGuyRes.data.user)
     }
     try{
@@ -112,20 +112,24 @@ const Chat = () => {
 
 
 
+  useEffect(()=>{
+    inputField.current.focus()
+  },[])
+
 
   return (
     <div className='min-h-[88vh] mt-[65px] bg-primary pb-5 pt-3'>
       {/* ----------------messages------------------- */}
-      <div className='mx-auto  w-[70vw]  flex'>
+      <div className='mx-auto  w-[70vw]  flex my-3'>
         <div className="w-[40px] h-[40px] mr-2  flex gap-2 " >
           <img
           className="w-full h-full object-cover rounded-full"
           src={otherGuyData.avatar}
           alt="User Avatar" />
         </div>
-        <h1 className='text-lg '>{otherGuyData &&`${otherGuyData.first_name} ${otherGuyData.last_name}`}</h1>
+        <h1 className='text-lg font-medium'>{otherGuyData &&`${otherGuyData.first_name} ${otherGuyData.last_name}`}</h1>
       </div>
-      <div className='h-[70vh] w-[70vw] border-2 my-2 p-5 mx-auto flex flex-col bg-white rounded-md overflow-y-auto'>
+      <div className='h-[67vh] w-[70vw] border-2 my-2 p-5 mx-auto flex flex-col bg-white rounded-md overflow-y-auto'>
         {messages && messages.map((message, index) => (
           <div key={index}  className={`mb-1 p-2 rounded-xl w-fit flex 
           ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
@@ -141,15 +145,16 @@ const Chat = () => {
               </div>
             :''}
             {/* ------------the message------------- */}
-            <div className='h-fit '>
-              <p  className={` py-2 px-4  ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
-              'bg-secHover rounded-b-2xl rounded-tl-2xl  ' : 'bg-gray-300 rounded-b-2xl rounded-tr-2xl mt-5'}`}
-              >
-                {message.split(":-:")[2]}
-              </p>
-              {/* -----------------date------------------ */}
-              <span className=' text-gray-400 text-xs ml-2'>{message.split(":-:")[1]}</span>
-            </div>
+              <div className='h-fit flex flex-col'>
+                <p  className={` py-2 px-4  ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
+                'bg-secHover rounded-b-2xl rounded-tl-2xl  ' : 'bg-gray-300 rounded-b-2xl rounded-tr-2xl mt-5'}`}
+                >
+                  {message.split(":-:")[2]}
+                </p>
+                {/* -----------------date------------------ */}
+                <span className={`text-gray-400 text-xs ml-2 mt-1 ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ? 'self-end mr-2': ''} `} 
+                >{message.split(":-:")[1]}</span>
+              </div>
             </div>
         ))}
       </div>
@@ -157,10 +162,11 @@ const Chat = () => {
 
 
       {/* -----------------------------user input-----------------------------------------------------  */}
-      <div className='mx-auto w-[70vw] flex items-center justify-center'>
+      <div className='mx-auto w-[70vw]  flex items-center justify-between'>
         <input
+        ref={inputField}
           type="text"
-          className='w-[90%] h-[50px] border p-5 rounded-md mr-5 outline-none'
+          className='w-[95%] h-[50px] border p-5 rounded-md mr-5 outline-none'
           placeholder='Type your message here'
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
