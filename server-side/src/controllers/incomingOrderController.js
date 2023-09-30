@@ -57,14 +57,19 @@ const updateIncomingOrder = async (req, res, next) => {
   if (!Types.ObjectId.isValid(req.params.id))
     return next(new AppError("Invalid ObjectId.", 401));
 
-  const incomingOrder = await IncomingOrder.findById({user_id : req.params.id});
+  const incomingOrder = await IncomingOrder.findOne({user_id : req.params.id});
   if (!incomingOrder) return next(new AppError("IncomingOrder not found!", 404));
 
-  const updatedIncomingOrder = await IncomingOrder.findByIdAndUpdate(
-    {user_id : req.params.id},
-    { chatHistroy: req.body.chatHistroy },
-    { new: true }
+console.log('incomingOrder',incomingOrder)
+
+const {chatHistroy} = req.body
+const updatedIncomingOrder = await IncomingOrder.findByIdAndUpdate(
+  incomingOrder._id,
+  { $set: { chatHistroy: chatHistroy } },
+  { new: true }
   );
+
+  console.log('updatedIncomingOrder',updatedIncomingOrder)
 
   res.send({ message: "Order created successfully!", updatedIncomingOrder });
 };

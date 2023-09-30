@@ -52,8 +52,10 @@ function IncomingOrders() {
     }
   }
 
-  function startChatHandler(e,item) {
-    navigate(`/chat/${item.seller._id}${item.buyer}`)
+  function startChatHandler(e, item) {
+    const room = `${item.seller._id}${item.buyer}`;
+    const sellerID = item.seller._id; // Replace this with the actual seller ID
+    navigate(`/chat/${room}?sellerID=${sellerID}`);
   }
 
   //get all Incoming orders for this user
