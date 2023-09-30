@@ -85,11 +85,9 @@ const Cart = () => {
                   price: item.price,
                   seller: item.seller,
                 })),
-                buyerID: cookies.User._id
+                buyer: cookies.User._id
             };
-            // console.log('sellersIds', sellersIds)
-            // console.log('sellerItems', sellerItems)
-            // console.log('cart.items', cart.items)
+
 
             async function updateIncomingOrders(){
               // updating seller incoming orders
@@ -125,15 +123,14 @@ const Cart = () => {
             paymentData,
             { headers: { Authorization: `${cookies.UserToken}` } }
           );
-          // console.log('payRes',payRes)
+
           // clear cart items in the backend 
           const clearCartRes = await axios.patch(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
               { cart_items: [] },
               { headers: { Authorization: `${cookies.UserToken}` } }
           ) 
-          // console.log('clearCartRes',clearCartRes)
-          // nav to stripe checkout page
           window.location.href = payRes.data.sessionUrl;
+
         } catch (error) {
           toast.error(error, {
             position: "top-right",

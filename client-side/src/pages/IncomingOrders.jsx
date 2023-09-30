@@ -53,9 +53,10 @@ function IncomingOrders() {
   }
 
   function startChatHandler(e, item) {
-    const room = `${item.seller._id}${item.buyer}`;
-    const sellerID = item.seller._id; // Replace this with the actual seller ID
-    navigate(`/chat/${room}?sellerID=${sellerID}`);
+    const room = `${item.seller._id}${item.buyer._id}`;
+    const sellerID = item.seller._id; 
+    const buyerID = item.buyer._id; 
+    navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}`);
   }
 
   //get all Incoming orders for this user
@@ -68,7 +69,7 @@ function IncomingOrders() {
       const allIncomingOrdersData = data.flatMap((ordersData) =>
         ordersData.items.map((item) => ({
           id: ordersData._id,
-          buyer: ordersData.buyerID,
+          buyer: ordersData.buyer,
           quantity: item.quantity,
           created_at: ordersData.created_at,
           name: item.service_id.name,
@@ -155,25 +156,16 @@ function IncomingOrders() {
           {/* -----------------------displaying orders if any ------------------------------ */}
           {allIncomingOrders.length > 0 && (
             <div className="py-3 text-gray-500 flex flex-col items-start ">
-              {(currentStatus.length
-                ? filteredIncomingOrders
-                : allIncomingOrders
-              ).map((item, index) => {
+              {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item, index) => {
                 return (
+                  <div className="flex justify-between" key={index}>
                   <div
-                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 ${
-                      allIncomingOrders.length == 1 ||
-                      allIncomingOrders.length - 1 == index
-                        ? ""
-                        : "border-b"
-                    } px-3 py-2`}
-                    key={index}
-                  >
+                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 
+                    ${ allIncomingOrders.length == 1 || allIncomingOrders.length - 1 == index ? "" : "border-b" } px-3 py-2`} >
                     <img
                       className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
                       src={item.image}
-                      alt="Image not Found"
-                    />
+                      alt="Image not Found" />
                     <div className="mr-2 flex flex-col ">
                       <h5 className="text-md font-semibold text-text1 mb-3">
                         {item.name}
@@ -234,14 +226,15 @@ function IncomingOrders() {
                           ).getFullYear()}`}
                         </p>
 
-                        <button
-                          className="bg-green-400  hover:bg-green-600 text-white p-4 text-xl rounded-full"
-                          onClick={(e) => startChatHandler(e,item)} >
-                          <BsChatFill />
-                        </button>
                       </div>
                     </div>
                   </div>
+                  <button
+                    className="bg-green-400  mb-2 hover:bg-green-600 text-white p-4 text-xl rounded-full self-end"
+                    onClick={(e) => startChatHandler(e,item)} >
+                      <BsChatFill />
+                  </button>
+                </div>
                 );
               })}
             </div>

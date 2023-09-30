@@ -5,12 +5,12 @@ const AppError = require("../utils/AppError");
 
 const createIncomingOrder = async (req, res, next) => {
   const { id } = req.params;
-  const { items ,buyerID , chatHistroy } = req.body;
+  const { items ,buyer , chatHistroy } = req.body;
 
   const createdIncomingOrder = await IncomingOrder.create({
     user_id: id,
     items: items,
-    buyerID:buyerID,
+    buyer:buyer,
     chatHistroy:chatHistroy
   });
 
@@ -41,6 +41,10 @@ const getIncomingOrderByUserId = async (req, res, next) => {
 
   const incomingOrder = await IncomingOrder.find({user_id : req.params.id})
     .populate("user_id")
+    .populate({
+      path: "buyer",
+      model: "User", 
+    })
     .populate("items.service_id")
     .populate({
       path: "items.service_id",
@@ -60,16 +64,14 @@ const updateIncomingOrder = async (req, res, next) => {
   const incomingOrder = await IncomingOrder.findOne({user_id : req.params.id});
   if (!incomingOrder) return next(new AppError("IncomingOrder not found!", 404));
 
-console.log('incomingOrder',incomingOrder)
 
-const {chatHistroy} = req.body
-const updatedIncomingOrder = await IncomingOrder.findByIdAndUpdate(
-  incomingOrder._id,
-  { $set: { chatHistroy: chatHistroy } },
-  { new: true }
+  const {chatHistroy} = req.body
+  const updatedIncomingOrder = await IncomingOrder.findByIdAndUpdate(
+    incomingOrder._id,
+    { $set: { chatHistroy: chatHistroy } },
+    { new: true }
   );
 
-  console.log('updatedIncomingOrder',updatedIncomingOrder)
 
   res.send({ message: "Order created successfully!", updatedIncomingOrder });
 };

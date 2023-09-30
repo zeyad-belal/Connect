@@ -44,7 +44,7 @@ const Slider = ({ services }) => {
   }, []);
 
   return (
-    <div className="my-12">
+    <div className="">
       <Swiper
         style={{
           "--swiper-navigation-color": "black",
@@ -63,13 +63,13 @@ const Slider = ({ services }) => {
             <div className="flex flex-col border mx-auto px-2 py-3 max-h-[300px] max-w-[260px] bg-white rounded-lg">
               <Link
                 to={`/services/${service._id}`}
-                className="flex flex-col justify-center items-center gap-2" >
-                <figure className="relative max-w-[150px]">
+                className="flex flex-col justify-between items-center gap-2 min-h-[255px] " >
+                <figure className="relative max-w-[230px] ">
                   <img src={service.images[0]?.url} />
                 </figure>
 
                 <span className="font-semibold tracking-tight text-center text-sm text-gray-800">
-                  {service.name.slice(0, 45)}...
+                  {service.name.slice(0, 50)}...
                 </span>
                 <div className="flex items-center border-2 bg-gray-50 border-yellow-500 rounded-full w-fit px-2">
                   <FilledRatingStarIcon />
@@ -77,7 +77,7 @@ const Slider = ({ services }) => {
                     {service.avg_rating || 0}
                   </span>
                 </div>
-                  <span className="text-gray-500">starts from ${service.price}</span>
+                  <span className="text-gray-500 ">starts from ${service.price}</span>
               </Link>
             </div>
           </SwiperSlide>

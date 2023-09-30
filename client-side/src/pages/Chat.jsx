@@ -12,6 +12,8 @@ const Chat = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const sellerID = queryParams.get('sellerID');
+  const buyerID = queryParams.get('buyerID');
+  const [otherGuyData, setOtherGuyDataData] = useState({}); 
 
   const socket = io(import.meta.env.VITE_API_URL);
   const [messages, setMessages] = useState([]);
@@ -19,29 +21,22 @@ const Chat = () => {
 
 
 
-
   function sendMessage() {
     if (messageInput.trim() !== '') {
-      socket.emit('send-message', messageInput,room); 
-      setMessageInput(''); 
-    }
-
-    async function UpdateChat(){
-      const res = await axios.patch(`${import.meta.env.VITE_API_URL}/incomingOrders/${sellerID}`,
-      {chatHistroy :messages } ,
-      { headers: { Authorization: `${cookies.UserToken}` } })
-      console.log(res)
-    }
-    try{
-      UpdateChat()
-    }catch(error){
-      console.log('chat history didnt sent succ !')
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12; 
+  
+      socket.emit('send-message', `${cookies.User.first_name} :-: ${formattedHours}:${minutes} ${ampm} :-: ${messageInput}`, room);
+      setMessageInput('');
     }
   }
+  
 
 
 
-console.log('messagesReceive',messages)
   //handle socket
   useEffect(() => {
     socket.on('connect', () => {
@@ -57,7 +52,7 @@ console.log('messagesReceive',messages)
       : ''
     });
 
-    // Clean up the socket event listener when the component unmounts and send the chat history to backend
+    // Clean up the socket event listener before the component unmounts and send the chat history to backend
     return () => {
       socket.off('connect');
       socket.off('receive-message');
@@ -70,28 +65,98 @@ console.log('messagesReceive',messages)
     async function getChat(){
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${sellerID}`,
       { headers: { Authorization: `${cookies.UserToken}` } })
-      setMessages(res.data.incomingOrder.chatHistroy || [])
+      const currentIncomingOrder = res.data.incomingOrder.map((order)=>{
+        if(order.buyer._id == buyerID){
+          return order  
+        } 
+      })
+      setMessages(currentIncomingOrder[0].chatHistroy || [])
     }
     try{
       getChat()
     }catch(error){
       console.log('cannot get chat history', error)
     }
-  },[cookies.User._id, cookies.UserToken])
+  },[buyerID, cookies.User._id, cookies.UserToken, sellerID])
+
+  
+  // send chat histroy
+  useEffect(()=>{
+    async function UpdateChat(){
+      const res = await axios.patch(`${import.meta.env.VITE_API_URL}/incomingOrders/${sellerID}`,
+      {chatHistroy :messages } ,
+      { headers: { Authorization: `${cookies.UserToken}` } })
+    }
+    try{
+      messages ? UpdateChat() : ''
+    }catch(error){
+      console.log('chat history didnt sent succ !')
+    }
+  },[cookies.UserToken, messages, sellerID])
+
+  // getOtherGuyData
+  useEffect(()=>{
+    async function getOtherGuyData(){
+      const OtherGuyId =  cookies.User._id == buyerID ? sellerID :  buyerID;
+      const OtherGuyRes = await axios.get(`${import.meta.env.VITE_API_URL}/users/${OtherGuyId}`,
+      { headers: { Authorization: `${cookies.UserToken}` } })
+      console.log(OtherGuyRes)
+      setOtherGuyDataData(OtherGuyRes.data.user)
+    }
+    try{
+      getOtherGuyData()
+    }catch(error){
+      console.log('buyer data didnt arrive correctly',error)
+    }
+  },[buyerID, cookies.User._id, cookies.UserToken, sellerID])
+
 
 
 
   return (
-    <div className='min-h-[88vh] mt-[65px] bg-primary py-4'>
+    <div className='min-h-[88vh] mt-[65px] bg-primary pb-5 pt-3'>
       {/* ----------------messages------------------- */}
-      <div className='h-[70vh] w-[70vw] border-2 my-8 p-5 mx-auto bg-white rounded-md overflow-y-auto'>
+      <div className='mx-auto  w-[70vw]  flex'>
+        <div className="w-[40px] h-[40px] mr-2  flex gap-2 " >
+          <img
+          className="w-full h-full object-cover rounded-full"
+          src={otherGuyData.avatar}
+          alt="User Avatar" />
+        </div>
+        <h1 className='text-lg '>{otherGuyData &&`${otherGuyData.first_name} ${otherGuyData.last_name}`}</h1>
+      </div>
+      <div className='h-[70vh] w-[70vw] border-2 my-2 p-5 mx-auto flex flex-col bg-white rounded-md overflow-y-auto'>
         {messages && messages.map((message, index) => (
-          <p key={index} className='mb-2'>
-            {message}
-          </p>
+          <div key={index}  className={`mb-1 p-2 rounded-xl w-fit flex 
+          ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
+          ' self-end' : ''}`}
+          >
+            {/* ---------other guy image---------  */}
+            {message.split(":-:")[0].trim() != cookies.User.first_name.trim() ?
+              <div className="w-[40px] h-[40px] mr-2  flex gap-2 " >
+                <img
+                className="w-full h-full object-cover"
+                src={otherGuyData.avatar}
+                alt="User Avatar" />
+              </div>
+            :''}
+            {/* ------------the message------------- */}
+            <div className='h-fit '>
+              <p  className={` py-2 px-4  ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
+              'bg-secHover rounded-b-2xl rounded-tl-2xl  ' : 'bg-gray-300 rounded-b-2xl rounded-tr-2xl mt-5'}`}
+              >
+                {message.split(":-:")[2]}
+              </p>
+              {/* -----------------date------------------ */}
+              <span className=' text-gray-400 text-xs ml-2'>{message.split(":-:")[1]}</span>
+            </div>
+            </div>
         ))}
       </div>
-      {/* --------------------user input--------------  */}
+
+
+
+      {/* -----------------------------user input-----------------------------------------------------  */}
       <div className='mx-auto w-[70vw] flex items-center justify-center'>
         <input
           type="text"

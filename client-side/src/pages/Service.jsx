@@ -251,7 +251,10 @@ const Service = () => {
                 </div>
               </div>
               {/* related services  */}
-              {relatedServices && <Slider services={relatedServices} />}
+              <div className="my-3 sm:my-6 md:my-8 lg:my-12">
+                <h1 className="text-2xl font-medium mb-6 ml-2">Related services</h1>
+                {relatedServices && <Slider services={relatedServices} />}
+              </div>
             </>
           )
           :
