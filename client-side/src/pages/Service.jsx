@@ -165,13 +165,13 @@ const Service = () => {
 
   // get related services
   useEffect(()=>{
-    async function getRelatedServices(id){
+    async function getRelatedServices(){
       const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/services/filtered/${service.category_id._id}`)
       setRelatedServices(repsonse.data)
     }
 
     try{
-      getRelatedServices() 
+      service ? getRelatedServices() : ''
     }catch(error){
       toast.error(error, {
         position: "top-right",
@@ -186,7 +186,6 @@ const Service = () => {
     }
     
   },[service])
-
 
 
   return (
