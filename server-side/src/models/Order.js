@@ -23,7 +23,7 @@ const orderSchema = new Schema({
         default:'pending'
       }
     }
-  ],
+  ], 
   created_at: {
     type: Date,
     default: Date.now()

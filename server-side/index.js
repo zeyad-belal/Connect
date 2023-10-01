@@ -48,8 +48,7 @@ app.post('/create-checkout-session',verfiyUserToken, makePayment);
 
 io.on('connection', (socket) => {
   socket.on('send-message', (message, room) => {
-    console.log(message)
-    if (room !== '') {
+    if (room !== '') { 
       // Join the specified room
       socket.join(room);
       socket.to(room).emit('receive-message', message); 

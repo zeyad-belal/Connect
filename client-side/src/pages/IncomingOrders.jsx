@@ -53,10 +53,20 @@ function IncomingOrders() {
   }
 
   function startChatHandler(e, item) {
+    // if(item.status == 'pending'){
+      async function getOrder(){
+        const ress = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
+        { headers: { Authorization: `${cookies.UserToken}` } }
+        );
+        console.log(ress)
+        console.log(item)
+      }
+      getOrder()
+    // } 
     const room = `${item.seller._id}${item.buyer._id}`;
     const sellerID = item.seller._id; 
     const buyerID = item.buyer._id; 
-    navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}`);
+    // navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}`);
   }
 
   //get all Incoming orders for this user

@@ -37,8 +37,8 @@ function UserInfo(){
     try {
       const formData = new FormData();
       
-      formData.append("firstName", data.firstName);
-      formData.append("lastName", data.lastName);
+      formData.append("first_name", data.firstName);
+      formData.append("last_name", data.lastName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
       formData.append("bio", data.bio);
@@ -58,7 +58,7 @@ function UserInfo(){
         formData,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-    
+    console.log(response)
     // update user cookie
     const response2 = await axios.get(
       `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
