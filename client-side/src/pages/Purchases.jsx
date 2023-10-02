@@ -226,7 +226,7 @@ function Purchases() {
             </div>
           }
           {/* ----------------------------no orders found message------------------------------------ */}
-          {(!filteredOrders.length && !allOrders.length > 0 )  && LoadingState}
+          {(!filteredOrders.length && !allOrders.length > 0 )  && LoadingState} 
 
         </div>
 
