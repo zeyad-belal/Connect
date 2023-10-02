@@ -44,7 +44,9 @@ function Purchases() {
   
 
   function startChatHandler(e, item) {
-    console.log(item)
+    if(item.status == "delivered"){
+      return
+    }
     const room = `${item.seller.id}${item.buyer.id}`;
     const sellerID = item.seller.id; 
     const buyerID = item.buyer.id; 
@@ -184,7 +186,7 @@ function Purchases() {
                           <span>$ {item.price * item.quantity} </span>
                           <span> Q : {item.quantity}</span>
                         </div>
-                        <span> seller : {item.seller.first_name}</span>
+                        <span> seller : {item.seller.first_name} {item.seller.last_name}</span>
 
                         {item.extras[0] && (
                           <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
@@ -214,7 +216,7 @@ function Purchases() {
                       </div>
                     </div>
                     <button
-                      className="bg-green-400  mb-2 hover:bg-green-600 text-white p-4 text-xl rounded-full self-end"
+                      className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}  mb-2  text-white p-4 text-xl rounded-full self-end`}
                       onClick={(e) => startChatHandler(e,item)} >
                       <BsChatFill />
                     </button>

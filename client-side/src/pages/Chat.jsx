@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { FiSend } from 'react-icons/fi';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
 const Chat = () => {
@@ -20,10 +20,17 @@ const Chat = () => {
   const socket = io(import.meta.env.VITE_API_URL);
   const [messages, setMessages] = useState([]);
   const [menu, setMenu] = useState(false);
+  const [ConfirmModal, setConfirmModal] = useState(false);
   const [messageInput, setMessageInput] = useState(''); 
+  const navigate = useNavigate();
 
+  
   function toggleMenu(){
     setMenu(prev => !prev)
+  }
+
+  function toggleConfirmationModal(){
+    setConfirmModal(prev => !prev)
   }
 
   function confirmOrderCompleted(){
@@ -36,7 +43,7 @@ const Chat = () => {
           },
         }
       );
-      console.log(response)
+      navigate("/purchases")
     }
     try{
       UpdateOrderStatus()
@@ -138,7 +145,7 @@ const Chat = () => {
 
 
   return (
-    <div className='flex justify-between bg-primary mt-[50px] min-h-[93vh]'>
+    <div className='relative flex justify-between bg-primary mt-[50px] min-h-[93vh]'>
       {/*  chat  */}
       <div className=' mt-3 bg-white rounded-lg w-full px-5 pt-5 '>
         {/* other guy header  */}
@@ -150,15 +157,18 @@ const Chat = () => {
             alt="User Avatar" />
           </div>
           <h1 className='text-lg font-medium  w-full '>{otherGuyData &&`${otherGuyData.first_name} ${otherGuyData.last_name}`}</h1>
-        <span className='text-3xl mt-[-5px] cursor-pointer' onClick={toggleMenu}>... </span>
+          {buyerID == cookies.User._id ?
+            <span className='text-3xl mt-[-5px] cursor-pointer' onClick={toggleMenu}>... </span>
+            : null
+          }
       
-      {/* status */}
+      {/* mark completed */}
       {menu ?
         <div className='rounded-lg self-start mx-auto bg-white pb-5 flex flex-col my-8   max-h-fit p-5 absolute right-0 w-[320px] h-[160px] border border-gray-300'>
         <p className='mx-2 text-sm mb-1'>Mark service as completed ?</p>
         <p className='mx-2 text-[12px] text-gray-400'>please ensure that all your transactions and interactions with the seller have been satisfactorily concluded before proceeding.</p>
         <button className='bg-green-400 text-white p-2 self-end rounded-lg font-semibold text-xs mt-3 hover:bg-green-500'
-        onClick={confirmOrderCompleted}
+        onClick={toggleConfirmationModal}
         >confirm</button>
       </div>
       : ''
@@ -213,7 +223,30 @@ const Chat = () => {
           </button>
         </div>
       </div>
-
+      {/* ------------------confirm modal ------------------------------- */}
+      {ConfirmModal ? (
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        {/* Dark overlay */}
+        <div className="fixed inset-0 bg-black opacity-50" onClick={toggleConfirmationModal}></div>
+      
+        {/* Modal content */}
+        <div className="relative bg-white p-12 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold mb-7">Are you sure?</h2>
+          <div className="flex justify-end">
+            <button
+              onClick={confirmOrderCompleted}
+              className="bg-green-500 text-white px-4 py-2 mr-6 rounded hover:bg-green-600">
+              YES
+            </button>
+            <button
+              onClick={toggleConfirmationModal}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </div>
+      ) : null}
     </div>
   );
 };

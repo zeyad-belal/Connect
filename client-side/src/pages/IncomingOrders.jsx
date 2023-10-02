@@ -56,7 +56,9 @@ function IncomingOrders() {
 
 
   function startChatHandler(e, item) {
-
+    if(item.status == "delivered"){
+      return
+    }
     async function UpdateOrderStatus(){
 
       const response = await axios.patch(`${import.meta.env.VITE_API_URL}/orders/${item.orderID}`,
@@ -226,11 +228,6 @@ function IncomingOrders() {
                           in progress
                         </span>
                       )}
-                      {item.status == "waitingForDelivery" && (
-                        <span className=" w-fit mb-1 bg-secHover text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg ">
-                          waiting for delivery
-                        </span>
-                      )}
                       {item.status == "delivered" && (
                         <span className=" w-fit mb-1 bg-green-400 text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg ">
                           delivered
@@ -246,7 +243,7 @@ function IncomingOrders() {
                         <span>$ {item.price * item.quantity} </span>
                         <span> Q : {item.quantity}</span>
                       </div>
-                        <span> buyer : {item.buyer.first_name}</span>
+                        <span> buyer : {item.buyer.first_name} {item.buyer.last_name}</span>
 
                       {item.extras[0] && (
                         <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
@@ -276,7 +273,7 @@ function IncomingOrders() {
                     </div>
                   </div>
                   <button
-                    className="bg-green-400  mb-2 hover:bg-green-600 text-white p-4 text-xl rounded-full self-end"
+                    className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}  mb-2  text-white p-4 text-xl rounded-full self-end`}
                     onClick={(e) => startChatHandler(e,item)} >
                       <BsChatFill />
                   </button>
