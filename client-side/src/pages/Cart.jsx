@@ -55,50 +55,38 @@ const Cart = () => {
 
     if (userStatus && cartIsNotEmpty) {
       const checkout = async () => {
+        const trackOrder = `${Math.random()}`
         try {
           // create order in the backend
-          const reqData = {
-              items: cart.items.map((item) => ({
-                service_id: item.id,
-                quantity: item.amount,
-                extras:item.extras,
-                time:item.time,
-                price:item.price,
-                seller:item.seller,
-              })),
-          };
-          axios.post(`${import.meta.env.VITE_API_URL}/orders`,
-              reqData,
-              { headers: { Authorization: `${cookies.UserToken}` } }
-          );
-    
-          // getting ids of the sellers
-          const sellersIds = cart.items.map((item) => item.seller.id);
-          console.log(sellersIds)
-          sellersIds.forEach((ID) => {
-            const sellerItems = { items: cart.items.filter((item) => item.seller._id === ID)
-                .map((item) => ({
+
+          
+          cart.items.forEach((item) => {
+            const sellerId = item.seller.id;
+          
+            // Create an order object for each seller
+            const orderData = {
+              items: [
+                {
                   service_id: item.id,
                   quantity: item.amount,
                   extras: item.extras,
                   time: item.time,
                   price: item.price,
-                  seller: item.seller,
-                })),
-                buyer: cookies.User._id
+                },
+              ],
+              orderID: trackOrder,
+              seller: sellerId,
+              buyer: cookies.User._id,
             };
-
-
-            async function updateIncomingOrders(){
-              // updating seller incoming orders
-              const sellerReq = await axios.post( `${import.meta.env.VITE_API_URL}/incomingOrders/${ID}`,
-              sellerItems,
-              { headers: { Authorization: `${cookies.UserToken}` } }
-              )
-              console.log(sellerReq)
-            }
-            updateIncomingOrders()
+          
+          
+            // Send a POST request for each seller's items
+            axios.post(`${import.meta.env.VITE_API_URL}/orders`, orderData, {
+              headers: { Authorization: `${cookies.UserToken}` },
+            });
           });
+
+          //send confirmation email
           emailjs.send(
           "service_waoczhk",
           "template_7lmeg3p",

@@ -36,9 +36,11 @@ function IncomingOrders() {
     </div>
   );
 
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
 
   function handleStatusChange(e) {
     const id = e.target.id;
@@ -52,51 +54,78 @@ function IncomingOrders() {
     }
   }
 
+
   function startChatHandler(e, item) {
-    // if(item.status == 'pending'){
-      async function getOrder(){
-        const ress = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
-        { headers: { Authorization: `${cookies.UserToken}` } }
-        );
-        console.log(ress)
-        console.log(item)
+
+    async function UpdateOrderStatus(){
+
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/orders/${item.orderID}`,
+        { status : 'inProgress' },
+        { headers: {
+            Authorization: `${cookies.UserToken}`,
+            "Content-Type": "application/json", 
+          },
+        }
+      );
+      console.log(response)
+    }
+
+    if(item.status == 'pending'){
+      try{
+        UpdateOrderStatus()
+      }catch(error){
+        console.log(error)
       }
-      getOrder()
-    // } 
+    } 
+
+    
     const room = `${item.seller._id}${item.buyer._id}`;
     const sellerID = item.seller._id; 
     const buyerID = item.buyer._id; 
-    // navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}`);
+    navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}&orderID=${item.orderID}`);
   }
+
+
+
+
 
   //get all Incoming orders for this user
   useEffect(() => {
     async function getIncomingOrderHistory() {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/orders/seller/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-      const data = await response.data.incomingOrder.map((order) => order);
-      const allIncomingOrdersData = data.flatMap((ordersData) =>
-        ordersData.items.map((item) => ({
-          id: ordersData._id,
-          buyer: ordersData.buyer,
-          quantity: item.quantity,
-          created_at: ordersData.created_at,
-          name: item.service_id.name,
-          avg_rating: item.service_id.avg_rating,
-          description: item.service_id.description,
-          image: item.service_id.images[0].url,
-          seller: item.service_id.user_id,
-          status: item.status,
-          price: item.price,
-          time: item.time,
-          extras: item.extras,
-        }))
-      );
+      
+      const data = await response.data.orders.map((order) => order)
 
-      setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order));
+      const allOrdersData = data.map((order) => {
+        return order.items.map((item) => {
+          return {
+            orderID:order._id,
+            buyer: order.buyer,
+            created_at: order.created_at,
+            id: item._id,
+            quantity: item.quantity,
+            name: item.service_id.name,
+            avg_rating: item.service_id.avg_rating,
+            description: item.service_id.description,
+            image: item.service_id.images[0].url,
+            seller: item.service_id.user_id,
+            status: item.status,
+            price: item.price,
+            time: item.time,
+            extras: item.extras,
+          };
+          
+        });
+        
+      });
+      
+    
+    setAllIncomingOrders(allOrdersData.flatMap((order) => order))
+
     }
-
     if (window.localStorage.getItem("logged")) {
       getIncomingOrderHistory();
     }
@@ -110,7 +139,10 @@ function IncomingOrders() {
         </div>
       );
     }, 2000);
-  }, []);
+  }, [cookies.User._id, cookies.UserToken]);
+
+
+
 
   //filter orders by status
   useEffect(() => {
@@ -126,11 +158,14 @@ function IncomingOrders() {
     setFilteredIncomingOrders(filteredOrders);
   }, [allIncomingOrders, currentStatus]);
 
+// console.log('allIncomingOrders',allIncomingOrders)
+
+
 
 
 
   return (
-    <div className="bg-primary py-6 px-6 relative mt-[65px]">
+    <div className="bg-primary py-6 px-6 relative mt-[65px] min-h-[90vh]">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button
@@ -168,7 +203,7 @@ function IncomingOrders() {
             <div className="py-3 text-gray-500 flex flex-col items-start ">
               {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item, index) => {
                 return (
-                  <div className="flex justify-between" key={index}>
+                  <div className="flex justify-between w-[100%]" key={index}>
                   <div
                     className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 
                     ${ allIncomingOrders.length == 1 || allIncomingOrders.length - 1 == index ? "" : "border-b" } px-3 py-2`} >
@@ -211,6 +246,7 @@ function IncomingOrders() {
                         <span>$ {item.price * item.quantity} </span>
                         <span> Q : {item.quantity}</span>
                       </div>
+                        <span> buyer : {item.buyer.first_name}</span>
 
                       {item.extras[0] && (
                         <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">

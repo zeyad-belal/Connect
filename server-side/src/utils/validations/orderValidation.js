@@ -6,7 +6,7 @@ const orderValidationSchema = Joi.object({
   order: Joi.array().items(
     Joi.object({
       service_id: Joi.string().required(),
-      quantity: Joi.number().integer().min(1).required()
+      quantity: Joi.number().integer().min(1).required(),
     })
   )
 });

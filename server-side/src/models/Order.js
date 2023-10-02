@@ -1,9 +1,11 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
+const { any } = require("../utils/multer");
 
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
-  user_id: { type: Schema.Types.ObjectId, ref: "User" },
+  buyer: { type: Schema.Types.ObjectId, ref: "User" },
   items: [
     {
       service_id: { type: Schema.Types.ObjectId, ref: "Service" },
@@ -17,17 +19,28 @@ const orderSchema = new Schema({
       price:{
         type: Number
       },
+      time:{
+        type: Array,
+      },
       status:{
         type : String ,
-        enum:['pending','inProgress', 'waitingForDelivery','delivered','canceled'],
+        enum:['pending','inProgress','delivered','canceled'],
         default:'pending'
-      }
+      },
     }
   ], 
   created_at: {
     type: Date,
     default: Date.now()
   },
+  seller:{
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  chatHistory:{
+    type: Array,
+    default: [],
+  }
 
 });
 

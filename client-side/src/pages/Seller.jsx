@@ -89,37 +89,48 @@ export default function Seller() {
   },[cookies.UserToken, id])
 
 
-// get seller incoming orders
-  useEffect(()=>{
+  //get all Incoming orders for this seller
+  useEffect(() => {
     async function getIncomingOrderHistory() {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/incomingOrders/user/${cookies.User._id}`,
+        `${import.meta.env.VITE_API_URL}/orders/seller/${id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-      const data = await response.data.incomingOrder.map((order) => order)
-      const allIncomingOrdersData = data.flatMap((ordersData) =>
-      ordersData.items.map((item) => ({
-        id: ordersData._id,
-        buyer: ordersData.user_id,
-        quantity: item.quantity,
-        created_at: ordersData.created_at,
-        name: item.service_id.name,
-        avg_rating: item.service_id.avg_rating,
-        description: item.service_id.description,
-        image: item.service_id.images[0].url,
-        seller: item.service_id.user_id,
-        status: item.status,
-        price: item.price,
-        time: item.time,
-        extras: item.extras,
-      }))
-    );
-      setAllIncomingOrders(allIncomingOrdersData.flatMap((order) => order))
+      
+      const data = await response.data.orders.map((order) => order)
+
+      const allOrdersData = data.map((order) => {
+        return order.items.map((item) => {
+          return {
+            id: item._id,
+            buyer: item.user_id,
+            quantity: item.quantity,
+            created_at: order.created_at,
+            name: item.service_id.name,
+            avg_rating: item.service_id.avg_rating,
+            description: item.service_id.description,
+            image: item.service_id.images[0].url,
+            seller: item.service_id.user_id,
+            status: item.status,
+            price: item.price,
+            time: item.time,
+            extras: item.extras,
+          };
+          
+        });
+        
+      });
+      
+    
+    setAllIncomingOrders(allOrdersData.flatMap((order) => order))
+
     }
     if (window.localStorage.getItem("logged")) {
       getIncomingOrderHistory();
     }
-  },[cookies.User._id, cookies.UserToken, id])
+
+
+  }, [cookies.User._id, cookies.UserToken,id]);
 
 
 // console.log('user:',user)

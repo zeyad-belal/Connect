@@ -5,15 +5,15 @@ const {
   createOrder,
   getAllOrders,
   getOrderById,
-  getOrderByUserId,
-  updateOrder,
+  getOrderByBuyerId,
+  getOrderBySellerId,
+  updateOrderStatus,
+  updateOrderChat,
   deleteOrder
 } = require("../controllers/orderController");
 
 const verfiyUserToken = require("../middlewares/verfiyUserToken");
-const canUpdateOrder = require("../middlewares/order/canUpdateOrder");
 const canDeleteOrder = require("../middlewares/order/canDeleteOrder");
-const { orderValidation } = require("../utils/validations/orderValidation");
 
 // get all orders
 router.get("/", verfiyUserToken, getAllOrders);
@@ -21,20 +21,20 @@ router.get("/", verfiyUserToken, getAllOrders);
 // get order by id
 router.get("/:id", verfiyUserToken, getOrderById);
 
-// get order by user id
-router.get("/user/:id", verfiyUserToken, getOrderByUserId);
+// get order by buyer id
+router.get("/buyer/:id", verfiyUserToken, getOrderByBuyerId);
+
+// get order by seller id
+router.get("/seller/:id", verfiyUserToken, getOrderBySellerId);
 
 // create a new order
-router.post("/", verfiyUserToken, orderValidation, createOrder);
+router.post("/", verfiyUserToken, createOrder);
 
-// update order
-router.patch(
-  "/:id",
-  verfiyUserToken,
-  canUpdateOrder,
-  orderValidation,
-  updateOrder
-);
+// update order status
+router.patch( "/:id", verfiyUserToken, updateOrderStatus);
+
+// update order chat
+router.patch( "/chat/:id", verfiyUserToken, updateOrderChat);
 
 // delete order
 router.delete("/:id", canDeleteOrder, deleteOrder);

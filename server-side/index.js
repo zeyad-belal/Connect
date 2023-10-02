@@ -24,7 +24,6 @@ const categoryRouter = require("./src/routes/categoryRoutes");
 const serviceRoutes = require("./src/routes/serviceRoutes");
 const orderRoutes = require("./src/routes/orderRoutes");
 const reviewRoutes = require("./src/routes/reviewRoutes");
-const incomingOrderRoutes = require("./src/routes/incomingOrderRoutes");
 const {makePayment} = require("./src/controllers/stripPayment");
 const verfiyUserToken = require("./src/middlewares/verfiyUserToken");
 
@@ -40,8 +39,6 @@ app.use("/categories", categoryRouter);
 app.use("/services", serviceRoutes);
 app.use("/orders", orderRoutes);
 app.use("/reviews", reviewRoutes);
-app.use("/incomingOrders", incomingOrderRoutes);
-
 app.post('/create-checkout-session',verfiyUserToken, makePayment);
 
 

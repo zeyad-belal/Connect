@@ -14,12 +14,36 @@ const Chat = () => {
   const queryParams = new URLSearchParams(search);
   const sellerID = queryParams.get('sellerID');
   const buyerID = queryParams.get('buyerID');
+  const orderID = queryParams.get('orderID');
   const [otherGuyData, setOtherGuyDataData] = useState({}); 
 
   const socket = io(import.meta.env.VITE_API_URL);
   const [messages, setMessages] = useState([]);
+  const [menu, setMenu] = useState(false);
   const [messageInput, setMessageInput] = useState(''); 
 
+  function toggleMenu(){
+    setMenu(prev => !prev)
+  }
+
+  function confirmOrderCompleted(){
+    async function UpdateOrderStatus(){
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/orders/${orderID}`,
+        { status : 'delivered' },
+        { headers: {
+            Authorization: `${cookies.UserToken}`,
+            "Content-Type": "application/json", 
+          },
+        }
+      );
+      console.log(response)
+    }
+    try{
+      UpdateOrderStatus()
+    }catch(error){
+      console.log(error)
+    }
+  }
 
 
   function sendMessage() {
@@ -35,7 +59,6 @@ const Chat = () => {
     }
   }
   
-
 
 
   //handle socket
@@ -63,32 +86,30 @@ const Chat = () => {
   // get chat history
   useEffect(()=>{
     async function getChat(){
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/incomingOrders/user/${sellerID}`,
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/orders/${orderID}`,
       { headers: { Authorization: `${cookies.UserToken}` } })
-      const currentIncomingOrder = res.data.incomingOrder.map((order)=>{
-        if(order.buyer._id == buyerID){
-          return order  
-        } 
-      })
-      setMessages(currentIncomingOrder[0].chatHistroy || [])
+
+      res.data.chatHistory ? setMessages(res.data.chatHistory) : ''
+    
     }
+    
     try{
       sellerID ?getChat() : ''
     }catch(error){
       console.log('cannot get chat history', error)
     }
-  },[buyerID, cookies.User._id, cookies.UserToken, sellerID])
+  },[buyerID, cookies.User._id, cookies.UserToken, orderID, sellerID])
 
   
   // send chat histroy
   useEffect(()=>{
     async function UpdateChat(){
-      const res = await axios.patch(`${import.meta.env.VITE_API_URL}/incomingOrders/${sellerID}`,
-      {chatHistroy :messages } ,
+      const res = await axios.patch(`${import.meta.env.VITE_API_URL}/orders/chat/${orderID}`,
+      {chatHistory :messages } ,
       { headers: { Authorization: `${cookies.UserToken}` } })
     }
     try{
-      messages ? UpdateChat() : ''
+      messages && messages.length > 0 ? UpdateChat() : ''
     }catch(error){
       console.log('chat history didnt sent succ !')
     }
@@ -117,11 +138,11 @@ const Chat = () => {
 
 
   return (
-    <div className='flex bg-primary mt-[50px] min-h-[93vh]'>
+    <div className='flex justify-between bg-primary mt-[50px] min-h-[93vh]'>
       {/*  chat  */}
-      <div className='min-h-fit  mt-3 bg-white rounded-lg min-w-[70%] px-5 pt-5 '>
+      <div className=' mt-3 bg-white rounded-lg w-full px-5 pt-5 '>
         {/* other guy header  */}
-        <div className='mx-auto  w-[60vw]  flex  px-43  pb-2 z-30'>
+        <div className='mx-auto w-[97%]  flex  px-3  pb-2 z-30 relative '>
           <div className="w-[40px] h-[40px] mr-2  flex gap-2 " >
             <img
             className="w-full h-full object-cover rounded-full"
@@ -129,9 +150,23 @@ const Chat = () => {
             alt="User Avatar" />
           </div>
           <h1 className='text-lg font-medium  w-full '>{otherGuyData &&`${otherGuyData.first_name} ${otherGuyData.last_name}`}</h1>
+        <span className='text-3xl mt-[-5px] cursor-pointer' onClick={toggleMenu}>... </span>
+      
+      {/* status */}
+      {menu ?
+        <div className='rounded-lg self-start mx-auto bg-white pb-5 flex flex-col my-8   max-h-fit p-5 absolute right-0 w-[320px] h-[160px] border border-gray-300'>
+        <p className='mx-2 text-sm mb-1'>Mark service as completed ?</p>
+        <p className='mx-2 text-[12px] text-gray-400'>please ensure that all your transactions and interactions with the seller have been satisfactorily concluded before proceeding.</p>
+        <button className='bg-green-400 text-white p-2 self-end rounded-lg font-semibold text-xs mt-3 hover:bg-green-500'
+        onClick={confirmOrderCompleted}
+        >confirm</button>
+      </div>
+      : ''
+      }
+
         </div>
         {/* ----------------messages------------------- */}
-        <div className='h-[65vh] w-[60vw] border-2 mb-2 p-5 mx-auto flex flex-col  rounded-md overflow-y-auto'>
+        <div className='h-[65vh] w-[96%] border-2 mb-2 p-5 mx-auto flex flex-col  rounded-md overflow-y-auto'>
           {messages && messages.map((message, index) => (
             <div key={index * Math.random()}  className={`mb-1 p-2 rounded-xl w-fit flex 
             ${message.split(":-:")[0].trim() == cookies.User.first_name.trim() ?
@@ -162,7 +197,7 @@ const Chat = () => {
         </div>
 
         {/* -----------------------------user input-----------------------------------------------------  */}
-        <div className='mx-auto w-[60vw] mt-4  flex items-center justify-between'>
+        <div className='mx-auto w-[96%] mt-4  flex items-center justify-between'>
           <input
             ref={inputField}
             type="text"
@@ -179,12 +214,6 @@ const Chat = () => {
         </div>
       </div>
 
-
-      {/* status */}
-      <div  className='min-h-[80vh]  bg-white pb-5 mx-4 my-6  w-[30%]'>
-        <p>fff</p>
-        <button className='bg-green-400 text-white p-3 rounded-full font-bold text-lg'>hey</button>
-      </div>
     </div>
   );
 };

@@ -44,10 +44,11 @@ function Purchases() {
   
 
   function startChatHandler(e, item) {
-    const room = `${item.seller._id}${item.buyer._id}`;
-    const sellerID = item.seller._id; 
-    const buyerID = item.buyer._id; 
-    navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}`);
+    console.log(item)
+    const room = `${item.seller.id}${item.buyer.id}`;
+    const sellerID = item.seller.id; 
+    const buyerID = item.buyer.id; 
+    navigate(`/chat/${room}?sellerID=${sellerID}&buyerID=${buyerID}&orderID=${item.orderID}`);
   }
 
 
@@ -55,17 +56,18 @@ function Purchases() {
   useEffect(() => {
     async function getOrderHistory() {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/orders/user/${cookies.User._id}`,
+        `${import.meta.env.VITE_API_URL}/orders/buyer/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const data = await response.data.order.map((order) => order)
 
       const allOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
-        id: ordersData._id,
-        buyer: ordersData.user_id,
-        quantity: item.quantity,
+        orderID:ordersData._id,
+        buyer: ordersData.buyer,
         created_at: ordersData.created_at,
+        id: ordersData._id,
+        quantity: item.quantity,
         name: item.service_id.name,
         avg_rating: item.service_id.avg_rating,
         description: item.service_id.description,
@@ -109,7 +111,7 @@ function Purchases() {
 
   },[allOrders,currentStatus])
 
-
+// console.log(allOrders)
 
   
   return (
@@ -167,11 +169,6 @@ function Purchases() {
                             in progress
                           </span>
                         )}
-                        {item.status == "waitingForDelivery" && (
-                          <span className=" w-fit mb-1 bg-secHover text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg ">
-                            waiting for delivery
-                          </span>
-                        )}
                         {item.status == "delivered" && (
                           <span className=" w-fit mb-1 bg-green-400 text-text1 px-[5px] py-[3px] text-xs font-medium rounded-lg ">
                             delivered
@@ -187,6 +184,7 @@ function Purchases() {
                           <span>$ {item.price * item.quantity} </span>
                           <span> Q : {item.quantity}</span>
                         </div>
+                        <span> seller : {item.seller.first_name}</span>
 
                         {item.extras[0] && (
                           <div className="mt-4 mb-1 text-xs text-gray-500 pb-2">
