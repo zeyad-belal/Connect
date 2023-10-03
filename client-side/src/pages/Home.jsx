@@ -16,15 +16,21 @@ export default function Home(props) {
   const [cookies, setCookies, removeCookie] = useCookies(["User"]);
 
   useEffect(() => {
+    const userId = cookies.User ? cookies.User._id : localStorage.getItem("userID");
+    const userToken = cookies.UserToken || localStorage.getItem("userToken");
+    
     async function getUserData() {
+      console.log(userToken)
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
-          {headers: { Authorization: cookies.UserToken }});
+          `${import.meta.env.VITE_API_URL}/users/${userId}`,
+          { headers: { Authorization: userToken } } );
           
         setCookies("User", response.data.user);
+        props.setUserStatus(true)
       } catch (error) {
-        // console.error(error);
+        props.setUserStatus(false)
+        console.error(error);
         toast.info("Something went wrong !", {
           position: "top-right",
           autoClose: 1500,
@@ -39,7 +45,11 @@ export default function Home(props) {
     }
 
     if (window.localStorage.getItem("logged")) {
-      getUserData();
+      if(userId && userToken){
+        getUserData();
+      }else{
+        props.setUserStatus(false)
+      }
     }
   }, []);
 

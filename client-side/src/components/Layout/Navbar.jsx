@@ -29,7 +29,6 @@ const Navbar = (props) => {
   const dispatch = useDispatch()
 
   const navigate = useNavigate();
-  const [userStatus, setUserStatus] = useState(window.localStorage.getItem("logged"));
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
   const [categories, setCategories] = useState([]);
@@ -42,6 +41,7 @@ const Navbar = (props) => {
     removeCookie("UserToken");
     removeCookie("User");
     window.localStorage.removeItem("User");
+    window.localStorage.removeItem("userID");
     window.localStorage.removeItem("UserToken");
     navigate("/");
     window.location.reload();
@@ -69,6 +69,9 @@ const Navbar = (props) => {
     setNewNoti(false)
   }
 
+
+
+
   useEffect(() => {
     if (cookies.User) {
       setCurrUser(cookies.User);
@@ -90,7 +93,7 @@ const Navbar = (props) => {
   },[])
 
 
-console.log(props.noti)
+
   return (
     <>
       <nav
@@ -230,7 +233,7 @@ console.log(props.noti)
           </Link>
           {/* user  */}
           <li className="flex items-center py-2 sm:px-6 px-1  text-text1  text-sm:10 ">
-            {userStatus ? (
+            {props.userStatus ? (
               <div
                 className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"
                 onClick={() => dispatch(menuActions.toggleUserMenu())} >

@@ -69,7 +69,6 @@ function IncomingOrders() {
           },
         }
       );
-      console.log(response)
     }
 
     if(item.status == 'pending'){

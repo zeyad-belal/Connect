@@ -39,6 +39,7 @@ function App() {
   const dispatch = useDispatch();
   const socket = io(import.meta.env.VITE_API_URL);
   const [noti, setNoti] = useState([])
+  const [userStatus, setUserStatus] = useState(window.localStorage.getItem("logged"));
 
 
   // FETCHING SERVICES
@@ -126,10 +127,10 @@ function App() {
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-        <Navbar noti={noti} />
+        <Navbar noti={noti} userStatus={userStatus} />
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setUserStatus={setUserStatus} />} />
         <Route path="/userInfo" element={<UserInfo />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />

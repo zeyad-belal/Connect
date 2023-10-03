@@ -19,8 +19,8 @@ function Login() {
 
 
   async function onSubmit(data) {
-    const { email, password } = data;
-
+    const { email, password, rememberMe } = data;
+    console.log(rememberMe)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/login`,
@@ -30,18 +30,13 @@ function Login() {
       setCookie("UserToken", response.data.token);
       setCookie("User", JSON.stringify(response.data.user));
       window.localStorage.setItem("logged", true);
+      if(rememberMe ){
+        window.localStorage.setItem("userID", response.data.user._id) 
+        window.localStorage.setItem("userToken", response.data.token) 
+      } 
       dispatch(signModalActions.toggleModal())
       window.location.reload();
-      // toast(`Welcome back ${response.data.user?.["first_name"] || ""}!`, {
-      //   position: "top-right",
-      //   autoClose: 1500,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "light",
-      // });
+
     } catch (error) {
       // console.error(error);
       error.response
@@ -134,6 +129,16 @@ function Login() {
               password must be less than 20 chars
             </p>
           )}
+          {/* -----------------rememberMe---------------- */}
+          <div className="flex gap-2 my-1">
+            <input 
+              {...register("rememberMe", {
+              })}
+              type="checkbox"
+              />
+              <span className="text-sm" >remember me ?</span>
+            </div>
+
           <input
             type="submit"
             value={"Login"}
