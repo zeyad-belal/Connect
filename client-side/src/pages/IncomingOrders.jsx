@@ -93,11 +93,11 @@ function IncomingOrders() {
   //get all Incoming orders for this user
   useEffect(() => {
     async function getIncomingOrderHistory() {
+      console.log(cookies.UserToken)
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/orders/seller/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-      
       const data = await response.data.orders.map((order) => order)
 
       const allOrdersData = data.map((order) => {

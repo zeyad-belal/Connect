@@ -20,22 +20,19 @@ function Login() {
 
   async function onSubmit(data) {
     const { email, password, rememberMe } = data;
-    console.log(rememberMe)
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/login`,
-        { email, password }
+        { email, password,rememberMe }
       );
 
       setCookie("UserToken", response.data.token);
       setCookie("User", JSON.stringify(response.data.user));
       window.localStorage.setItem("logged", true);
-      if(rememberMe ){
-        window.localStorage.setItem("userID", response.data.user._id) 
-        window.localStorage.setItem("userToken", response.data.token) 
-      } 
+console.log(response)
       dispatch(signModalActions.toggleModal())
-      window.location.reload();
+      // window.location.reload();
 
     } catch (error) {
       // console.error(error);

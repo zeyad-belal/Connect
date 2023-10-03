@@ -37,12 +37,9 @@ const Navbar = (props) => {
 
 
   function signoutHandler() {
-    window.localStorage.removeItem("logged");
     removeCookie("UserToken");
     removeCookie("User");
-    window.localStorage.removeItem("User");
-    window.localStorage.removeItem("userID");
-    window.localStorage.removeItem("UserToken");
+    window.localStorage.removeItem("logged");
     navigate("/");
     window.location.reload();
   }
@@ -75,15 +72,28 @@ const Navbar = (props) => {
   useEffect(() => {
     if (cookies.User) {
       setCurrUser(cookies.User);
+      props.setUserStatus(true)
+    }else{
+      props.setUserStatus(false)
+
     }
-  }, [cookies.User]);
+  }, [cookies.User, props]);
 
 
+  // useEffect(() => {
+  //   return ()=>{  
+  //     if (!window.localStorage.getItem('UserToken') || !window.localStorage.getItem('userID')) {
+  //       signoutHandler()
+  //     }
+  //   }
+  // }, []);
+
+// handle new noti mark
   useEffect(() => {
     setNewNoti(true)
   }, [props.noti]);
 
-
+// get catgories names
   useEffect(()=>{
     async function getCategories(){
       const repsonse = await  axios.get( `${import.meta.env.VITE_API_URL}/categories`)
@@ -92,7 +102,7 @@ const Navbar = (props) => {
     getCategories()
   },[])
 
-
+console.log(props.userStatus)
 
   return (
     <>

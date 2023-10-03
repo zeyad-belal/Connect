@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import StatusFilter from "../components/StatusFilter";
 import { BsChatFill } from "react-icons/bs";
+import { PiArrowSquareInBold } from "react-icons/pi";
 
 
 function Purchases() {
@@ -148,7 +149,7 @@ function Purchases() {
             <div className="py-3 text-gray-500 flex flex-col ">
               {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
                   return (
-                    <div className="flex justify-between" key={index}>
+                    <div className="flex justify-between flex-col" key={index}>
                     <div
                       className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 
                       ${ allOrders.length == 1 || allOrders.length - 1 == index ? "" : "border-b" } px-3 py-2`} >
@@ -225,6 +226,8 @@ function Purchases() {
               })}
             </div>
           }
+          <button className="self-end text-sm bg-secondary hover:bg-secHover text-text1 rounded-lg p-2 font-semibold flex items-center gap-2">
+          <PiArrowSquareInBold size={20} /> <span>  Write  a  review </span> </button>
           {/* ----------------------------no orders found message------------------------------------ */}
           {(!filteredOrders.length && !allOrders.length > 0 )  && LoadingState} 
 

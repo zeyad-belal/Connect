@@ -53,27 +53,39 @@ const signUp = async (req, res, next) => {
   }
 };
 
-//login
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   if (!email || !password)
-    return next(new AppError("email and password are requird", 401));
+    return next(new AppError("email and password are required", 401));
 
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) return next(new AppError("user not found", 404));
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return next(new AppError("invalid credentials", 404));
+  if (!isMatch) return next(new AppError("invalid credentials", 401));
 
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET
-  );
+  let token;
+
+  if (rememberMe) {
+    // If "rememberMe" is true, set a long-lived token with a custom expiration time (1 year)
+    const expirationInSeconds = 365 * 24 * 60 * 60; // 1 year in seconds
+    token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: expirationInSeconds,
+    });
+  } else {
+    // If "rememberMe" is false, use a regular token with a shorter expiration time (1 hour)
+    token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: '1h', // 1 hour
+    });
+  }
 
   user.password = undefined;
+
   res.send({ user, token });
 };
+
+
 
 // Admin panel login
 const adminLogin = async (req, res, next) => {

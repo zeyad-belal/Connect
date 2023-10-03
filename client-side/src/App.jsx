@@ -26,12 +26,13 @@ import { menuActions } from "./store/menuSlice.jsx";
 import Chat from "./pages/Chat.jsx";
 import io from 'socket.io-client';
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 let firstRender = true;
 
 function App() {
-  const [cookies, setCookie] = useCookies(["UserToken", "User"]);
+  const [cookies, setCookies] = useCookies(["UserToken", "User"]);
 
   const signModal = useSelector((state) => state.signModal);
   const cart = useSelector((state) => state.cart);
@@ -39,14 +40,13 @@ function App() {
   const dispatch = useDispatch();
   const socket = io(import.meta.env.VITE_API_URL);
   const [noti, setNoti] = useState([])
-  const [userStatus, setUserStatus] = useState(window.localStorage.getItem("logged"));
+  const [userStatus, setUserStatus] = useState(window.localStorage.getItem("logged")|| false);
 
 
   // FETCHING SERVICES
   useEffect(() => {
     dispatch(fetchServices());
-    window.localStorage.setItem("User", JSON.stringify(cookies.User));
-    window.localStorage.setItem("UserToken", cookies.UserToken);
+
   }, []);
 
   // FETCHING CART ITEMS
@@ -94,6 +94,55 @@ function App() {
   }, [socket.id]);
 
 
+
+
+  // useEffect(() => {
+  //   const userId = cookies.User ? cookies.User._id : localStorage.getItem("userID");
+  //   const userToken = cookies.UserToken || localStorage.getItem("UserToken");
+
+  //   console.log('userToken from app',userToken)
+  //   console.log('userId from app',userId)
+  //   async function getUserData() {
+  //     try {
+  //       const response = await axios.get(
+  //         `${import.meta.env.VITE_API_URL}/users/${userId}`,
+  //         { headers: { Authorization: userToken } } );
+          
+  //       setCookies("User", response.data.user);
+  //       setCookies("UserToken", response.data.token);
+  //       setUserStatus(true)
+  //     } catch (error) {
+  //       setUserStatus(false)
+  //       console.error(error);
+  //       toast.info("Something went wrong !", {
+  //         position: "top-right",
+  //         autoClose: 1500,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //         theme: "light"
+  //       });
+  //     }
+  //   }
+
+  //   if (userId && userToken) {
+  //       getUserData();
+  //       console.log('getUserData fired')
+  //     }else {
+  //       window.localStorage.removeItem("logged")
+  //       setUserStatus(false)
+      
+  //   }
+  // }, []);
+
+
+
+
+
+
+
   // get noti history
   // useEffect(()=>{
   //   async function getNotiHistory(){
@@ -111,6 +160,12 @@ function App() {
   // },[])
 
 
+  useEffect(()=>{
+    if(!cookies.User || !cookies.USerToken){
+      window.localStorage.removeItem("logged")
+    }
+  },[])
+
 
   return (
     <div className="app">
@@ -127,7 +182,7 @@ function App() {
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-        <Navbar noti={noti} userStatus={userStatus} />
+        <Navbar noti={noti} userStatus={userStatus} setUserStatus={setUserStatus} />
       </div>
       <Routes>
         <Route path="/" element={<Home setUserStatus={setUserStatus} />} />
