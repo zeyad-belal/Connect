@@ -16,7 +16,8 @@ function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const dispatch = useDispatch()
 
-
+  const oneYearFromNow = new Date();
+oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 
   async function onSubmit(data) {
     const { email, password, rememberMe } = data;
@@ -27,9 +28,16 @@ function Login() {
         { email, password,rememberMe }
       );
 
-      setCookie("UserToken", response.data.token);
-      setCookie("User", JSON.stringify(response.data.user));
       window.localStorage.setItem("logged", true);
+      if(rememberMe){
+
+        setCookie("UserToken", response.data.token, { expires: oneYearFromNow })
+        setCookie("User", JSON.stringify(response.data.user), { expires: oneYearFromNow })
+      }else{
+        setCookie("UserToken", response.data.token )
+        setCookie("User", JSON.stringify(response.data.user))
+      }
+
 console.log(response)
       dispatch(signModalActions.toggleModal())
       // window.location.reload();

@@ -67,23 +67,18 @@ const login = async (req, res, next) => {
 
   let token;
 
-  if (rememberMe) {
-    // If "rememberMe" is true, set a long-lived token with a custom expiration time (1 year)
-    const expirationInSeconds = 365 * 24 * 60 * 60; // 1 year in seconds
-    token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: expirationInSeconds,
-    });
-  } else {
-    // If "rememberMe" is false, use a regular token with a shorter expiration time (1 hour)
-    token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: '1h', // 1 hour
-    });
-  }
+  // Calculate the expiration time in seconds based on rememberMe
+  const expirationInSeconds = rememberMe ? 365 * 24 * 60 * 60 : 60 * 60; // 1 year or 1 hour
+
+  token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: expirationInSeconds,
+  });
 
   user.password = undefined;
 
   res.send({ user, token });
 };
+
 
 
 

@@ -102,13 +102,12 @@ const Navbar = (props) => {
     getCategories()
   },[])
 
-console.log(props.userStatus)
 
   return (
     <>
       <nav
         id="MainNav"
-        className="fixed border-b border-gray-300  top-0  bg-white  h-15 w-full z-50 lg:px-5 px-1  flex justify-between "
+        className="fixed border-b border-gray-300  top-0  bg-white  h-15 w-full z-50 lg:px-1 px-1  flex justify-between "
       >
         <ul className="flex ">
           {/* subnav icon  */}
@@ -134,7 +133,7 @@ console.log(props.userStatus)
             </li>
           </Link>
           {/* Add Service */}
-          <li className="text-md items-center shrink-0  lg:flex hidden  px-5 py-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center shrink-0  lg:flex hidden  px-4 py-3  text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navTo('/addService')} >
             <MdAdd /> Add service
           </li>
@@ -158,12 +157,12 @@ console.log(props.userStatus)
             </div>}
           </li>
           {/* incoming Orders */}
-          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center  lg:flex hidden  px-4 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navTo('/incomingOrders')}>
             <BiSolidTruck size={22} /> Orders
           </li>
           {/* Purchases */}
-          <li className="text-md items-center  lg:flex hidden  px-5 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
+          <li className="text-md items-center  lg:flex hidden  px-4 py-3   text-text1 hover:bg-primary  cursor-pointer gap-2"
           onClick={()=>navTo('/purchases')}>
             <PiShoppingBagFill size={22} /> Purchases
           </li>
@@ -242,7 +241,7 @@ console.log(props.userStatus)
             </li>
           </Link>
           {/* user  */}
-          <li className="flex items-center py-2 sm:px-6 px-1  text-text1  text-sm:10 ">
+          <li className="flex items-center py-2 sm:px-2 px-1  text-text1  text-sm:10 ">
             {props.userStatus ? (
               <div
                 className="relative max-w-[100px] cursor-pointer  border-text1 border-2 rounded-full"
