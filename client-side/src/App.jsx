@@ -3,7 +3,7 @@
 import Cart from "./pages/Cart.jsx";
 import Footer from "../src/components/Layout/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Layout/Navbar.jsx";
 import { Route, Routes } from "react-router";
 import NotFound from "./pages/NotFound.jsx";
@@ -24,6 +24,9 @@ import IncomingOrders from "./pages/IncomingOrders.jsx";
 import "./App.css";
 import { menuActions } from "./store/menuSlice.jsx";
 import Chat from "./pages/Chat.jsx";
+import io from 'socket.io-client';
+import axios from "axios";
+
 
 let firstRender = true;
 
@@ -34,6 +37,10 @@ function App() {
   const cart = useSelector((state) => state.cart);
   const menu = useSelector((state) => state.menu);
   const dispatch = useDispatch();
+  const socket = io(import.meta.env.VITE_API_URL);
+  const [noti, setNoti] = useState([])
+
+
   // FETCHING SERVICES
   useEffect(() => {
     dispatch(fetchServices());
@@ -61,6 +68,49 @@ function App() {
     }
   }, [cart]);
 
+
+
+  //handle socket
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log(`You are connected on ${socket.id}`)
+      socket.emit("join-room", 'global')
+      console.log(`front joined room global`)
+    });
+
+    // Listen for incoming chat messages from the server
+    socket.on('receive-noti', (message) => {
+      message?
+      setNoti(prevMessages => [...prevMessages, message] )
+      : ''
+    });
+
+    // Clean up the socket event listener before the component unmounts and send the chat history to backend
+    return () => {
+      socket.off('connect');
+      socket.off('receive-noti');
+    };
+  }, [socket.id]);
+
+
+  // get noti history
+  // useEffect(()=>{
+  //   async function getNotiHistory(){
+  //     const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
+  //     { headers: { Authorization: `${cookies.UserToken}` } })
+  //     console.log(res.data.user.noti)
+  //     setNoti(res.data.user.noti)
+  //   }
+    
+  //   try{
+  //     localStorage.getItem('logged') ?getNotiHistory() : ''
+  //   }catch(error){
+  //     console.log('cannot get chat history', error)
+  //   }
+  // },[])
+
+
+
   return (
     <div className="app">
       {menu.isSubVisible ? (
@@ -76,7 +126,7 @@ function App() {
       {signModal.modalIsShown && signModal.signUpModalStatus && <Signup />}
 
       <div className="sticky block top-0 z-50">
-        <Navbar />
+        <Navbar noti={noti} />
       </div>
       <Routes>
         <Route path="/" element={<Home />} />

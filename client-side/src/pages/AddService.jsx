@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
+import { io } from "socket.io-client";
 
 
 const RepeatedExtras = (props) => {
@@ -105,6 +106,9 @@ function AddService() {
   const imageInput = useRef(null);
   
   const [extras, setExtras] = useState([]);
+  const socket = io(import.meta.env.VITE_API_URL);
+
+
 
   const gatherExtrasDetails = () => {
     const details = [];
@@ -163,7 +167,10 @@ function AddService() {
   }
   
 
+  
+
   const onSubmit = async (data) => {
+
     try {
       setLoadingStatue(true)
       const extras = gatherExtrasDetails();
@@ -183,16 +190,19 @@ function AddService() {
       });
 
       
-      const response = await axios.post(
+      const serviceCreationRes = await axios.post(
         `${import.meta.env.VITE_API_URL}/services`,
         formData,
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
-    
+
       setLoadingStatue(false) 
       reset()
       setSelectedImages([])
       setImagesURLS([])
+      // send noti to all users
+      socket.emit('send-noti', `${serviceCreationRes.data.toBeSentDocument._id} : New Service Has Been Added By ${cookies.User.first_name} ${cookies.User.last_name} : (${data.name})`, 'global');
+
       toast.success(`your service has been added ${cookies.User.first_name}!`, {
         position: "top-right",
         autoClose: 2000,
@@ -205,7 +215,7 @@ function AddService() {
       })
     } catch (error) {
       setLoadingStatue(false) 
-      // console.log(error)
+      console.log(error)
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
@@ -220,6 +230,9 @@ function AddService() {
   };
 
 
+
+
+  //get catgories
   useEffect(()=>{
     async function getCategories(){
       try{
@@ -247,7 +260,6 @@ function AddService() {
     <main className="bg-primary ">
       <h1 className="text-[25px] font-semibold px-12 pt-12 pb-10 md:pb-0">Add New Service</h1>
       <div className="flex relative justify-center items-center ">
-
         <form
           ref={form}
           onSubmit={handleSubmit(onSubmit)}

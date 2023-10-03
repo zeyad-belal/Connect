@@ -14,7 +14,8 @@ const signUp = async (req, res, next) => {
     role,
     phone_number,
     cart_items,
-    bio
+    bio,
+    noti
   } = req.body;
   if (!email || !password)
     return next(new AppError("email and password required", 401));
@@ -28,7 +29,8 @@ const signUp = async (req, res, next) => {
       role,
       phone_number,
       cart_items,
-      bio
+      bio,
+      noti
     });
     newUser.password = undefined;
 
@@ -121,6 +123,32 @@ const getUserById = async (req, res) => {
   res.send({ user });
 };
 
+//get user by id
+// const updateAllUsersNoti = async (req, res) => {
+//   const allUsers = await User.find({})
+//   if (!allUsers) return next(new AppError("users not found", 404));
+
+//   const {noti} = req.body
+
+//   for (const user of allUsers) {
+//     // Check if the user document still exists in the database
+//     const existingUser = await User.findById(user._id);
+
+//     if (!existingUser) {
+//       console.log(`User ${user._id} not found in the database.`);
+//       continue; // Skip to the next user if not found
+//     }
+
+//     // Update 'noti' and save the document
+//     existingUser.noti = [...existingUser.noti , noti];
+//     await existingUser.save();
+//     console.log(`Updated noti for user ${existingUser._id}`);
+//   }
+
+
+//   res.send({ allUsers });
+// };
+
 // verify logged-in user from admin panel
 const verifyUser = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -161,7 +189,7 @@ const dashboardUpdateUser = async (req, res, next) => {
 // update user info
 const updateUser = async (req, res,next) => {
   const { id } = req.user;
-  const { first_name, last_name, email, phone_number, role, cart_items,bio } = req.body;
+  const { first_name, last_name, email, phone_number, role, cart_items,bio,noti } = req.body;
   let {avatar,avatarID } = req.body;
 
   // handle new image uploud 
@@ -195,7 +223,7 @@ const updateUser = async (req, res,next) => {
 
   const user = await User.findByIdAndUpdate(
     id,
-    { first_name, last_name, email, phone_number, avatar ,avatarID, role, cart_items,bio },
+    { first_name, last_name, email, phone_number, avatar ,avatarID, role, cart_items,bio,noti },
     { new: true }
   );
 
@@ -216,6 +244,7 @@ module.exports = {
   getUserById,
   getAllUsers,
   updateUser,
+  // updateAllUsersNoti,
   deleteUser,
   login,
   adminLogin,

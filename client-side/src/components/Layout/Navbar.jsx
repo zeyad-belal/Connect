@@ -13,7 +13,6 @@ import { MdAdd } from "react-icons/md";
 import { BiSolidTruck } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import { FaSignOutAlt } from "react-icons/fa";
-import { Backdrop } from "../../UI/Modal";
 import { AiFillHome } from "react-icons/ai";
 import { PiShoppingBagFill } from "react-icons/pi";
 import { useDispatch , useSelector } from "react-redux"
@@ -34,6 +33,7 @@ const Navbar = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["UserToken", "User"]);
   const [CurrUser, setCurrUser] = useState("");
   const [categories, setCategories] = useState([]);
+  const [newNoti, setNewNoti] = useState(false);
 
 
 
@@ -64,13 +64,21 @@ const Navbar = (props) => {
     }
   }
 
-
+  function openNotis(){
+    dispatch(menuActions.toggleNotiMenu())
+    setNewNoti(false)
+  }
 
   useEffect(() => {
     if (cookies.User) {
       setCurrUser(cookies.User);
     }
   }, [cookies.User]);
+
+
+  useEffect(() => {
+    setNewNoti(true)
+  }, [props.noti]);
 
 
   useEffect(()=>{
@@ -82,7 +90,7 @@ const Navbar = (props) => {
   },[])
 
 
-
+console.log(props.noti)
   return (
     <>
       <nav
@@ -153,7 +161,7 @@ const Navbar = (props) => {
           {/* home  */}
           <Link
             to={"/"}
-            className="md:hidden flex items-center rounded-full px-1 my-3 mx-2 text-text1 hover:bg-primary  cursor-pointer gap-2"
+            className="md:hidden flex items-center  py-3 px-4 text-text1 hover:bg-primary  cursor-pointer gap-2"
           >
             <li onClick={() => dispatch(menuActions.closeAllMenus())}>
               <AiFillHome size={22} />
@@ -172,24 +180,34 @@ const Navbar = (props) => {
           <li
             className={
               menu.isNotiMenuVisible
-                ? "flex items-center  px-5 py-3 text-text1 bg-primary cursor-pointer"
-                : "flex items-center  px-5 py-3 text-text1 hover:bg-primary cursor-pointer" }
-            onClick={() => dispatch(menuActions.toggleNotiMenu())} >
+                ? "relative flex items-center  px-5 py-3 text-text1 bg-primary cursor-pointer"
+                : "relative flex items-center  px-5 py-3 text-text1 hover:bg-primary cursor-pointer" }
+            onClick={openNotis} >
             <BsFillBellFill size={20} />
             {/* -------noti menu------- */}
+            {newNoti && props.noti.length > 0?
+            <span className="bg-text1 rounded-full h-2 w-2 top-[15px] right-2 absolute border-2 border-text1 "></span>: null
+            }
             {menu.isNotiMenuVisible && (
               <>
-                <div className="relative z-30  ">
-                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[150px]   shadow-md  border-gray-300">
-                    <li className="flex gap-2 rounded-md     border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                      handle noti here
+                <div className="relative z-30 ">
+                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[300px] mx-1   shadow-md  border-gray-300">
+                    {props.noti && props.noti.length > 0 ? props.noti.map((not,i)=>{
+                      return(
+                        <li key={i}
+                          className=" gap-1 rounded-md  border-primary items-center z-10 py-4 px-2  text-xs font-medium text-text1 hover:bg-primary cursor-pointer"
+                          onClick={()=> navigate(`/services/${not.split(":")[0]}`)}
+                          >
+                          <p>  {not.split(':')[1]} </p>
+                          <br />
+                          <p className="text-gray-400"> {not.split(':')[2]} </p>
+                        </li>
+                        )
+                      }):
+                      <li  className="flex gap-2 rounded-md  border-primary items-center z-10 py-4 px-2  text-xs font-medium text-text1 hover:bg-primary cursor-pointer">
+                      nothing here yet..
                     </li>
-                    <li className="flex gap-2 rounded-md   border-t-2 border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                      handle noti here
-                    </li>
-                    <li className="flex gap-2 rounded-md    border-t-2  border-primary items-center z-10 py-2 px-2  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
-                      handle noti here
-                    </li>
+                    }
                   </ul>
                 </div>
               </>

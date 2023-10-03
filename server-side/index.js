@@ -52,6 +52,14 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('send-noti', (message, room) => {
+    if (room !== '') { 
+      // Join the specified room
+      socket.join(room);
+      socket.to(room).emit('receive-noti', message); 
+    }
+  });
+
   socket.on('join-room', (room) => {
     socket.join(room);
     console.log(`User ${socket.id} joined room ${room}`);
