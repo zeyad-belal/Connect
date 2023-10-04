@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-const Review = ({ review }) => {
+const Review = ({ review, flag }) => {
+
   return (
-    <> 
+    <> {review? 
       <article className="py-4">
         <div className="flex items-center mb-4 space-x-4">
           <div className="flex justify-center items-center w-11 h-11 text-center font-semibold bg-secondary rounded-full">
@@ -13,7 +14,7 @@ const Review = ({ review }) => {
               Reviewed on{" "}
               <time dateTime="2017-03-03 19:00">{`${new Date(
                 review.created_at
-              ).toLocaleDateString("en-US", {
+                ).toLocaleDateString("en-US", {
                 weekday: "long",
                 year: "numeric",
                 month: "short",
@@ -82,7 +83,7 @@ const Review = ({ review }) => {
           </h3>
         </div>
         <p className="mb-2 text-gray-500">{review.review_description}</p>
-        <aside>
+        {!flag &&  <aside>
           <p className="mt-1 text-xs text-green-500">
             19 people found this helpful
           </p>
@@ -97,8 +98,9 @@ const Review = ({ review }) => {
               Report abuse
             </a>
           </div>
-        </aside>
+        </aside>}
       </article>
+    : null}
     </>
   );
 };

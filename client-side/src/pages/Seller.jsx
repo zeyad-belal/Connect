@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { RatingBadge } from '../components/Badges';
 import ServicesItem from '../components/Service/ServicesItem';
+import ReviewSlider from '../components/ReviewSlider';
 
 export default function Seller() {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export default function Seller() {
   const [user ,setUser] = useState(null)
   const [reviews ,setReviews] = useState(null)
   const [services ,setServices] = useState(null)
+  const [rate ,setRate] = useState(0)
   const [allIncomingOrders, setAllIncomingOrders] = useState([]);
 
 // get user
@@ -69,8 +71,16 @@ export default function Seller() {
       const response = await axios.get( `${import.meta.env.VITE_API_URL}/reviews/sellerReviews/${id}`,
       { headers: { Authorization: `${cookies.UserToken}` } });
       
-      console.log('reviews',response)
       setReviews(response.data)
+      
+      // calc user rate
+      const reviews = response.data; 
+      const sumOfRatings = reviews.reduce((total, review) => {
+        return total + review.rating;
+      }, 0);
+      const averageRating = sumOfRatings / reviews.length;
+      setRate(averageRating)
+      
     } 
     try{
       getUserReviews()
@@ -134,6 +144,7 @@ export default function Seller() {
 
 
 // console.log('user:',user)
+console.log('reviews:',reviews)
 // console.log('services:',services)
 // console.log('reviews:',reviews)
 // console.log('allIncomingOrders:',allIncomingOrders)
@@ -144,13 +155,18 @@ export default function Seller() {
       {user ?
       <>
         {/* --------------------------------img and name------------------------------ */}
-        <div className='w-full bg-white flex flex-col items-center py-12 '>
-          <div className='rounded-full max-w-[150px] max-h-[150px] overflow-hidden'>
-          <img src={user.avatar} alt="user image"  />
+        <div className='w-full bg-white flex flex-wrap justify-evenly items-center py-4 sm:py-8 md:py-12 '>
+          <div className='flex flex-col  items-center'>
+              <div className='rounded-full max-w-[150px] max-h-[150px] overflow-hidden'>
+                <img src={user.avatar} alt="user image"  />
+              </div>
+            <div className='text-2xl text-text1 font-semibold my-2' >{user.first_name} {user.last_name}</div>
+          </div> 
+          {reviews && reviews.length > 0 ? <ReviewSlider userReviews={reviews} seller={user} />
+          :
+          <p>{user.first_name} doesnt has any reviews yet !</p>
+          }
           </div>
-          
-          <div className='text-2xl text-text1 font-semibold my-2' >{user.first_name} {user.last_name}</div>
-        </div> 
 
         {/* -------------------------------about and stats------------------------------- */}
         <div className='flex flex-col md:flex-row justify-between px-3 sm:px-5 md:px-8 lg:px-12 my-3'>
@@ -161,8 +177,8 @@ export default function Seller() {
           
           <div className='my-5 py-5 px-7 bg-white w-full md:max-w-[37%] rounded-md'>
             <h2 className='font-semibold text-md text-text1 border-b pb-3 mb-2'> Stats </h2>
-            <ul className='flex flex-col gap-3 py-2 px-1 text-sm font-semibold text-text1'>
-              <li className='flex justify-between'>rate : <span className='text-gray-500'><RatingBadge avg_rating={reviews && reviews.avg_rating ? reviews.avg_rating : 0} /></span>  </li> 
+            <ul className='flex flex-col gap-3 py-2 px-1 text-sm font-medium text-text1'>
+              <li className='flex justify-between'>rate : <span className='text-gray-500'><RatingBadge avg_rating={rate} /></span>  </li> 
               <li className='flex justify-between'>published services : <span className='text-gray-500'>{services ? services.length: 0}</span>  </li>
               <li className='flex justify-between'>customers :     <span className='text-gray-500'>{allIncomingOrders? allIncomingOrders.length : 0}</span>  </li>
               <li className='flex justify-between'>member since : 

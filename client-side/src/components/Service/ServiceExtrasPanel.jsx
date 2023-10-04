@@ -35,8 +35,8 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
     <>
       <div className={`panel ${checkActive(1, "active")}`}>
         
-      {service.extras.map((extra) => (
-          <div key={extra[0]} className="border-b py-3 m-w-full ">
+      {service.extras.map((extra, i) => (
+          <div key={extra[0]} className={`${i != service.extras.length -1 ? 'border-b' : ''} py-3 m-w-full `}>
             <label htmlFor={`extra${extra[0]}`} className="text-text1 flex gap-1 cursor-pointer">
               <input
                 type="checkbox"
@@ -48,7 +48,7 @@ const ServiceExtrasPanel = ({ service, checkActive ,setExtrasCost, setExtrasTime
               <span className="text-sm lg:text-md"> {extra[0]} </span>
             </label>
 
-            <p className="text-gray-500 text-xs md:text-sm flex mt-1 ml-5">
+            <p className="text-gray-500 text-xs md:text-sm flex mt-2 ml-5">
               Additional cost of ${extra[1]} on top of the service price.
               Execution timeline will be extended by {extra[2]}.
             </p>
