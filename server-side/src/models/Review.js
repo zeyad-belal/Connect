@@ -17,10 +17,12 @@ const reviewSchema = new Schema({
   },
   user_id: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
   },
   seller_id: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true
   },
   service_id: {

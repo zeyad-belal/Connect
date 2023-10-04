@@ -18,8 +18,8 @@ import { FreeMode, Navigation, Pagination, Thumbs, Zoom } from "swiper";
 const ServiceImageCarousel = ({ serviceImages }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
-    <div className="relative">
-      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 max-w-[330px] md:max-w-[500px] lg:max-w-[600px] w-full h-[420px] mb-3">
+    <div className="relative w-[100%] flex justify-center items-center">
+      <div className="flex gap-2 flex-shrink-0 flex-grow-0 basis-1/2 w-[90%]  h-auto mb-3">
         <Swiper
           onSwiper={setThumbsSwiper}
           direction={"vertical"}
@@ -33,8 +33,8 @@ const ServiceImageCarousel = ({ serviceImages }) => {
             return (
               <SwiperSlide key={image.fileId} >
                 <div className="box-border border-2 border-gray-300 rounded-md cursor-pointer h-auto overflow-hidden w-full flex justify-center items-center transition-all duration-200 ease-in-out">
-                  <div className="relative pb-[56%] pl-[73.327%] w-full">
-                    <div className="absolute inset-0 flex flex-col">
+                  <div className="relative pb-[56%] pl-[73.327%] w-full ">
+                    <div className="absolute inset-0 flex flex-col ">
                       <img src={image.url} />
                     </div>
                   </div>

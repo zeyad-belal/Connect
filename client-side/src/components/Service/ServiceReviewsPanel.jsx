@@ -133,7 +133,7 @@ const ServiceReviewsPanel = ({ service, checkActive }) => {
                 ></div>
               </div>
               <span className="text-sm font-medium text-gray-600">
-                {fiveStarRatingsPercentage}%
+                {Math.floor(fiveStarRatingsPercentage)}%
               </span>
             </div>
             {/* Four Star Rating Bar */}
@@ -149,7 +149,7 @@ const ServiceReviewsPanel = ({ service, checkActive }) => {
                 ></div>
               </div>
               <span className="text-sm font-medium text-gray-600">
-                {fourStarRatingsPercentage}%
+                {Math.floor(fourStarRatingsPercentage)}%
               </span>
             </div>
             {/* Three Star Rating Bar */}
@@ -165,7 +165,7 @@ const ServiceReviewsPanel = ({ service, checkActive }) => {
                 ></div>
               </div>
               <span className="text-sm font-medium text-gray-600">
-                {threeStarRatingsPercentage}%
+                {Math.floor(threeStarRatingsPercentage)}%
               </span>
             </div>
             {/* Two Star Rating Bar */}
@@ -181,7 +181,7 @@ const ServiceReviewsPanel = ({ service, checkActive }) => {
                 ></div>
               </div>
               <span className="text-sm font-medium text-gray-600">
-                {twoStarRatingsPercentage}%
+                {Math.floor(twoStarRatingsPercentage)}%
               </span>
             </div>
             {/* One Star Rating Bar */}
@@ -197,7 +197,7 @@ const ServiceReviewsPanel = ({ service, checkActive }) => {
                 ></div>
               </div>
               <span className="text-sm font-medium text-gray-600">
-                {oneStarRatingsPercentage}%
+                {Math.floor(oneStarRatingsPercentage)}%
               </span>
             </div>
           </div>
