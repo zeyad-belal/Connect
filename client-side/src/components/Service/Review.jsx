@@ -4,11 +4,11 @@ const Review = ({ review, flag }) => {
   return (
     <> {review? 
       <article className="py-4">
-        <div className="flex items-center mb-4 space-x-4">
-          <div className="flex justify-center items-center w-11 h-11 text-center font-semibold bg-secondary rounded-full">
+        <div className="flex items-center  flex-wrap mb-4 sm:space-x-4">
+          <div className="flex justify-center items-center w-11 h-11  font-semibold bg-secondary rounded-full">
             {review.user_id.first_name[0].toUpperCase()}
           </div>
-          <div className="space-y-1 font-medium">
+          <div className="space-y-1 font-medium ">
             {`${review.user_id.first_name}  ${review.user_id.last_name}`}
             <p className="block text-sm text-gray-500">
               Reviewed on{" "}

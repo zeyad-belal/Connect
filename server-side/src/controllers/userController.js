@@ -122,7 +122,8 @@ const getUserById = async (req, res,next) => {
       path: "user_id",
       model: "User" 
     }
-  });
+  })
+  
 
   if (!user) return next(new AppError("user not found", 404));
   res.send({ user });

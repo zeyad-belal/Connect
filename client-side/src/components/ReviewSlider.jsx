@@ -8,14 +8,12 @@ import "swiper/css/scrollbar";
 import Review from "./Service/Review"
 
 
-const ReviewSlider = ({userReviews, seller}) => {
+const ReviewSlider = ({userReviews}) => {
 
-console.log('sslidd',userReviews)
 
 
   return (
-    <div className="bg-  max-w-[400px] rounded-lg overflow-hidden">
-          <h1 className="mb-3 font-medium">what does they say about <span className="font-bold text-secondary "> {seller.first_name} </span> ? </h1>
+    <div className=" md:max-w-[400px] max-w-[90%] rounded-lg overflow-hidden">
 
       {userReviews ? 
       <Swiper
@@ -40,7 +38,7 @@ console.log('sslidd',userReviews)
       >
 
         {userReviews.map((review,i) => (
-          <SwiperSlide key={i} className="px-3 py-2 w-[100%]">
+          <SwiperSlide key={i} className="sm:px-3 py-4 w-[100%]">
             <Review review ={review} flag={true} />
           </SwiperSlide>
         ))}

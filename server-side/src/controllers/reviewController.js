@@ -23,7 +23,9 @@ const getSellerReviews = async (req, res) => {
 
   try {
     const reviews = await Review.find( {seller_id: id} )
-    
+    .populate("seller_id")
+    .populate("user_id")
+
     res.send(reviews);
   } catch (error) {
     // Handle errors here
