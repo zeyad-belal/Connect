@@ -32,7 +32,7 @@ const Searchbar = (props) => {
 
   const navToService = (ID) => {
     dispatch(menuActions.closeAllMenus())
-    navigate(`/services/${ID}`);
+    navigate(`/service/${ID}`);
     setSearchText("");
     searchBar.current.value = "";
   };

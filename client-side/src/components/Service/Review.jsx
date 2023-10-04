@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const Review = ({ review }) => {
   return (
-    <>
+    <> 
       <article className="py-4">
         <div className="flex items-center mb-4 space-x-4">
           <div className="flex justify-center items-center w-11 h-11 text-center font-semibold bg-secondary rounded-full">

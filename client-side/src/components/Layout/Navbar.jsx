@@ -208,7 +208,7 @@ const Navbar = (props) => {
                       return(
                         <li key={i}
                           className=" gap-1 rounded-md  border-primary items-center z-10 py-4 px-2  text-xs font-medium text-text1 hover:bg-primary cursor-pointer"
-                          onClick={()=> navigate(`/services/${not.split(":")[0]}`)}
+                          onClick={()=> navigate(`/service/${not.split(":")[0]}`)}
                           >
                           <p>  {not.split(':')[1]} </p>
                           <br />

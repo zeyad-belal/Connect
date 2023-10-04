@@ -39,6 +39,7 @@ function Purchases() {
 
   
   async function handleReviewSubmit(event,item) {
+    console.log(item)
     event.preventDefault();
     try{
       const formData = new FormData();
@@ -47,7 +48,7 @@ function Purchases() {
       formData.append('review_description', event.target.review_description.value)
       formData.append('rating', event.target.rating.value)
       formData.append('user_id', event.target.user_id.value)
-      formData.append('service_id', event.target.service_id.value)
+      formData.append('service_id', item.service_id._id)
       formData.append('seller_id', item.seller._id)
       console.log(formData.getAll('review_title'))
       console.log(formData.getAll('review_description'))
@@ -138,6 +139,7 @@ function Purchases() {
         quantity: item.quantity,
         name: item.service_id.name,
         avg_rating: item.service_id.avg_rating,
+        service_id: item.service_id,
         description: item.service_id.description,
         image: item.service_id.images[0].url,
         seller: item.service_id.user_id,
@@ -179,7 +181,7 @@ function Purchases() {
 
   },[allOrders,currentStatus])
 
-// console.log(allOrders)
+console.log('allOrders',allOrders)
 
   
   return (

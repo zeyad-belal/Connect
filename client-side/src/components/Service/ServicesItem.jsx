@@ -18,7 +18,7 @@ const ServicesItem = ({ item }) => {
   function handleServiceNavigate(e){
     e.preventDefault()
 
-    navigate(`/services/${item.id}`)
+    navigate(`/service/${item.id}`)
   }
   
 

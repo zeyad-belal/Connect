@@ -113,7 +113,7 @@ const getAllUsers = async (req, res) => {
 };
 
 //get user by id
-const getUserById = async (req, res) => {
+const getUserById = async (req, res,next) => {
   const { id } = req.params;
   const user = await User.findById(id)
   .populate({
