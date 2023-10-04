@@ -41,7 +41,7 @@ const createService = async (req, res, next) => {
     name: req.body.name,
     price: req.body.price,
     description: req.body.description,
-    keywords: [...req.body.keywords],
+    keywords: req.body.keywords.split(","),
     time: req.body.time,
     extras: req.body.extras ? JSON.parse(req.body.extras) : undefined,
     images: imagesInfo,

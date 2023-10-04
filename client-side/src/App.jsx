@@ -25,8 +25,6 @@ import "./App.css";
 import { menuActions } from "./store/menuSlice.jsx";
 import Chat from "./pages/Chat.jsx";
 import io from 'socket.io-client';
-import axios from "axios";
-import { toast } from "react-toastify";
 
 
 let firstRender = true;
@@ -96,72 +94,11 @@ function App() {
 
 
 
-  // useEffect(() => {
-  //   const userId = cookies.User ? cookies.User._id : localStorage.getItem("userID");
-  //   const userToken = cookies.UserToken || localStorage.getItem("UserToken");
 
-  //   console.log('userToken from app',userToken)
-  //   console.log('userId from app',userId)
-  //   async function getUserData() {
-  //     try {
-  //       const response = await axios.get(
-  //         `${import.meta.env.VITE_API_URL}/users/${userId}`,
-  //         { headers: { Authorization: userToken } } );
-          
-  //       setCookies("User", response.data.user);
-  //       setCookies("UserToken", response.data.token);
-  //       setUserStatus(true)
-  //     } catch (error) {
-  //       setUserStatus(false)
-  //       console.error(error);
-  //       toast.info("Something went wrong !", {
-  //         position: "top-right",
-  //         autoClose: 1500,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light"
-  //       });
-  //     }
-  //   }
-
-  //   if (userId && userToken) {
-  //       getUserData();
-  //       console.log('getUserData fired')
-  //     }else {
-  //       window.localStorage.removeItem("logged")
-  //       setUserStatus(false)
-      
-  //   }
-  // }, []);
-
-
-
-
-
-
-
-  // get noti history
-  // useEffect(()=>{
-  //   async function getNotiHistory(){
-  //     const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
-  //     { headers: { Authorization: `${cookies.UserToken}` } })
-  //     console.log(res.data.user.noti)
-  //     setNoti(res.data.user.noti)
-  //   }
-    
-  //   try{
-  //     localStorage.getItem('logged') ?getNotiHistory() : ''
-  //   }catch(error){
-  //     console.log('cannot get chat history', error)
-  //   }
-  // },[])
 
 
   useEffect(()=>{
-    if(!cookies.User || !cookies.USerToken){
+    if(!cookies.User || !cookies.UserToken){
       window.localStorage.removeItem("logged")
     }
   },[])

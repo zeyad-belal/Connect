@@ -8,6 +8,8 @@ import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import StatusFilter from "../components/StatusFilter";
 import { BsChatFill } from "react-icons/bs";
 import { PiArrowSquareInBold } from "react-icons/pi";
+import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 
 function Purchases() {
@@ -15,6 +17,7 @@ function Purchases() {
   const [allOrders, setAllOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [reviewMenu, setReviewMenu] = useState(false);
   const [currentStatus, setCurrentStatus] = useState([]);
   const navigate = useNavigate();
 
@@ -27,6 +30,68 @@ function Purchases() {
     </svg>
   </div>
   );
+
+  const [rating, setRating] = useState(0); 
+
+  const handleStarClick = (star) => {
+    setRating(star); 
+  };
+
+  
+  async function handleReviewSubmit(event,item) {
+    event.preventDefault();
+    try{
+      const formData = new FormData();
+
+      formData.append('review_title', event.target.review_title.value)
+      formData.append('review_description', event.target.review_description.value)
+      formData.append('rating', event.target.rating.value)
+      formData.append('user_id', event.target.user_id.value)
+      formData.append('service_id', event.target.service_id.value)
+      formData.append('seller_id', item.seller._id)
+      console.log(formData.getAll('review_title'))
+      console.log(formData.getAll('review_description'))
+      console.log(formData.getAll('rating'))
+      console.log(formData.getAll('user_id'))
+      console.log(formData.getAll('service_id'))
+      console.log(formData.getAll('seller_id'))
+
+
+      const response = await axios.post( `${import.meta.env.VITE_API_URL}/reviews`,
+          formData,
+        { headers: { Authorization: `${cookies.UserToken}` } }
+        );
+
+        toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+        toggleReviewModal()
+    }catch(error){
+      console.log(error)
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
+    }
+  }
+
+
+  function  toggleReviewModal(){
+    setReviewMenu(prev => !prev)
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -149,10 +214,9 @@ function Purchases() {
             <div className="py-3 text-gray-500 flex flex-col ">
               {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
                   return (
-                    <div className="flex justify-between flex-col" key={index}>
+                    <div className={`flex justify-between flex-col ${ allOrders.length == 1 || allOrders.length - 1 == index ? "" : "border-b" }`} key={index}>
                     <div
-                      className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 
-                      ${ allOrders.length == 1 || allOrders.length - 1 == index ? "" : "border-b" } px-3 py-2`} >
+                      className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 px-3 py-2`} >
                       <img
                         className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
                         src={item.image}
@@ -216,23 +280,68 @@ function Purchases() {
                         </div>
                       </div>
                     </div>
-                    <button
-                      className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}  mb-2  text-white p-4 text-xl rounded-full self-end`}
-                      onClick={(e) => startChatHandler(e,item)} >
-                      <BsChatFill />
-                    </button>
+                    <div className="flex justify-between  mb-2 mx-2">
+                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className="self-end text-sm bg-secondary hover:bg-secHover text-text1 rounded-lg p-2 font-semibold flex items-center gap-2">
+                      <PiArrowSquareInBold size={20} /> <span>  Write  a  review </span> </button> : null}
+                      <button
+                        className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}   text-white p-4 text-xl rounded-full self-end`}
+                        onClick={(e) => startChatHandler(e,item)} >
+                        <BsChatFill />
+                      </button>
+                    </div>
+                    {reviewMenu ? (
+                      <div className="fixed inset-0 flex items-center justify-center z-50">
+                        {/* Dark overlay */}
+                        <div className="fixed inset-0 bg-black opacity-90 " onClick={toggleReviewModal}></div>
+                      
+                        {/* Modal content */}
+                        <form onSubmit={(e)=>handleReviewSubmit(e,item)} className="relative w-[340px] sm:w-[500px] text-white p-12 rounded-lg shadow-lg flex flex-col gap-5">
+                          
+                          <div>
+                            <div className="text-xl mb-2 font-semibold ">Rate the service <span className="text-secHover"> :) </span></div>
+                            <div className="text-xs  text-gray-400 font-medium">We encourage leaving an honest review about the service and the seller to help other users determine whether its a sutiable one for them or not.</div>
+                          {/* stars  */}
+                          <div className="flex gap-1 mt-3 mx-auto w-fit">
+                            {/* Render 5 stars */}
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                type="button"
+                                key={star}
+                                onClick={() => handleStarClick(star)}
+                                className={`text-lg ${star <= rating ? 'text-yellow-500' : 'text-gray-300'} focus:outline-none`}>
+                                <AiTwotoneStar size={22} />
+                              </button>
+                            ))}
+                          </div>
+                          </div>
+                          <input type="text" name="review_title"  className="border-2 rounded-md font-semibold  p-1 pl-3 outline-none text-text1" placeholder="review title" />
+                          <textarea name="review_description" className="border-2 rounded-md font-semibold  p-3 h-[100px] outline-none text-text1"  placeholder="review description" ></textarea>
+                          <input type="number" name="rating" className="hidden" value={rating} />
+                          <input type="text" name="service_id" className="hidden" defaultValue={item.id} />
+                          <input type="text" name="user_id" className="hidden" defaultValue={cookies.User._id} />
+                          <input type="text" name="seller_id" className="hidden" defaultValue={item} />
+                            <button 
+                              className="bg-secondary text-white px-4 py-2  rounded hover:bg-secHover">
+                              submit
+                            </button>
+                        </form>
+                      </div>
+                      ) : null}
                   </div>
+                
+                
+                
+                
+                
                 );
               })}
             </div>
           }
-          <button className="self-end text-sm bg-secondary hover:bg-secHover text-text1 rounded-lg p-2 font-semibold flex items-center gap-2">
-          <PiArrowSquareInBold size={20} /> <span>  Write  a  review </span> </button>
           {/* ----------------------------no orders found message------------------------------------ */}
           {(!filteredOrders.length && !allOrders.length > 0 )  && LoadingState} 
 
+   
         </div>
-
       </div>
 
     </div>

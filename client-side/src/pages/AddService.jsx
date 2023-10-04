@@ -256,6 +256,8 @@ function AddService() {
 
 
 
+  
+
   return (
     <main className="bg-primary ">
       <h1 className="text-[25px] font-semibold px-12 pt-12 pb-10 md:pb-0">Add New Service</h1>

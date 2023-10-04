@@ -66,11 +66,11 @@ export default function Seller() {
 // get seller reviews
   useEffect(()=>{
     async function getUserReviews(){
-      const repsonse = await axios.get( `${import.meta.env.VITE_API_URL}/reviews/sellerReviews/${id}`,
+      const response = await axios.get( `${import.meta.env.VITE_API_URL}/reviews/sellerReviews/${id}`,
       { headers: { Authorization: `${cookies.UserToken}` } });
       
-      console.log('reviews',repsonse.data.review)
-      setReviews(repsonse.data)
+      console.log('reviews',response)
+      setReviews(response.data)
     } 
     try{
       getUserReviews()

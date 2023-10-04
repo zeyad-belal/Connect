@@ -22,25 +22,8 @@ const getSellerReviews = async (req, res) => {
   }
 
   try {
-    const reviews = await Review.aggregate([
-      {
-        $lookup: {
-          from: "Service", 
-          localField: "service_id",
-          foreignField: "_id",
-          as: "service"
-        }
-      },
-      {
-        $unwind: "$service"
-      },
-      {
-        $match: {
-          "service.user_id": id
-        }
-      }
-    ]);
-
+    const reviews = await Review.find( {seller_id: id} )
+    
     res.send(reviews);
   } catch (error) {
     // Handle errors here
@@ -52,13 +35,13 @@ const getSellerReviews = async (req, res) => {
 
 const createReview = async (req, res, next) => {
   const { service_id } = req.body;
-
+console.log(req.body)
   if (!service_id)
-    return next(new AppError("Must provide service_id in request"), 404);
+    return next(new AppError("Must provide service_id in request", 404));
 
-  const serviceExist = await Service.findById(service_id);
+  const serviceExist = await Service.find({_id : service_id});
   if (!serviceExist)
-    return next(new AppError("Please provide a valid service_id"), 404);
+    return next(new AppError("Please provide a valid service_id", 404));
 
   if (req.review) {
     const updateReview = await Review.findOneAndUpdate(
@@ -77,13 +60,17 @@ const createReview = async (req, res, next) => {
       rating: req.body.rating,
       review_title: req.body.review_title,
       review_description: req.body.review_description,
-      user_id: req.user._id,
+      user_id: req.body.user_id,
+      seller_id: req.body.seller_id,
       service_id: service_id
     });
 
     res.send(createdReview);
   }
 };
+
+
+
 
 const updateReview = async (req, res, next) => {
   const { id } = req.params;

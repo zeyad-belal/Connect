@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+
 const reviewSchema = new Schema({
   rating: {
     type: Number,
@@ -15,8 +16,11 @@ const reviewSchema = new Schema({
     required: true
   },
   user_id: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
+    required: true
+  },
+  seller_id: {
+    type: String,
     required: true
   },
   service_id: {

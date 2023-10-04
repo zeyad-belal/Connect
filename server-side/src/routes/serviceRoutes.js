@@ -21,12 +21,7 @@ const {
 } = require("../utils/validations/serviceValidation");
 
 // create a Service
-router.post(
-  "/",
-  upload.array("images"),
-  serviceCreationValidation,
-  createService
-);
+router.post( "/", upload.array("images"), serviceCreationValidation, createService );
 
 // get all Services
 router.get("/", getAllServices);

@@ -5,13 +5,15 @@ const AppError = require("../AppError");
 const reviewCreationValidationSchema = Joi.object({
   rating: Joi.number().integer().min(1).max(5),
   review_title: Joi.string().max(100),
-  review_description: Joi.string().max(250)
+  review_description: Joi.string().max(250),
+  seller_id: Joi.string(),
 });
 
 const reviewUpdateValidationSchema = Joi.object({
   rating: Joi.number().integer().min(1).max(5),
   review_title: Joi.string().max(100),
-  review_description: Joi.string().max(250)
+  review_description: Joi.string().max(250),
+  seller_id: Joi.string()
 });
 
 const reviewCreationValidation = (req, res, next) => {

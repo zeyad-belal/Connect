@@ -63,10 +63,6 @@ const userSchema = new Schema({
   },
   bio:{
     type : String
-  },
-  noti:{
-    type : Array,
-    default: []
   }
 })
 

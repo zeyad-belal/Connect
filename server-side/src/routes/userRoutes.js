@@ -9,7 +9,6 @@ const {
   getUserById,
   getAllUsers,
   updateUser,
-  updateAllUsersNoti,
   deleteUser,
   login,
   adminLogin,
@@ -43,9 +42,6 @@ router.get("/", verfiyAdminToken, getAllUsers);
 
 //get user by id
 router.get("/:id", verfiyUserToken, getUserById);
-
-// update all users noti 
-// router.patch("/noti",verfiyUserToken,  updateAllUsersNoti);
 
 
 // update user

@@ -204,10 +204,9 @@ function IncomingOrders() {
             <div className="py-3 text-gray-500 flex flex-col items-start ">
               {(currentStatus.length ? filteredIncomingOrders : allIncomingOrders).map((item, index) => {
                 return (
-                  <div className="flex justify-between w-[100%]" key={index}>
+                  <div className={`flex justify-between flex-col w-[100%] ${ allIncomingOrders.length == 1 || allIncomingOrders.length - 1 == index ? "" : "border-b" } `} key={index} >
                   <div
-                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 
-                    ${ allIncomingOrders.length == 1 || allIncomingOrders.length - 1 == index ? "" : "border-b" } px-3 py-2`} >
+                    className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 px-3 py-2`} >
                     <img
                       className="max-w-[220px]  h-auto mr-6 mb-2 sm:mb-0 self-center md:self-start"
                       src={item.image}
@@ -272,7 +271,7 @@ function IncomingOrders() {
                     </div>
                   </div>
                   <button
-                    className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}  mb-2  text-white p-4 text-xl rounded-full self-end`}
+                    className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'} mx-2 mb-2  text-white p-4 text-xl rounded-full self-end`}
                     onClick={(e) => startChatHandler(e,item)} >
                       <BsChatFill />
                   </button>

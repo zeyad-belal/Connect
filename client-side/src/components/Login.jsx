@@ -29,8 +29,8 @@ oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
       );
 
       window.localStorage.setItem("logged", true);
-      if(rememberMe){
 
+      if(rememberMe){
         setCookie("UserToken", response.data.token, { expires: oneYearFromNow })
         setCookie("User", JSON.stringify(response.data.user), { expires: oneYearFromNow })
       }else{
@@ -38,9 +38,8 @@ oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
         setCookie("User", JSON.stringify(response.data.user))
       }
 
-console.log(response)
       dispatch(signModalActions.toggleModal())
-      // window.location.reload();
+      window.location.reload();
 
     } catch (error) {
       // console.error(error);
@@ -140,8 +139,10 @@ console.log(response)
               {...register("rememberMe", {
               })}
               type="checkbox"
+              id="rememberMe"
+              className="cursor-pointer"
               />
-              <span className="text-sm" >remember me ?</span>
+              <label className="text-sm cursor-pointer" htmlFor="rememberMe" >remember me ?</label>
             </div>
 
           <input
