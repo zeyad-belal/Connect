@@ -259,7 +259,7 @@ function AddService() {
   
 
   return (
-    <main className="bg-primary ">
+    <main className="bg-primary mt-[65px]">
       <h1 className="text-[25px] font-semibold px-12 pt-12 pb-10 md:pb-0">Add New Service</h1>
       <div className="flex relative justify-center items-center ">
         <form
