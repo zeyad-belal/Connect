@@ -204,7 +204,7 @@ function Purchases() {
 
   
   return (
-    <div className="bg-primary mt-[65px] py-6 px-6 relative">
+    <div className="bg-primary mt-[65px] py-6 px-6 relative min-h-[91vh]">
       {/* ---------------------------filter icon------------------------*/}
       <div className="z-30 md:hidden fixed min-w-0 max-w-full block top-[90%] left-3 ">
         <button

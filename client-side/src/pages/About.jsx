@@ -1,7 +1,7 @@
 
 const About = () => {
   return (
-    <div className="container mx-auto p-12 text-center mt-[65px]">
+    <div className="bg-primary container mx-auto p-12 text-center mt-[65px] min-h-[70vh]">
       <h1 className="text-3xl font-bold mb-4 text-secondary">About Connect?</h1>
       <div className="text-start">
       <p className="text-md mb-4 max-w-[800px] mx-auto text-gray-600">
