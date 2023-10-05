@@ -8,6 +8,7 @@ const {
   getOrderByBuyerId,
   getOrderBySellerId,
   updateOrderStatus,
+  updateOrderReviewStatus,
   updateOrderChat,
   deleteOrder
 } = require("../controllers/orderController");
@@ -35,6 +36,10 @@ router.patch( "/:id", verfiyUserToken, updateOrderStatus);
 
 // update order chat
 router.patch( "/chat/:id", verfiyUserToken, updateOrderChat);
+
+
+// update order chat
+router.patch( "/reviewed/:id", verfiyUserToken, updateOrderReviewStatus);
 
 // delete order
 router.delete("/:id", canDeleteOrder, deleteOrder);

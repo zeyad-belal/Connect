@@ -136,6 +136,32 @@ const updateOrderChat = async (req, res, next) => {
   }
 };
 
+const updateOrderReviewStatus = async (req, res, next) => {
+  try {
+    // Check if id is a valid ObjectId
+    if (!Types.ObjectId.isValid(req.params.id))
+      return next(new AppError("Invalid ObjectId.", 401));
+
+    // Find the order by its _id
+    const order = await Order.findOne({_id :req.params.id} );
+
+    // Check if the order exists
+    if (!order) return next(new AppError("Order not found!", 404));
+
+
+    // Update the status of the item
+    order.reviewed = req.body.reviewed;
+
+    // Save the updated order
+    const updatedOrder = await order.save();
+
+    res.send({ message: "Order status updated successfully!", updatedOrder });
+  } catch (error) {
+    // Handle any errors that may occur during the update
+    return next(new AppError(error, 500));
+  }
+};
+
 
 
 
@@ -157,6 +183,7 @@ module.exports = {
   getOrderByBuyerId,
   getOrderBySellerId,
   updateOrderStatus,
+  updateOrderReviewStatus,
   updateOrderChat,
   deleteOrder
 };

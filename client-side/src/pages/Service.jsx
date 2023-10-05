@@ -197,7 +197,7 @@ console.log('service',service)
 
   return (
     <>
-        <div className="mt-[65px] flex flex-col min-h-[60vh] gap-5  bg-gray-100 p-6 md:p-10">
+        <div className="mt-[65px] flex flex-col min-h-[60vh] gap-5  bg-gray-100 p-3 md:p-10">
           {service && service.id == id ? (
             <>
               <div className=" flex flex-col items-start">

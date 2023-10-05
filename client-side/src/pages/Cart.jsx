@@ -86,18 +86,18 @@ const Cart = () => {
             });
           });
 
-          //send confirmation email
-          // emailjs.send(
-          // "service_waoczhk",
-          // "template_7lmeg3p",
-          // {
-          //   items :cart.items? cart.items.map((item) => item.name).join("--- + --- ") : "",
-          //   totalAmount:cart.totalAmount + 10,
-          //   name:cookies.User.first_name,
-          //   email:cookies.User.email
-          // },
-          // "cv-nxqRdyTV9lWZoa"
-          // );
+          // send confirmation email
+          emailjs.send(
+          "service_waoczhk",
+          "template_7lmeg3p",
+          {
+            items :cart.items? cart.items.map((item) => item.name).join("--- + --- ") : "",
+            totalAmount:cart.totalAmount + 10,
+            name:cookies.User.first_name,
+            email:cookies.User.email
+          },
+          "cv-nxqRdyTV9lWZoa"
+          );
 
           // -------------------stripe--------------------------
           const paymentData = {
@@ -107,17 +107,17 @@ const Cart = () => {
                 quantity: item.amount,
               })),
           };
-          // const payRes = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`,
-          //   paymentData,
-          //   { headers: { Authorization: `${cookies.UserToken}` } }
-          // );
+          const payRes = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`,
+            paymentData,
+            { headers: { Authorization: `${cookies.UserToken}` } }
+          );
 
           // clear cart items in the backend 
           const clearCartRes = await axios.patch(`${import.meta.env.VITE_API_URL}/users/${cookies.User._id}`,
               { cart_items: [] },
               { headers: { Authorization: `${cookies.UserToken}` } }
           ) 
-          // window.location.href = payRes.data.sessionUrl;
+          window.location.href = payRes.data.sessionUrl;
 
         } catch (error) {
           toast.error(error, {

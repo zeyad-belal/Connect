@@ -8,7 +8,7 @@ import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import StatusFilter from "../components/StatusFilter";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { PiArrowSquareInBold } from "react-icons/pi";
-import {  AiTwotoneStar } from "react-icons/ai";
+import {  AiOutlineSmile, AiTwotoneStar } from "react-icons/ai";
 import { toast } from "react-toastify";
 
 
@@ -50,16 +50,15 @@ function Purchases() {
       formData.append('user_id', event.target.user_id.value)
       formData.append('service_id', item.service_id._id)
       formData.append('seller_id', item.seller._id)
-      console.log(formData.getAll('review_title'))
-      console.log(formData.getAll('review_description'))
-      console.log(formData.getAll('rating'))
-      console.log(formData.getAll('user_id'))
-      console.log(formData.getAll('service_id'))
-      console.log(formData.getAll('seller_id'))
 
 
       const response = await axios.post( `${import.meta.env.VITE_API_URL}/reviews`,
           formData,
+        { headers: { Authorization: `${cookies.UserToken}` } }
+        );
+
+        await axios.patch( `${import.meta.env.VITE_API_URL}/orders/reviewed/${item.orderID}`,
+          {reviewed: true},
         { headers: { Authorization: `${cookies.UserToken}` } }
         );
 
@@ -129,9 +128,11 @@ function Purchases() {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const data = await response.data.order.map((order) => order)
+      console.log('data',data)
 
       const allOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
+        reviewed: ordersData.reviewed,
         orderID:ordersData._id,
         buyer: ordersData.buyer,
         created_at: ordersData.created_at,
@@ -283,7 +284,7 @@ console.log('allOrders',allOrders)
                       </div>
                     </div>
                     <div className={`flex ${item.status == "delivered"? "justify-between" : " justify-end"}  mb-2 mx-2`}>
-                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className="self-end sm:text-xs text-[0.6rem]  bg-secondary hover:bg-secHover gap-1 text-text1 rounded-lg sm:p-2 p-1 font-semibold flex items-center sm:gap-2">
+                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className={`${item.reviewed ==true ? 'bg-gray-400 cursor-not-allowed text-white ' : 'bg-secondary hover:bg-secHover'}  self-end sm:text-xs text-[0.6rem]   gap-1 text-text1 rounded-lg sm:p-2 p-1 font-semibold flex items-center sm:gap-2`}>
                       <PiArrowSquareInBold size={18} /> <span>  Write  a  review </span> </button> : null}
                       <button
                         className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600 '} flex sm:gap-2 gap-1 items-center font-semibold  text-white p-1 sm:p-2 sm:text-xs text-[0.6rem]   rounded-lg ml-3 self-end`}
@@ -300,7 +301,7 @@ console.log('allOrders',allOrders)
                         <form onSubmit={(e)=>handleReviewSubmit(e,item)} className="relative w-[340px] sm:w-[500px] text-white p-12 rounded-lg shadow-lg flex flex-col gap-5">
                           
                           <div>
-                            <div className="text-xl mb-2 font-semibold ">Rate the service <span className="text-secHover"> :) </span></div>
+                            <div className="text-xl mb-2 font-semibold flex items-center gap-2">Rate the service <span className="text-secHover"> <AiOutlineSmile /> </span></div>
                             <div className="text-xs  text-gray-400 font-medium">We encourage leaving an honest review about the service and the seller to help other users determine whether its a sutiable one for them or not.</div>
                           {/* stars  */}
                           <div className="flex gap-1 mt-3 mx-auto w-fit">
@@ -316,9 +317,9 @@ console.log('allOrders',allOrders)
                             ))}
                           </div>
                           </div>
-                          <input type="text" name="review_title"  className="border-2 rounded-md font-semibold  p-1 pl-3 outline-none text-text1" placeholder="review title" />
-                          <textarea name="review_description" className="border-2 rounded-md font-semibold  p-3 h-[100px] outline-none text-text1"  placeholder="review description" ></textarea>
-                          <input type="number" name="rating" className="hidden" value={rating} />
+                          <input type="text" name="review_title" required className="border-2 rounded-md font-semibold  p-1 pl-3 outline-none text-text1" placeholder="review title" />
+                          <textarea name="review_description" required className="border-2 rounded-md font-semibold  p-3 h-[100px] outline-none text-text1"  placeholder="review description" ></textarea>
+                          <input type="number" name="rating" required className="hidden" value={rating} />
                           <input type="text" name="service_id" className="hidden" defaultValue={item.id} />
                           <input type="text" name="user_id" className="hidden" defaultValue={cookies.User._id} />
                           <input type="text" name="seller_id" className="hidden" defaultValue={item} />
