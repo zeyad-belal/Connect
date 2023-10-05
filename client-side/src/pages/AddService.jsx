@@ -206,7 +206,7 @@ function AddService() {
       toast.success(`your service has been added ${cookies.User.first_name}!`, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -219,7 +219,7 @@ function AddService() {
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -242,7 +242,7 @@ function AddService() {
         toast.error(error, {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

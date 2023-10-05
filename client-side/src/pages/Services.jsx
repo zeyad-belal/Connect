@@ -7,6 +7,7 @@ import PaginatedItems from "../components/Service/PaginatedItems";
 import { useSelector } from "react-redux";
 import { BiHappyAlt } from "react-icons/bi";
 import { FaRegSadTear } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 
 const Services = () => {
   const allServices = useSelector((state)=> state.services.services);
@@ -110,6 +111,8 @@ const Services = () => {
       </div>
           {/* loading */}
           {!filteredServices && !filteredServices?.length !== 0 && LoadingState}
+      <ToastContainer />
+
     </div>
   );
 };

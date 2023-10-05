@@ -9,7 +9,7 @@ import StatusFilter from "../components/StatusFilter";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { PiArrowSquareInBold } from "react-icons/pi";
 import {  AiOutlineSmile, AiTwotoneStar } from "react-icons/ai";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 function Purchases() {
@@ -51,7 +51,7 @@ function Purchases() {
       toast.info("Must provide a star rate !", {
         position: "top-right",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -85,7 +85,7 @@ function Purchases() {
         toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -99,7 +99,7 @@ function Purchases() {
       toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -364,6 +364,7 @@ function Purchases() {
    
         </div>
       </div>
+      <ToastContainer />
 
     </div>
   );

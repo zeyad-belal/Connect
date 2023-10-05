@@ -39,7 +39,7 @@ function Signup() {
         {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -59,7 +59,7 @@ function Signup() {
         ? toast.error(error.response.data.message, {
             position: "top-right",
             autoClose: 2000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,

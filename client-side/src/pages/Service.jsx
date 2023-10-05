@@ -6,7 +6,7 @@ import ServiceImageCarousel from "../components/Service/ServiceImageCarousel";
 import ServiceDetails from "../components/Service/ServiceDetails";
 import ServicePanels from "../components/Service/ServicePanels";
 import ServiceRoute from "../components/Service/ServiceRoute";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cartActions }  from "../store/cartSlice";
 import {useDispatch} from "react-redux"
@@ -56,7 +56,7 @@ const Service = () => {
         toast.success("Item added to cart !", {
           position: "top-right",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -67,7 +67,7 @@ const Service = () => {
         toast.info("Sign in first !", {
           position: "top-right",
           autoClose: 1500,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -140,7 +140,7 @@ const Service = () => {
         toast.error(error, {
           position: "top-right",
           autoClose: 2000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -176,7 +176,7 @@ const Service = () => {
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -274,6 +274,8 @@ const Service = () => {
         }
         {!service && LoadingState}
         </div>
+      <ToastContainer />
+
     </>
   );
 };

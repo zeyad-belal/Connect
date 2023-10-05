@@ -2,13 +2,15 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import {useSelector, useDispatch} from "react-redux"
 import { signModalActions } from "./../store/signModalSlice"
 import { cartActions } from "./../store/cartSlice"
 import emailjs from "emailjs-com";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -123,7 +125,7 @@ const Cart = () => {
           toast.error(error, {
             position: "top-right",
             autoClose: 2000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -139,7 +141,16 @@ const Cart = () => {
       dispatch(signModalActions.toggleModal());
       toast(`Please Sign First!`);
     } else if (!cartIsNotEmpty) {
-      toast(`The Cart Is Empty ${cookies.User["first_name"]}!`);
+      toast.info(`The Cart Is Empty ${cookies.User["first_name"]}!`,{
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -196,6 +207,8 @@ useEffect(()=>{
             </div>
           </aside>
         </div>
+      <ToastContainer />
+        
     </div>
   );
 };

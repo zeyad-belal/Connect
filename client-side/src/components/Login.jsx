@@ -47,7 +47,7 @@ oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
         ? toast.error(error.response.data.message, {
             position: "top-right",
             autoClose: 2000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,

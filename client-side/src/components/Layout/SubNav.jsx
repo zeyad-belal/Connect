@@ -52,7 +52,7 @@ function SubNav(props) {
       toast.info("please sign in first !", {
         position: "top-right",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

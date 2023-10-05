@@ -6,6 +6,7 @@ import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import { Link, useNavigate } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
+import { ToastContainer } from "react-toastify";
 
 function IncomingOrders() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
@@ -285,6 +286,7 @@ function IncomingOrders() {
             LoadingState}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

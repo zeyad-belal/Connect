@@ -41,7 +41,7 @@ export default function Seller() {
       toast.error(error.message, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -76,7 +76,7 @@ export default function Seller() {
       toast.error(error.message, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -110,7 +110,7 @@ export default function Seller() {
       toast.error(error.message, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -235,6 +235,7 @@ console.log('reviews:',reviews)
         : 
         null
       }
+      
       <div className='mx-auto w-[100%] self-center pl-[45%]'>
 
       {! user && LoadingState}

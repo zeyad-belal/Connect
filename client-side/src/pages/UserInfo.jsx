@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { AiFillCamera } from  "react-icons/ai";
 
 function UserInfo(){
@@ -72,7 +72,7 @@ function UserInfo(){
       toast.success(`your changes have been saved ${cookies.User.first_name}!`, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -84,7 +84,7 @@ function UserInfo(){
       toast.error(error, {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -241,6 +241,8 @@ function UserInfo(){
               
             </button>
       </form>
+      <ToastContainer />
+
     </div>
   )
 }

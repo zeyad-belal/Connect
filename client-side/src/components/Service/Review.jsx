@@ -15,7 +15,7 @@ const [reportClicked, setReportClicked] = useState(false)
     toast.info("review has been reported", {
       position: "top-right",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,

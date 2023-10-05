@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { FiSend } from 'react-icons/fi';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import io from 'socket.io-client';
 
 const Chat = () => {
@@ -247,6 +248,7 @@ const Chat = () => {
         </div>
       </div>
       ) : null}
+      <ToastContainer />
     </div>
   );
 };
