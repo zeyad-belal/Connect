@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import { Link, useNavigate } from "react-router-dom";
 import StatusFilter from "../components/StatusFilter";
-import { BsChatFill } from "react-icons/bs";
+import { HiOutlineChatAlt2 } from "react-icons/hi";
 
 function IncomingOrders() {
   const [cookies, setCookie] = useCookies(["UserToken", "User"]);
@@ -93,7 +93,6 @@ function IncomingOrders() {
   //get all Incoming orders for this user
   useEffect(() => {
     async function getIncomingOrderHistory() {
-      console.log(cookies.UserToken)
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/orders/seller/${cookies.User._id}`,
         { headers: { Authorization: `${cookies.UserToken}` } }
@@ -271,9 +270,9 @@ function IncomingOrders() {
                     </div>
                   </div>
                   <button
-                    className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'} mx-2 mb-2  text-white p-4 text-xl rounded-full self-end`}
+                    className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600 '} flex sm:gap-2 gap-1 items-center font-semibold  text-white p-1 sm:p-2 sm:text-xs text-[0.6rem]   rounded-lg ml-3 self-end`}
                     onClick={(e) => startChatHandler(e,item)} >
-                      <BsChatFill />
+                    <HiOutlineChatAlt2 size={18} /> Chat with the seller 
                   </button>
                 </div>
                 );

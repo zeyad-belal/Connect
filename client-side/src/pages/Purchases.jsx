@@ -37,10 +37,30 @@ function Purchases() {
     setRating(star); 
   };
 
-  
+  function  toggleReviewModal(e,item){
+    if(item.reviewed == true){
+      return
+    }
+
+    setReviewMenu(prev => !prev)
+  }
+
   async function handleReviewSubmit(event,item) {
-    console.log(item)
     event.preventDefault();
+    if(rating< 1){
+      toast.info("Must provide a star rate !", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      })
+      return
+    }
+    
     try{
       const formData = new FormData();
 
@@ -73,6 +93,7 @@ function Purchases() {
           theme: "light",
         })
         toggleReviewModal()
+        window.location.reload()
     }catch(error){
       console.log(error)
       toast.error(error.response.data.message, {
@@ -89,9 +110,7 @@ function Purchases() {
   }
 
 
-  function  toggleReviewModal(){
-    setReviewMenu(prev => !prev)
-  }
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -128,7 +147,6 @@ function Purchases() {
         { headers: { Authorization: `${cookies.UserToken}` } }
       );
       const data = await response.data.order.map((order) => order)
-      console.log('data',data)
 
       const allOrdersData = data.flatMap((ordersData) =>
       ordersData.items.map((item) => ({
@@ -182,7 +200,7 @@ function Purchases() {
 
   },[allOrders,currentStatus])
 
-console.log('allOrders',allOrders)
+// console.log('allOrders',allOrders)
 
   
   return (
@@ -284,7 +302,7 @@ console.log('allOrders',allOrders)
                       </div>
                     </div>
                     <div className={`flex ${item.status == "delivered"? "justify-between" : " justify-end"}  mb-2 mx-2`}>
-                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className={`${item.reviewed ==true ? 'bg-gray-400 cursor-not-allowed text-white ' : 'bg-secondary hover:bg-secHover'}  self-end sm:text-xs text-[0.6rem]   gap-1 text-text1 rounded-lg sm:p-2 p-1 font-semibold flex items-center sm:gap-2`}>
+                      {item.status == "delivered" ? <button onClick={(e)=>toggleReviewModal(e,item)} className={`${item.reviewed ==true ? 'bg-gray-400 cursor-not-allowed text-white ' : 'bg-secondary hover:bg-secHover'}  self-end sm:text-xs text-[0.6rem]   gap-1 text-text1 rounded-lg sm:p-2 p-1 font-semibold flex items-center sm:gap-2`}>
                       <PiArrowSquareInBold size={18} /> <span>  Write  a  review </span> </button> : null}
                       <button
                         className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600 '} flex sm:gap-2 gap-1 items-center font-semibold  text-white p-1 sm:p-2 sm:text-xs text-[0.6rem]   rounded-lg ml-3 self-end`}

@@ -1,5 +1,37 @@
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
+import { toast } from "react-toastify";
+
 /* eslint-disable react/prop-types */
 const Review = ({ review, flag }) => {
+const [helpful, setHelpful] = useState(Math.ceil(Math.random()*10))
+const [helpfulClicked, setHelpfulClicked] = useState(false)
+const [reportClicked, setReportClicked] = useState(false)
+
+  function reportHandler(){
+    if(reportClicked){
+      return
+    }
+    toast.info("review has been reported", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light"
+    });
+    setReportClicked(true)
+  }
+
+  function incrementHelpful(){
+    if(helpfulClicked){
+      return
+    }
+    setHelpful(prev => prev +1)
+    setHelpfulClicked(true)
+  }
 
   return (
     <> {review? 
@@ -85,16 +117,16 @@ const Review = ({ review, flag }) => {
         <p className="mb-2 text-gray-500">{review.review_description}</p>
         {!flag &&  <aside>
           <p className="mt-1 text-xs text-green-500">
-            19 people found this helpful
+            {helpful} people found this helpful
           </p>
           <div className="flex items-center mt-3 space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
             <a
-              href="#"
-              className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 "
+              onClick={incrementHelpful}
+              className={` text-gray-900 ${helpfulClicked ? 'bg-white ': 'bg-gray-100 cursor-pointer border-gray-300 focus:outline-none hover:bg-gray-200 focus:ring-4 focus:ring-gray-200 '} borderfont-medium rounded-lg text-xs px-2 py-1.5 `}
             >
-              Helpful
+              Helpfull
             </a>
-            <a className="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+            <a onClick={reportHandler} className={` pl-4 text-xs font-medium ${reportClicked ? 'text-gray-400 ': 'text-blue-600 hover:underline dark:text-blue-500 cursor-pointer'} `}>
               Report abuse
             </a>
           </div>
