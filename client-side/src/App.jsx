@@ -71,6 +71,9 @@ function App() {
 
   //handle socket
   useEffect(() => {
+    if (!window.localStorage.getItem("logged")) {
+      return
+    }
     socket.on('connect', () => {
       console.log(`You are connected on ${socket.id}`)
       socket.emit("join-room", 'global')
