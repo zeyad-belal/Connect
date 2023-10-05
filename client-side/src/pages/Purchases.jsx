@@ -82,17 +82,18 @@ function Purchases() {
         { headers: { Authorization: `${cookies.UserToken}` } }
         );
 
-        toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        })
-        toggleReviewModal()
+        setReviewMenu(false)
+        // toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
+        //   position: "top-right",
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        // })
+        
         window.location.reload()
     }catch(error){
       console.log(error)
