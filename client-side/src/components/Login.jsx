@@ -61,8 +61,7 @@ oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
   return (
     <>
       <Modal toggleModal={()=> dispatch(signModalActions.toggleModal())}>
-        <h1 className="mx-auto w-fit text-2xl font-bold mb-4">Welcome back!</h1>
-        <h1 className="mx-auto w-fit  text-sm mb-4">Sign in to your account</h1>
+        <h1 className="mx-auto w-fit  text-lg mb-4 font-bold mt-3">Sign in to your account</h1>
         <p className="mx-auto w-fit  text-sm mb-4">
           Don't have an account?{" "}
           <a onClick={()=> dispatch(signModalActions.toggleModalContent())}

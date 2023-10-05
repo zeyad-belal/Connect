@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import BackToTopButton from "../BackToTopButton";
 import emailjs from "emailjs-com";
 import {
@@ -8,7 +7,7 @@ import {
   FaInstagram,
   FaCcVisa,
   FaCcMastercard,
-  FaMoneyBill
+  FaMoneyBill,
 } from "react-icons/fa";
 import { useRef, useState } from "react";
 
@@ -55,8 +54,8 @@ const Footer = () => {
         {/* form  */}
         <div className=" flex flex-col justify-center pb-1 pt-5 mx-2 gap-5 ">
 
-          <h3 className="text-text1 font-semibold text-center ">
-            Subscribe To Get The Latest Services Available
+          <h3 className="text-text1 font-medium text-center text-xl flex mx-auto items-center gap-2">
+            Subscribe To Get The Latest Services Available 
           </h3>
 
           <form

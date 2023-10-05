@@ -263,7 +263,7 @@ function Signup() {
             <input
               type="submit"
               value={"CREATE AN ACCOUNT"}
-              className="primaryBtn py-3 px-2 rounded-lg"
+              className="primaryBtn py-3 px-2 rounded-lg cursor-pointer"
             />
           </form>
         </div>
