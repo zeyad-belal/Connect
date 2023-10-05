@@ -272,6 +272,7 @@ function AddService() {
                     Service Title
                   </label>
                   <input
+                  
                     id="name"
                     {...register("name", { required: true })}
                     className="bg-primary focus:bg-white w-full px-3 py-2 border rounded-md  focus:outline-none  focus:border-secondary transition-colors"
@@ -388,6 +389,7 @@ function AddService() {
                 >add image
                 </button>
                   <input
+                  required
                     name='images'
                     type="file"
                     multiple

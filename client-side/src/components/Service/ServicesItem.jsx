@@ -47,7 +47,7 @@ const ServicesItem = ({ item }) => {
                 src={item.images[0].url}
                 id="avatar"
                 alt="Image Not Found"
-                className="w-full " />
+                className="w-full max-h-[170px]" />
                 {/* ---------seller avatar---------*/}
               <div 
                 className="hover:border-2  absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
