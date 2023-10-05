@@ -20,6 +20,7 @@ import Slider from "../UI/Slider";
 import { useCookies } from "react-cookie";
 
 const Service = () => {
+  const [userLogged, setUserLogged] = useState(window.localStorage.getItem("logged"));
   const dispatch = useDispatch()
   const [service, setService] = useState(null);
   const [relatedServices, setRelatedServices] = useState(null);
@@ -47,7 +48,7 @@ const Service = () => {
         if(service.user_id == cookies.User._id){
           return
         }
-        
+
         dispatch(cartActions.add({
           key: service._id,
           id: service._id,
@@ -257,7 +258,7 @@ console.log('service',service)
                   <button
                     onClick={() => handleAddItemToCart(service)}
                     type="button"
-                    className={`${service.user_id == cookies.User._id ? 'bg-gray-400 cursor-not-allowed': 'bg-secondary hover:bg-transparent hover:text-secondary hover:border-secondary'}  border-2 border-transparent text-white  transition-all  focus:outline-none font-medium rounded text-md px-3 py-2 text-center inline-flex items-center `}>
+                    className={`${service.user_id == ( userLogged && cookies.User._id) ? 'bg-gray-400 cursor-not-allowed': 'bg-secondary hover:bg-transparent hover:text-secondary hover:border-secondary'}  border-2 border-transparent text-white  transition-all  focus:outline-none font-medium rounded text-md px-3 py-2 text-center inline-flex items-center `}>
                     <CartIcon></CartIcon> add to cart 
                   </button>
                 </div>
