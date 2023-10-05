@@ -196,11 +196,11 @@ const Navbar = (props) => {
             {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30 ">
-                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[300px] mx-1   shadow-md  border-gray-300">
+                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[30px] min-w-[320px] mx-1   shadow-md  border-gray-300">
                     {props.noti && props.noti.length > 0 ? props.noti.map((not,i)=>{
                       return(
                         <li key={i}
-                          className=" gap-1 rounded-md  border-primary items-center z-10 py-4 px-2  text-xs font-medium text-text1 hover:bg-primary cursor-pointer"
+                          className=" gap-1 rounded-md  border-primary items-center z-10 py-4 px-5  text-xs font-medium text-text1 hover:bg-primary cursor-pointer"
                           onClick={()=> navigate(`/service/${not.split(":")[0]}`)}
                           >
                           <p>  {not.split(':')[1]} </p>
@@ -251,7 +251,7 @@ const Navbar = (props) => {
                     <div className="relative z-30">
                       <ul className="flex flex-col gap-1 rounded-br-md rounded-bl-md absolute right-[-10px]   bottom-[-87px] min-w-[150px] bg-white  shadow-md ">
                         <li
-                          className="flex gap-2 items-center z-10 py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer"
+                          className="flex gap-2 text-xs items-center z-10 py-2 pl-2 pr-6  font-semibold text-text1 hover:bg-primary cursor-pointer"
                           onClick={() => navigate("/userInfo")}>
                           {" "}
                           <RxAvatar size={22} /> {CurrUser.first_name}{" "}
@@ -260,7 +260,7 @@ const Navbar = (props) => {
 
                         <li
                           onClick={signoutHandler}
-                          className=" flex gap-2 items-center py-2 pl-2 pr-6  text-sm font-semibold text-text1 hover:bg-primary cursor-pointer">
+                          className=" flex gap-2 items-center py-2 pl-2 pr-6  text-xs font-semibold text-text1 hover:bg-primary cursor-pointer">
                           <FaSignOutAlt className="ml-1" size={20} /> Sign Out{" "}
                         </li>
                       </ul>

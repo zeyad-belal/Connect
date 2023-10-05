@@ -115,18 +115,24 @@ const getServicebySellerId = async (req, res, next) => {
 
 
 const getFourServicesbyCategoryId = async (req, res, next) => {
-  // check if id is a valid objectId
-  if (!Types.ObjectId.isValid(req.params.id))
+  // Check if id is a valid objectId
+  if (!Types.ObjectId.isValid(req.params.id)) {
     return next(new AppError("Invalid ObjectId.", 401));
+  }
 
   const services = await Service.find({ category_id: req.params.id })
+    .sort({ created_at: -1 }) // Sort by created_at in descending order (latest first)
     .populate({
       path: "reviews",
       populate: { path: "user_id" },
     })
     .populate("category_id")
-    .populate("user_id").limit(4)
-  if (!services) return next(new AppError("no services was found.", 404));
+    .populate("user_id")
+    .limit(4); // Limit the result to 4 services
+
+  if (!services || services.length === 0) {
+    return next(new AppError("No services were found.", 404));
+  }
 
   res.send(services);
 };
