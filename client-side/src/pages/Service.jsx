@@ -193,7 +193,7 @@ const Service = () => {
 
 
 
-console.log('service',service)
+// console.log('service',service)
 
   return (
     <>

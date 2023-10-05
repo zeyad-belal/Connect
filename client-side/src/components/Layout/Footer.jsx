@@ -52,6 +52,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-white">
+        {/* form  */}
         <div className=" flex flex-col justify-center pb-1 pt-5 mx-2 gap-5 ">
 
           <h3 className="text-text1 font-semibold text-center ">
