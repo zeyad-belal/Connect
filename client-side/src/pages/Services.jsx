@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Filter from "../components/Filter";
 import { useSearchParams } from "react-router-dom";
-import PaginatedItems from "../components/Service/PaginatedItems";
+import {PaginatedItems} from "../components/Service/PaginatedItems";
 import { useSelector } from "react-redux";
 import { BiHappyAlt } from "react-icons/bi";
 import { FaRegSadTear } from "react-icons/fa";

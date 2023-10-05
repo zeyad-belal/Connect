@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import ServicesItem from "./ServicesItem";
 
-function PaginatedItems({ filteredServices }) {
+function PaginatedItemss({ filteredServices }) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -48,4 +48,4 @@ function PaginatedItems({ filteredServices }) {
   );
 }
 
-export default PaginatedItems;
+export const PaginatedItems= React.memo(PaginatedItemss);
