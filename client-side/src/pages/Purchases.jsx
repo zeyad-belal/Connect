@@ -6,9 +6,9 @@ import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { FilterIcon, HomeIcon, RightArrowIcon } from "../components/Icons";
 import StatusFilter from "../components/StatusFilter";
-import { BsChatFill } from "react-icons/bs";
+import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { PiArrowSquareInBold } from "react-icons/pi";
-import { AiOutlineStar, AiTwotoneStar } from "react-icons/ai";
+import {  AiTwotoneStar } from "react-icons/ai";
 import { toast } from "react-toastify";
 
 
@@ -224,7 +224,7 @@ console.log('allOrders',allOrders)
                         src={item.image}
                         alt="Image not Found" />
                       <div className="mr-2 flex flex-col ">
-                        <h5 className="text-md font-semibold text-text1 mb-3">
+                        <h5 className="sm:text-md text-sm font-semibold text-text1 mb-3">
                           {item.name}
                         </h5>
 
@@ -282,13 +282,13 @@ console.log('allOrders',allOrders)
                         </div>
                       </div>
                     </div>
-                    <div className="flex justify-between  mb-2 mx-2">
-                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className="self-end text-sm bg-secondary hover:bg-secHover text-text1 rounded-lg p-2 font-semibold flex items-center gap-2">
-                      <PiArrowSquareInBold size={20} /> <span>  Write  a  review </span> </button> : null}
+                    <div className={`flex ${item.status == "delivered"? "justify-between" : " justify-end"}  mb-2 mx-2`}>
+                      {item.status == "delivered" ? <button onClick={toggleReviewModal} className="self-end sm:text-xs text-[0.6rem]  bg-secondary hover:bg-secHover gap-1 text-text1 rounded-lg sm:p-2 p-1 font-semibold flex items-center sm:gap-2">
+                      <PiArrowSquareInBold size={18} /> <span>  Write  a  review </span> </button> : null}
                       <button
-                        className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600'}   text-white p-4 text-xl rounded-full self-end`}
+                        className={`${item.status == "delivered" ? 'bg-gray-400 cursor-not-allowed': 'bg-green-400 hover:bg-green-600 '} flex sm:gap-2 gap-1 items-center font-semibold  text-white p-1 sm:p-2 sm:text-xs text-[0.6rem]   rounded-lg ml-3 self-end`}
                         onClick={(e) => startChatHandler(e,item)} >
-                        <BsChatFill />
+                        <HiOutlineChatAlt2 size={18} /> Chat with the seller 
                       </button>
                     </div>
                     {reviewMenu ? (

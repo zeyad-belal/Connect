@@ -208,7 +208,7 @@ console.log('reviews:',reviews)
               </li>
             </ul>
           </div>
-        </div>
+        </div> 
         {/* -----------------------------------reviews ------------------------------------------ */}
         <div className='bg-white mx-3 sm:mx-6 md:mx-12 py-5   flex flex-col  items-center px-4 sm:px-6 lg:px-12 my-3'>
         <h1 className="mb-3 self-start font-medium border-b w-[100%] pb-3">what does they say about <span className="font-bold text-secondary "> {user.first_name} </span> ? </h1>

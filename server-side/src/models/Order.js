@@ -40,6 +40,10 @@ const orderSchema = new Schema({
   chatHistory:{
     type: Array,
     default: [],
+  },
+  reviewed:{
+    type: Boolean,
+    default: false,
   }
 
 });
