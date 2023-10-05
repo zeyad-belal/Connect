@@ -16,7 +16,7 @@ const ServicesItem = ({ item }) => {
       toast.info('Sign in to view seller page !', {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

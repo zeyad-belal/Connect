@@ -166,7 +166,7 @@ export default function Seller() {
 
 
 // console.log('user:',user)
-console.log('reviews:',reviews)
+// console.log('reviews:',reviews)
 // console.log('services:',services)
 // console.log('reviews:',reviews)
 // console.log('allIncomingOrders:',allIncomingOrders)

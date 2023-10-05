@@ -48,7 +48,7 @@ const Navbar = (props) => {
     if(window.localStorage.getItem("logged")){
       navigate(destination)
     }else{
-      toast.info("please sign in first !", {
+      toast.info("please sign in first", {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: true,

@@ -361,7 +361,6 @@ function Purchases() {
           {/* ----------------------------no orders found message------------------------------------ */}
           {(!filteredOrders.length && !allOrders.length > 0 )  && LoadingState} 
 
-   
         </div>
       </div>
       <ToastContainer />
