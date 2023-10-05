@@ -3,6 +3,7 @@
 import { useNavigate } from "react-router-dom";
 import {RatingBadge} from "../Badges";
 import LoadingItemCard from "../../UI/LoadingItemCard";
+import { toast } from "react-toastify";
 
 
 const ServicesItem = ({ item }) => {
@@ -11,6 +12,19 @@ const ServicesItem = ({ item }) => {
   function handleSellerNavigate(e){
     e.preventDefault()
     e.stopPropagation()
+    if(!window.localStorage.getItem("logged")){
+      toast.info('Sign in to view seller page !', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return
+    }
     navigate(`/seller/${item.user_id.id}`)
     
   }

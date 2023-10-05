@@ -12,6 +12,7 @@ const Searchbar = (props) => {
   const navigate = useNavigate();
   const searchBar = useRef();
   const dispatch = useDispatch()
+  
   const filteredServices = services.filter((service) => {
     return service.name.toLowerCase().includes(searchText.toLowerCase());
   });
