@@ -15,7 +15,7 @@ const ServiceDetails = ({service}) => {
               <RatingBadge avg_rating={service.avg_rating}></RatingBadge>
               <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full"></span>
               <a
-                href="#reviews"
+                href="#panels"
                 className="text-md mb-[2px] font-medium text-gray-900 underline hover:no-underline" >
                 {service.reviews.length} reviews
               </a>

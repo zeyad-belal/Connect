@@ -17,6 +17,7 @@ import Counter from "../components/Counter";
 import { FaRegSadTear } from "react-icons/fa";
 import { BiHappyAlt } from "react-icons/bi";
 import Slider from "../UI/Slider";
+import { useCookies } from "react-cookie";
 
 const Service = () => {
   const dispatch = useDispatch()
@@ -34,6 +35,7 @@ const Service = () => {
       </svg>
     </div>
   );
+  const [cookies, setCookies] = useCookies(["User"]);
 
   const [count, setCount] = useState(1);
   const { id } = useParams();
@@ -42,6 +44,10 @@ const Service = () => {
   const handleAddItemToCart = (service) => {
 
       if (window.localStorage.getItem("logged")) {
+        if(service.user_id == cookies.User._id){
+          return
+        }
+        
         dispatch(cartActions.add({
           key: service._id,
           id: service._id,
@@ -193,7 +199,7 @@ const Service = () => {
 
 
 
-// console.log('service',service)
+console.log('service',service)
 
   return (
     <>
@@ -214,7 +220,7 @@ const Service = () => {
                 <div className="flex items-center gap-12  bg-white p-4 lg:w-[65%]">
                     <div className="max-w-full flex flex-col items-center p-2 ">
                       <ServiceImageCarousel  serviceImages={service.images} />
-                      <p className="text-sm text-text1 lg:tracking-2xl my-8 px-1 md:px-7" >{service.description}</p>
+                      <p className="text-sm text-text1 lg:text-md my-8 px-1 " >{service.description}</p>
                     </div>
                 </div>
                 {/* SERVICES DETAILS  */}
@@ -228,7 +234,7 @@ const Service = () => {
                 </div>
               </div> 
               {/* SERVICES PANELS  */}
-              <div className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
+              <div id="panels" className="bg-white  px-5 lg:max-w-[65%] flex flex-col items-start">
                 <ServicePanels 
                   service={service}
                   setExtrasCost={setExtrasCost}
@@ -251,7 +257,7 @@ const Service = () => {
                   <button
                     onClick={() => handleAddItemToCart(service)}
                     type="button"
-                    className="bg-secondary border-2 border-transparent text-white hover:bg-transparent hover:text-secondary transition-all hover:border-secondary focus:outline-none font-medium rounded text-md px-3 py-2 text-center inline-flex items-center ">
+                    className={`${service.user_id == cookies.User._id ? 'bg-gray-400 cursor-not-allowed': 'bg-secondary hover:bg-transparent hover:text-secondary hover:border-secondary'}  border-2 border-transparent text-white  transition-all  focus:outline-none font-medium rounded text-md px-3 py-2 text-center inline-flex items-center `}>
                     <CartIcon></CartIcon> add to cart 
                   </button>
                 </div>
