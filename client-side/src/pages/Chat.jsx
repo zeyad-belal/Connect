@@ -232,11 +232,11 @@ const Chat = () => {
       
         {/* Modal content */}
         <div className="relative bg-white p-12 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-7">Are you sure?</h2>
+          <h2 className="text-xl text-center font-semibold mb-7">Are you sure?</h2>
           <div className="flex justify-end">
             <button
               onClick={confirmOrderCompleted}
-              className="bg-green-500 text-white px-4 py-2 mr-6 rounded hover:bg-green-600">
+              className="bg-green-500 text-white px-5 py-2 mr-6 rounded hover:bg-green-600">
               YES
             </button>
             <button
