@@ -39,7 +39,7 @@ function HeroSection() {
       <div className="z-10 flex flex-col items-center text-center ">
         <div className="mx-6">
             <h1 className="text-bold text-white text-[30px] lg:text-[50px] md:text-[40px] mb-5">Where Talent Meets Opportunity </h1>
-            <p className="text-semibold text-white text-[15px] lg:text-[20px] md:text-[17px]  mb-12">Join a Community of Talented Freelancers and Connect with Clients Worldwide.</p>
+            <p className="text-semibold text-white text-sm lg:text-lg md:text-md  mb-12">Join a Community of Talented Freelancers and Connect with Clients Worldwide.</p>
         </div>
         <div className="relative mx-5 ">
           <input 
