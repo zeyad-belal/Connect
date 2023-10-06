@@ -19,7 +19,7 @@ function HeroSection() {
 
 
   const changeHandler = debounce((e) => {
-    setSearchText(e.target.value)
+    setSearchText(e.target.value.toLowerCase())
   }, 900);
   
 

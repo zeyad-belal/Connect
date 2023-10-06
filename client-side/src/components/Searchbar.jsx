@@ -27,7 +27,7 @@ const Searchbar = (props) => {
 
 
   const changeHandler = debounce((e) => {
-    setSearchText(e.target.value)
+    setSearchText(e.target.value.toLowerCase())
   }, 900);
   
 
@@ -47,7 +47,7 @@ const Searchbar = (props) => {
     >
       {(state) => (
         <div
-          className="absolute z-20 top-[63px] left-0 w-full"
+          className="absolute z-20 top-[58px] left-0 w-full"
           style={{
             transition: "all 0.3s ease-in-out",
             transform:
