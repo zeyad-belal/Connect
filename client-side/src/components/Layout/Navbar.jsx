@@ -270,7 +270,7 @@ const Navbar = (props) => {
               </div>
             ) : (
               <button
-                className="text-text1 transition-all whitespace-nowrap text-[15px] rounded-md font-semibold border-2 hover:text-white hover:bg-text1 border-text1 px-3 py-2"
+                className="text-text1 transition-all whitespace-nowrap text-[13px] sm:text-[15px] rounded-md font-semibold border-2 hover:text-white hover:bg-text1 border-text1 px-1 sm:px-3 py-2"
                 onClick={() => dispatch(signModalActions.toggleModal())} >
                 Sign in
               </button>
