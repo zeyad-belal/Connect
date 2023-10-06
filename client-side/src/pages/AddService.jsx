@@ -439,7 +439,7 @@ function AddService() {
         <div className="hidden lg:block py-12 p-5 self-start max-w-[400px]">
           <h3 className="text-lg font-semibold mb-2">Service Title</h3>
           <p className="text-gray-700 text-md mb-12">
-            Choose a concise and clear title that accurately reflects what you're offering in your service.
+            Choose a concise and clear title that accurately reflects what you are offering in your service.
             This will help buyers find your service when searching for related keywords in the field.
           </p>
 
