@@ -100,7 +100,7 @@ export default function Seller() {
       const sumOfRatings = reviews.reduce((total, review) => {
         return total + review.rating;
       }, 0);
-      const averageRating = sumOfRatings / reviews.length;
+      const averageRating = Math.floor(sumOfRatings / reviews.length);
       setRate(averageRating)
       
     } 
