@@ -15,12 +15,12 @@ const ServiceRoute = ({ service }) => {
         <RightArrowIcon />
 
         <Link to={`/services?category=${service.category_id.category_name}`}>
-          <span className="pb-[2px] ">{service.category_id.category_name}</span>
+          <span className="sm:text-sm pb-[2px] ">{service.category_id.category_name}</span>
         </Link>
 
         <RightArrowIcon />
 
-        <span className=" break-words">{service.name.slice(0,30)}...</span>
+        <span className="sm:text-sm break-words">{service.name.slice(0,30)}...</span>
       </div>
     </>
   );

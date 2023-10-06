@@ -210,9 +210,9 @@ const Service = () => {
               <div className=" flex flex-col items-start">
                 <ServiceRoute service={service} />
                 <div className="flex flex-col lg:flex-row justify-between w-full items-start lg:items-center">
-                  <h1 className="lg:text-2xl text-lg  mb-4 px-2 font-semibold text-text1">{service.name}</h1>
+                  <h1 className="lg:text-2xl text-lg  my-4 px-2 font-semibold text-text1">{service.name}</h1>
                   <button onClick={() => cartSectionRef.current.scrollIntoView({ behavior: "smooth" }) }
-                    className="bg-secondary border-2 border-transparent  text-white hover:bg-transparent hover:text-secondary transition-all hover:border-secondary focus:outline-none font-medium rounded text-md px-3 py-1 text-center inline-flex items-center ">
+                    className="bg-secondary border-2 border-transparent  text-white hover:bg-transparent hover:text-secondary transition-all hover:border-secondary focus:outline-none font-medium rounded text-md px-3 py-1 text-center inline-flex items-center self-end">
                     <CartIcon></CartIcon> Buy the service </button>
                 </div>
               </div>
