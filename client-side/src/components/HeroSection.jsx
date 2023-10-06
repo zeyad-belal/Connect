@@ -38,8 +38,8 @@ function HeroSection() {
       }} >
       <div className="z-10 flex flex-col items-center text-center ">
         <div className="mx-6">
-            <h1 className="text-bold text-white text-[30px] lg:text-[50px] md:text-[40px] mb-5">Where Talent Meets Opportunity </h1>
-            <p className="text-semibold text-white text-sm lg:text-lg md:text-md  mb-12">Join a Community of Talented Freelancers and Connect with Clients Worldwide.</p>
+            <h1 className="text-bold text-white text-3xl  lg:text-[40px] md:text-4xl mb-5">Where Talent Meets Opportunity </h1>
+            <p className="text-semibold text-white text-sm  md:text-lg  mb-12 md:max-w-[600px] max-w-[400px]  mx-auto  ">Join a Community of Talented Freelancers and Connect with Clients Worldwide.</p>
         </div>
         <div className="relative mx-5 ">
           <input 
