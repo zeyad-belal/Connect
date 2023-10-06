@@ -58,7 +58,7 @@ serviceSchema.virtual("avg_rating").get(function () {
   const totalRatings = this.reviews.reduce((acc, cur) => acc + cur.rating, 0);
   avgRating = totalRatings / this.reviews.length;
 
-  return avgRating;
+  return Math.floor(avgRating);
 });
 
 const Service = mongoose.model("Service", serviceSchema);

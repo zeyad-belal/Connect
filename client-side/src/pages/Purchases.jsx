@@ -19,6 +19,7 @@ function Purchases() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [reviewMenu, setReviewMenu] = useState(false);
   const [currentStatus, setCurrentStatus] = useState([]);
+  const [currentReviewItem, setCurrentReviewItem] = useState(null);
   const navigate = useNavigate();
 
 
@@ -38,15 +39,19 @@ function Purchases() {
   };
 
   function  toggleReviewModal(e,item){
-    if(item.reviewed == true){
+    if(item.reviewed){
       return
     }
-
+    setCurrentReviewItem(item);
     setReviewMenu(prev => !prev)
   }
 
-  async function handleReviewSubmit(event,item) {
+  
+  async function handleReviewSubmit(event) {
     event.preventDefault();
+    if (!currentReviewItem) {
+      return;
+    }
     if(rating< 1){
       toast.info("Must provide a star rate !", {
         position: "top-right",
@@ -68,8 +73,8 @@ function Purchases() {
       formData.append('review_description', event.target.review_description.value)
       formData.append('rating', event.target.rating.value)
       formData.append('user_id', event.target.user_id.value)
-      formData.append('service_id', item.service_id._id)
-      formData.append('seller_id', item.seller._id)
+      formData.append('service_id', currentReviewItem.service_id._id)
+      formData.append('seller_id', currentReviewItem.seller._id)
 
 
       const response = await axios.post( `${import.meta.env.VITE_API_URL}/reviews`,
@@ -77,23 +82,24 @@ function Purchases() {
         { headers: { Authorization: `${cookies.UserToken}` } }
         );
 
-        await axios.patch( `${import.meta.env.VITE_API_URL}/orders/reviewed/${item.orderID}`,
+        const rveiewdRes = await axios.patch( `${import.meta.env.VITE_API_URL}/orders/reviewed/${currentReviewItem.id}`,
           {reviewed: true},
         { headers: { Authorization: `${cookies.UserToken}` } }
         );
-
+        console.log(rveiewdRes)
+        setCurrentReviewItem(null); 
+        toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
         setReviewMenu(false)
-        // toast.success(`review has been submited ! ${cookies.User.first_name}!`, {
-        //   position: "top-right",
-        //   autoClose: 2000,
-        //   hideProgressBar: true,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "light",
-        // })
-        
+
         window.location.reload()
     }catch(error){
       console.log(error)
@@ -236,7 +242,7 @@ function Purchases() {
             <div className="py-3 text-gray-500 flex flex-col ">
               {(currentStatus.length ? filteredOrders : allOrders).map((item,index) => {
                   return (
-                    <div className={`flex justify-between flex-col ${ allOrders.length == 1 || allOrders.length - 1 == index ? "" : "border-b" }`} key={index}>
+                    <div className={`flex justify-between flex-col ${ allOrders.length == 1 || allOrders.length - 1 == index ? "" : "border-b" }`} key={Math.random()}>
                     <div
                       className={`text-text1 w-full flex flex-col  sm:flex-row justify-start  my-1 px-3 py-2`} >
                       <img
@@ -314,10 +320,10 @@ function Purchases() {
                     {reviewMenu ? (
                       <div className="fixed inset-0 flex items-center justify-center z-50">
                         {/* Dark overlay */}
-                        <div className="fixed inset-0 bg-black opacity-90 " onClick={toggleReviewModal}></div>
+                        <div className="fixed inset-0 bg-black opacity-[15%] " onClick={()=>setReviewMenu(false)}></div>
                       
                         {/* Modal content */}
-                        <form onSubmit={(e)=>handleReviewSubmit(e,item)} className="relative w-[340px] sm:w-[500px] text-white p-12 rounded-lg shadow-lg flex flex-col gap-5">
+                        <form onSubmit={(e)=>handleReviewSubmit(e,item)} className="relative w-[340px] sm:w-[500px] text-white p-12  flex flex-col gap-5">
                           
                           <div>
                             <div className="text-xl mb-2 font-semibold flex items-center gap-2">Rate the service <span className="text-secHover"> <AiOutlineSmile /> </span></div>
@@ -350,11 +356,6 @@ function Purchases() {
                       </div>
                       ) : null}
                   </div>
-                
-                
-                
-                
-                
                 );
               })}
             </div>

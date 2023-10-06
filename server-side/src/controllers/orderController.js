@@ -143,7 +143,7 @@ const updateOrderReviewStatus = async (req, res, next) => {
       return next(new AppError("Invalid ObjectId.", 401));
 
     // Find the order by its _id
-    const order = await Order.findOne({_id :req.params.id} );
+    const order = await Order.findById(req.params.id);
 
     // Check if the order exists
     if (!order) return next(new AppError("Order not found!", 404));

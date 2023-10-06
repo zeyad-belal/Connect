@@ -62,7 +62,7 @@ const Slider = ({ services }) => {
           <SwiperSlide key={index}>
             <div className="flex flex-col border mx-auto px-2 py-3 max-h-[300px] max-w-[260px] bg-white rounded-lg">
               <Link
-                to={`/services/${service._id}`}
+                to={`/service/${service._id}`}
                 className="flex flex-col justify-between items-center gap-2 min-h-[255px] " >
                 <figure className="relative max-w-[230px] ">
                   <img src={service.images[0]?.url} />
