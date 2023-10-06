@@ -99,7 +99,7 @@ const Services = () => {
   return (
     <div className="bg-primary min-h-[100vh] mt-[58px]">
       <div className="w-full flex flex-col md:flex-row relative ">
-        <div className="md:max-w-[250px] lg:max-w-[300px]">
+        <div className="md:max-w-[230px] lg:max-w-[260px]">
         <Filter />
         </div>
         {/* Render your services using the filtered services */}

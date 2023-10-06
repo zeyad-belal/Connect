@@ -138,7 +138,7 @@ const Navbar = (props) => {
               onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
             {menu.isCatgMenuVisible && 
-            <div className="bottom-[-225%] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
+            <div className="bottom-[-250%] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
@@ -196,7 +196,7 @@ const Navbar = (props) => {
             {menu.isNotiMenuVisible && (
               <>
                 <div className="relative z-30 ">
-                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-21px]   top-[29px] min-w-[320px] mx-1   shadow-md  border-gray-300">
+                  <ul className="flex flex-col rounded-br-md rounded-bl-md  overflow-hidden absolute bg-white  right-[-43px]   top-[29px] min-w-[310px] mx-1   shadow-md  border-gray-300">
                     {props.noti && props.noti.length > 0 ? props.noti.map((not,i)=>{
                       return(
                         <li key={i}
