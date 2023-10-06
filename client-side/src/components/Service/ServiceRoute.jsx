@@ -20,7 +20,7 @@ const ServiceRoute = ({ service }) => {
 
         <RightArrowIcon />
 
-        <span className=" break-words">{service.name}</span>
+        <span className=" break-words">{service.name.slice(0,30)}...</span>
       </div>
     </>
   );
