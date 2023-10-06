@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import BackToTopButton from "../BackToTopButton";
 import emailjs from "emailjs-com";
 import {
@@ -10,8 +11,10 @@ import {
   FaMoneyBill,
 } from "react-icons/fa";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
 
   const [emailSent, setEmailSent] = useState(false);
   const form = useRef();
@@ -92,10 +95,11 @@ const Footer = () => {
 
         {/* social media */}
         <div className="flex justify-center my-3 items-center gap-x-1 mr-1">
+
               <a
                 href="https://www.facebook.com/"
                 className="bg-[#33332f] hover:bg-[#4267B2] p-2 rounded-full"
-              >
+                >
                 <FaFacebook size={20} color="white" />
               </a>
               <a
@@ -107,7 +111,7 @@ const Footer = () => {
               <a
                 href="https://www.linkedin.com/"
                 className="bg-[#33332f] hover:bg-[#2867B2] p-2 rounded-full"
-              >
+                >
                 <FaLinkedin size={20} color="white" />
               </a>
               <a
@@ -116,6 +120,7 @@ const Footer = () => {
               >
                 <FaInstagram size={20} color="white" />
               </a>
+            <button onClick={()=>navigate('/about')} className="ml-5 cursor-pointer font-semibold text-text1 underline">About us</button>
         </div>
 
 
