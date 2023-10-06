@@ -22,9 +22,9 @@ const Categories = () => {
 
   return (
   <section className="px-10 py-12 min-h-[100vh] bg-primary text-center flex flex-col justify-center ">
-    <h1 className="text-semibold text-3xl text-text1 mb-12  relative">
+    <h1 className="text-semibold text-xl md:text-3xl text-text1 mb-12  relative">
       Professional Services to Grow Your Business
-      <span className="absolute left-1/2 transform -translate-x-1/2 bottom-[-26px] sm:w-[220px] h-[2px] bg-black"></span>
+      <span className="absolute left-1/2 transform -translate-x-1/2 bottom-[-26px] w-[150px] sm:w-[220px] h-[2px] bg-black"></span>
       <span className="absolute left-1/2 transform -translate-x-1/2 bottom-[-32px] w-[13px] h-[13px] bg-white border-2 border-black rounded-full"></span>
     </h1>
     <div className="mt-5 gap-7 flex flex-col justify-around sm:flex-row flex-wrap">
