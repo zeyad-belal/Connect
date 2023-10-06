@@ -47,7 +47,7 @@ const ServicesItem = ({ item }) => {
                 src={item.images[0].url}
                 id="avatar"
                 alt="Image Not Found"
-                className="w-full max-h-[160px]" />
+                className="w-full max-h-[160px] " />
                 {/* ---------seller avatar---------*/}
               <div 
                 className="hover:border-2  absolute bottom-2 left-2 w-[30px] h-[30px] bg-white  shadow-md rounded-full overflow-hidden"
@@ -67,7 +67,7 @@ const ServicesItem = ({ item }) => {
               <div className="flex flex-col ">
                 <RatingBadge avg_rating={item.avg_rating ? item.avg_rating : 0} />
                 <div className="flex  my-1 text-gray-700 text-md">
-                      starts from <span className="font-bold ml-1"> ${item.price}</span>
+                      starts from <span className="font-semibold ml-1"> ${item.price}</span>
                   </div>
                 </div>
             </div>

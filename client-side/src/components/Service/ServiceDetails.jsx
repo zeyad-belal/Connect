@@ -26,12 +26,12 @@ const ServiceDetails = ({service}) => {
           <div className="flex items-end gap-2 text-text1">
             <span>Price starts from:</span>
 
-              <div className="text-xl font-bold whitespace-nowrap">
+              <div className="text-xl font-semibold whitespace-nowrap">
                 ${service.price}
               </div>
           </div>
         </div>
-          <p className="py-4">Delivery Period: {service.time}</p>
+          <p className="py-4">Delivery Period: <span className="font-semibold"> {service.time} </span> </p>
     </div>
   );
 };
