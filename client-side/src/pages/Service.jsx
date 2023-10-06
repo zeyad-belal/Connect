@@ -245,7 +245,7 @@ const Service = () => {
               </div>
               {/* buy the service  */}
               <div ref={cartSectionRef} className="bg-white flex flex-col justify-center items-center p-10 lg:max-w-[65%]">
-                <h2 className="self-start text-2xl text-text1">Buy the service</h2>
+                <h2 className="self-start text-lg sm:text-2xl text-text1">Buy the service</h2>
                 <div className="border-t w-full flex flex-col items-center mt-3 pt-3">
                   <div className="flex items-center gap-4 py-4 ">
                   <Counter
