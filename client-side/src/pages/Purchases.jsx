@@ -175,8 +175,13 @@ function Purchases() {
         extras: item.extras,
       }))
     );
-    
-      setAllOrders(allOrdersData.flatMap((order) => order))
+    const formatedOrders =allOrdersData.flatMap((order) => order)
+    const sortedOrdersData = formatedOrders.sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB - dateA; // Sort in descending order (most recent first)
+    });
+      setAllOrders(sortedOrdersData)
 
     }
     if (window.localStorage.getItem("logged")) {
@@ -221,12 +226,12 @@ function Purchases() {
         </button>
       </div>
       {/* ----------------------------route------------------------------*/}
-      <div className="flex items-center text-gray-500">
+      <div className="flex items-center text-gray-500 ">
           <Link to={'/'}  >
             <p className="ml-2 text-gray-500 text-sm cursor-pointer flex"> <HomeIcon />  </p>
           </Link>
           <RightArrowIcon className="text-gray-500" />
-          <h1 className="text-lg ">Purchased items</h1>
+          <h1 className="text-md ">Purchased items</h1>
       </div>
 
 

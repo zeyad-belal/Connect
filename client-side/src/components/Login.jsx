@@ -139,7 +139,7 @@ oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
               })}
               type="checkbox"
               id="rememberMe"
-              className="cursor-pointer self-center w-3 h-3"
+              className="cursor-pointer self-center w-4 h-4"
               />
               <label className="text-sm cursor-pointer" htmlFor="rememberMe" >remember me ?</label>
             </div>

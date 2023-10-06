@@ -185,7 +185,7 @@ function IncomingOrders() {
           </p>
         </Link>
         <RightArrowIcon className="text-gray-500" />
-        <h1 className="text-lg ">Incoming orders</h1>
+        <h1 className="text-md ">Incoming orders</h1>
       </div>
 
       <div className="gap-6 lg:gap-12 flex flex-col md:flex-row  lg:ml-8 ">
