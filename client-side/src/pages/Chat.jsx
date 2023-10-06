@@ -236,7 +236,7 @@ const Chat = () => {
           <div className="flex justify-end">
             <button
               onClick={confirmOrderCompleted}
-              className="bg-green-500 text-white px-5 py-2 mr-6 rounded hover:bg-green-600">
+              className="bg-green-500 text-white px-7 py-2 mr-6 rounded hover:bg-green-600">
               YES
             </button>
             <button
