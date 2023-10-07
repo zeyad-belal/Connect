@@ -167,7 +167,7 @@ useEffect(()=>{
 
 
   return (
-    <div className="bg-primary  mt-[65px] min-h-[91vh]">
+    <div className="bg-primary  mt-[58px] min-h-[91vh]">
         <div className="flex flex-col px-2 md:px-11 py-10 justify-between gap-4">
           <section >
             {/* cart header */}
