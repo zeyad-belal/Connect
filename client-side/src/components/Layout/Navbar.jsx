@@ -138,7 +138,7 @@ const Navbar = (props) => {
               onClick={() => dispatch(menuActions.toggleCategories())}  >
             <BsFillCollectionFill /> Categories
             {menu.isCatgMenuVisible && 
-            <div className="bottom-[-250%] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
+            <div className="bottom-[-145px] right-[-250%] rounded-md  z-40 absolute mt-2 w-[500%] text-center  bg-white  shadow-lg">
               <ul className="flex flex-wrap">
                 {categories.map(category =>{
                   return <li
