@@ -20,7 +20,7 @@ const {
   loginValidation,
   signupValidation
 } = require("../utils/validations/authenticationSchema");
-const verfiyUserToken = require("../middlewares/verfiyUserToken");
+const verfiyUserToken = require("../middlewares/verfiyUserToken"); 
 
 // dashboard authentication
 router.post("/dashboard/login", loginValidation, adminLogin);
