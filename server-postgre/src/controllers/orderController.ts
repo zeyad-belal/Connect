@@ -2,164 +2,307 @@ import { prisma } from "../db";
 import AppError from "../utils/AppError";
 
 const createOrder = async (req: any, res: any, next: any) => {
-  const { items, buyer, orderID, seller } = req.body;
+  try {
+    const { items, buyer, seller } = req.body;
 
-  const createdOrder = await prisma.order.create({
-    data: {
-      buyer,
-      items,
-      id: orderID,
-      seller,
-    },
-  });
+    const createdOrder = await prisma.order.create({
+      data: {
+        buyerId: buyer,
+        sellerId: seller,
+        items: {
+          create: items.map((item: any) => ({
+            serviceId: item.service_id,
+            quantity: item.quantity,
+            extras: item.extras,
+            price: item.price,
+            time: item.time,
+            status: item.status || 'pending'
+          }))
+        }
+      },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: true
+          }
+        }
+      }
+    });
 
-  res.send({ message: "Order created successfully!", createdOrder });
+    res.send({ message: "Order created successfully!", createdOrder });
+  } catch (error) {
+    return next(new AppError("Failed to create order.", 500));
+  }
 };
 
 const getAllOrders = async (req: any, res: any, next: any) => {
-  const orders = await prisma.order.findMany();
+  try {
+    const orders = await prisma.order.findMany({
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: true
+          }
+        }
+      }
+    });
 
-  res.send(orders);
+    res.send(orders);
+  } catch (error) {
+    return next(new AppError("Failed to fetch orders.", 500));
+  }
 };
 
 const getOrderById = async (req: any, res: any, next: any) => {
+  try {
+    // Convert string ID to integer for PostgreSQL
+    const orderId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(orderId)) {
+      return next(new AppError("Invalid Order ID.", 400));
+    }
 
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
+    });
 
-  const order = await prisma.order.findById(req.params.id)
-    .populate("buyer")
-    .populate("items.service_id");
+    if (!order) {
+      return next(new AppError("Order not found.", 404));
+    }
 
-  res.send(order);
+    res.send(order);
+  } catch (error) {
+    return next(new AppError("Failed to fetch order.", 500));
+  }
 };
 
 const getOrderByBuyerId = async (req: any, res: any, next: any) => {
-  // check if id is a valid objectId
-  if (!Types.ObjectId.isValid(req.params.id))
-    return next(new AppError("Invalid ObjectId.", 401));
+  try {
+    // Convert string ID to integer for PostgreSQL
+    const buyerId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(buyerId)) {
+      return next(new AppError("Invalid Buyer ID.", 400));
+    }
 
-  const order = await prisma.order.find({ buyer: req.params.id })
-    .populate("buyer")
-    .populate({
-      path: "items.service_id",
-      populate: {
-        path: "user_id",
-      },
-    })
-    .populate("seller");
+    const orders = await prisma.order.findMany({
+      where: { buyerId: buyerId },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
+    });
 
-  res.send({ order });
+    res.send({ order: orders });
+  } catch (error) {
+    return next(new AppError("Failed to fetch orders.", 500));
+  }
 };
 
 const getOrderBySellerId = async (req: any, res: any, next: any) => {
   try {
-    // Check if id is a valid objectId
-    if (!Types.ObjectId.isValid(req.params.id)) {
-      return next(new AppError("Invalid ObjectId.", 401));
+    // Convert string ID to integer for PostgreSQL
+    const sellerId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(sellerId)) {
+      return next(new AppError("Invalid Seller ID.", 400));
     }
-    // Use aggregate to perform a nested populate
-    const orders = await prisma.order.find({ seller: req.params.id })
-      .populate("buyer")
-      .populate({
-        path: "items.service_id",
-        populate: {
-          path: "user_id",
-        },
-      })
-      .populate("seller");
+
+    const orders = await prisma.order.findMany({
+      where: { sellerId: sellerId },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
+    });
 
     res.send({ orders });
   } catch (error) {
-    return next(new AppError(error, 500));
+    return next(new AppError("Failed to fetch orders.", 500));
   }
 };
 
 const updateOrderStatus = async (req: any, res: any, next: any) => {
   try {
-    // Check if id is a valid ObjectId
-    if (!Types.ObjectId.isValid(req.params.id))
-      return next(new AppError("Invalid ObjectId.", 401));
+    // Convert string ID to integer for PostgreSQL
+    const orderId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(orderId)) {
+      return next(new AppError("Invalid Order ID.", 400));
+    }
 
-    // Find the order by its _id
-    const order = await prisma.order.findOne({ _id: req.params.id });
+    // Find the order first
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      include: {
+        items: true
+      }
+    });
 
     // Check if the order exists
     if (!order) return next(new AppError("Order not found!", 404));
 
-    // Update the status of the item
-    order.items[0].status = req.body.status;
+    // Update the status of the first item (assuming single item orders)
+    if (order.items.length > 0) {
+      const updatedOrder = await prisma.orderItem.update({
+        where: { id: order.items[0].id },
+        data: { status: req.body.status },
+        include: {
+          order: {
+            include: {
+              buyer: true,
+              seller: true,
+              items: {
+                include: {
+                  service: true
+                }
+              }
+            }
+          }
+        }
+      });
 
-    // Save the updated order
-    const updatedOrder = await order.save();
-
-    res.send({ message: "Order status updated successfully!", updatedOrder });
+      res.send({ message: "Order status updated successfully!", updatedOrder: updatedOrder.order });
+    } else {
+      return next(new AppError("No items found in order.", 404));
+    }
   } catch (error) {
-    // Handle any errors that may occur during the update
     return next(new AppError("Failed to update order status.", 500));
   }
 };
 
 const updateOrderChat = async (req: any, res: any, next: any) => {
   try {
-    // Check if id is a valid ObjectId
-    if (!Types.ObjectId.isValid(req.params.id))
-      return next(new AppError("Invalid ObjectId.", 401));
+    // Convert string ID to integer for PostgreSQL
+    const orderId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(orderId)) {
+      return next(new AppError("Invalid Order ID.", 400));
+    }
 
-    // Find the order by its _id
-    const order = await prisma.order.findOne({ _id: req.params.id });
+    // Update the chat history
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: { chatHistory: req.body.chatHistory },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: true
+          }
+        }
+      }
+    });
 
-    // Check if the order exists
-    if (!order) return next(new AppError("Order not found!", 404));
-
-    // Update the status of the item
-    order.chatHistory = req.body.chatHistory;
-
-    // Save the updated order
-    const updatedOrder = await order.save();
-
-    res.send({ message: "Order status updated successfully!", updatedOrder });
+    res.send({ message: "Order chat updated successfully!", updatedOrder });
   } catch (error) {
-    // Handle any errors that may occur during the update
-    return next(new AppError(error, 500));
+    return next(new AppError("Failed to update order chat.", 500));
   }
 };
 
 const updateOrderReviewStatus = async (req: any, res: any, next: any) => {
   try {
-    // Check if id is a valid ObjectId
-    if (!Types.ObjectId.isValid(req.params.id))
-      return next(new AppError("Invalid ObjectId.", 401));
+    // Convert string ID to integer for PostgreSQL
+    const orderId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(orderId)) {
+      return next(new AppError("Invalid Order ID.", 400));
+    }
 
-    // Find the order by its _id
-    const order = await prisma.order.findById(req.params.id);
+    // Update the review status
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: { reviewed: req.body.reviewed },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: true
+          }
+        }
+      }
+    });
 
-    // Check if the order exists
-    if (!order) return next(new AppError("Order not found!", 404));
-
-    // Update the status of the item
-    order.reviewed = req.body.reviewed;
-
-    // Save the updated order
-    const updatedOrder = await order.save();
-
-    res.send({ message: "Order status updated successfully!", updatedOrder });
+    res.send({ message: "Order review status updated successfully!", updatedOrder });
   } catch (error) {
-    // Handle any errors that may occur during the update
-    return next(new AppError(error, 500));
+    return next(new AppError("Failed to update order review status.", 500));
   }
 };
 
 const deleteOrder = async (req: any, res: any, next: any) => {
-  // check if id is a valid objectId
-  if (!Types.ObjectId.isValid(req.params.id))
-    return next(new AppError("Invalid ObjectId.", 401));
+  try {
+    // Convert string ID to integer for PostgreSQL
+    const orderId = parseInt(req.params.id);
+    
+    // Check if ID is a valid number
+    if (isNaN(orderId)) {
+      return next(new AppError("Invalid Order ID.", 400));
+    }
 
-  const deletedOrder = await prisma.order.findByIdAndDelete(req.params.id);
-  if (!deletedOrder) return next(new AppError("Order was not found.", 404));
+    // Delete the order (this will cascade delete order items due to foreign key constraints)
+    const deletedOrder = await prisma.order.delete({
+      where: { id: orderId },
+      include: {
+        buyer: true,
+        seller: true,
+        items: {
+          include: {
+            service: true
+          }
+        }
+      }
+    });
 
-  res.send({ message: "Order deleted successfully!", deletedOrder });
+    res.send({ message: "Order deleted successfully!", deletedOrder });
+  } catch (error) {
+    return next(new AppError("Order was not found or failed to delete.", 500));
+  }
 };
 
-module.exports = {
+export {
   createOrder,
   getAllOrders,
   getOrderById,
