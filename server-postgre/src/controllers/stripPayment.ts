@@ -1,5 +1,9 @@
-const express = require('express');
-const stripe = require('stripe')('sk_test_51NlvpPI7GjHXBvB4QXekn4GwmVuMOVSz8QFPTwb08BMG9eU3GUP7oD6OM4nZRTbD6xYxRCuUCSsQrjRO6M7afHxY0029DIX9QL');
+import express from 'express';
+import Stripe from 'stripe';
+
+const stripe = new Stripe('sk_test_51NlvpPI7GjHXBvB4QXekn4GwmVuMOVSz8QFPTwb08BMG9eU3GUP7oD6OM4nZRTbD6xYxRCuUCSsQrjRO6M7afHxY0029DIX9QL', {
+  apiVersion: '2022-11-15',
+});
 
 const app = express();
 

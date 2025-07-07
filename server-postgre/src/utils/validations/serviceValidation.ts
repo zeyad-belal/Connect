@@ -1,16 +1,16 @@
-const Joi = require("joi");
-const AppError = require("../AppError");
+import Joi from "joi";
+import AppError from "../AppError";
 
 const serviceCreationValidationSchema = Joi.object({
   name: Joi.string().required(),
   price: Joi.number().required(),
   description: Joi.string().required(),
   time: Joi.string().required(),
-  extras: Joi.array(), 
+  extras: Joi.array(),
   keywords: Joi.string(),
   images: Joi.array(),
   category_name: Joi.string(),
-  user_id: Joi.string()
+  user_id: Joi.string(),
 });
 
 const serviceUpdateValidationSchema = Joi.object({
@@ -18,15 +18,15 @@ const serviceUpdateValidationSchema = Joi.object({
   price: Joi.number(),
   description: Joi.string(),
   time: Joi.string(),
-  extras: Joi.array(), 
+  extras: Joi.array(),
   keywords: Joi.string(),
   images: Joi.array(),
   category_name: Joi.string(),
-  user_id: Joi.string()
+  user_id: Joi.string(),
 });
 
-const serviceCreationValidation = (req, res, next) => {
-  console.log(req.body)
+export const serviceCreationValidation = (req: any, res: any, next: any) => {
+  console.log(req.body);
   const { error } = serviceCreationValidationSchema.validate({
     name: req.body.name,
     price: req.body.price,
@@ -36,14 +36,14 @@ const serviceCreationValidation = (req, res, next) => {
     extras: JSON.parse(req.body.extras),
     images: req.files,
     category_name: req.body.category_name,
-    user_id: req.body.user_id
+    user_id: req.body.user_id,
   });
-  if (error) console.log(error) 
+  if (error) console.log(error);
   if (error) return next(new AppError(error.name, 404));
   next();
 };
 
-const serviceUpdateValidation = (req, res, next) => {
+export const serviceUpdateValidation = (req: any, res: any, next: any) => {
   const { error } = serviceUpdateValidationSchema.validate({
     name: req.body.name,
     price: req.body.price,
@@ -53,11 +53,9 @@ const serviceUpdateValidation = (req, res, next) => {
     extras: req.body.extras ? JSON.parse(req.body.extras) : undefined,
     images: req.files,
     category_name: req.body.category_name,
-    user_id: req.body.user_id
+    user_id: req.body.user_id,
   });
-  if (error) console.log(error) 
+  if (error) console.log(error);
   if (error) return next(new AppError(error.name, 404));
   next();
 };
-
-module.exports = { serviceCreationValidation, serviceUpdateValidation };

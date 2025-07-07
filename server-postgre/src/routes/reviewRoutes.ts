@@ -1,29 +1,31 @@
-const express = require("express");
-const router = express.Router();
-const upload = require("../utils/multer");
+import express from "express";
+import { upload } from "../utils/multer";
 
-
-const {
+import {
   reviewCreationValidation,
-  reviewUpdateValidation
-} = require("../utils/validations/reviewValidation");
+  reviewUpdateValidation,
+} from "../utils/validations/reviewValidation";
 
-const verifyUserToken = require("../middlewares/verfiyUserToken");
+import verifyUserToken from "../middlewares/verfiyUserToken";
 
-
-const {
+import {
   createReview,
   getReviews,
   getSellerReviews,
   updateReview,
-  deleteReview
-} = require("../controllers/reviewController");
+  deleteReview,
+} from "../controllers/reviewController";
 
-
-
+export const router = express.Router();
 
 // create review for a service (req must include user._id & service._id)
-router.post( "/", verifyUserToken, reviewCreationValidation, upload.none(), createReview );
+router.post(
+  "/",
+  verifyUserToken,
+  reviewCreationValidation,
+  upload.none(),
+  createReview
+);
 
 // get reviews for a service (req must include service._id)
 router.get("/", verifyUserToken, getReviews);
@@ -32,7 +34,7 @@ router.get("/", verifyUserToken, getReviews);
 router.get("/sellerReviews/:id", verifyUserToken, getSellerReviews);
 
 // update a review in a service (must provide review fields in req & review id in params)
-router.put( "/:id", verifyUserToken, reviewUpdateValidation, updateReview );
+router.put("/:id", verifyUserToken, reviewUpdateValidation, updateReview);
 
 // delete a review from a service (must provide review id in params)
 router.delete("/:id", verifyUserToken, deleteReview);

@@ -1,6 +1,5 @@
-const Joi = require("joi");
-
-const AppError = require("../AppError");
+import Joi from "joi";
+import AppError from "../AppError";
 
 const orderValidationSchema = Joi.object({
   order: Joi.array().items(
@@ -8,16 +7,14 @@ const orderValidationSchema = Joi.object({
       service_id: Joi.string().required(),
       quantity: Joi.number().integer().min(1).required(),
     })
-  )
+  ),
 });
 
-const orderValidation = (req, res, next) => {
+export const orderValidation = (req: any, res: any, next: any) => {
   const { error } = orderValidationSchema.validate({
-    order: req.body.order
+    order: req.body.order,
   });
 
-  if (error) return next(new AppError(error, 401));
+  if (error) return next(new AppError(error.message, 401));
   next();
 };
-
-module.exports = { orderValidation };

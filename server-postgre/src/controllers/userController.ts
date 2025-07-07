@@ -1,8 +1,7 @@
-const bcrypt = require("bcrypt");
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-const AppError = require("../utils/AppError");
-const imageKit = require("../utils/imageKit");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import AppError from "../utils/AppError";
+import imageKit from "../utils/imageKit";
 
 // registration
 const signUp = async (req, res, next) => {

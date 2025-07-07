@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 
-const upload = require("../utils/multer");
+import {upload} from "../utils/multer";
 
 // controllers and validations
-const {
+import {
   getAllServices,
   getServicebyCategoryId,
   getServicebySellerId,
@@ -13,12 +12,14 @@ const {
   getService,
   updateService,
   deleteService
-} = require("../controllers/serviceController");
+} from "../controllers/serviceController";
 
-const {
+import {
   serviceCreationValidation,
   serviceUpdateValidation
-} = require("../utils/validations/serviceValidation");
+} from "../utils/validations/serviceValidation";
+
+export const router = express.Router();
 
 // create a Service
 router.post( "/", upload.array("images"), serviceCreationValidation, createService );

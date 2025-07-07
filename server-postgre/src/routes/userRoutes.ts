@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const upload = require("../utils/multer");
-const verfiyAdminToken = require("../middlewares/verfiyAdminToken");
-const verfiySuperAdminToken = require("../middlewares/verifySuperAdmin");
+import express from "express";
+import { upload } from "../utils/multer";
+import verfiyAdminToken from "../middlewares/verfiyAdminToken";
+import verfiySuperAdminToken from "../middlewares/verifySuperAdmin";
 
-const {
+import {
   signUp,
   getUserById,
   getAllUsers,
@@ -14,13 +13,15 @@ const {
   adminLogin,
   dashboardUpdateUser,
   verifyUser,
-} = require("../controllers/userController");
+} from "../controllers/userController";
 
-const {
+import {
   loginValidation,
-  signupValidation
-} = require("../utils/validations/authenticationSchema");
-const verfiyUserToken = require("../middlewares/verfiyUserToken"); 
+  signupValidation,
+} from "../utils/validations/authenticationSchema";
+import verfiyUserToken from "../middlewares/verfiyUserToken";
+
+export const router = express.Router();
 
 // dashboard authentication
 router.post("/dashboard/login", loginValidation, adminLogin);
@@ -43,11 +44,9 @@ router.get("/", verfiyAdminToken, getAllUsers);
 //get user by id
 router.get("/:id", verfiyUserToken, getUserById);
 
-
 // update user
-router.put("/:id", verfiyUserToken,upload.single("avatar"), updateUser);
-router.patch("/:id", verfiyUserToken,upload.single("avatar"), updateUser);
-
+router.put("/:id", verfiyUserToken, upload.single("avatar"), updateUser);
+router.patch("/:id", verfiyUserToken, upload.single("avatar"), updateUser);
 
 // delete user
 router.delete("/:id", verfiySuperAdminToken, deleteUser);

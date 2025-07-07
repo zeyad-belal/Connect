@@ -1,12 +1,5 @@
-const fs = require("fs");
-const { Types } = require("mongoose");
-
-const Service = require("../models/Service");
-const Category = require("../models/Category");
-
-const AppError = require("../utils/AppError");
-const imageKit = require("../utils/imageKit");
-const User = require("../models/User");
+import AppError from "../utils/AppError";
+import imageKit from "../utils/imageKit";
 
 const createService = async (req, res, next) => {
   if (!req.files) {

@@ -1,5 +1,5 @@
-const joi = require("joi");
-const AppError = require("../AppError");
+import joi from "joi";
+import AppError from "../AppError";
 
 const loginSchema = joi.object({
   email: joi.string().email().required(),
@@ -17,16 +17,15 @@ const signupSchema = joi.object({
   cart_items: joi.array(),
 });
 
-const loginValidation = (req, res, next) => {
+export const loginValidation = (req, res, next) => {
   const { error } = loginSchema.validate(req.body);
-  if (error) return next(new AppError(error, 401));
+  if (error) return next(new AppError(error.message, 401));
   next();
 };
 
-const signupValidation = (req, res, next) => {
+export const signupValidation = (req, res, next) => {
   const { error } = signupSchema.validate(req.body);
-  if (error) return next(new AppError(error, 401));
+  if (error) return next(new AppError(error.message, 401));
   next();
 };
 
-module.exports = { loginValidation, signupValidation };

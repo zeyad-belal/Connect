@@ -1,7 +1,6 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 
-const {
+import {
   createOrder,
   getAllOrders,
   getOrderById,
@@ -11,10 +10,12 @@ const {
   updateOrderReviewStatus,
   updateOrderChat,
   deleteOrder
-} = require("../controllers/orderController");
+} from "../controllers/orderController";
 
-const verfiyUserToken = require("../middlewares/verfiyUserToken");
-const canDeleteOrder = require("../middlewares/order/canDeleteOrder");
+import verfiyUserToken from "../middlewares/verfiyUserToken";
+import canDeleteOrder from "../middlewares/order/canDeleteOrder";
+
+export const router = express.Router();
 
 // get all orders
 router.get("/", verfiyUserToken, getAllOrders);

@@ -1,6 +1,4 @@
-const Review = require("../models/Review");
-const Service = require("../models/Service");
-const AppError = require("../utils/AppError");
+import AppError from "../utils/AppError";
 
 const getReviews = async (req, res) => {
   const { service_id } = req.body;

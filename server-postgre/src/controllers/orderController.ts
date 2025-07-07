@@ -1,100 +1,89 @@
-const { Types, default: mongoose } = require("mongoose");
-const Order = require("../models/Order");
+import { prisma } from "../db";
+import AppError from "../utils/AppError";
 
-const AppError = require("../utils/AppError");
+const createOrder = async (req: any, res: any, next: any) => {
+  const { items, buyer, orderID, seller } = req.body;
 
-const createOrder = async (req, res, next) => {
-  const { items ,buyer ,orderID,seller } = req.body;
-
-  const createdOrder = await Order.create({
-    buyer ,
-    items,
-    orderID,
-    seller,
+  const createdOrder = await prisma.order.create({
+    data: {
+      buyer,
+      items,
+      id: orderID,
+      seller,
+    },
   });
 
   res.send({ message: "Order created successfully!", createdOrder });
 };
 
-const getAllOrders = async (req, res, next) => {
-  const orders = await Order.find();
+const getAllOrders = async (req: any, res: any, next: any) => {
+  const orders = await prisma.order.findMany();
 
   res.send(orders);
 };
 
-const getOrderById = async (req, res, next) => {
-  // check if id is a valid objectId
-  if (!Types.ObjectId.isValid(req.params.id))
-    return next(new AppError("Invalid ObjectId.", 401));
+const getOrderById = async (req: any, res: any, next: any) => {
 
-  const order = await Order.findById(req.params.id)
+
+  const order = await prisma.order.findById(req.params.id)
     .populate("buyer")
     .populate("items.service_id");
 
   res.send(order);
 };
 
-const getOrderByBuyerId = async (req, res, next) => {
+const getOrderByBuyerId = async (req: any, res: any, next: any) => {
   // check if id is a valid objectId
   if (!Types.ObjectId.isValid(req.params.id))
     return next(new AppError("Invalid ObjectId.", 401));
 
-  const order = await Order.find({buyer : req.params.id})
+  const order = await prisma.order.find({ buyer: req.params.id })
     .populate("buyer")
     .populate({
       path: "items.service_id",
       populate: {
         path: "user_id",
-      }
+      },
     })
-      .populate("seller");
-      
-  
+    .populate("seller");
 
-  res.send({order});
-}
+  res.send({ order });
+};
 
-const getOrderBySellerId = async (req, res, next) => {
+const getOrderBySellerId = async (req: any, res: any, next: any) => {
   try {
     // Check if id is a valid objectId
     if (!Types.ObjectId.isValid(req.params.id)) {
       return next(new AppError("Invalid ObjectId.", 401));
     }
     // Use aggregate to perform a nested populate
-    const orders = await Order.find({seller : req.params.id})
-    .populate("buyer")
-    .populate({
-      path: "items.service_id",
-      populate: {
-        path: "user_id",
-      }
-    })
+    const orders = await prisma.order.find({ seller: req.params.id })
+      .populate("buyer")
+      .populate({
+        path: "items.service_id",
+        populate: {
+          path: "user_id",
+        },
+      })
       .populate("seller");
-
-
 
     res.send({ orders });
   } catch (error) {
-    
     return next(new AppError(error, 500));
   }
 };
 
-
-
-const updateOrderStatus = async (req, res, next) => {
+const updateOrderStatus = async (req: any, res: any, next: any) => {
   try {
     // Check if id is a valid ObjectId
     if (!Types.ObjectId.isValid(req.params.id))
       return next(new AppError("Invalid ObjectId.", 401));
 
     // Find the order by its _id
-    const order = await Order.findOne({ _id: req.params.id });
+    const order = await prisma.order.findOne({ _id: req.params.id });
 
     // Check if the order exists
     if (!order) return next(new AppError("Order not found!", 404));
-
-
 
     // Update the status of the item
     order.items[0].status = req.body.status;
@@ -109,19 +98,17 @@ const updateOrderStatus = async (req, res, next) => {
   }
 };
 
-
-const updateOrderChat = async (req, res, next) => {
+const updateOrderChat = async (req: any, res: any, next: any) => {
   try {
     // Check if id is a valid ObjectId
     if (!Types.ObjectId.isValid(req.params.id))
       return next(new AppError("Invalid ObjectId.", 401));
 
     // Find the order by its _id
-    const order = await Order.findOne({_id :req.params.id} );
+    const order = await prisma.order.findOne({ _id: req.params.id });
 
     // Check if the order exists
     if (!order) return next(new AppError("Order not found!", 404));
-
 
     // Update the status of the item
     order.chatHistory = req.body.chatHistory;
@@ -136,18 +123,17 @@ const updateOrderChat = async (req, res, next) => {
   }
 };
 
-const updateOrderReviewStatus = async (req, res, next) => {
+const updateOrderReviewStatus = async (req: any, res: any, next: any) => {
   try {
     // Check if id is a valid ObjectId
     if (!Types.ObjectId.isValid(req.params.id))
       return next(new AppError("Invalid ObjectId.", 401));
 
     // Find the order by its _id
-    const order = await Order.findById(req.params.id);
+    const order = await prisma.order.findById(req.params.id);
 
     // Check if the order exists
     if (!order) return next(new AppError("Order not found!", 404));
-
 
     // Update the status of the item
     order.reviewed = req.body.reviewed;
@@ -162,15 +148,12 @@ const updateOrderReviewStatus = async (req, res, next) => {
   }
 };
 
-
-
-
-const deleteOrder = async (req, res, next) => {
+const deleteOrder = async (req: any, res: any, next: any) => {
   // check if id is a valid objectId
   if (!Types.ObjectId.isValid(req.params.id))
     return next(new AppError("Invalid ObjectId.", 401));
 
-  const deletedOrder = await Order.findByIdAndDelete(req.params.id);
+  const deletedOrder = await prisma.order.findByIdAndDelete(req.params.id);
   if (!deletedOrder) return next(new AppError("Order was not found.", 404));
 
   res.send({ message: "Order deleted successfully!", deletedOrder });
@@ -185,5 +168,5 @@ module.exports = {
   updateOrderStatus,
   updateOrderReviewStatus,
   updateOrderChat,
-  deleteOrder
+  deleteOrder,
 };

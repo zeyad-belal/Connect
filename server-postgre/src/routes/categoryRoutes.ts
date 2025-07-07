@@ -1,21 +1,18 @@
-const express = require("express");
-const router = express.Router();
-
-const upload = require("../utils/multer");
-
-const {
+import express from "express";
+import { upload } from "../utils/multer";
+import {
   getAllCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
-} = require("../controllers/categoryController");
-
-const {
+} from "../controllers/categoryController";
+import {
   createCategoryValidation,
   updateCategoryValidation,
-} = require("../utils/validations/categoryValidation");
+} from "../utils/validations/categoryValidation";
 
+export const router = express.Router();
 // get all categories
 router.get("/", getAllCategories);
 
@@ -41,4 +38,3 @@ router.patch(
 // delete category
 router.delete("/:id", deleteCategory);
 
-module.exports = router;
