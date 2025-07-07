@@ -1,29 +1,29 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import socketIo from 'socket.io';
+import { Server as SocketIOServer } from 'socket.io';
 import http from 'http';
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+dotenv.config();
+import './db';
+import { CustomError } from './types/types';
 
-require("dotenv").config();
-require("./db");
-require("express-async-error");
+import usersRoutes from './routes/userRoutes';
+import categoryRouter from './routes/categoryRoutes';
+import serviceRoutes from './routes/serviceRoutes';
+import orderRoutes from './routes/orderRoutes';
+import reviewRoutes from './routes/reviewRoutes';
+import { makePayment } from './controllers/stripPayment';
+import verfiyUserToken from './middlewares/verfiyUserToken';
 
-// import routes
-const usersRoutes = require("./src/routes/userRoutes");
-const categoryRouter = require("./src/routes/categoryRoutes");
-const serviceRoutes = require("./src/routes/serviceRoutes");
-const orderRoutes = require("./src/routes/orderRoutes");
-const reviewRoutes = require("./src/routes/reviewRoutes");
-const {makePayment} = require("./src/controllers/stripPayment");
-const verfiyUserToken = require("./src/middlewares/verfiyUserToken");
 
 const app = express();
 const prisma = new PrismaClient();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const server = http.createServer(app); 
-const io = socketIo(server, {
+const io = new SocketIOServer(server, {
   cors: {
     origin: ["http://localhost:5173","https://connect-silk-pi.vercel.app"],
   },
@@ -34,9 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(cors());
-
-app.use(express.json());
-
 
 app.use("/users", usersRoutes);
 app.use("/categories", categoryRouter);
@@ -75,8 +72,10 @@ app.get('/users', async (req, res) => {
 });
 
 
+
+
 // Global Error Handler
-app.use((err, req, res, next) => {
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   res.status(statusCode).send({
     status: statusCode,
@@ -85,6 +84,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log('Server running on http://localhost:3000');
+server.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });

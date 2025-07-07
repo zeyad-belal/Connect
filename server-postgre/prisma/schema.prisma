@@ -7,18 +7,121 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
+enum Role {
+  user
+  admin
+  superAdmin
 }
 
-model Post {
+model User {
+  id                Int        @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String     @unique
+  password          String
+  role              Role       @default(user)
+  avatar            String     @default("https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg?size=626&ext=jpg&ga=GA1.1.1326869177.1680443547&semt=sph")
+  avatarID          String     @default("")
+  phoneNumber       String?
+  cartItems         CartItem[]
+  createdAt         DateTime   @default(now())
+  bio               String?
+  ordersAsBuyer     Order[]    @relation("OrderBuyer")
+  ordersAsSeller    Order[]    @relation("OrderSeller")
+  reviewsAsSeller   Review[]   @relation("Seller")
+  reviewsAsReviewer Review[]   @relation("Reviewer")
+  services          Service[]
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
   id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId Int
+  quantity  Int     @default(1)
+  extras    Json?
+  time      Json?
+  price     Float?
+}
+
+model Service {
+  id          Int         @id @default(autoincrement())
+  name        String
+  price       Float
+  description String
+  keywords    Json? 
+  time        String
+  extras      Json?       @default("[]") 
+  images      Json?
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  user        User?       @relation(fields: [userId], references: [id])
+  userId      Int?
+  createdAt   DateTime    @default(now())
+  reviews     Review[]
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id                Int      @id @default(autoincrement())
+  rating            Int
+  reviewTitle       String
+  reviewDescription String
+  user              User     @relation("Reviewer", fields: [userId], references: [id])
+  userId            Int
+  seller            User     @relation("Seller", fields: [sellerId], references: [id])
+  sellerId          Int
+  service           Service  @relation(fields: [serviceId], references: [id])
+  serviceId         Int
+  createdAt         DateTime @default(now())
+}
+
+model Order {
+  id      Int   @id @default(autoincrement())
+  buyer   User? @relation("OrderBuyer", fields: [buyerId], references: [id])
+  buyerId Int
+
+  seller   User? @relation("OrderSeller", fields: [sellerId], references: [id])
+  sellerId Int
+
+  items OrderItem[]
+
+  createdAt   DateTime @default(now())
+  chatHistory Json?    @default("[]")
+  reviewed    Boolean  @default(false)
+}
+
+enum Status {
+  pending
+  inProgress
+  delivered
+  canceled
+}
+
+model OrderItem {
+  id      Int   @id @default(autoincrement())
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId Int
+
+  quantity Int?
+  extras   Json?  @default("[]")
+  price    Float?
+  time     Json?
+  status   Status @default(pending)
+}
+
+model Category {
+  id           Int       @id @default(autoincrement())
+  categoryName String    @unique
+  image        Json?     @default("[]")
+  createdAt    DateTime  @default(now())
+  services     Service[]
+  updatedAt DateTime @updatedAt
 }
